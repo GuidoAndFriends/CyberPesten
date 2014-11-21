@@ -8,5 +8,9 @@ namespace CyberPesten
 {
     class Speelveld
     {
+        public Speelveld()
+        {
+            Spel spel = new Spel();
+        }
     }
 }

@@ -59,8 +59,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="8331179536_b1051f108b_z.ico" />
-    <Content Include="Dollarnote_siegel_hq.ico" />
-    <Content Include="favicon.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

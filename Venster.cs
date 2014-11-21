@@ -9,5 +9,6 @@ namespace CyberPesten
 {
     class Venster : Form
     {
+        Speelveld veld = new Speelveld();
     }
 }
