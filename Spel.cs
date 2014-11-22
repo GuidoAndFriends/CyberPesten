@@ -36,12 +36,14 @@ namespace CyberPesten
                     pot.Add(new Kaart(j,k));
                     }
                 }
+                pot.Add(new Kaart(4));//2 jokers per kaartspel.
+                pot.Add(new Kaart(4));
             }
-
+            pot = schud(pot);
             verplaatsKaart(pot, 0, stapel);
 
             System.Diagnostics.Debug.WriteLine("Er zijn  nu " + spelers.Count + " spelers.");
-            System.Diagnostics.Debug.WriteLine("De bovenste kaart op de stapel is " + stapel.ElementAt(stapel.Count - 1).tekst);
+            System.Diagnostics.Debug.WriteLine("De bovenste kaart op de stapel is " + stapel[stapel.Count - 1].tekst);
             System.Diagnostics.Debug.WriteLine("Er zitten nog " + pot.Count + " kaarten in de pot");
         }
 
@@ -61,7 +63,13 @@ namespace CyberPesten
 
         public bool isLegaal(Kaart k)//MOET NOG AANGEPAST WORDEN
         {
-            return true;
+            bool result = false;
+            if (k.kleur == stapel[stapel.Count - 1].kleur || k.waarde == stapel[stapel.Count - 1].waarde||k.kleur==5)
+            {
+                result = true;
+            }
+
+            return result;
         }
 
         public void pakKaart(Speler doelwit)//geeft de bovenste kaart van de pot aan het doelwit, als er geen kaart gepakt kan worden, dan wordt de stapel de nieuwe pot. de bovenste kaart van de stapel blijft liggen.
@@ -100,7 +108,7 @@ namespace CyberPesten
         public List<Kaart> schud(List<Kaart> stapel)
         {
             int i;
-            Random r = new Random(DateTime.Today.Millisecond);//zorgt ervoor dat we elke keer een stapel op een andere manier schudden.//Gaat dat niet altijd met random.next?
+            Random r = new Random(DateTime.Today.Millisecond);//zorgt ervoor dat we elke keer een stapel op een andere manier schudden.//Gaat dat niet altijd met random.next?//In feite is de lege methode new Random() hetzelfde, maar ik vertrouw het niet, daarom maken we een expliciete nieuwe random seed.
             List<Kaart> result = new List<Kaart>();
             while(stapel.Count>0){
                 i = r.Next(stapel.Count);
