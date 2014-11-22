@@ -96,7 +96,7 @@ namespace CyberPesten
             Random r = new Random(DateTime.Today.Millisecond);//zorgt ervoor dat we elke keer een stapel op een andere manier schudden.
             List<Kaart> result = new List<Kaart>();
             while(stapel.Count>0){
-                i = r.Next(result.Count);
+                i = r.Next(stapel.Count);
                 result.Add(stapel[i]);
                 stapel.RemoveAt(i);
             }
