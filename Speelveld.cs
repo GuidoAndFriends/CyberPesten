@@ -10,7 +10,7 @@ namespace CyberPesten
     {
         public Speelveld()
         {
-            Spel spel = new Spel();
+            Spel spel = new Spel(5);
         }
     }
 }

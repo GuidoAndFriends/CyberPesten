@@ -6,7 +6,13 @@ using System.Threading.Tasks;
 
 namespace CyberPesten
 {
-    class OnlineSpel : Spel
+    /*
+    class OnlineSpel : Spel 
     {
+        public OnlineSpel(int aantalSpelers)
+        {
+
+        }
     }
+     */
 }

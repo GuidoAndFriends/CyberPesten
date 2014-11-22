@@ -63,24 +63,21 @@ namespace CyberPesten
                 string a="";
                 switch (_kleur)
                 {
-                    case 0: a = "Harten ";break;
-                    case 1: a = "Klaver ";break;
-                    case 2: a = "Ruiten ";break;
-                    case 3: a = "Schoppen ";break;
+                    case 0: a = "Harten ";   break;
+                    case 1: a = "Klaver ";   break;
+                    case 2: a = "Ruiten ";   break;
+                    case 3: a = "Schoppen "; break;
                 }
                 switch (_waarde)
                 {
-                    case 1: a += "aas"; break;
-                    case 11: a += "boer"; break;
-                    case 13: a += "vrouw"; break;
-                    case 14: a += "heer"; break;
-                    default: a += ""+waarde;break;
+                    case 1:  a += "Aas";       break;
+                    case 11: a += "Boer";      break;
+                    case 13: a += "Vrouw";     break;
+                    case 14: a += "Heer";      break;
+                    default: a += "" + waarde; break;
                 }
                 return a;
             }
         }
-
-
-
     }
 }

@@ -10,22 +10,23 @@ namespace CyberPesten
     {
         public List<Kaart> pot;
         public List<Speler> spelers;
-        public List<Kaart> oplegstapel;
+        public List<Kaart> stapel;
 
-        public Spel()
+        public Spel(int aantalAI)
         {
             spelers = new List<Speler>();//moet aangeroepen worden met de Spel() functie
-            oplegstapel = new List<Kaart>();
+            stapel = new List<Kaart>();
             pot = new List<Kaart>();
-            int kaartspellen;//ook deze
-            //Nog aanpassen aan hoeveelheid mensen en AI
+            int kaartspellen = (aantalAI + 1) / 4 + 1; //4 spelers per pak kaarten?
+
+            //Spelers toevoegen
             spelers.Add(new Mens());
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < aantalAI; i++)
             {
                 spelers.Add(new Guido());
             }
-            kaartspellen = 1;
 
+            //Kaarten toevoegen
             for (int i = 0; i < kaartspellen; i++)
             {
                 for (int j = 0; j <4; j++)
@@ -36,14 +37,15 @@ namespace CyberPesten
                     }
                 }
             }
-            pot = schud(pot);
-            oplegstapel.Add(pot[0]);
-            pot.RemoveAt(0);
+
+            verplaatsKaart(pot, 0, stapel);
 
             System.Diagnostics.Debug.WriteLine("Er zijn  nu " + spelers.Count + " spelers.");
+            System.Diagnostics.Debug.WriteLine("De bovenste kaart op de stapel is " + stapel.ElementAt(stapel.Count - 1).tekst);
+            System.Diagnostics.Debug.WriteLine("Er zitten nog " + pot.Count + " kaarten in de pot");
         }
 
-        public bool speelKaart(Speler doelwit, int index)//Legt een kaart met de gegeven index van de doelwit diens hand op de oplegstapel. Geeft true bij een geldige kaart, anders false
+        public bool speelKaart(Speler doelwit, int index)//Legt een kaart met de gegeven index van de doelwit diens hand op de stapel. Geeft true bij een geldige kaart, anders false
         {
             List<Kaart> hand = doelwit.hand;
             Kaart k = hand[index];
@@ -51,7 +53,7 @@ namespace CyberPesten
             {
                 hand.RemoveAt(index);
                 doelwit.hand = hand;
-                oplegstapel.Add(k);
+                stapel.Add(k);
             }
             return isLegaal(k);
 
@@ -62,26 +64,25 @@ namespace CyberPesten
             return true;
         }
 
-        public void pakKaart(Speler doelwit)//geeft de bovenste kaart van de pot aan het doelwit, als er geen kaart gepakt kan worden, dan wordt de oplegstapel de nieuwe pot. de bovenste kaart van de oplegstapel blijft liggen.
+        public void pakKaart(Speler doelwit)//geeft de bovenste kaart van de pot aan het doelwit, als er geen kaart gepakt kan worden, dan wordt de stapel de nieuwe pot. de bovenste kaart van de stapel blijft liggen.
         {
             Kaart i;
             if (pot.Count == 0)//wanneer de pot leeg is
             {
-                int a = oplegstapel.Count-1;
-                i = oplegstapel[a];//haal de bovenste kaart van de stapel
-                oplegstapel.RemoveAt(a);
+                int a = stapel.Count-1;
+                i = stapel[a];//haal de bovenste kaart van de stapel
+                stapel.RemoveAt(a);
 
-                pot = oplegstapel;//pak de oplegstapel en maak er de pot van
-                oplegstapel = new List<Kaart>();//maak de opleg stapel leeg.
+                pot = stapel;//pak de stapel en maak er de pot van
+                stapel = new List<Kaart>();//maak de opleg stapel leeg.
 
-                oplegstapel.Add(i);//leg de bovenste kaart terug
+                stapel.Add(i);//leg de bovenste kaart terug
                 pot = schud(pot);//en schud de pot
             }
 
-            i = pot[0];
-            pot.RemoveAt(0);
-            doelwit.hand.Add(i);
+            verplaatsKaart(pot, 0, doelwit.hand);
         }
+
         public void pakKaart(Speler doelwit, int aantal)
         {
             for(int a = 0; a<aantal;a++)
@@ -90,10 +91,16 @@ namespace CyberPesten
             }
         }
 
+        public void verplaatsKaart(List<Kaart> van, int index, List<Kaart> naar)
+        {
+            naar.Add(van[index]);
+            van.RemoveAt(index);
+        }
+
         public List<Kaart> schud(List<Kaart> stapel)
         {
             int i;
-            Random r = new Random(DateTime.Today.Millisecond);//zorgt ervoor dat we elke keer een stapel op een andere manier schudden.
+            Random r = new Random(DateTime.Today.Millisecond);//zorgt ervoor dat we elke keer een stapel op een andere manier schudden.//Gaat dat niet altijd met random.next?
             List<Kaart> result = new List<Kaart>();
             while(stapel.Count>0){
                 i = r.Next(stapel.Count);
