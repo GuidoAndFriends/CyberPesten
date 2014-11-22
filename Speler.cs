@@ -8,5 +8,12 @@ namespace CyberPesten
 {
     abstract class Speler
     {
+        private List<Kaart> _hand;
+
+        public List<Kaart> hand
+        {
+            get { return _hand; }
+            set { _hand = value; }
+        }
     }
 }
