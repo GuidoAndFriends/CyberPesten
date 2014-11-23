@@ -12,6 +12,7 @@ namespace CyberPesten
         public Guido()
         {
             hand = new List<Kaart>();
+            naam = "Guido";
         }
     }
 }
