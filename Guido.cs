@@ -9,5 +9,10 @@ namespace CyberPesten
     class Guido : AI
     {
         //voorbeeld AI
+        public Guido()
+        {
+            hand = new List<Kaart>();
+            naam = "Guido";
+        }
     }
 }
