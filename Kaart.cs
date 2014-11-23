@@ -97,7 +97,6 @@ namespace CyberPesten
                 return a;
             }
         }
-    }
 
         public Bitmap bitmap
         {
