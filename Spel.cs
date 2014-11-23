@@ -117,6 +117,7 @@ namespace CyberPesten
             naar.Add(van[van.Count - 1]);
             van.RemoveAt(van.Count - 1);
             //Misschien is het handiger om de kaart op index 0 als bovenste kaart te zien
+            //Voor de pot geldt dit inderdaad, daar is kaart 0 de kaart die je trekt (en dus weghaalt), maar bij de oplegstapel wordt er telkens 1 toegevoegd, dus zou je in dat geval de hele list 1 moeten verplaatsen per kaart.
         }
 
         public List<Kaart> schud(List<Kaart> stapel)
