@@ -8,5 +8,10 @@ namespace CyberPesten
 {
     class Mens : Speler
     {
+        public Mens()
+        {
+            hand = new List<Kaart>();
+            naam = "Speler";
+        }
     }
 }
