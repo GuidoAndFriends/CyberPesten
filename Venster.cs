@@ -63,12 +63,15 @@ namespace CyberPesten
             bool kon = this.veld.spel.speelKaart(speler,index);
             if (kon)
             {
+                System.Diagnostics.Debug.WriteLine("Kaart met index "+index+" is correct gespeeld.");
                 //kaart succcesvol gelegd
             }
             else
             {
+                System.Diagnostics.Debug.WriteLine("Kaart met index " + index + " is foutief gespeeld.");
                 //mag niet
             }
+            this.Invalidate();
         }
     }
 }
