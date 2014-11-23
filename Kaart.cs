@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Drawing;
 
 namespace CyberPesten
 {
@@ -74,49 +73,27 @@ namespace CyberPesten
         {
             get
             {
-                string a = "";
+                string a="";
                 switch (_kleur)
                 {
-                    case 0: a = "Harten "; break;
-                    case 1: a = "Klaver "; break;
-                    case 2: a = "Ruiten "; break;
+                    case 0: a = "Harten ";   break;
+                    case 1: a = "Klaver ";   break;
+                    case 2: a = "Ruiten ";   break;
                     case 3: a = "Schoppen "; break;
-                    case 4: a = "Joker"; break;
+                    case 4: a = "Joker";     break;
                 }
                 if (_kleur != 4)
                 {
                     switch (_waarde)
                     {
-                        case 1: a += "Aas"; break;
-                        case 11: a += "Boer"; break;
-                        case 12: a += "Vrouw"; break;
-                        case 13: a += "Heer"; break;
-                        default: a += "" + waarde; break;
+                        case 1: a += "Aas";         break;
+                        case 11: a += "Boer";       break;
+                        case 12: a += "Vrouw";      break;
+                        case 13: a += "Heer";       break;
+                        default: a += "" + waarde;  break;
                     }
                 }
                 return a;
-            }
-        }
-
-        public Bitmap bitmap
-        {
-            get
-            {
-                Bitmap b = new Bitmap(140, 80);
-                Brush kwast;
-                if (this.kleur % 2 == 0)
-                {
-                    kwast = Brushes.Red;
-                }
-                else
-                {
-                    kwast = Brushes.Black;
-                }
-                Graphics gr = Graphics.FromImage(b);
-                gr.FillRectangle(Brushes.White, 0, 0, b.Width, b.Height);
-                gr.DrawString(this.tekst, new Font(FontFamily.GenericSansSerif, 14), kwast, new Point(10, 10));
-                b.RotateFlip(RotateFlipType.Rotate90FlipNone);
-                return b;
             }
         }
     }
