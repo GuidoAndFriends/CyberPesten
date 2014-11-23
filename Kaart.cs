@@ -9,12 +9,12 @@ namespace CyberPesten
 {
     public class Kaart
     {
-        private int _kleur; //integere getal van de kleur, 0 = harten, 1 = klaver, 2 = ruiten, 3= schoppen (alfabetische volgorde)
+        private int _kleur; //integere getal van de kleur, 0 = harten, 1 = klaver, 2 = ruiten, 3= schoppen (alfabetische volgorde) en 4 = joker (kleurloos)
         private int _waarde; //waarde van de kaart, 0 doet niet mee, 1 is een aas, 2-10 komen overeen met de nummers zelf, 11 boer, 12 vrouw, 13 heer.
 
         public Kaart(int k, int w)//maakt een nieuwe kaart, bij een ongeldige waarde wordt er een ArgumentOutOfRangeException gegooid
         {
-            if (k > -1 && k < 4 && w > 0 && w < 14)
+            if (k > -1 && k < 5 && w > 0 && w < 14)
             {
                 _kleur = k;
                 _waarde = w;
@@ -25,12 +25,25 @@ namespace CyberPesten
             }
         }
 
+        public Kaart(int k)//maakt een nieuwe joker
+        {
+            if (k == 4)
+            {
+                _kleur = 4;
+                _waarde = 0;
+            }
+            else
+            {
+                throw new ArgumentException("Ongeldige waarde, deze methode accepteerd alleen maar 4 als parameter");
+            }
+        }
+
         public int kleur //maak of verkrijgt de kleur van een kaart, bij een ongeldige waarde wordt er een ArgumentOutOfRangeException gegooid
         {
             get { return _kleur; }
             set
             {
-                if (value > -1 && value < 4)
+                if (value > -1 && value < 5)
                 {
                     _kleur = value;
                 }
@@ -68,18 +81,23 @@ namespace CyberPesten
                     case 1: a = "Klaver ";   break;
                     case 2: a = "Ruiten ";   break;
                     case 3: a = "Schoppen "; break;
+                    case 4: a = "Joker";     break;
                 }
-                switch (_waarde)
+                if (_kleur != 4)
                 {
-                    case 1:  a += "Aas";       break;
-                    case 11: a += "Boer";      break;
-                    case 13: a += "Vrouw";     break;
-                    case 14: a += "Heer";      break;
-                    default: a += "" + waarde; break;
+                    switch (_waarde)
+                    {
+                        case 1: a += "Aas";         break;
+                        case 11: a += "Boer";       break;
+                        case 12: a += "Vrouw";      break;
+                        case 13: a += "Heer";       break;
+                        default: a += "" + waarde;  break;
+                    }
                 }
                 return a;
             }
         }
+    }
 
         public Bitmap bitmap
         {

@@ -76,7 +76,13 @@ namespace CyberPesten
 
         public bool isLegaal(Kaart k)//MOET NOG AANGEPAST WORDEN
         {
-            return true;
+            bool result = false;
+            if (k.kleur == stapel[stapel.Count - 1].kleur || k.waarde == stapel[stapel.Count - 1].waarde||k.kleur==5)
+            {
+                result = true;
+            }
+
+            return result;
         }
 
         public void pakKaart(Speler doelwit)//geeft de bovenste kaart van de pot aan het doelwit, als er geen kaart gepakt kan worden, dan wordt de stapel de nieuwe pot. de bovenste kaart van de stapel blijft liggen.
