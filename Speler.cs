@@ -10,10 +10,12 @@ namespace CyberPesten
     {
         private List<Kaart> _hand;
 
-        public List<Kaart> hand
+        public List<Kaart> hand //Op deze manier heeft het toch geen nut? Dit heeft hetzelfde effect als een public variabele 23-11NG
         {
             get { return _hand; }
             set { _hand = value; }
         }
+
+        public string naam;
     }
 }

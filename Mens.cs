@@ -11,6 +11,7 @@ namespace CyberPesten
         public Mens()
         {
             hand = new List<Kaart>();
+            naam = "Speler";
         }
     }
 }
