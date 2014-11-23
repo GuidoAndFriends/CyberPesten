@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Drawing;
 
 namespace CyberPesten
 {
@@ -77,6 +78,28 @@ namespace CyberPesten
                     default: a += "" + waarde; break;
                 }
                 return a;
+            }
+        }
+
+        public Bitmap bitmap
+        {
+            get
+            {
+                Bitmap b = new Bitmap(140, 80);
+                Brush kwast;
+                if (this.kleur % 2 == 0)
+                {
+                    kwast = Brushes.Red;
+                }
+                else
+                {
+                    kwast = Brushes.Black;
+                }
+                Graphics gr = Graphics.FromImage(b);
+                gr.FillRectangle(Brushes.White, 0, 0, b.Width, b.Height);
+                gr.DrawString(this.tekst, new Font(FontFamily.GenericSansSerif, 14), kwast, new Point(10, 10));
+                b.RotateFlip(RotateFlipType.Rotate90FlipNone);
+                return b;
             }
         }
     }

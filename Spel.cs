@@ -11,13 +11,16 @@ namespace CyberPesten
         public List<Kaart> pot;
         public List<Speler> spelers;
         public List<Kaart> stapel;
+        public bool bezig;
 
         public Spel(int aantalAI)
         {
+            bezig = false;
             spelers = new List<Speler>();//moet aangeroepen worden met de Spel() functie
             stapel = new List<Kaart>();
             pot = new List<Kaart>();
             int kaartspellen = (aantalAI + 1) / 4 + 1; //4 spelers per pak kaarten?
+            int startkaarten = 7;
 
             //Spelers toevoegen
             spelers.Add(new Mens());
@@ -38,10 +41,22 @@ namespace CyberPesten
                 }
             }
 
+            //Kaarten delen
+            for (int i = 0; i < startkaarten; i++)
+            {
+                foreach (Speler speler in spelers)
+                {
+                    verplaatsKaart(pot, speler.hand);
+                }
+            }
+
             verplaatsKaart(pot, 0, stapel);
+
+            bezig = true;
 
             System.Diagnostics.Debug.WriteLine("Er zijn  nu " + spelers.Count + " spelers.");
             System.Diagnostics.Debug.WriteLine("De bovenste kaart op de stapel is " + stapel.ElementAt(stapel.Count - 1).tekst);
+            System.Diagnostics.Debug.WriteLine("De speler heeft " + spelers.ElementAt(0).hand.Count + " kaarten");
             System.Diagnostics.Debug.WriteLine("Er zitten nog " + pot.Count + " kaarten in de pot");
         }
 
@@ -95,6 +110,13 @@ namespace CyberPesten
         {
             naar.Add(van[index]);
             van.RemoveAt(index);
+        }
+
+        public void verplaatsKaart(List<Kaart> van, List<Kaart> naar)
+        {
+            naar.Add(van[van.Count - 1]);
+            van.RemoveAt(van.Count - 1);
+            //Misschien is het handiger om de kaart op index 0 als bovenste kaart te zien
         }
 
         public List<Kaart> schud(List<Kaart> stapel)
