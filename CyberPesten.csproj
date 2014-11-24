@@ -44,6 +44,7 @@
   <ItemGroup>
     <Compile Include="AI.cs" />
     <Compile Include="Guido.cs" />
+    <Compile Include="HandPB.cs" />
     <Compile Include="Kaart.cs" />
     <Compile Include="Mens.cs" />
     <Compile Include="Menu.cs">
