@@ -19,7 +19,7 @@ namespace CyberPesten
                 _kleur = k;
                 _waarde = w;
             }
-            else
+            else //test van kaj
             {
                 throw new ArgumentOutOfRangeException("Kaart: argument out of range. k was: " + k + " and w was: " + w + ".");
             }
