@@ -98,7 +98,7 @@ namespace CyberPesten
             }
         }
 
-        public Bitmap bitmap
+        public Bitmap voorkant
         {
             get
             {
@@ -116,6 +116,17 @@ namespace CyberPesten
                 gr.FillRectangle(Brushes.White, 0, 0, b.Width, b.Height);
                 gr.DrawString(this.tekst, new Font(FontFamily.GenericSansSerif, 14), kwast, new Point(10, 10));
                 b.RotateFlip(RotateFlipType.Rotate90FlipNone);
+                return b;
+            }
+        }
+
+        public Bitmap achterkant
+        {
+            get
+            {
+                Bitmap b = new Bitmap(80, 140);
+                Graphics gr = Graphics.FromImage(b);
+                gr.FillRectangle(Brushes.White, 0, 0, b.Width, b.Height);
                 return b;
             }
         }
