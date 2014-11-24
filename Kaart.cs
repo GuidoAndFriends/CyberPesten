@@ -101,11 +101,39 @@ namespace CyberPesten
             }
         }
 
+        public string tekst2 //geeft een tweede geschreven versie van een kaart
+        {
+            get
+            {
+                string a = "";
+                if (kleur != 4)
+                {
+                    switch (waarde)
+                    {
+                        case 1: a = "Aas"; break;
+                        case 11: a = "Boer"; break;
+                        case 12: a += "Vrouw"; break;
+                        case 13: a += "Heer"; break;
+                        default: a += "" + waarde; break;
+                    }
+                }
+                switch (kleur)
+                {
+                    case 0: a = "Harten "; break;
+                    case 1: a = "Klaver "; break;
+                    case 2: a = "Ruiten "; break;
+                    case 3: a = "Schoppen "; break;
+                    case 4: a = "Joker"; break;
+                }
+                return a;
+            }
+        }
+
         public Bitmap voorkant
         {
             get
             {
-                Bitmap b = new Bitmap(140, 80);
+                Bitmap b = new Bitmap(100, 140);
                 Brush kwast;
                 if (this.kleur % 2 == 0)
                 {
@@ -117,8 +145,25 @@ namespace CyberPesten
                 }
                 Graphics gr = Graphics.FromImage(b);
                 gr.FillRectangle(Brushes.White, 0, 0, b.Width, b.Height);
-                gr.DrawString(this.tekst, new Font(FontFamily.GenericSansSerif, 14), kwast, new Point(10, 10));
-                b.RotateFlip(RotateFlipType.Rotate90FlipNone);
+                string beeld;
+                switch (waarde)
+                {
+                    case 1: beeld = "A"; break;
+                    case 11: beeld = "J"; break;
+                    case 12: beeld = "Q"; break;
+                    case 13: beeld = "K"; break;
+                    default: beeld = waarde.ToString(); break;
+                }
+                gr.DrawString(beeld, new Font(FontFamily.GenericSansSerif, 14), kwast, new Point(10, 10));
+                switch (kleur)
+                {
+                    case 0: beeld = "♥"; break;
+                    case 1: beeld = "♣"; break;
+                    case 2: beeld = "♦"; break;
+                    case 3: beeld = "♠"; break;
+                    case 4: beeld = "Joker"; break;
+                }
+                gr.DrawString(beeld, new Font(FontFamily.GenericSansSerif, 14), kwast, new Point(10, 40));
                 return b;
             }
         }
@@ -127,9 +172,9 @@ namespace CyberPesten
         {
             get
             {
-                Bitmap b = new Bitmap(80, 140);
+                Bitmap b = new Bitmap(100, 140);
                 Graphics gr = Graphics.FromImage(b);
-                gr.FillRectangle(Brushes.White, 0, 0, b.Width, b.Height);
+                gr.FillRectangle(Brushes.Red, 0, 0, b.Width, b.Height);
                 return b;
             }
         }

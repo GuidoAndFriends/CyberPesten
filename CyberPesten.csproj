@@ -35,7 +35,8 @@
     <StartupObject />
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>8331179536_b1051f108b_z.ico</ApplicationIcon>
+    <ApplicationIcon>
+    </ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <None Include=".gitignore" />
@@ -63,9 +64,6 @@
     </Compile>
     <Compile Include="Spel.cs" />
     <Compile Include="Speler.cs" />
-    <Compile Include="Venster.cs">
-      <SubType>Form</SubType>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />

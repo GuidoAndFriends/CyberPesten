@@ -18,3 +18,5 @@ CyberPesten.csproj
 CyberPesten.v12.suo
 CyberPesten.v12.suo
 *.suo
+*.cache
+*.suo
