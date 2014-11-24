@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Drawing;
+using System.Resources;
 
 namespace CyberPesten
 {
@@ -15,6 +16,7 @@ namespace CyberPesten
         public Menu()
         {
             BackColor = Color.DarkGreen;
+            //BackgroundImage = System.Resources.ResourceManager.GetObject("groen");
             ClientSize = new Size(1000, 800);
 
             //Knoppen er uit gaan laten zien als kaarten?
@@ -34,14 +36,14 @@ namespace CyberPesten
 
         private void lokaalKlik(object sender, MouseEventArgs mea)
         {
-            veld = new Speelveld();
+            veld = new Speelveld(this);
             this.Hide();
         }
 
         private void onlineKlik(object sender, MouseEventArgs mea)
         {
             //Online spel starten
-            this.Hide();
+            this.Close();
         }
     }
 }

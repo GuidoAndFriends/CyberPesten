@@ -17,5 +17,7 @@ namespace CyberPesten
         }
 
         public string naam;
+
+        public abstract void maakXY();
     }
 }

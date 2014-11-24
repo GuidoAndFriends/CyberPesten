@@ -40,11 +40,17 @@
   <ItemGroup>
     <None Include=".gitignore" />
     <None Include="App.config" />
+    <None Include="Resources\hart.xcf" />
+    <None Include="Resources\klaver.xcf" />
+    <None Include="Resources\ruit.xcf" />
+    <None Include="Resources\schop.xcf" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AI.cs" />
     <Compile Include="Guido.cs" />
-    <Compile Include="HandPB.cs" />
+    <Compile Include="HandPB.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Kaart.cs" />
     <Compile Include="Mens.cs" />
     <Compile Include="Menu.cs">
@@ -68,6 +74,11 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="8331179536_b1051f108b_z.ico" />
+    <Content Include="Resources\groen.png" />
+    <Content Include="Resources\harten.png" />
+    <Content Include="Resources\klavers.png" />
+    <Content Include="Resources\ruiten.png" />
+    <Content Include="Resources\schoppen.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -10,53 +10,39 @@ namespace CyberPesten
 {
     class Speelveld : Form
     {
+        public Menu menu;
         public Spel spel;
-        public HandPB handPB;
-        public PictureBox stapelPB, potPB;
 
-        public Speelveld()
+        public Speelveld(Menu m)
         {
             BackColor = Color.DarkGreen;
             Size = new Size(1000, 800);
             Paint += teken;
             MouseClick += klik;
-            spel = new Spel(5);
+            Scroll += scroll;
+            spel = new Spel(this, 5);
+            menu = m;
             this.Show();
         }
 
         private void teken(object sender, PaintEventArgs pea)
         {
-            PictureBox pictureBox;
-            /*
-
-            }
-            */
-
-            if (spel.spelers.Count > 0)
+            Graphics gr = pea.Graphics;
+            gr.FillRectangle(Brushes.DarkGreen, 0, 0, Width, Height);
+            spel.spelers[0].maakXY();
+            foreach (Kaart kaart in spel.spelers[0].hand)
             {
-                handPB = null;
-                handPB = new HandPB(this, spel);
-                handPB.Size = new Size(1000, 250);
-                handPB.Location = new Point(0, 550);
-                Controls.Add(handPB);
+                gr.DrawImage(kaart.voorkant, kaart.X, kaart.Y);
             }
-
-            stapelPB = new PictureBox();
-            stapelPB.Image = spel.stapel[spel.stapel.Count - 1].voorkant;
-            stapelPB.Size = stapelPB.Image.Size;
-            stapelPB.Location = new Point(450, 300);
-            Controls.Add(stapelPB);
-
-            potPB = new PictureBox();
-            potPB.Image = spel.stapel[spel.stapel.Count - 1].achterkant;
-            potPB.Size = potPB.Image.Size;
-            potPB.Location = new Point(450, 100);
-            Controls.Add(potPB);
+            Bitmap plaatje = spel.stapel[spel.stapel.Count - 1].voorkant;
+            gr.DrawImage(plaatje, 450, 300);
+            plaatje = spel.stapel[spel.stapel.Count - 1].achterkant;
+            gr.DrawImage(plaatje, 450, 100);
         }
 
         private void klik(object sender, MouseEventArgs mea)
         {
-
+            
         }
 
         public void klikKaart(object sender, MouseEventArgs mea)
@@ -76,6 +62,16 @@ namespace CyberPesten
             //Control moet verwijderd worden
             a.Hide();
             Invalidate();
+        }
+
+        private void scroll(object sender, EventArgs ea)
+        {
+            //Kaart spelen
+        }
+
+        private void afsluiten(object sender, FormClosedEventArgs fcea)
+        {
+
         }
     }
 }

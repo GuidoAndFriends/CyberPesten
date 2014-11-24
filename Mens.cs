@@ -13,5 +13,16 @@ namespace CyberPesten
             hand = new List<Kaart>();
             naam = "Speler";
         }
+
+        public override void maakXY()
+        {
+            int index = 1;
+            foreach (Kaart kaart in hand)
+            {
+                kaart.X = index * 100;
+                kaart.Y = 500;
+                index++;
+            }
+        }
     }
 }

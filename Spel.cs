@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Drawing;
 
 namespace CyberPesten
 {
@@ -11,11 +12,14 @@ namespace CyberPesten
         public List<Kaart> pot;
         public List<Speler> spelers;
         public List<Kaart> stapel;
+        public Speelveld speelveld;
         public bool bezig;
         public int spelend;
+        public int richting;
 
-        public Spel(int aantalAI)
+        public Spel(Speelveld s, int aantalAI)
         {
+            speelveld = s;
             bezig = false;
             spelers = new List<Speler>();//moet aangeroepen worden met de Spel() functie
             stapel = new List<Kaart>();
@@ -23,6 +27,7 @@ namespace CyberPesten
             int kaartspellen = (aantalAI + 1) / 4 + 1; //4 spelers per pak kaarten?
             int startkaarten = 7;
             spelend = 0;
+            richting = 1;
 
             //Spelers toevoegen
             spelers.Add(new Mens());
@@ -52,12 +57,17 @@ namespace CyberPesten
                 foreach (Speler speler in spelers)
                 {
                     verplaatsKaart(pot, speler.hand);
+                    if (spelend == 0)
+                    {
+                        speler.hand[speler.hand.Count - 1].X = 100 + 100 * speler.hand.Count * 100;
+                    }
                 }
             }
 
             verplaatsKaart(pot, 0, stapel);
 
             bezig = true;
+            s.Invalidate();
 
             System.Diagnostics.Debug.WriteLine("Er zijn  nu " + spelers.Count + " spelers.");
             System.Diagnostics.Debug.WriteLine("De bovenste kaart op de stapel is " + stapel.ElementAt(stapel.Count - 1).tekst);
@@ -72,15 +82,18 @@ namespace CyberPesten
             if (isLegaal(k))
             {
                 verplaatsKaart(hand, index, stapel);
+                return true;
             }
-            return isLegaal(k);
-
+            else
+            {
+                return false;
+            }
         }
 
         public bool isLegaal(Kaart k)//MOET NOG AANGEPAST WORDEN
         {
             bool result = false;
-            if (k.kleur == stapel[stapel.Count - 1].kleur || k.waarde == stapel[stapel.Count - 1].waarde||k.kleur==5)
+            if (k.Kleur == stapel[stapel.Count - 1].Kleur || k.Waarde == stapel[stapel.Count - 1].Waarde||k.Kleur==5)
             {
                 result = true;
             }

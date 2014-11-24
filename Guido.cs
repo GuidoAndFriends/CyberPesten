@@ -14,5 +14,7 @@ namespace CyberPesten
             hand = new List<Kaart>();
             naam = "Guido";
         }
+
+        public override void maakXY() { }
     }
 }

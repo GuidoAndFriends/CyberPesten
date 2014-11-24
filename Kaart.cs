@@ -9,15 +9,18 @@ namespace CyberPesten
 {
     public class Kaart
     {
-        private int _kleur; //integere getal van de kleur, 0 = harten, 1 = klaver, 2 = ruiten, 3= schoppen (alfabetische volgorde) en 4 = joker (kleurloos)
-        private int _waarde; //waarde van de kaart, 0 doet niet mee, 1 is een aas, 2-10 komen overeen met de nummers zelf, 11 boer, 12 vrouw, 13 heer.
+        private int kleur; //integere getal van de kleur, 0 = harten, 1 = klaver, 2 = ruiten, 3= schoppen (alfabetische volgorde) en 4 = joker (kleurloos)
+        private int waarde; //waarde van de kaart, 0 doet niet mee, 1 is een aas, 2-10 komen overeen met de nummers zelf, 11 boer, 12 vrouw, 13 heer.
+        public int X, Y;
 
         public Kaart(int k, int w)//maakt een nieuwe kaart, bij een ongeldige waarde wordt er een ArgumentOutOfRangeException gegooid
         {
+            X = 0;
+            Y = 600;
             if (k > -1 && k < 5 && w > 0 && w < 14)
             {
-                _kleur = k;
-                _waarde = w;
+                kleur = k;
+                waarde = w;
             }
             else //test van kaj
             {
@@ -29,8 +32,8 @@ namespace CyberPesten
         {
             if (k == 4)
             {
-                _kleur = 4;
-                _waarde = 0;
+                kleur = 4;
+                waarde = 0;
             }
             else
             {
@@ -38,14 +41,14 @@ namespace CyberPesten
             }
         }
 
-        public int kleur //maak of verkrijgt de kleur van een kaart, bij een ongeldige waarde wordt er een ArgumentOutOfRangeException gegooid
+        public int Kleur //maak of verkrijgt de kleur van een kaart, bij een ongeldige waarde wordt er een ArgumentOutOfRangeException gegooid
         {
-            get { return _kleur; }
+            get { return kleur; }
             set
             {
                 if (value > -1 && value < 5)
                 {
-                    _kleur = value;
+                    kleur = value;
                 }
                 else
                 {
@@ -54,14 +57,14 @@ namespace CyberPesten
             }
         }
 
-        public int waarde
+        public int Waarde
         {
-            get { return _waarde; }
+            get { return waarde; }
             set
             {
                 if (value > 0 && value < 14)
                 {
-                    _waarde = value;
+                    waarde = value;
                 }
                 else
                 {
@@ -75,7 +78,7 @@ namespace CyberPesten
             get
             {
                 string a="";
-                switch (_kleur)
+                switch (kleur)
                 {
                     case 0: a = "Harten ";   break;
                     case 1: a = "Klaver ";   break;
@@ -83,9 +86,9 @@ namespace CyberPesten
                     case 3: a = "Schoppen "; break;
                     case 4: a = "Joker";     break;
                 }
-                if (_kleur != 4)
+                if (kleur != 4)
                 {
-                    switch (_waarde)
+                    switch (waarde)
                     {
                         case 1: a += "Aas";         break;
                         case 11: a += "Boer";       break;
