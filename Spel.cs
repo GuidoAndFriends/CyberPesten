@@ -12,6 +12,7 @@ namespace CyberPesten
         public List<Speler> spelers;
         public List<Kaart> stapel;
         public bool bezig;
+        public int spelend;
 
         public Spel(int aantalAI)
         {
@@ -21,6 +22,7 @@ namespace CyberPesten
             pot = new List<Kaart>();
             int kaartspellen = (aantalAI + 1) / 4 + 1; //4 spelers per pak kaarten?
             int startkaarten = 7;
+            spelend = 0;
 
             //Spelers toevoegen
             spelers.Add(new Mens());
@@ -41,6 +43,9 @@ namespace CyberPesten
                 }
             }
 
+            //Kaarten schudden
+            pot = schud(pot);
+
             //Kaarten delen
             for (int i = 0; i < startkaarten; i++)
             {
@@ -60,15 +65,13 @@ namespace CyberPesten
             System.Diagnostics.Debug.WriteLine("Er zitten nog " + pot.Count + " kaarten in de pot");
         }
 
-        public bool speelKaart(Speler doelwit, int index)//Legt een kaart met de gegeven index van de doelwit diens hand op de stapel. Geeft true bij een geldige kaart, anders false
+        public bool speelKaart(int index)//Legt een kaart met de gegeven index van de doelwit diens hand op de stapel. Geeft true bij een geldige kaart, anders false
         {
-            List<Kaart> hand = doelwit.hand;
+            List<Kaart> hand = spelers.ElementAt(spelend).hand;
             Kaart k = hand[index];
             if (isLegaal(k))
             {
-                hand.RemoveAt(index);
-                doelwit.hand = hand;
-                stapel.Add(k);
+                verplaatsKaart(hand, index, stapel);
             }
             return isLegaal(k);
 
@@ -114,29 +117,34 @@ namespace CyberPesten
 
         public void verplaatsKaart(List<Kaart> van, int index, List<Kaart> naar)
         {
-            naar.Add(van[index]);
-            van.RemoveAt(index);
+            if (van.Count > 0)
+            {
+                naar.Add(van[index]);
+                van.RemoveAt(index);
+            }
         }
 
         public void verplaatsKaart(List<Kaart> van, List<Kaart> naar)
         {
-            naar.Add(van[van.Count - 1]);
-            van.RemoveAt(van.Count - 1);
-            //Misschien is het handiger om de kaart op index 0 als bovenste kaart te zien
-            //Voor de pot geldt dit inderdaad, daar is kaart 0 de kaart die je trekt (en dus weghaalt), maar bij de oplegstapel wordt er telkens 1 toegevoegd, dus zou je in dat geval de hele list 1 moeten verplaatsen per kaart.
+            if (van.Count > 0)
+            {
+                naar.Add(van[van.Count - 1]);
+                van.RemoveAt(van.Count - 1);
+            }
+
         }
 
         public List<Kaart> schud(List<Kaart> stapel)
         {
             int i;
             Random r = new Random(DateTime.Today.Millisecond);//zorgt ervoor dat we elke keer een stapel op een andere manier schudden.//Gaat dat niet altijd met random.next?
-            List<Kaart> result = new List<Kaart>();
-            while(stapel.Count>0){
+            List<Kaart> geschud = new List<Kaart>();
+            while (stapel.Count > 0)
+            {
                 i = r.Next(stapel.Count);
-                result.Add(stapel[i]);
-                stapel.RemoveAt(i);
+                verplaatsKaart(stapel, i, geschud);
             }
-            return result;
+            return geschud;
         }
     }
 }

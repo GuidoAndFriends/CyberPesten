@@ -60,18 +60,17 @@ namespace CyberPesten
             //Controleren op welke kaart er is geklikt en die spelen als dat mag
             PictureBox a = (PictureBox)sender;
             int index = a.TabIndex;
-            Speler speler = spel.spelers[0];
-            bool kon = spel.speelKaart(speler, index);
+            bool kon = spel.speelKaart(index);
             if (kon)
             {
                 System.Diagnostics.Debug.WriteLine("Kaart met index " + index + " is correct gespeeld.");
-                //kaart succcesvol gelegd
             }
             else
             {
                 System.Diagnostics.Debug.WriteLine("Kaart met index " + index + " is foutief gespeeld.");
-                //mag niet
             }
+            //Control moet verwijderd worden
+            a.Hide();
             Invalidate();
         }
     }
