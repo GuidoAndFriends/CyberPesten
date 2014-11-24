@@ -59,6 +59,11 @@
     </Compile>
     <Compile Include="OnlineSpel.cs" />
     <Compile Include="Programma.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Speelveld.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -72,11 +77,17 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="8331179536_b1051f108b_z.ico" />
-    <Content Include="Resources\groen.png" />
+    <Resource Include="Resources\groen.png" />
     <Content Include="Resources\harten.png" />
     <Content Include="Resources\klavers.png" />
     <Content Include="Resources\ruiten.png" />
     <Content Include="Resources\schoppen.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -15,7 +15,7 @@ namespace CyberPesten
 
         public Speelveld(Menu m)
         {
-            BackColor = Color.DarkGreen;
+            BackgroundImage = (Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("groen");
             Size = new Size(1000, 800);
             Paint += teken;
             MouseClick += klik;
@@ -28,7 +28,8 @@ namespace CyberPesten
         private void teken(object sender, PaintEventArgs pea)
         {
             Graphics gr = pea.Graphics;
-            gr.FillRectangle(Brushes.DarkGreen, 0, 0, Width, Height);
+            gr.FillRectangle(new TextureBrush(BackgroundImage), 0, 0, Width, Height);
+            //gr.FillRectangle(Brushes.DarkGreen, 0, 0, Width, Height);
             spel.spelers[0].maakXY();
             foreach (Kaart kaart in spel.spelers[0].hand)
             {

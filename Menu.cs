@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Drawing;
-using System.Resources;
 
 namespace CyberPesten
 {
@@ -15,8 +14,8 @@ namespace CyberPesten
 
         public Menu()
         {
-            BackColor = Color.DarkGreen;
-            //BackgroundImage = System.Resources.ResourceManager.GetObject("groen");
+            //BackColor = Color.DarkGreen;
+            BackgroundImage = (Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("groen");
             ClientSize = new Size(1000, 800);
 
             //Knoppen er uit gaan laten zien als kaarten?
