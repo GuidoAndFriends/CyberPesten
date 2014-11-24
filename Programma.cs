@@ -11,7 +11,7 @@ namespace CyberPesten
     {
         static void Main()
         {
-            Application.Run(new Venster());
+            Application.Run(new Menu());
         }
     }
 }

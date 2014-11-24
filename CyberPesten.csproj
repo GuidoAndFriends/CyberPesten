@@ -46,9 +46,14 @@
     <Compile Include="Guido.cs" />
     <Compile Include="Kaart.cs" />
     <Compile Include="Mens.cs" />
+    <Compile Include="Menu.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="OnlineSpel.cs" />
     <Compile Include="Programma.cs" />
-    <Compile Include="Speelveld.cs" />
+    <Compile Include="Speelveld.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Spel.cs" />
     <Compile Include="Speler.cs" />
     <Compile Include="Venster.cs">
