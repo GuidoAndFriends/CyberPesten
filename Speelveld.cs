@@ -17,6 +17,7 @@ namespace CyberPesten
         {
             BackgroundImage = (Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("groen");
             Size = new Size(1000, 800);
+            DoubleBuffered = true;
             Paint += teken;
             MouseClick += klik;
             Scroll += scroll;
@@ -43,6 +44,20 @@ namespace CyberPesten
 
         private void klik(object sender, MouseEventArgs mea)
         {
+            if (spel.spelend == 0)
+            {
+                foreach (Kaart kaart in spel.spelers[0].hand)
+                {
+                    if (mea.X >= kaart.X && mea.X <= kaart.X + 100 && mea.Y >= kaart.Y && mea.Y <= kaart.Y + 140)
+                    {
+                        if (spel.speelKaart(spel.spelers[0].hand.IndexOf(kaart)))
+                        {
+                            Invalidate();
+                            return;
+                        } 
+                    }
+                }
+            }
             
         }
 

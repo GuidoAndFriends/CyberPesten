@@ -20,3 +20,7 @@ CyberPesten.v12.suo
 *.suo
 *.cache
 *.suo
+obj/Debug/CyberPesten.g.resources
+obj/Debug/CyberPesten.Properties.Resources.resources
+obj/Debug/TempPE/Properties.Resources.Designer.cs.dll
+CyberPesten.v12.suo
