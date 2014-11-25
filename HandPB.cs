@@ -8,6 +8,7 @@ using System.Drawing;
 
 namespace CyberPesten
 {
+    /*
     class HandPB : Panel
     {
         public HandPB(Speelveld speelveld, Spel spel)
@@ -30,4 +31,5 @@ namespace CyberPesten
             }
         }
     }
+     */
 }

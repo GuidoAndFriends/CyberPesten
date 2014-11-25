@@ -13,22 +13,29 @@ namespace CyberPesten
     {
         public Menu menu;
         public Spel spel;
-        public int muisX, delta;
+        public int muisX, delta, laagIndex, laagX, laagY;
         public Thread animatie;
+        public bool muisLaag;
 
         public Speelveld(Menu m)
         {
             BackgroundImage = (Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("groen");
             ClientSize = new Size(1000, 800);
             DoubleBuffered = true;
+
             Paint += teken;
             MouseClick += klik;
             MouseMove += beweeg;
+            MouseDown += muisOmlaag;
+            MouseUp += muisOmhoog;
             MouseLeave += muisWeg;
             MouseEnter += muisTerug;
             Scroll += scroll;
+
             spel = new Spel(this, 5);
             menu = m;
+            muisLaag = false;
+
             this.Show();
         }
 
@@ -37,15 +44,17 @@ namespace CyberPesten
             Graphics gr = pea.Graphics;
             gr.FillRectangle(new TextureBrush(BackgroundImage), 0, 0, Width, Height);
             //gr.FillRectangle(Brushes.DarkGreen, 0, 0, Width, Height);
-            
-            foreach (Kaart kaart in spel.spelers[0].hand)
-            {
-                gr.DrawImage(kaart.voorkant, kaart.X, kaart.Y);
-            }
+
             Bitmap plaatje = spel.stapel[spel.stapel.Count - 1].voorkant;
             gr.DrawImage(plaatje, 450, 300);
             plaatje = spel.stapel[spel.stapel.Count - 1].achterkant;
             gr.DrawImage(plaatje, 450, 100);
+
+            foreach (Kaart kaart in spel.spelers[0].hand)
+            {
+                gr.DrawImage(kaart.voorkant, kaart.X, kaart.Y);
+            }
+            
         }
 
         private void klik(object sender, MouseEventArgs mea)
@@ -73,6 +82,7 @@ namespace CyberPesten
             
         }
 
+        /*
         public void klikKaart(object sender, MouseEventArgs mea)
         {
             //Controleren op welke kaart er is geklikt en die spelen als dat mag
@@ -91,6 +101,7 @@ namespace CyberPesten
             a.Hide();
             Invalidate();
         }
+         */
 
         private void scroll(object sender, EventArgs ea)
         {
@@ -100,6 +111,38 @@ namespace CyberPesten
         private void beweeg(object sender, MouseEventArgs mea)
         {
             muisX = mea.X;
+            if (muisLaag)
+            {
+                spel.spelers[0].hand[laagIndex].X = mea.X - laagX;
+                spel.spelers[0].hand[laagIndex].Y = mea.Y - laagY;
+                Invalidate();
+            }
+        }
+
+        private void muisOmlaag(object sender, MouseEventArgs mea)
+        {
+            muisLaag = true;
+            int index = 0;
+            foreach (Kaart kaart in spel.spelers[0].hand)
+            {
+                int deltaX = mea.X - kaart.X;
+                int deltaY = mea.Y - kaart.Y;
+                if (deltaX >= 0 && deltaX <= 100 && deltaY >= 0 && deltaY <= 140)
+                {
+                    laagIndex = index;
+                    laagX = deltaX;
+                    laagY = deltaY;
+                    return;
+                    //als de muis op een kaart is, moet het nog duidelijk worden dat de kaart opgepakt is
+                }
+                index++;
+            }
+        }
+
+
+        private void muisOmhoog(object sender, MouseEventArgs mea)
+        {
+            muisLaag = false;
         }
 
         private void muisWeg(object sender, EventArgs ea)
