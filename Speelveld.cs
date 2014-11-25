@@ -46,6 +46,12 @@ namespace CyberPesten
         {
             if (spel.spelend == 0)
             {
+                if (mea.X >= 450 && mea.X <= 550 && mea.Y >= 100 && mea.Y <= 240)
+                {
+                    spel.pakKaart();
+                    Invalidate();
+                    return;
+                }
                 foreach (Kaart kaart in spel.spelers[0].hand)
                 {
                     if (mea.X >= kaart.X && mea.X <= kaart.X + 100 && mea.Y >= kaart.Y && mea.Y <= kaart.Y + 140)

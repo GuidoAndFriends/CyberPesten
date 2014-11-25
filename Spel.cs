@@ -101,7 +101,7 @@ namespace CyberPesten
             return result;
         }
 
-        public void pakKaart(Speler doelwit)//geeft de bovenste kaart van de pot aan het doelwit, als er geen kaart gepakt kan worden, dan wordt de stapel de nieuwe pot. de bovenste kaart van de stapel blijft liggen.
+        public void pakKaart()//geeft de bovenste kaart van de pot aan het doelwit, als er geen kaart gepakt kan worden, dan wordt de stapel de nieuwe pot. de bovenste kaart van de stapel blijft liggen.
         {
             Kaart i;
             if (pot.Count == 0)//wanneer de pot leeg is
@@ -116,15 +116,14 @@ namespace CyberPesten
                 stapel.Add(i);//leg de bovenste kaart terug
                 pot = schud(pot);//en schud de pot
             }
-
-            verplaatsKaart(pot, 0, doelwit.hand);
+            verplaatsKaart(pot, 0, spelers[spelend].hand);
         }
 
-        public void pakKaart(Speler doelwit, int aantal)
+        public void pakKaart(int aantal)
         {
-            for(int a = 0; a<aantal;a++)
+            for(int a = 0; a<aantal; a++)
             {
-                pakKaart(doelwit);
+                pakKaart();
             }
         }
 
