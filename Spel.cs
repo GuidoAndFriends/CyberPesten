@@ -47,6 +47,7 @@ namespace CyberPesten
                     }
                 }
             }
+            spelers[0].maakXY();
 
             //Kaarten schudden
             pot = schud(pot);
@@ -82,6 +83,10 @@ namespace CyberPesten
             if (isLegaal(k))
             {
                 verplaatsKaart(hand, index, stapel);
+                if (spelend == 0)
+                {
+                    spelers[0].maakXY();
+                }
                 return true;
             }
             else
@@ -117,6 +122,10 @@ namespace CyberPesten
                 pot = schud(pot);//en schud de pot
             }
             verplaatsKaart(pot, 0, spelers[spelend].hand);
+            if (spelend == 0)
+            {
+                spelers[0].maakXY();
+            }
         }
 
         public void pakKaart(int aantal)

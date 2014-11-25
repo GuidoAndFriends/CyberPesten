@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Drawing;
+using System.Threading;
 
 namespace CyberPesten
 {
@@ -12,14 +13,19 @@ namespace CyberPesten
     {
         public Menu menu;
         public Spel spel;
+        public int muisX, delta;
+        public Thread animatie;
 
         public Speelveld(Menu m)
         {
             BackgroundImage = (Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("groen");
-            Size = new Size(1000, 800);
+            ClientSize = new Size(1000, 800);
             DoubleBuffered = true;
             Paint += teken;
             MouseClick += klik;
+            MouseMove += beweeg;
+            MouseLeave += muisWeg;
+            MouseEnter += muisTerug;
             Scroll += scroll;
             spel = new Spel(this, 5);
             menu = m;
@@ -31,7 +37,7 @@ namespace CyberPesten
             Graphics gr = pea.Graphics;
             gr.FillRectangle(new TextureBrush(BackgroundImage), 0, 0, Width, Height);
             //gr.FillRectangle(Brushes.DarkGreen, 0, 0, Width, Height);
-            spel.spelers[0].maakXY();
+            
             foreach (Kaart kaart in spel.spelers[0].hand)
             {
                 gr.DrawImage(kaart.voorkant, kaart.X, kaart.Y);
@@ -89,6 +95,48 @@ namespace CyberPesten
         private void scroll(object sender, EventArgs ea)
         {
             //Kaart spelen
+        }
+
+        private void beweeg(object sender, MouseEventArgs mea)
+        {
+            muisX = mea.X;
+        }
+
+        private void muisWeg(object sender, EventArgs ea)
+        {
+            int breedte = spel.spelers[0].hand.Count * 110 - 10;
+            if (breedte > Width)
+            {
+                delta = 10 + 10 * breedte / Width;
+                if (muisX > 500)
+                {
+                    delta *= -1;
+                }
+                animatie = new Thread(schuiven);
+                animatie.Start();
+            }
+            
+        }
+
+        private void muisTerug(object sender, EventArgs ea)
+        {
+            animatie = null;
+        }
+
+        private void schuiven()
+        {
+            while (animatie != null)
+            {
+                if (delta > 0 && spel.spelers[0].hand[0].X < 50 || delta < 0 && spel.spelers[0].hand[spel.spelers[0].hand.Count - 1].X + 100 > 1000 - 50)
+                {
+                    foreach (Kaart kaart in spel.spelers[0].hand)
+                    {
+                        kaart.X += delta;
+                    }
+                    Invalidate();
+                    Thread.Sleep(25);
+                }
+            }
         }
 
         private void afsluiten(object sender, FormClosedEventArgs fcea)
