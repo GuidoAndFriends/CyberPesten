@@ -70,7 +70,7 @@ namespace CyberPesten
         {
             if (spel.spelend == 0)
             {
-                if (mea.X >= 450 && mea.X <= 550 && mea.Y >= 100 && mea.Y <= 240)
+                if (mea.X >= 550 && mea.X <= 650 && mea.Y >= 300 && mea.Y <= 440)
                 {
                     spel.pakKaart();
                     Invalidate();
