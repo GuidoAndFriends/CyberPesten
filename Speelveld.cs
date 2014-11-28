@@ -32,7 +32,8 @@ namespace CyberPesten
             MouseEnter += muisTerug;
             Scroll += scroll;
 
-            spel = new Spel(this, 5);
+            int aantalAI = 1;
+            spel = new Spel(this, aantalAI);
             menu = m;
             muisLaag = false;
 
@@ -46,15 +47,23 @@ namespace CyberPesten
             //gr.FillRectangle(Brushes.DarkGreen, 0, 0, Width, Height);
 
             Bitmap plaatje = spel.stapel[spel.stapel.Count - 1].voorkant;
-            gr.DrawImage(plaatje, 450, 300);
+            gr.DrawImage(plaatje, 350, 300);
             plaatje = spel.stapel[spel.stapel.Count - 1].achterkant;
-            gr.DrawImage(plaatje, 450, 100);
+            gr.DrawImage(plaatje, 550, 300);
 
             foreach (Kaart kaart in spel.spelers[0].hand)
             {
                 gr.DrawImage(kaart.voorkant, kaart.X, kaart.Y);
             }
-            
+
+            //for (int i = 1; i <= 1; i++)
+            //{
+                foreach (Kaart kaart in spel.spelers[1].hand)
+                {
+                    gr.DrawImage(kaart.achterkant, kaart.X, kaart.Y);
+                }
+            //}
+
         }
 
         private void klik(object sender, MouseEventArgs mea)
