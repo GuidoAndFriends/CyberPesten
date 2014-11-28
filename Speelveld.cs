@@ -13,7 +13,7 @@ namespace CyberPesten
     {
         public Menu menu;
         public Spel spel;
-        public int muisX, delta, laagIndex, laagX, laagY;
+        public int muisX, delta, laagIndex, laagX, laagY, kaartB, kaartH, afstand;
         public Thread animatie;
         public bool muisLaag;
 
@@ -36,6 +36,9 @@ namespace CyberPesten
             spel = new Spel(this, aantalAI);
             menu = m;
             muisLaag = false;
+            kaartB = 80;
+            kaartH = 120;
+            afstand = 10;
 
             this.Show();
         }
@@ -70,7 +73,7 @@ namespace CyberPesten
         {
             if (spel.spelend == 0)
             {
-                if (mea.X >= 450 && mea.X <= 550 && mea.Y >= 100 && mea.Y <= 240)
+                if (mea.X >= 550 && mea.X <= 550 + kaartB && mea.Y >= 300 && mea.Y <= 300 + kaartB)
                 {
                     spel.pakKaart();
                     Invalidate();
@@ -156,7 +159,7 @@ namespace CyberPesten
 
         private void muisWeg(object sender, EventArgs ea)
         {
-            int breedte = spel.spelers[0].hand.Count * 110 - 10;
+            int breedte = spel.spelers[0].hand.Count * (kaartB + afstand) - 10;
             if (breedte > Width)
             {
                 delta = 10 + 10 * breedte / Width;
