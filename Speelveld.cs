@@ -32,7 +32,7 @@ namespace CyberPesten
             MouseEnter += muisTerug;
             Scroll += scroll;
 
-            int aantalAI = 1;
+            int aantalAI = 3;
             spel = new Spel(this, aantalAI);
             menu = m;
             muisLaag = false;
@@ -59,13 +59,10 @@ namespace CyberPesten
                 gr.DrawImage(kaart.voorkant, kaart.X, kaart.Y);
             }
 
-            //for (int i = 1; i <= 1; i++)
-            //{
-                foreach (Kaart kaart in spel.spelers[1].hand)
-                {
-                    gr.DrawImage(kaart.achterkant, kaart.X, kaart.Y);
-                }
-            //}
+            for (int i = 1; i < spel.spelers.Count; i++)
+            {
+                gr.DrawImage(spel.spelers[i].blok, 10 + (290 + 40) * (i - 1), 10);
+            }
 
         }
 

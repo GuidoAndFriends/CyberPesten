@@ -12,7 +12,9 @@ namespace CyberPesten
         public Guido()
         {
             hand = new List<Kaart>();
-            naam = "Guido";
+            int hash = GetHashCode();
+            naam = "Guido" + hash;
+            System.Diagnostics.Debug.WriteLine(hash.ToString());
         }
 
         public override void maakXY() { }
