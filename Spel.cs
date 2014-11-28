@@ -39,15 +39,15 @@ namespace CyberPesten
             //Kaarten toevoegen
             for (int i = 0; i < kaartspellen; i++)
             {
-                for (int j = 0; j <4; j++)
+                for (int j = 0; j < 4; j++)
                 {
-                    for (int k =1; k<14;k++)
+                    for (int k = 1; k < 14; k++)
                     {
                     pot.Add(new Kaart(j,k));
                     }
                 }
             }
-            spelers[0].maakXY();
+            
 
             //Kaarten schudden
             pot = schud(pot);
@@ -58,22 +58,14 @@ namespace CyberPesten
                 foreach (Speler speler in spelers)
                 {
                     verplaatsKaart(pot, speler.hand);
-                    if (spelend == 0)
-                    {
-                        speler.hand[speler.hand.Count - 1].X = 100 + 100 * speler.hand.Count * 100;
-                    }
                 }
             }
 
+            spelers[0].maakXY();
             verplaatsKaart(pot, 0, stapel);
 
             bezig = true;
             s.Invalidate();
-
-            System.Diagnostics.Debug.WriteLine("Er zijn  nu " + spelers.Count + " spelers.");
-            System.Diagnostics.Debug.WriteLine("De bovenste kaart op de stapel is " + stapel.ElementAt(stapel.Count - 1).tekst);
-            System.Diagnostics.Debug.WriteLine("De speler heeft " + spelers.ElementAt(0).hand.Count + " kaarten");
-            System.Diagnostics.Debug.WriteLine("Er zitten nog " + pot.Count + " kaarten in de pot");
         }
 
         public bool speelKaart(int index)//Legt een kaart met de gegeven index van de doelwit diens hand op de stapel. Geeft true bij een geldige kaart, anders false
