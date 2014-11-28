@@ -133,7 +133,7 @@ namespace CyberPesten
         {
             get
             {
-                Bitmap b = new Bitmap(100, 140);
+                Bitmap b = new Bitmap(90, 135);
                 Brush kwast;
                 if (this.kleur % 2 == 0)
                 {
@@ -172,7 +172,7 @@ namespace CyberPesten
         {
             get
             {
-                Bitmap b = new Bitmap(100, 140);
+                Bitmap b = new Bitmap(90, 135);
                 Graphics gr = Graphics.FromImage(b);
                 gr.FillRectangle(Brushes.Red, 0, 0, b.Width, b.Height);
                 return b;

@@ -13,7 +13,7 @@ namespace CyberPesten
     {
         public Menu menu;
         public Spel spel;
-        public int muisX, delta, laagIndex, laagX, laagY;
+        public int muisX, delta, laagIndex, laagX, laagY, kaartBreedte, kaartHoogte, afstand;
         public Thread animatie;
         public bool muisLaag;
 
@@ -36,6 +36,9 @@ namespace CyberPesten
             spel = new Spel(this, aantalAI);
             menu = m;
             muisLaag = false;
+            kaartBreedte = 90;
+            kaartHoogte = 135;
+            afstand = 10;
 
             this.Show();
         }
@@ -70,7 +73,7 @@ namespace CyberPesten
         {
             if (spel.spelend == 0)
             {
-                if (mea.X >= 450 && mea.X <= 550 && mea.Y >= 100 && mea.Y <= 240)
+                if (mea.X >= 550 && mea.X <= 550 + kaartBreedte && mea.Y >= 300 && mea.Y <= 300 + kaartHoogte)
                 {
                     spel.pakKaart();
                     Invalidate();
@@ -78,7 +81,7 @@ namespace CyberPesten
                 }
                 foreach (Kaart kaart in spel.spelers[0].hand)
                 {
-                    if (mea.X >= kaart.X && mea.X <= kaart.X + 100 && mea.Y >= kaart.Y && mea.Y <= kaart.Y + 140)
+                    if (mea.X >= kaart.X && mea.X <= kaart.X + kaartBreedte && mea.Y >= kaart.Y && mea.Y <= kaart.Y + kaartHoogte)
                     {
                         if (spel.speelKaart(spel.spelers[0].hand.IndexOf(kaart)))
                         {
@@ -156,7 +159,7 @@ namespace CyberPesten
 
         private void muisWeg(object sender, EventArgs ea)
         {
-            int breedte = spel.spelers[0].hand.Count * 110 - 10;
+            int breedte = spel.spelers[0].hand.Count * kaartBreedte - 10;
             if (breedte > Width)
             {
                 delta = 10 + 10 * breedte / Width;
