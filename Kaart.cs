@@ -133,7 +133,7 @@ namespace CyberPesten
         {
             get
             {
-                Bitmap b = new Bitmap(80, 120);
+                Bitmap b = new Bitmap(100, 140);
                 Brush kwast;
                 if (this.kleur % 2 == 0)
                 {
@@ -172,8 +172,7 @@ namespace CyberPesten
         {
             get
             {
-                //De verhoudig van de afmetingen is 3,625 / 2,4 = 1,51041666...
-                Bitmap b = new Bitmap(80, 120);
+                Bitmap b = new Bitmap(100, 140);
                 Graphics gr = Graphics.FromImage(b);
                 gr.FillRectangle(Brushes.Red, 0, 0, b.Width, b.Height);
                 return b;
