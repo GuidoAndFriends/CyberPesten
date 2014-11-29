@@ -79,6 +79,7 @@ namespace CyberPesten
                 if (mea.X >= 550 && mea.X <= 550 + kaartBreedte && mea.Y >= 300 && mea.Y <= 300 + kaartHoogte)
                 {
                     spel.pakKaart();
+                    spel.volgende();
                     Invalidate();
                     return;
                 }

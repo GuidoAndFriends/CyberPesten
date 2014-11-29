@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace CyberPesten
 {
@@ -22,17 +23,28 @@ namespace CyberPesten
 
         }
 
+        public bool speelKaart(Kaart kaart)
+        {
+            return speelKaart(spelers[spelend].hand.IndexOf(kaart));
+        }
+
         public bool speelKaart(int index)//Legt een kaart met de gegeven index van de doelwit diens hand op de stapel. Geeft true bij een geldige kaart, anders false
         {
             List<Kaart> hand = spelers.ElementAt(spelend).hand;
             Kaart k = hand[index];
-            if (isLegaal(k))
+            if (speelbaar(k))
             {
                 verplaatsKaart(hand, index, stapel);
                 if (spelend == 0)
                 {
                     spelers[0].maakXY();
                 }
+                else
+                {
+                    speelveld.Invalidate();
+                    MessageBox.Show("Speler " + spelend + " speelde " + k.tekst);
+                }
+                volgende();
                 return true;
             }
             else
@@ -41,7 +53,7 @@ namespace CyberPesten
             }
         }
 
-        public bool isLegaal(Kaart k)//MOET NOG AANGEPAST WORDEN
+        public bool speelbaar(Kaart k)//MOET NOG AANGEPAST WORDEN
         {
             bool result = false;
             if (k.Kleur == stapel[stapel.Count - 1].Kleur || k.Waarde == stapel[stapel.Count - 1].Waarde || k.Kleur == 5)
@@ -71,6 +83,10 @@ namespace CyberPesten
             if (spelend == 0)
             {
                 spelers[0].maakXY();
+            }
+            else
+            {
+                MessageBox.Show("Speler " + spelend + " kon niet en heeft een kaart gepakt");
             }
         }
 
@@ -112,6 +128,15 @@ namespace CyberPesten
                 verplaatsKaart(stapel, i, geschud);
             }
             return geschud;
+        }
+
+        public void volgende()
+        {
+            spelend = (spelend + richting) % (spelers.Count);
+            if (spelend != 0)
+            {
+                spelers[spelend].doeZet();
+            }
         }
     }
 }
