@@ -12,7 +12,7 @@ namespace CyberPesten
     class Speelveld : Form
     {
         public Menu menu;
-        public Spel spel;
+        public LokaalSpel spel;
         public int muisX, delta, laagIndex, laagX, laagY, kaartBreedte, kaartHoogte, afstand;
         public Thread animatie;
         public bool muisLaag;
@@ -33,7 +33,7 @@ namespace CyberPesten
             Scroll += scroll;
 
             int aantalAI = 3;
-            spel = new Spel(this, aantalAI);
+            spel = new LokaalSpel(this, aantalAI);
             menu = m;
             muisLaag = false;
             kaartBreedte = 90;
@@ -91,30 +91,23 @@ namespace CyberPesten
             
         }
 
-        /*
-        public void klikKaart(object sender, MouseEventArgs mea)
-        {
-            //Controleren op welke kaart er is geklikt en die spelen als dat mag
-            PictureBox a = (PictureBox)sender;
-            int index = a.TabIndex;
-            bool kon = spel.speelKaart(index);
-            if (kon)
-            {
-                System.Diagnostics.Debug.WriteLine("Kaart met index " + index + " is correct gespeeld.");
-            }
-            else
-            {
-                System.Diagnostics.Debug.WriteLine("Kaart met index " + index + " is foutief gespeeld.");
-            }
-            //Control moet verwijderd worden
-            a.Hide();
-            Invalidate();
-        }
-         */
-
         private void scroll(object sender, EventArgs ea)
         {
-            //Kaart spelen
+            /*
+            int muisX = MousePosition.X;
+            int muisY = MousePosition.Y;
+            foreach (Kaart kaart in spel.spelers[0].hand)
+            {
+                if (muisX >= kaart.X && muisX <= kaart.X + kaartBreedte && muisY >= kaart.Y && muisY <= kaart.Y + kaartHoogte)
+                {
+                    if (spel.speelKaart(spel.spelers[0].hand.IndexOf(kaart)))
+                    {
+                        Invalidate();
+                        return;
+                    }
+                }
+            }
+             */
         }
 
         private void beweeg(object sender, MouseEventArgs mea)
@@ -189,11 +182,6 @@ namespace CyberPesten
                     Thread.Sleep(25);
                 }
             }
-        }
-
-        private void afsluiten(object sender, FormClosedEventArgs fcea)
-        {
-
         }
     }
 }

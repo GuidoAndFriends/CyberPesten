@@ -9,7 +9,7 @@ namespace CyberPesten
     class Guido : AI
     {
         //voorbeeld AI
-        public Guido()
+        public Guido(Spel spel)
         {
             hand = new List<Kaart>();
             int hash = GetHashCode();

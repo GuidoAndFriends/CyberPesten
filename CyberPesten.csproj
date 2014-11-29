@@ -67,6 +67,7 @@
     <Compile Include="Speelveld.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="LokaalSpel.cs" />
     <Compile Include="Spel.cs" />
     <Compile Include="Speler.cs" />
   </ItemGroup>
