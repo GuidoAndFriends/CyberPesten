@@ -12,12 +12,12 @@ namespace CyberPesten
     class Speelveld : Form
     {
         public Menu menu;
-        public LokaalSpel spel;
+        public Spel spel;
         public int muisX, delta, laagIndex, laagX, laagY, kaartBreedte, kaartHoogte, afstand;
         public Thread animatie;
         public bool muisLaag;
 
-        public Speelveld(Menu m)
+        public Speelveld(bool online, int aantalSpelers, Menu m)
         {
             BackgroundImage = (Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("groen");
             ClientSize = new Size(1000, 800);
@@ -32,8 +32,14 @@ namespace CyberPesten
             MouseEnter += muisTerug;
             Scroll += scroll;
 
-            int aantalAI = 3;
-            spel = new LokaalSpel(this, aantalAI);
+            if (online)
+            {
+                spel = new OnlineSpel(this, aantalSpelers);
+            }
+            else
+            {
+                spel = new LokaalSpel(this, aantalSpelers);
+            }
             menu = m;
             muisLaag = false;
             kaartBreedte = 90;

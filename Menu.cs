@@ -11,6 +11,7 @@ namespace CyberPesten
     class Menu : Form
     {
         private Speelveld veld;
+        private NumericUpDown aantal;
 
         public Menu()
         {
@@ -21,32 +22,38 @@ namespace CyberPesten
             //Knoppen er uit gaan laten zien als kaarten?
 
             Button lokaal = new Button();
-            lokaal.Size = new Size(200, 280);
-            lokaal.Location = new Point(200, 400);
+            lokaal.Size = new Size(200, 300);
+            lokaal.Location = new Point(200, 300);
             lokaal.Text = "Lokaal";
             lokaal.Font = new Font(FontFamily.GenericSansSerif, 28);
             lokaal.MouseClick += lokaalKlik;
             Controls.Add(lokaal);
 
             Button online = new Button();
-            online.Size = new Size(200, 280);
-            online.Location = new Point(600, 400);
+            online.Size = new Size(200, 300);
+            online.Location = new Point(600, 300);
             online.Text = "Online";
             online.Font = new Font(FontFamily.GenericSansSerif, 28);
             online.MouseClick += onlineKlik;
-            Controls.Add(online);       
+            Controls.Add(online);
+
+            aantal = new NumericUpDown();
+            aantal.Size = new Size(200, 50);
+            aantal.Location = new Point(200, 620);
+            aantal.Value = 4;
+            Controls.Add(aantal);
         }
 
         private void lokaalKlik(object sender, MouseEventArgs mea)
         {
-            veld = new Speelveld(this);
+            veld = new Speelveld(false, (int)aantal.Value, this);
             this.Hide();
         }
 
         private void onlineKlik(object sender, MouseEventArgs mea)
         {
-            //Online spel starten
-            this.Close();
+            //veld = new Speelveld(true, aantal.Value, this);
+            this.Hide();
         }
     }
 }

@@ -9,9 +9,8 @@ namespace CyberPesten
     
     class OnlineSpel : Spel 
     {
-        public OnlineSpel(Speelveld veld, int aantalSpelers)
+        public OnlineSpel(Speelveld s, int aantalSpelers)
         {
-
         }
     }
 }
