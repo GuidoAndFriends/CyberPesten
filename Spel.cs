@@ -120,7 +120,6 @@ namespace CyberPesten
         public List<Kaart> schud(List<Kaart> stapel)
         {
             int i;
-            //Random r = new Random(DateTime.Today.Millisecond);//zorgt ervoor dat we elke keer een stapel op een andere manier schudden.//Gaat dat niet altijd met random.next?
             Random r = new Random();
             List<Kaart> geschud = new List<Kaart>();
             while (stapel.Count > 0)

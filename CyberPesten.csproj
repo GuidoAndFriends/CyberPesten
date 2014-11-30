@@ -77,7 +77,6 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="8331179536_b1051f108b_z.ico" />
     <Resource Include="Resources\groen.png" />
     <Content Include="Resources\harten.png" />
     <Content Include="Resources\klavers.png" />
