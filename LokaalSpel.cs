@@ -12,14 +12,15 @@ namespace CyberPesten
         public LokaalSpel(Speelveld s, int aantalSpelers)
         {
             speelveld = s;
-            bezig = false;
             spelers = new List<Speler>();//moet aangeroepen worden met de Spel() functie
             stapel = new List<Kaart>();
             pot = new List<Kaart>();
-            int kaartspellen = (aantalSpelers) / 4 + 1; //4 spelers per pak kaarten?
-            int startkaarten = 7;
-            spelend = 0;
-            richting = 1;
+            int kaartspellen = (aantalSpelers) / 4 + 1; //hoeveel kaartspellen gebruikt worden
+            int startkaarten = 7; //hoeveel kaarten de spelers in het begin krijgen
+            spelend = 0; //welke speler aan de beurt is
+            richting = 1; //welke kant er op gespeeld word
+            speciaal = -1; //of er een speciale kaart gespeeld is
+            pakAantal = 0;
 
             //Spelers toevoegen
             spelers.Add(new Mens());
@@ -52,7 +53,6 @@ namespace CyberPesten
 
             spelers[0].maakXY();
             verplaatsKaart(pot, 0, stapel);
-            bezig = true;
             s.Invalidate();
         }
     }

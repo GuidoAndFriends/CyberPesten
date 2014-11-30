@@ -11,6 +11,7 @@ namespace CyberPesten
     {
         public List<Kaart> hand;
         public string naam;
+        public bool gemeld;
         public Spel spel;
 
         public abstract void maakXY();
@@ -30,6 +31,29 @@ namespace CyberPesten
                 string tekst = naam + " - " + hand.Count;
                 gr.DrawString(tekst, new Font(FontFamily.GenericSansSerif, 14), Brushes.Black, 0, 145);
                 return b;
+            }
+        }
+
+        public int laatsteKaart
+        {
+            get
+            {
+                if (hand.Count == 1)
+                {
+                    if (gemeld)
+                    {
+                        return 2;
+                    }
+                    else
+                    {
+                        return 1;
+                    }
+                }
+                else
+                {
+                    gemeld = false;
+                    return 0;
+                }
             }
         }
     }

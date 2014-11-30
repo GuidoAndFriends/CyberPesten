@@ -64,6 +64,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Regels.cs" />
     <Compile Include="Speelveld.cs">
       <SubType>Form</SubType>
     </Compile>

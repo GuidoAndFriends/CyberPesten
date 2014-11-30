@@ -7,15 +7,12 @@ using System.Windows.Forms;
 
 namespace CyberPesten
 {
-    class Spel
+    partial class Spel
     {
-        public List<Kaart> pot;
+        public List<Kaart> pot, stapel;
         public List<Speler> spelers;
-        public List<Kaart> stapel;
         public Speelveld speelveld;
-        public bool bezig;
-        public int spelend;
-        public int richting;
+        public int spelend, richting, speciaal, pakAantal;
 
         //public Spel(Speelveld s, int aantalSpelers)
         public Spel()
@@ -28,7 +25,7 @@ namespace CyberPesten
             return speelKaart(spelers[spelend].hand.IndexOf(kaart));
         }
 
-        public bool speelKaart(int index)//Legt een kaart met de gegeven index van de doelwit diens hand op de stapel. Geeft true bij een geldige kaart, anders false
+        public bool speelKaart(int index)//Legt een kaart met de gegeven index van degene die aan de beurt is op de stapel. Geeft true bij een geldige kaart, anders false
         {
             List<Kaart> hand = spelers.ElementAt(spelend).hand;
             Kaart k = hand[index];
@@ -44,6 +41,7 @@ namespace CyberPesten
                     speelveld.Invalidate();
                     MessageBox.Show("Speler " + spelend + " speelde " + k.tekst);
                 }
+                kaartActie();
                 volgende();
                 return true;
             }
@@ -53,21 +51,10 @@ namespace CyberPesten
             }
         }
 
-        public bool speelbaar(Kaart k)//MOET NOG AANGEPAST WORDEN
-        {
-            bool result = false;
-            if (k.Kleur == stapel[stapel.Count - 1].Kleur || k.Waarde == stapel[stapel.Count - 1].Waarde || k.Kleur == 5)
-            {
-                result = true;
-            }
-
-            return result;
-        }
-
-        public void pakKaart()//geeft de bovenste kaart van de pot aan het doelwit, als er geen kaart gepakt kan worden, dan wordt de stapel de nieuwe pot. de bovenste kaart van de stapel blijft liggen.
+        public void pakKaart() //geeft de bovenste kaart van de pot aan degene die aan de beurt is, als er geen kaart gepakt kan worden, dan wordt de stapel de nieuwe pot. de bovenste kaart van de stapel blijft liggen.
         {
             Kaart i;
-            if (pot.Count == 0)//wanneer de pot leeg is
+            if (pot.Count == 0)
             {
                 int a = stapel.Count - 1;
                 i = stapel[a];//haal de bovenste kaart van de stapel
