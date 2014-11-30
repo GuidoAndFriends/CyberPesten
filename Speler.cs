@@ -28,7 +28,11 @@ namespace CyberPesten
                 {
                     gr.DrawImage(hand[0].achterkant, i * 100, 0);
                 }
-                string tekst = naam + " - " + hand.Count;
+                string tekst = naam + " : " + hand.Count;
+                if (spel.spelers[spel.spelend] == this)
+                {
+                    tekst += " \u25C0";
+                }
                 gr.DrawString(tekst, new Font(FontFamily.GenericSansSerif, 14), Brushes.Black, 0, 145);
                 return b;
             }

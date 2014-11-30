@@ -14,8 +14,11 @@ namespace CyberPesten
         public Menu menu;
         public Spel spel;
         public int muisX, delta, laagIndex, laagX, laagY, kaartBreedte, kaartHoogte, afstand;
-        public Thread animatie;
+        
+        public Thread schuifAnimatie;
         public bool muisLaag;
+
+        
 
         public Speelveld(bool online, int aantalSpelers, Menu m)
         {
@@ -57,7 +60,7 @@ namespace CyberPesten
 
             Bitmap plaatje = spel.stapel[spel.stapel.Count - 1].voorkant;
             gr.DrawImage(plaatje, 350, 300);
-            plaatje = spel.stapel[spel.stapel.Count - 1].achterkant;
+            plaatje = spel.pot[spel.pot.Count - 1].achterkant;
             gr.DrawImage(plaatje, 550, 300);
 
             foreach (Kaart kaart in spel.spelers[0].hand)
@@ -70,6 +73,7 @@ namespace CyberPesten
                 gr.DrawImage(spel.spelers[i].blok, 10 + (290 + 40) * (i - 1), 10);
             }
 
+            gr.DrawString(spel.status, new Font(FontFamily.GenericSansSerif, 14), Brushes.Black, new Point(40, 450));
         }
 
         private void klik(object sender, MouseEventArgs mea)
@@ -94,8 +98,7 @@ namespace CyberPesten
                         } 
                     }
                 }
-            }
-            
+            } 
         }
 
         private void scroll(object sender, EventArgs ea)
@@ -164,20 +167,20 @@ namespace CyberPesten
                 {
                     delta *= -1;
                 }
-                animatie = new Thread(schuiven);
-                animatie.Start();
+                schuifAnimatie = new Thread(schuiven);
+                schuifAnimatie.Start();
             }
             
         }
 
         private void muisTerug(object sender, EventArgs ea)
         {
-            animatie = null;
+            schuifAnimatie = null;
         }
 
         private void schuiven()
         {
-            while (animatie != null)
+            while (schuifAnimatie != null)
             {
                 if (delta > 0 && spel.spelers[0].hand[0].X < 50 || delta < 0 && spel.spelers[0].hand[spel.spelers[0].hand.Count - 1].X + 100 > 1000 - 50)
                 {
@@ -190,5 +193,32 @@ namespace CyberPesten
                 }
             }
         }
+
+        /*
+        public int verplaatsIndex, verplaatsStap;
+        public Thread verplaatsAnimatie;
+        public Point verplaatsPuntOud, verplaatsPunt1, verplaatsPunt2;
+        
+        public void verplaatsen()
+        {
+            int deltaX, deltaY, stappen;
+            stappen = 50;
+            Kaart kaart = spel.spelers[spel.spelend].hand[verplaatsIndex];
+
+            while (verplaatsStap < stappen)
+            {
+                //het is iets ingewikkelder vanwege de afronding van int, waarschijnlijk is het beter om float te gebruiken
+                deltaX = verplaatsStap * (verplaatsPunt2.X - verplaatsPunt1.X) / 40;
+                deltaY = verplaatsStap * (verplaatsPunt2.Y - verplaatsPunt1.Y) / 40;
+                kaart.X = verplaatsPuntOud.X + deltaX;
+                kaart.Y += verplaatsPuntOud.Y + deltaY;
+                verplaatsStap++;
+                Invalidate();
+                Thread.Sleep(25);
+            }
+
+            verplaatsAnimatie = null;
+        }
+         */
     }
 }

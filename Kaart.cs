@@ -161,7 +161,7 @@ namespace CyberPesten
                     case 1: beeld = "♣"; break;
                     case 2: beeld = "♦"; break;
                     case 3: beeld = "♠"; break;
-                    case 4: beeld = "Joker"; break;
+                    case 4: beeld = "\u1F0CF"; break;
                 }
                 gr.DrawString(beeld, new Font(FontFamily.GenericSansSerif, 14), kwast, new Point(10, 40));
                 return b;

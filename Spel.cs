@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Drawing;
+using System.Threading;
 
 namespace CyberPesten
 {
@@ -13,6 +15,7 @@ namespace CyberPesten
         public List<Speler> spelers;
         public Speelveld speelveld;
         public int spelend, richting, speciaal, pakAantal;
+        public string status;
 
         //public Spel(Speelveld s, int aantalSpelers)
         public Spel()
@@ -31,15 +34,34 @@ namespace CyberPesten
             Kaart k = hand[index];
             if (speelbaar(k))
             {
-                verplaatsKaart(hand, index, stapel);
+                /*
+                speelveld.verplaatsIndex = index;
+                speelveld.verplaatsStap = 0;
+                speelveld.verplaatsPunt2 = new Point(350, 500);
+                if (spelend == 0)
+                {
+                    speelveld.verplaatsPunt1 = new Point(k.X, k.Y);
+                }
+                else
+                {
+                    speelveld.verplaatsPunt1 = new Point(10 + (290 + 40) * (spelend - 1) + 100, 10);
+                }
+                speelveld.schuifAnimatie = new Thread(speelveld.verplaatsen);
+                speelveld.schuifAnimatie.Start();
+                for (int i = 0; i < 100; i++)
+                {
+                    Thread.SpinWait(100);
+                }
+                */
+                    verplaatsKaart(hand, index, stapel);
                 if (spelend == 0)
                 {
                     spelers[0].maakXY();
                 }
                 else
                 {
-                    speelveld.Invalidate();
-                    MessageBox.Show("Speler " + spelend + " speelde " + k.tekst);
+                    status = "Speler " + spelend + " speelde " + k.tekst;
+                    speelveld.Invalidate();   
                 }
                 kaartActie();
                 volgende();
@@ -73,8 +95,9 @@ namespace CyberPesten
             }
             else
             {
-                MessageBox.Show("Speler " + spelend + " kon niet en heeft een kaart gepakt");
+                status = ("Speler " + spelend + " kon niet en heeft een kaart gepakt");
             }
+            speelveld.Invalidate();
         }
 
         public void pakKaart(int aantal)
