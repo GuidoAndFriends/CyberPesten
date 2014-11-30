@@ -208,10 +208,16 @@ namespace CyberPesten
             while (verplaatsStap < stappen)
             {
                 //het is iets ingewikkelder vanwege de afronding van int, waarschijnlijk is het beter om float te gebruiken
-                deltaX = verplaatsStap * (verplaatsPunt2.X - verplaatsPunt1.X) / 40;
-                deltaY = verplaatsStap * (verplaatsPunt2.Y - verplaatsPunt1.Y) / 40;
-                kaart.X = verplaatsPuntOud.X + deltaX;
-                kaart.Y += verplaatsPuntOud.Y + deltaY;
+                
+                //deltaX = verplaatsStap * (verplaatsPunt2.X - verplaatsPunt1.X) / stappen;
+                //deltaY = verplaatsStap * (verplaatsPunt2.Y - verplaatsPunt1.Y) / stappen;
+                //kaart.X = verplaatsPuntOud.X + deltaX;
+                //kaart.Y = verplaatsPuntOud.Y + deltaY;
+                
+                deltaX = (verplaatsPunt2.X - verplaatsPunt1.X) / stappen;
+                deltaY = (verplaatsPunt2.Y - verplaatsPunt1.Y) / stappen;
+                kaart.X += deltaX;
+                kaart.Y += deltaY;
                 verplaatsStap++;
                 Invalidate();
                 Thread.Sleep(25);
@@ -219,6 +225,6 @@ namespace CyberPesten
 
             verplaatsAnimatie = null;
         }
-         */
+        */
     }
 }

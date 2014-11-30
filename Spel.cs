@@ -48,12 +48,14 @@ namespace CyberPesten
                 }
                 speelveld.schuifAnimatie = new Thread(speelveld.verplaatsen);
                 speelveld.schuifAnimatie.Start();
-                for (int i = 0; i < 100; i++)
+                for (int i = 0; i < 5 * 50; i++)
                 {
-                    Thread.SpinWait(100);
+                    Application.DoEvents();
+                    Thread.Sleep(5);
                 }
                 */
-                    verplaatsKaart(hand, index, stapel);
+
+                verplaatsKaart(hand, index, stapel);
                 if (spelend == 0)
                 {
                     spelers[0].maakXY();
@@ -64,7 +66,7 @@ namespace CyberPesten
                     speelveld.Invalidate();   
                 }
                 kaartActie();
-                volgende();
+                //volgende();
                 return true;
             }
             else

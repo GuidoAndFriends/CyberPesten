@@ -54,11 +54,15 @@ namespace CyberPesten
                 switch (kaart.Waarde)
                 {
                     case 2: regelPakken(2); break;
-                    case 7: regelKleven(); break;
+                    //case 7: regelKleven(); break;
                     case 8: regelWacht(); break;
                     case 11: regelKleur(); break;
                     case 1: regelDraai(); break;
                 }
+            }
+            if (kaart.Waarde != 7)
+            {
+                volgende();
             }
         }
 
@@ -70,7 +74,7 @@ namespace CyberPesten
 
         public void regelKleven()
         {
-            spelend -= richting;
+            //spelend -= richting;
         }
 
         public void regelWacht()
