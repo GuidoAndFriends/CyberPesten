@@ -15,7 +15,7 @@ namespace CyberPesten
 
         public Menu()
         {
-            //BackColor = Color.DarkGreen;
+            Text = "CyberPesten: Menu";
             BackgroundImage = (Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("groen");
             ClientSize = new Size(1000, 800);
 
@@ -42,6 +42,14 @@ namespace CyberPesten
             aantal.Location = new Point(200, 620);
             aantal.Value = 4;
             Controls.Add(aantal);
+
+            Button help = new Button();
+            help.Size = new Size(135, 90);
+            help.Location = new Point(865, 710);
+            help.Text = "Help";
+            help.Font = new Font(FontFamily.GenericSansSerif, 20);
+            help.MouseClick += helpKlik;
+            Controls.Add(help);
         }
 
         private void lokaalKlik(object sender, MouseEventArgs mea)
@@ -54,6 +62,11 @@ namespace CyberPesten
         {
             //veld = new Speelveld(true, aantal.Value, this);
             this.Hide();
+        }
+
+        private void helpKlik(object sender, MouseEventArgs mea)
+        {
+            Help help = new Help();
         }
     }
 }

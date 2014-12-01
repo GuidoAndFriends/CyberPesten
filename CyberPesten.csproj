@@ -52,6 +52,9 @@
     <Compile Include="HandPB.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Help.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Kaart.cs" />
     <Compile Include="Mens.cs" />
     <Compile Include="Menu.cs">

@@ -22,10 +22,17 @@ namespace CyberPesten
         
 
         public Speelveld(bool online, int aantalSpelers, Menu m)
-        {
+        {           
             BackgroundImage = (Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("groen");
             ClientSize = new Size(1000, 800);
             DoubleBuffered = true;
+
+            /*
+            Button help = new Button();
+            ... als in Menu.cs ...
+            Controls.Add(help);
+            //Er zal vanalles over de helpknop heen getekend worden
+             */
 
             Paint += teken;
             MouseClick += klik;
@@ -35,13 +42,16 @@ namespace CyberPesten
             MouseLeave += muisWeg;
             MouseEnter += muisTerug;
             Scroll += scroll;
+            FormClosed += afgesloten;
 
             if (online)
             {
+                Text = "CyberPesten: Online spel";
                 spel = new OnlineSpel(this, aantalSpelers);
             }
             else
             {
+                Text = "CyberPesten: Lokaal spel";
                 spel = new LokaalSpel(this, aantalSpelers);
             }
             menu = m;
@@ -263,6 +273,11 @@ namespace CyberPesten
                 Application.DoEvents();
                 Thread.Sleep(1);
             }
+        }
+
+        private void afgesloten(object sender, EventArgs ea)
+        {
+            Application.Exit();
         }
     }
 }
