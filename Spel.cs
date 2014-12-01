@@ -35,17 +35,19 @@ namespace CyberPesten
             if (speelbaar(k))
             {
                 /*
-                speelveld.verplaatsIndex = index;
-                speelveld.verplaatsStap = 0;
-                speelveld.verplaatsPunt2 = new Point(350, 500);
+                Point p1;
                 if (spelend == 0)
                 {
-                    speelveld.verplaatsPunt1 = new Point(k.X, k.Y);
+                    p1 = new Point(k.X, k.Y);
                 }
                 else
                 {
-                    speelveld.verplaatsPunt1 = new Point(10 + (290 + 40) * (spelend - 1) + 100, 10);
+                    p1 = new Point(10 + (290 + 40) * (spelend - 1) + 100, 10);
                 }
+                speelveld.bewegendeKaart = k;
+                speelveld.verplaatsen2(p1, new Point(350, 500), index);
+                */
+                /*
                 speelveld.schuifAnimatie = new Thread(speelveld.verplaatsen);
                 speelveld.schuifAnimatie.Start();
                 for (int i = 0; i < 5 * 50; i++)

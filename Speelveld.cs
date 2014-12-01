@@ -14,6 +14,7 @@ namespace CyberPesten
         public Menu menu;
         public Spel spel;
         public int muisX, delta, laagIndex, laagX, laagY, kaartBreedte, kaartHoogte, afstand;
+        public Kaart bewegendeKaart;
         
         public Thread schuifAnimatie;
         public bool muisLaag;
@@ -71,6 +72,11 @@ namespace CyberPesten
             for (int i = 1; i < spel.spelers.Count; i++)
             {
                 gr.DrawImage(spel.spelers[i].blok, 10 + (290 + 40) * (i - 1), 10);
+            }
+
+            if (bewegendeKaart != null)
+            {
+                gr.DrawImage(bewegendeKaart.voorkant, bewegendeKaart.X, bewegendeKaart.Y);
             }
 
             gr.DrawString(spel.status, new Font(FontFamily.GenericSansSerif, 14), Brushes.Black, new Point(40, 450));
@@ -209,22 +215,54 @@ namespace CyberPesten
             {
                 //het is iets ingewikkelder vanwege de afronding van int, waarschijnlijk is het beter om float te gebruiken
                 
-                //deltaX = verplaatsStap * (verplaatsPunt2.X - verplaatsPunt1.X) / stappen;
-                //deltaY = verplaatsStap * (verplaatsPunt2.Y - verplaatsPunt1.Y) / stappen;
-                //kaart.X = verplaatsPuntOud.X + deltaX;
-                //kaart.Y = verplaatsPuntOud.Y + deltaY;
+                deltaX = verplaatsStap * (verplaatsPunt2.X - verplaatsPunt1.X) / stappen;
+                deltaY = verplaatsStap * (verplaatsPunt2.Y - verplaatsPunt1.Y) / stappen;
+                kaart.X = verplaatsPuntOud.X + deltaX;
+                kaart.Y = verplaatsPuntOud.Y + deltaY;
                 
-                deltaX = (verplaatsPunt2.X - verplaatsPunt1.X) / stappen;
-                deltaY = (verplaatsPunt2.Y - verplaatsPunt1.Y) / stappen;
-                kaart.X += deltaX;
-                kaart.Y += deltaY;
+                //deltaX = (verplaatsPunt2.X - verplaatsPunt1.X) / stappen;
+                //deltaY = (verplaatsPunt2.Y - verplaatsPunt1.Y) / stappen;
+                //kaart.X += deltaX;
+                //kaart.Y += deltaY;
+
                 verplaatsStap++;
                 Invalidate();
-                Thread.Sleep(25);
+                Application.DoEvents();
+                Thread.Sleep(1);
             }
 
             verplaatsAnimatie = null;
         }
         */
+
+        public void verplaatsen2(Point p1, Point p2, int index)
+        {
+            int deltaX, deltaY, stappen, stap;
+            Point pOud;
+            stappen = 50;
+            stap = 0;
+            Kaart kaart = spel.spelers[spel.spelend].hand[index];
+            pOud = p1;
+
+            while (stap < stappen)
+            {
+                //het is iets ingewikkelder vanwege de afronding van int, waarschijnlijk is het beter om float te gebruiken
+
+                deltaX = stap * (p2.X - p1.X) / stappen;
+                deltaY = stap * (p2.Y - p1.Y) / stappen;
+                kaart.X = pOud.X + deltaX;
+                kaart.Y = pOud.Y + deltaY;
+
+                //deltaX = (verplaatsPunt2.X - verplaatsPunt1.X) / stappen;
+                //deltaY = (verplaatsPunt2.Y - verplaatsPunt1.Y) / stappen;
+                //kaart.X += deltaX;
+                //kaart.Y += deltaY;
+
+                stap++;
+                Invalidate();
+                Application.DoEvents();
+                Thread.Sleep(1);
+            }
+        }
     }
 }

@@ -91,7 +91,7 @@ namespace CyberPesten
 
         public void regelDraai()
         {
-            richting *= -1;
+            //richting *= -1;
         }
     }
 }
