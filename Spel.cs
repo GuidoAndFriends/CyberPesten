@@ -35,6 +35,7 @@ namespace CyberPesten
             if (speelbaar(k))
             {
                 /*
+                //Goede animatie:
                 Point p1;
                 if (spelend == 0)
                 {
@@ -45,9 +46,11 @@ namespace CyberPesten
                     p1 = new Point(10 + (290 + 40) * (spelend - 1) + 100, 10);
                 }
                 speelveld.bewegendeKaart = k;
-                speelveld.verplaatsen2(p1, new Point(350, 500), index);
+                speelveld.verplaatsen2(p1, new Point(350, 300), index);
                 */
+                
                 /*
+                //(nog) niet goede animatie
                 speelveld.schuifAnimatie = new Thread(speelveld.verplaatsen);
                 speelveld.schuifAnimatie.Start();
                 for (int i = 0; i < 5 * 50; i++)

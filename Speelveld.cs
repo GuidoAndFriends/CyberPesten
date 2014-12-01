@@ -239,7 +239,7 @@ namespace CyberPesten
         {
             int deltaX, deltaY, stappen, stap;
             Point pOud;
-            stappen = 50;
+            stappen = 20;
             stap = 0;
             Kaart kaart = spel.spelers[spel.spelend].hand[index];
             pOud = p1;
