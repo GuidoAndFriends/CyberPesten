@@ -9,7 +9,7 @@ using System.Windows.Forms;
 namespace CyberPesten
 {
     class Guido : AI
-    {
+    { //soort van nodig
         //voorbeeld AI
         public Guido(Spel s)
         {
