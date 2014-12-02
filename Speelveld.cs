@@ -34,6 +34,14 @@ namespace CyberPesten
             //Er zal vanalles over de helpknop heen getekend worden
              */
 
+            Button laatsteKaart = new Button();
+            laatsteKaart.Size = new Size(135, 90);
+            laatsteKaart.Location = new Point(865, 710);
+            laatsteKaart.Text = "Laatste kaart";
+            laatsteKaart.Font = new Font(FontFamily.GenericSansSerif, 20);
+            laatsteKaart.MouseClick += laatsteKaart_Click;
+            Controls.Add(laatsteKaart);
+
             Paint += teken;
             MouseClick += klik;
             MouseMove += beweeg;
@@ -61,6 +69,11 @@ namespace CyberPesten
             afstand = 10;
 
             this.Show();
+        }
+
+        private void laatsteKaart_Click(object sender, EventArgs e)
+        {
+            spel.laatsteKaart();
         }
 
         private void teken(object sender, PaintEventArgs pea)

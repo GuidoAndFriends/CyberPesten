@@ -16,6 +16,7 @@ namespace CyberPesten
         public Speelveld speelveld;
         public int spelend, richting, speciaal, pakAantal;
         public string status;
+        public bool laatsteKaartAangegeven = false;
 
         //public Spel(Speelveld s, int aantalSpelers)
         public Spel()
@@ -59,25 +60,59 @@ namespace CyberPesten
                     Thread.Sleep(5);
                 }
                 */
-
-                verplaatsKaart(hand, index, stapel);
-                if (spelend == 0)
+                if (hand.Count == 1)
                 {
-                    spelers[0].maakXY();
+                    if (laatsteKaartAangegeven)
+                    {
+                        verplaatsKaart(hand, index, stapel);
+                        if (spelend == 0)
+                        {
+                            spelers[0].maakXY();
+                        }
+                        else
+                        {
+                            status = "Speler " + spelend + " speelde " + k.tekst;
+                            speelveld.Invalidate();
+                        }
+                        kaartActie();
+                        eindeSpel();
+                        return true;
+                    }
+                    else
+                    {
+                        verplaatsKaart(hand, index, stapel);
+                        pakKaart(5);
+                        laatsteKaartAangegeven = false;
+                        return true;
+                    }
                 }
                 else
                 {
-                    status = "Speler " + spelend + " speelde " + k.tekst;
-                    speelveld.Invalidate();   
+                    verplaatsKaart(hand, index, stapel);
+                    if (spelend == 0)
+                    {
+                        spelers[0].maakXY();
+                    }
+                    else
+                    {
+                        status = "Speler " + spelend + " speelde " + k.tekst;
+                        speelveld.Invalidate();
+                    }
+                    kaartActie();
+                    laatsteKaartAangegeven = false;
+                    //volgende();
+                    return true;
                 }
-                kaartActie();
-                //volgende();
-                return true;
             }
             else
             {
                 return false;
             }
+        }
+
+        public void eindeSpel()
+        {
+            MessageBox.Show("Spel afgelopen");
         }
 
         public void pakKaart() //geeft de bovenste kaart van de pot aan degene die aan de beurt is, als er geen kaart gepakt kan worden, dan wordt de stapel de nieuwe pot. de bovenste kaart van de stapel blijft liggen.
@@ -154,6 +189,12 @@ namespace CyberPesten
             {
                 spelers[spelend].doeZet();
             }
+        }
+
+        public void laatsteKaart()
+        {
+            MessageBox.Show("Laatste kaart aangegeven");
+            laatsteKaartAangegeven = true;
         }
     }
 }
