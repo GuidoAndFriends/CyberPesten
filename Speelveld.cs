@@ -19,6 +19,8 @@ namespace CyberPesten
         public Thread schuifAnimatie;
         public bool muisLaag;
 
+        public Button laatsteKaart;
+
         
 
         public Speelveld(bool online, int aantalSpelers, Menu m)
@@ -38,10 +40,11 @@ namespace CyberPesten
             //Er zal vanalles over de helpknop heen getekend worden
              */
 
-            Button laatsteKaart = new Button();
+            laatsteKaart = new Button();
             laatsteKaart.Size = new Size(135, 90);
             laatsteKaart.Location = new Point(865, 710);
             laatsteKaart.Text = "Laatste kaart";
+            laatsteKaart.BackColor = Color.Red;
             laatsteKaart.Font = new Font(FontFamily.GenericSansSerif, 20);
             laatsteKaart.MouseClick += laatsteKaart_Click;
             Controls.Add(laatsteKaart);

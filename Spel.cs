@@ -190,9 +190,11 @@ namespace CyberPesten
                 spelers[spelend].doeZet();
             }
         }
+        
 
         public void laatsteKaart()
         {
+            speelveld.laatsteKaart.BackColor = Color.Green;
             MessageBox.Show("Laatste kaart aangegeven");
             laatsteKaartAangegeven = true;
         }
