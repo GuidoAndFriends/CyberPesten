@@ -80,7 +80,7 @@ namespace CyberPesten
 
         private void laatsteKaart_Click(object sender, EventArgs e)
         {
-            spel.laatsteKaart();
+            spel.laatsteKaart(1);
         }
 
         private void teken(object sender, PaintEventArgs pea)

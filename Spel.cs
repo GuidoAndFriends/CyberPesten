@@ -82,7 +82,7 @@ namespace CyberPesten
                     {
                         verplaatsKaart(hand, index, stapel);
                         pakKaart(5);
-                        laatsteKaartAangegeven = false;
+                        laatsteKaart(0);
                         return true;
                     }
                 }
@@ -99,7 +99,7 @@ namespace CyberPesten
                         speelveld.Invalidate();
                     }
                     kaartActie();
-                    laatsteKaartAangegeven = false;
+                    laatsteKaart(0);
                     //volgende();
                     return true;
                 }
@@ -192,11 +192,19 @@ namespace CyberPesten
         }
         
 
-        public void laatsteKaart()
+        public void laatsteKaart(int sender)
         {
-            speelveld.laatsteKaart.BackColor = Color.Green;
-            MessageBox.Show("Laatste kaart aangegeven");
-            laatsteKaartAangegeven = true;
+            if (sender == 1)
+            {
+                speelveld.laatsteKaart.BackColor = Color.Green;
+                MessageBox.Show("Laatste kaart aangegeven");
+                laatsteKaartAangegeven = true;
+            }
+            else
+            {
+                laatsteKaartAangegeven = false;
+                speelveld.laatsteKaart.BackColor = Color.Red;
+           }
         }
     }
 }
