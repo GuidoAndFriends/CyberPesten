@@ -60,6 +60,9 @@
     <Compile Include="Menu.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Online.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="OnlineSpel.cs" />
     <Compile Include="Programma.cs" />
     <Compile Include="Properties\Resources.Designer.cs">

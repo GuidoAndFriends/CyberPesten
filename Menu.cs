@@ -10,7 +10,7 @@ namespace CyberPesten
 {
     class Menu : Form
     {
-        private Speelveld veld;
+        private Form veld;
         private NumericUpDown aantal;
 
         public Menu()
@@ -50,17 +50,32 @@ namespace CyberPesten
             help.Font = new Font(FontFamily.GenericSansSerif, 20);
             help.MouseClick += helpKlik;
             Controls.Add(help);
+
+            this.FormClosed += Menu_FormClosed;
+        }
+
+        void Menu_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Application.Exit();
         }
 
         private void lokaalKlik(object sender, MouseEventArgs mea)
         {
             veld = new Speelveld(false, (int)aantal.Value, this);
+            veld.FormClosed += veld_FormClosed;
             this.Hide();
+        }
+
+        void veld_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            veld.Dispose();
+            this.Show();
         }
 
         private void onlineKlik(object sender, MouseEventArgs mea)
         {
-            //veld = new Speelveld(true, aantal.Value, this);
+            veld = new inlogScherm();
+            veld.FormClosed += veld_FormClosed;
             this.Hide();
         }
 

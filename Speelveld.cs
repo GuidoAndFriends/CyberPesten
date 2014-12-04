@@ -42,7 +42,6 @@ namespace CyberPesten
             MouseLeave += muisWeg;
             MouseEnter += muisTerug;
             Scroll += scroll;
-            FormClosed += afgesloten;
 
             if (online)
             {
@@ -273,11 +272,6 @@ namespace CyberPesten
                 Application.DoEvents();
                 Thread.Sleep(1);
             }
-        }
-
-        private void afgesloten(object sender, EventArgs ea)
-        {
-            Application.Exit();
         }
     }
 }
