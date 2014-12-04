@@ -19,12 +19,18 @@ namespace CyberPesten
         public Thread schuifAnimatie;
         public bool muisLaag;
 
+        public Button laatsteKaart;
+
         
 
         public Speelveld(bool online, int aantalSpelers, Menu m)
-        {           
+        {
+            menu = m;
+
             BackgroundImage = (Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("groen");
-            ClientSize = new Size(1000, 800);
+            Size = menu.Size;
+            FormBorderStyle = FormBorderStyle.None;
+            WindowState = FormWindowState.Maximized;
             DoubleBuffered = true;
 
             /*
@@ -33,6 +39,15 @@ namespace CyberPesten
             Controls.Add(help);
             //Er zal vanalles over de helpknop heen getekend worden
              */
+
+            laatsteKaart = new Button();
+            laatsteKaart.Size = new Size(135, 90);
+            laatsteKaart.Location = new Point(865, 710);
+            laatsteKaart.Text = "Laatste kaart";
+            laatsteKaart.BackColor = Color.Red;
+            laatsteKaart.Font = new Font(FontFamily.GenericSansSerif, 20);
+            laatsteKaart.MouseClick += laatsteKaart_Click;
+            Controls.Add(laatsteKaart);
 
             Paint += teken;
             MouseClick += klik;
@@ -53,13 +68,18 @@ namespace CyberPesten
                 Text = "CyberPesten: Lokaal spel";
                 spel = new LokaalSpel(this, aantalSpelers);
             }
-            menu = m;
+            
             muisLaag = false;
             kaartBreedte = 90;
             kaartHoogte = 135;
             afstand = 10;
 
             this.Show();
+        }
+
+        private void laatsteKaart_Click(object sender, EventArgs e)
+        {
+            spel.laatsteKaart(1);
         }
 
         private void teken(object sender, PaintEventArgs pea)

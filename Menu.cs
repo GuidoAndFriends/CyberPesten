@@ -17,7 +17,10 @@ namespace CyberPesten
         {
             Text = "CyberPesten: Menu";
             BackgroundImage = (Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("groen");
-            ClientSize = new Size(1000, 800);
+            Rectangle maat = System.Windows.Forms.Screen.PrimaryScreen.Bounds;
+            Size = new Size(maat.X, maat.Y);
+            FormBorderStyle = FormBorderStyle.None;
+            WindowState = FormWindowState.Maximized;
 
             //Knoppen er uit gaan laten zien als kaarten?
 
