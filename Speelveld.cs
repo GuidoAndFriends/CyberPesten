@@ -22,9 +22,13 @@ namespace CyberPesten
         
 
         public Speelveld(bool online, int aantalSpelers, Menu m)
-        {           
+        {
+            menu = m;
+
             BackgroundImage = (Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("groen");
-            ClientSize = new Size(1000, 800);
+            Size = menu.Size;
+            FormBorderStyle = FormBorderStyle.None;
+            WindowState = FormWindowState.Maximized;
             DoubleBuffered = true;
 
             /*
@@ -62,7 +66,7 @@ namespace CyberPesten
                 Text = "CyberPesten: Lokaal spel";
                 spel = new LokaalSpel(this, aantalSpelers);
             }
-            menu = m;
+            
             muisLaag = false;
             kaartBreedte = 90;
             kaartHoogte = 135;
