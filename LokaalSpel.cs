@@ -39,6 +39,10 @@ namespace CyberPesten
                     pot.Add(new Kaart(j,k));
                     }
                 }
+                for (int j = 0; j < 2; j++)
+                {
+                    pot.Add(new Kaart(4));
+                }
             }
             pot = schud(pot);
 
