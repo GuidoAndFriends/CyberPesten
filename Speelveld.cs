@@ -26,6 +26,10 @@ namespace CyberPesten
         public Speelveld(bool online, int aantalSpelers, Menu m)
         {
             menu = m;
+            muisLaag = false;
+            kaartBreedte = 90;
+            kaartHoogte = 135;
+            afstand = 10;
 
             BackgroundImage = (Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("groen");
             Size = menu.Size;
@@ -42,9 +46,9 @@ namespace CyberPesten
 
             laatsteKaart = new Button();
             laatsteKaart.Size = new Size(135, 90);
-            laatsteKaart.Location = new Point(865, 710);
+            laatsteKaart.Location = new Point(Width / 2 + 500, Height / 2 - kaartBreedte / 2);
             laatsteKaart.Text = "Laatste kaart";
-            laatsteKaart.BackColor = Color.Red;
+            laatsteKaart.BackColor = Color.OrangeRed;
             laatsteKaart.Font = new Font(FontFamily.GenericSansSerif, 20);
             laatsteKaart.MouseClick += laatsteKaart_Click;
             Controls.Add(laatsteKaart);
@@ -70,10 +74,7 @@ namespace CyberPesten
                 spel = new LokaalSpel(this, aantalSpelers);
             }
             
-            muisLaag = false;
-            kaartBreedte = 90;
-            kaartHoogte = 135;
-            afstand = 10;
+            
 
             this.Show();
         }
@@ -90,18 +91,21 @@ namespace CyberPesten
             //gr.FillRectangle(Brushes.DarkGreen, 0, 0, Width, Height);
 
             Bitmap plaatje = spel.stapel[spel.stapel.Count - 1].voorkant;
-            gr.DrawImage(plaatje, 350, 300);
+            gr.DrawImage(plaatje, Width / 2 - 50 - kaartBreedte, Height / 2 - kaartHoogte / 2);
             plaatje = spel.pot[spel.pot.Count - 1].achterkant;
-            gr.DrawImage(plaatje, 550, 300);
+            gr.DrawImage(plaatje, Width / 2 + 50, Height / 2 - kaartHoogte / 2);
 
             foreach (Kaart kaart in spel.spelers[0].hand)
             {
                 gr.DrawImage(kaart.voorkant, kaart.X, kaart.Y);
             }
 
+            int breedte = (spel.spelers.Count - 1) * (290 + 40);
+            int over = (breedte - 20) / (spel.spelers.Count - 2);
+
             for (int i = 1; i < spel.spelers.Count; i++)
             {
-                gr.DrawImage(spel.spelers[i].blok, 10 + (290 + 40) * (i - 1), 10);
+                gr.DrawImage(spel.spelers[i].blok, 10 + (290 + over) * (i - 1), 10);
             }
 
             if (bewegendeKaart != null)

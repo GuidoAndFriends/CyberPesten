@@ -17,12 +17,12 @@ namespace CyberPesten
         public override void maakXY()
         {
             int breedte = hand.Count * (90 + 10) - 10;
-            int basis = 1000 / 2 - breedte / 2;
+            int basis = 1920 / 2 - breedte / 2;
             int index = 0;
             foreach (Kaart kaart in hand)
             {
                 kaart.X = basis + index * (90 + 10);
-                kaart.Y = 500;
+                kaart.Y = 1080 - 135 - 10;
                 index++;
             }
         }
