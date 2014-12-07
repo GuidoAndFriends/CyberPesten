@@ -113,6 +113,12 @@ namespace CyberPesten
             }
             pot = schud(pot);
 
+            foreach(Kaart kaart in pot)
+            {
+                Controls.Add(kaart);
+            }
+
+
             //Kaarten delen
             for (int i = 0; i < startkaarten; i++)
             {

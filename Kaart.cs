@@ -17,6 +17,8 @@ namespace CyberPesten
         public Kaart(int k, int w)//maakt een nieuwe kaart, bij een ongeldige waarde wordt er een ArgumentOutOfRangeException gegooid
         {
             Location = new Point(0, 600);
+            Size = new Size(90, 135);
+            Image = achterkant;
             if (k > -1 && k < 5 && w > 0 && w < 14)
             {
                 kleur = k;
