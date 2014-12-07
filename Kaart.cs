@@ -145,25 +145,39 @@ namespace CyberPesten
                 }
                 Graphics gr = Graphics.FromImage(b);
                 gr.FillRectangle(Brushes.White, 0, 0, b.Width, b.Height);
-                string beeld;
-                switch (waarde)
+                
+
+                if (kleur == 4)
                 {
-                    case 1: beeld = "A"; break;
-                    case 11: beeld = "J"; break;
-                    case 12: beeld = "Q"; break;
-                    case 13: beeld = "K"; break;
-                    default: beeld = waarde.ToString(); break;
+                    gr.DrawString("¥", new Font(FontFamily.GenericSansSerif, 14), kwast, new Point(10, 10));
                 }
-                gr.DrawString(beeld, new Font(FontFamily.GenericSansSerif, 14), kwast, new Point(10, 10));
-                switch (kleur)
+                else
                 {
-                    case 0: beeld = "♥"; break;
-                    case 1: beeld = "♣"; break;
-                    case 2: beeld = "♦"; break;
-                    case 3: beeld = "♠"; break;
-                    case 4: beeld = "\u1F0CF"; break;
+                    string beeld;
+                    switch (waarde)
+                    {
+                        case 1: beeld = "A"; break;
+                        case 11: beeld = "J"; break;
+                        case 12: beeld = "Q"; break;
+                        case 13: beeld = "K"; break;
+                        default: beeld = waarde.ToString(); break;
+                    }
+                    gr.DrawString(beeld, new Font(FontFamily.GenericSansSerif, 14), kwast, new Point(10, 10));
+
+                    switch (kleur)
+                    {
+                        case 0: beeld = "♥"; break;
+                        case 1: beeld = "♣"; break;
+                        case 2: beeld = "♦"; break;
+                        case 3: beeld = "♠"; break;
+                    }
+                    gr.DrawString(beeld, new Font(FontFamily.GenericSansSerif, 14), kwast, new Point(10, 40));                  
                 }
-                gr.DrawString(beeld, new Font(FontFamily.GenericSansSerif, 14), kwast, new Point(10, 40));
+                
+
+
+                
+
                 return b;
             }
         }
