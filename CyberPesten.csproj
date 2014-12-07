@@ -83,7 +83,13 @@
   <ItemGroup>
     <Resource Include="Resources\groen.png" />
     <Content Include="Resources\harten.png" />
+    <None Include="Resources\Help.png" />
     <Content Include="Resources\klavers.png" />
+    <None Include="Resources\Menu achtergrond.png" />
+    <None Include="Resources\Menu logo.png" />
+    <None Include="Resources\Lokaal.png" />
+    <None Include="Resources\Online.png" />
+    <None Include="Resources\Players.png" />
     <Content Include="Resources\ruiten.png" />
     <Content Include="Resources\schoppen.png" />
   </ItemGroup>
