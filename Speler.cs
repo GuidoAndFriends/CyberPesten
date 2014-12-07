@@ -7,7 +7,7 @@ using System.Drawing;
 
 namespace CyberPesten
 {
-    abstract class Speler
+    public abstract class Speler
     {
         public List<Kaart> hand;
         public string naam;

@@ -13,12 +13,11 @@ namespace CyberPesten
         private int kleur; //integere getal van de kleur, 0 = harten, 1 = klaver, 2 = ruiten, 3= schoppen (alfabetische volgorde) en 4 = joker (kleurloos)
         private int waarde; //waarde van de kaart, 0 doet niet mee, 1 is een aas, 2-10 komen overeen met de nummers zelf, 11 boer, 12 vrouw, 13 heer.
         public Bitmap voorkant, achterkant;
+        public LokaalSpel spel;
 
-        public Kaart(int k, int w)//maakt een nieuwe kaart, bij een ongeldige waarde wordt er een ArgumentOutOfRangeException gegooid
+        public Kaart(int k, int w, LokaalSpel s)//maakt een nieuwe kaart, bij een ongeldige waarde wordt er een ArgumentOutOfRangeException gegooid
+        //public Kaart(int k, int w)//maakt een nieuwe kaart, bij een ongeldige waarde wordt er een ArgumentOutOfRangeException gegooid
         {
-            Location = new Point(0, 600);
-            Size = new Size(90, 135);
-            Image = achterkant;
             if (k > -1 && k < 5 && w > 0 && w < 14)
             {
                 kleur = k;
@@ -30,7 +29,11 @@ namespace CyberPesten
             {
                 throw new ArgumentOutOfRangeException("Kaart: argument out of range. k was: " + k + " and w was: " + w + ".");
             }
-            
+            Location = new Point(0, 600);
+            Size = new Size(90, 135);
+            Image = voor();
+            spel = s;
+            Click += klik;
         }
 
         public Kaart(int k)//maakt een nieuwe joker
@@ -202,6 +205,23 @@ namespace CyberPesten
             {
                 Location = new Point(Location.X, value);
             }
+        }
+
+        private void klik(object sender, EventArgs ea)
+        {
+            MessageBox.Show("Geklikt");
+            if (spel.spelend == 0)
+            {
+                MessageBox.Show("Spelend");
+                MessageBox.Show(spel.spelers[0].hand.IndexOf(this) + ".");
+                if (spel.speelKaart(spel.spelers[0].hand.IndexOf(this)))
+                {
+                    MessageBox.Show("Goed");
+                    //Invalidate();
+                    return;
+                }
+            }
+                    
         }
     }
 }

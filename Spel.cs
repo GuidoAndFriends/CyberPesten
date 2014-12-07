@@ -9,7 +9,7 @@ using System.Threading;
 
 namespace CyberPesten
 {
-    partial class LokaalSpel : Form
+    public partial class LokaalSpel : Form
     {
         public bool speelKaart(Kaart kaart)
         {
@@ -22,7 +22,7 @@ namespace CyberPesten
             Kaart k = hand[index];
             if (speelbaar(k))
             {
-                
+                MessageBox.Show("asdfasdf");
                 //Goede animatie:
                 Point p1;
                 if (spelend == 0)
@@ -34,7 +34,7 @@ namespace CyberPesten
                     p1 = new Point(10 + (290 + 40) * (spelend - 1) + 100, 10);
                 }
                 bewegendeKaart = k;
-                verplaatsen2(p1, new Point(350, 300), index);
+                //verplaatsen2(p1, new Point(350, 300), index);
                 
                 
                 /*

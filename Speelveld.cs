@@ -7,9 +7,18 @@ using System.Windows.Forms;
 using System.Drawing;
 using System.Threading;
 
+//vanasf
+//using System;
+using System.ComponentModel;
+//using System.Windows.Forms;
+using System.Runtime.InteropServices;
+//asfvan
+
+
+
 namespace CyberPesten
 {
-    partial class LokaalSpel : Form
+    public partial class LokaalSpel : Form
     {
         public Menu menu;
         public int muisX, delta, laagIndex, laagX, laagY, kaartBreedte, kaartHoogte, afstand;
@@ -17,8 +26,8 @@ namespace CyberPesten
         public Thread schuifAnimatie;
         public bool muisLaag;
         public Button laatsteKaartKnop;
-        Graphics gr;
-        Bitmap achtergrond;
+        //Graphics gr;
+        public Bitmap achtergrond;
 
         public List<Kaart> pot, stapel;
         public List<Speler> spelers;
@@ -103,7 +112,8 @@ namespace CyberPesten
                 {
                     for (int k = 1; k < 14; k++)
                     {
-                        pot.Add(new Kaart(j, k));
+                        //pot.Add(new Kaart(j, k));
+                        pot.Add(new Kaart(j, k, this));
                     }
                 }
                 for (int j = 0; j < 2; j++)
@@ -115,6 +125,7 @@ namespace CyberPesten
 
             foreach(Kaart kaart in pot)
             {
+                //kaart.spel2 = this;
                 Controls.Add(kaart);
             }
 
@@ -130,6 +141,7 @@ namespace CyberPesten
 
             spelers[0].maakXY();
             verplaatsKaart(pot, 0, stapel);
+            pot[0].Location = new Point(550, 300);
             Invalidate();
 
             this.Show();
@@ -141,12 +153,15 @@ namespace CyberPesten
             laatsteKaart(1);
         }
 
+        /*
         private void tekenHandler(object sender, PaintEventArgs pea)
         {
             gr = pea.Graphics; //!!!
-            teken();
+            //teken();
         }
+         * */
 
+        /*
         private void teken()
         {
             //if ( spelend != -1)
@@ -175,11 +190,13 @@ namespace CyberPesten
 
             gr.DrawString(status, new Font(FontFamily.GenericSansSerif, 14), Brushes.Black, new Point(40, 450));
         }
-
+        */
+        
         private void klik(object sender, MouseEventArgs mea)
         {
             if (spelend == 0)
             {
+                /*
                 if (mea.X >= 550 && mea.X <= 550 + kaartBreedte && mea.Y >= 300 && mea.Y <= 300 + kaartHoogte)
                 {
                     pakKaart();
@@ -189,15 +206,18 @@ namespace CyberPesten
                 }
                 foreach (Kaart kaart in spelers[0].hand)
                 {
-                    if (mea.X >= kaart.X && mea.X <= kaart.X + kaartBreedte && mea.Y >= kaart.Y && mea.Y <= kaart.Y + kaartHoogte)
+                    if (mea.X >= kaart.X && mea.X <= kaart.X + kaart.Width && mea.Y >= kaart.Y && mea.Y <= kaart.Y + kaart.Height)
                     {
+                        MessageBox.Show("Er is op een kaart geklikt");
                         if (speelKaart(spelers[0].hand.IndexOf(kaart)))
                         {
-                            Invalidate();
+                            //Invalidate();
                             return;
                         } 
                     }
                 }
+                 */
+                speelKaart(spelers[0].hand[1]);
             } 
         }
 
@@ -331,6 +351,7 @@ namespace CyberPesten
 
         public void verplaatsen2(Point p1, Point p2, int index)
         {
+            //MessageBox.Show("Begin");
             //int stappen, stap;
             //float deltaX, deltaY;
             int deltaX, deltaY, stappen, stap;
@@ -355,17 +376,53 @@ namespace CyberPesten
                 //kaart.Y = (int)(kaart.Y + deltaY);
 
                 stap++;
-                teken();
+                //teken();
                 //Invalidate();
                 //Application.DoEvents();
-                Thread.Sleep(1);
+                Thread.Sleep(20);
             }
 
         }
+
+        public void verplaatsen3(Point p1, Point p2, int index)
+        {
+
+        }
+
 
         private void afgesloten(object sender, EventArgs ea)
         {
             Application.Exit();
         }
+    }
+
+    //van http://stackoverflow.com/questions/6102241/how-can-i-add-moving-effects-to-my-controls-in-c
+
+   
+
+    public static class Util
+    {
+        public enum Effect { Roll, Slide, Center, Blend }
+
+        public static void Animate(Control ctl, Effect effect, int msec, int angle)
+        {
+            int flags = effmap[(int)effect];
+            if (ctl.Visible) { flags |= 0x10000; angle += 180; }
+            else
+            {
+                if (ctl.TopLevelControl == ctl) flags |= 0x20000;
+                else if (effect == Effect.Blend) throw new ArgumentException();
+            }
+            flags |= dirmap[(angle % 360) / 45];
+            bool ok = AnimateWindow(ctl.Handle, msec, flags);
+            if (!ok) throw new Exception("Animation failed");
+            ctl.Visible = !ctl.Visible;
+        }
+
+        private static int[] dirmap = { 1, 5, 4, 6, 2, 10, 8, 9 };
+        private static int[] effmap = { 0, 0x40000, 0x10, 0x80000 };
+
+        [DllImport("user32.dll")]
+        private static extern bool AnimateWindow(IntPtr handle, int msec, int flags);
     }
 }

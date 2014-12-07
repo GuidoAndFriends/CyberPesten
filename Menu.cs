@@ -8,7 +8,7 @@ using System.Drawing;
 
 namespace CyberPesten
 {
-    class Menu : Form
+    public class Menu : Form
     {
         private NumericUpDown aantal;
 
