@@ -4,28 +4,31 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
+using System.Windows.Forms;
 
 namespace CyberPesten
 {
-    public class Kaart
+    public class Kaart : PictureBox
     {
         private int kleur; //integere getal van de kleur, 0 = harten, 1 = klaver, 2 = ruiten, 3= schoppen (alfabetische volgorde) en 4 = joker (kleurloos)
         private int waarde; //waarde van de kaart, 0 doet niet mee, 1 is een aas, 2-10 komen overeen met de nummers zelf, 11 boer, 12 vrouw, 13 heer.
-        public int X, Y;
+        public Bitmap voorkant, achterkant;
 
         public Kaart(int k, int w)//maakt een nieuwe kaart, bij een ongeldige waarde wordt er een ArgumentOutOfRangeException gegooid
         {
-            X = 0;
-            Y = 600;
+            Location = new Point(0, 600);
             if (k > -1 && k < 5 && w > 0 && w < 14)
             {
                 kleur = k;
                 waarde = w;
+                voorkant = voor();
+                achterkant = achter();
             }
-            else //test van kaj
+            else
             {
                 throw new ArgumentOutOfRangeException("Kaart: argument out of range. k was: " + k + " and w was: " + w + ".");
             }
+            
         }
 
         public Kaart(int k)//maakt een nieuwe joker
@@ -34,11 +37,57 @@ namespace CyberPesten
             {
                 kleur = 4;
                 waarde = 0;
+                voorkant = voor();
+                achterkant = achter();
             }
             else
             {
                 throw new ArgumentException("Ongeldige waarde, deze methode accepteerd alleen maar 4 als parameter");
             }
+        }
+
+        public Bitmap voor()
+        {
+            Bitmap b = new Bitmap(90, 135);
+            Brush kwast;
+            if (this.kleur % 2 == 0)
+            {
+                kwast = Brushes.Red;
+            }
+            else
+            {
+                kwast = Brushes.Black;
+            }
+            Graphics gr = Graphics.FromImage(b);
+            gr.FillRectangle(Brushes.White, 0, 0, b.Width, b.Height);
+            string beeld;
+            switch (waarde)
+            {
+                case 1: beeld = "A"; break;
+                case 11: beeld = "J"; break;
+                case 12: beeld = "Q"; break;
+                case 13: beeld = "K"; break;
+                default: beeld = waarde.ToString(); break;
+            }
+            gr.DrawString(beeld, new Font(FontFamily.GenericSansSerif, 14), kwast, new Point(10, 10));
+            switch (kleur)
+            {
+                case 0: beeld = "♥"; break;
+                case 1: beeld = "♣"; break;
+                case 2: beeld = "♦"; break;
+                case 3: beeld = "♠"; break;
+                case 4: beeld = "\u1F0CF"; break;
+            }
+            gr.DrawString(beeld, new Font(FontFamily.GenericSansSerif, 14), kwast, new Point(10, 40));
+            return b;
+        }
+
+        public Bitmap achter()
+        {
+            Bitmap b = new Bitmap(90, 135);
+            Graphics gr = Graphics.FromImage(b);
+            gr.FillRectangle(Brushes.Red, 0, 0, b.Width, b.Height);
+            return b;
         }
 
         public int Kleur //maak of verkrijgt de kleur van een kaart, bij een ongeldige waarde wordt er een ArgumentOutOfRangeException gegooid
@@ -129,53 +178,27 @@ namespace CyberPesten
             }
         }
 
-        public Bitmap voorkant
+        public int X
         {
             get
             {
-                Bitmap b = new Bitmap(90, 135);
-                Brush kwast;
-                if (this.kleur % 2 == 0)
-                {
-                    kwast = Brushes.Red;
-                }
-                else
-                {
-                    kwast = Brushes.Black;
-                }
-                Graphics gr = Graphics.FromImage(b);
-                gr.FillRectangle(Brushes.White, 0, 0, b.Width, b.Height);
-                string beeld;
-                switch (waarde)
-                {
-                    case 1: beeld = "A"; break;
-                    case 11: beeld = "J"; break;
-                    case 12: beeld = "Q"; break;
-                    case 13: beeld = "K"; break;
-                    default: beeld = waarde.ToString(); break;
-                }
-                gr.DrawString(beeld, new Font(FontFamily.GenericSansSerif, 14), kwast, new Point(10, 10));
-                switch (kleur)
-                {
-                    case 0: beeld = "♥"; break;
-                    case 1: beeld = "♣"; break;
-                    case 2: beeld = "♦"; break;
-                    case 3: beeld = "♠"; break;
-                    case 4: beeld = "\u1F0CF"; break;
-                }
-                gr.DrawString(beeld, new Font(FontFamily.GenericSansSerif, 14), kwast, new Point(10, 40));
-                return b;
+                return Location.X;
+            }
+            set
+            {
+                Location = new Point(value, Location.X);
             }
         }
 
-        public Bitmap achterkant
+        public int Y
         {
             get
             {
-                Bitmap b = new Bitmap(90, 135);
-                Graphics gr = Graphics.FromImage(b);
-                gr.FillRectangle(Brushes.Red, 0, 0, b.Width, b.Height);
-                return b;
+                return Location.Y;
+            }
+            set
+            {
+                Location = new Point(Location.X, value);
             }
         }
     }

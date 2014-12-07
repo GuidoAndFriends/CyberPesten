@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace CyberPesten
 {
-    partial class Spel
+    partial class LokaalSpel : Form
     {
         public bool speelbaar(Kaart kaart)
         {
@@ -69,7 +70,9 @@ namespace CyberPesten
         public void regelPakken(int aantal)
         {
             pakAantal += aantal;
-            speciaal = 4;
+            //De volgende regel is uitgeschakeld om ononderbroken testen mogelijk te maken totdat het gedrag van 2 en joker goed is
+            //speciaal = 4;
+            speciaal = -1;
         }
 
         public void regelKleven()

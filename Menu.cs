@@ -10,7 +10,6 @@ namespace CyberPesten
 {
     class Menu : Form
     {
-        private Speelveld veld;
         private NumericUpDown aantal;
 
         public Menu()
@@ -57,7 +56,7 @@ namespace CyberPesten
 
         private void lokaalKlik(object sender, MouseEventArgs mea)
         {
-            veld = new Speelveld(false, (int)aantal.Value, this);
+            new LokaalSpel(false, (int)aantal.Value, this);
             this.Hide();
         }
 

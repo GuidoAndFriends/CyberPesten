@@ -9,21 +9,8 @@ using System.Threading;
 
 namespace CyberPesten
 {
-    partial class Spel
+    partial class LokaalSpel : Form
     {
-        public List<Kaart> pot, stapel;
-        public List<Speler> spelers;
-        public Speelveld speelveld;
-        public int spelend, richting, speciaal, pakAantal;
-        public string status;
-        public bool laatsteKaartAangegeven = false;
-
-        //public Spel(Speelveld s, int aantalSpelers)
-        public Spel()
-        {
-
-        }
-
         public bool speelKaart(Kaart kaart)
         {
             return speelKaart(spelers[spelend].hand.IndexOf(kaart));
@@ -35,7 +22,7 @@ namespace CyberPesten
             Kaart k = hand[index];
             if (speelbaar(k))
             {
-                /*
+                
                 //Goede animatie:
                 Point p1;
                 if (spelend == 0)
@@ -46,20 +33,21 @@ namespace CyberPesten
                 {
                     p1 = new Point(10 + (290 + 40) * (spelend - 1) + 100, 10);
                 }
-                speelveld.bewegendeKaart = k;
-                speelveld.verplaatsen2(p1, new Point(350, 300), index);
-                */
+                bewegendeKaart = k;
+                verplaatsen2(p1, new Point(350, 300), index);
+                
                 
                 /*
                 //(nog) niet goede animatie
-                speelveld.schuifAnimatie = new Thread(speelveld.verplaatsen);
-                speelveld.schuifAnimatie.Start();
+                .schuifAnimatie = new Thread(.verplaatsen);
+                .schuifAnimatie.Start();
                 for (int i = 0; i < 5 * 50; i++)
                 {
                     Application.DoEvents();
                     Thread.Sleep(5);
                 }
                 */
+
                 if (hand.Count == 1)
                 {
                     if (laatsteKaartAangegeven)
@@ -72,7 +60,7 @@ namespace CyberPesten
                         else
                         {
                             status = "Speler " + spelend + " speelde " + k.tekst;
-                            speelveld.Invalidate();
+                            Invalidate();
                         }
                         kaartActie();
                         eindeSpel();
@@ -96,7 +84,7 @@ namespace CyberPesten
                     else
                     {
                         status = "Speler " + spelend + " speelde " + k.tekst;
-                        speelveld.Invalidate();
+                        Invalidate();
                     }
                     kaartActie();
                     laatsteKaart(0);
@@ -139,7 +127,7 @@ namespace CyberPesten
             {
                 status = ("Speler " + spelend + " kon niet en heeft een kaart gepakt");
             }
-            speelveld.Invalidate();
+            Invalidate();
         }
 
         public void pakKaart(int aantal)
@@ -191,19 +179,18 @@ namespace CyberPesten
             }
         }
         
-
         public void laatsteKaart(int sender)
         {
             if (sender == 1)
             {
-                speelveld.laatsteKaart.BackColor = Color.Green;
+                laatsteKaartKnop.BackColor = Color.Green;
                 MessageBox.Show("Laatste kaart aangegeven");
                 laatsteKaartAangegeven = true;
             }
             else
             {
                 laatsteKaartAangegeven = false;
-                speelveld.laatsteKaart.BackColor = Color.Red;
+                laatsteKaartKnop.BackColor = Color.Red;
            }
         }
     }

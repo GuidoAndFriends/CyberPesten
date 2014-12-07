@@ -12,7 +12,7 @@ namespace CyberPesten
         public List<Kaart> hand;
         public string naam;
         public bool gemeld;
-        public Spel spel;
+        public LokaalSpel spel;
 
         public abstract void maakXY();
 

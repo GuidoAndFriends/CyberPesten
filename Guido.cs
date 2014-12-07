@@ -11,7 +11,7 @@ namespace CyberPesten
     class Guido : AI
     {
         //voorbeeld AI
-        public Guido(Spel s)
+        public Guido(LokaalSpel s)
         {
             hand = new List<Kaart>();
             spel = s;
