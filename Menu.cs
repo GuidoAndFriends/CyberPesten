@@ -73,6 +73,9 @@ namespace CyberPesten
         {
             veld.Dispose();
             this.Show();
+
+            //DEBUG:
+            Application.Exit();
         }
 
         private void onlineKlik(object sender, MouseEventArgs mea)
