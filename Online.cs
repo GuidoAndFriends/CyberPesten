@@ -19,6 +19,7 @@ namespace CyberPesten
         Label berichtHouder = new Label();
         TextBox maakAccountTextbox1 = new TextBox();
         TextBox maakAccountTextbox2 = new TextBox();
+        Label maakAccountLabel1 = new Label();
         string CP;
         public inlogScherm()
         {
@@ -28,7 +29,7 @@ namespace CyberPesten
             CP = Path.Combine(GNF, "Cyperpesten");
             if (!Directory.Exists(CP)) { Directory.CreateDirectory(CP); }
             BackgroundImage = (Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("groen");
-            ClientSize = new Size(1000, 800);//Ja we gebruiken nog een kleine versie omdat redenen, en ik ben moe -Guido
+            ClientSize = new Size(1000, 800);//moet nog naar fullscreen
             DoubleBuffered = true;
             string inlogPath = Path.Combine(CP,"inlogData.cyberpesten");
             if(File.Exists(inlogPath)){//misschien een knop om van account te wisselen
@@ -52,7 +53,6 @@ namespace CyberPesten
                 a.Height = 4000;
                 a.Visible = true;
 
-                Label maakAccountLabel1 = new Label();
                 maakAccountLabel1.Font = new Font("Arial", 15);
                 maakAccountLabel1.Top = 85;
                 maakAccountLabel1.Left = 30;
@@ -117,8 +117,8 @@ namespace CyberPesten
                 maakAccountKnop.Left = 30;
                 maakAccountKnop.Parent = a;
                 maakAccountKnop.Click += maakAccountKnop_Click;
-
-                Controls.Add(a);
+                //int.Parse("assda");
+                //Controls.Add(a);
                 Controls.Add(maakAccountKnop);
                 Controls.Add(maakAccountTextbox2);
                 Controls.Add(maakAccountLabel3);
@@ -161,11 +161,11 @@ namespace CyberPesten
                         string str12 = PHPrequest("http://harbingerofme.info/GnF/login.php", str1, str2);//we sturen wat data meer, maar dat maakt niet uit
                         if (str12 == "ja")
                         {
-                            berichtHouder.Text = str2[0] + ", je account is aangemaakt, en je bent alvast ingelogd";
+                            maakAccountLabel1.Text = str2[0] + ", je account is aangemaakt, en je bent alvast ingelogd";
                         }
                         else
                         {
-                            berichtHouder.Text = str2[0] + ", je account is aangemaakt, maar er is iets mis gegaan bij het inloggen. Contacteer ons gelijk.";//Dit zou niet moeten kunnen gebeuren.
+                            maakAccountLabel1.Text = str2[0] + ", je account is aangemaakt, maar er is iets mis gegaan bij het inloggen. Contacteer ons gelijk.";//Dit zou niet moeten kunnen gebeuren.
                         }
                     }
                     else//fout in het opslaan van de gegevens
@@ -178,15 +178,15 @@ namespace CyberPesten
                 {
                     if (ret.Contains("naam"))
                     {
-                        this.berichtHouder.Text = "Er is iets fout gegaan, controleer of je naam geldig is, en probeer het opnieuw.";
+                        this.maakAccountLabel1.Text = "Er is iets fout gegaan, controleer of je naam geldig is, en probeer het opnieuw.";
                     }
                     if (ret.Contains("database"))
                     {
-                        this.berichtHouder.Text = "Er is iets fout gegaan in onze database, probeer het opnieuw.";
+                        this.maakAccountLabel1.Text = "Er is iets fout gegaan in onze database, probeer het opnieuw.";
                     }
                     if (ret.Contains("gegevens"))
                     {
-                        this.berichtHouder.Text = "Er is iets fout gegaan, controleer of je gegevens kloppen";
+                        this.maakAccountLabel1.Text = "Er is iets fout gegaan, controleer of je gegevens kloppen";
                     }
                 }
             }
@@ -200,10 +200,11 @@ namespace CyberPesten
             NameValueCollection data = new NameValueCollection();
             for (int a = 0; a < argument_values.Count(); a++)
             {
-                data[argument_names[a]] = argument_values[0];
+                data[argument_names[a]] = argument_values[a];
             }
             byte[] responseBytes = wc.UploadValues(URL, "POST", data);
             string responsefromserver = Encoding.UTF8.GetString(responseBytes);
+            System.Diagnostics.Debug.WriteLine("Request to \"" + URL + "\". Response was: \"" + responsefromserver + "\".");
             wc.Dispose();
             return responsefromserver;
         }
