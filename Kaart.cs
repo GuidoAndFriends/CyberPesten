@@ -12,6 +12,7 @@ namespace CyberPesten
         private int kleur; //integere getal van de kleur, 0 = harten, 1 = klaver, 2 = ruiten, 3= schoppen (alfabetische volgorde) en 4 = joker (kleurloos)
         private int waarde; //waarde van de kaart, 0 doet niet mee, 1 is een aas, 2-10 komen overeen met de nummers zelf, 11 boer, 12 vrouw, 13 heer.
         public int X, Y;
+        public Size kaartGrootte = new Size(110, 153);
 
         public Kaart(int k, int w)//maakt een nieuwe kaart, bij een ongeldige waarde wordt er een ArgumentOutOfRangeException gegooid
         {
@@ -133,50 +134,128 @@ namespace CyberPesten
         {
             get
             {
-                Bitmap b = new Bitmap(90, 135);
-                Brush kwast;
-                if (this.kleur % 2 == 0)
-                {
-                    kwast = Brushes.Red;
-                }
-                else
-                {
-                    kwast = Brushes.Black;
-                }
+                Bitmap b = new Bitmap(110, 153);
                 Graphics gr = Graphics.FromImage(b);
-                gr.FillRectangle(Brushes.White, 0, 0, b.Width, b.Height);
-                
 
-                if (kleur == 4)
+                switch (waarde)
                 {
-                    gr.DrawString("¥", new Font(FontFamily.GenericSansSerif, 14), kwast, new Point(10, 10));
+                    case 1: //Azen
+                        switch (kleur)
+                        {
+                            case 0: b = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("HA"), kaartGrootte); break;
+                            case 1: b = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("CA"), kaartGrootte); break;
+                            case 2: b = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("DA"), kaartGrootte); break;
+                            case 3: b = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("SA"), kaartGrootte); break;
+                        } break;
+
+                    case 2:
+                        switch (kleur)
+                        {
+                            case 0: b = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("H2"), kaartGrootte); break;
+                            case 1: b = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("C2"), kaartGrootte); break;
+                            case 2: b = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("D2"), kaartGrootte); break;
+                            case 3: b = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("S2"), kaartGrootte); break;
+                        } break;
+
+                    case 3:
+                        switch (kleur)
+                        {
+                            case 0: b = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("H3"), kaartGrootte); break;
+                            case 1: b = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("C3"), kaartGrootte); break;
+                            case 2: b = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("D3"), kaartGrootte); break;
+                            case 3: b = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("S3"), kaartGrootte); break;
+                        } break;
+
+                    case 4:
+                        switch (kleur)
+                        {
+                            case 0: b = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("H4"), kaartGrootte); break;
+                            case 1: b = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("C4"), kaartGrootte); break;
+                            case 2: b = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("D4"), kaartGrootte); break;
+                            case 3: b = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("S4"), kaartGrootte); break;
+                        } break;
+
+                    case 5:
+                        switch (kleur)
+                        {
+                            case 0: b = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("H5"), kaartGrootte); break;
+                            case 1: b = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("C5"), kaartGrootte); break;
+                            case 2: b = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("D5"), kaartGrootte); break;
+                            case 3: b = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("S5"), kaartGrootte); break;
+                        } break;
+
+                    case 6:
+                        switch (kleur)
+                        {
+                            case 0: b = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("H6"), kaartGrootte); break;
+                            case 1: b = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("C6"), kaartGrootte); break;
+                            case 2: b = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("D6"), kaartGrootte); break;
+                            case 3: b = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("S6"), kaartGrootte); break;
+                        } break;
+
+                    case 7:
+                        switch (kleur)
+                        {
+                            case 0: b = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("H7"), kaartGrootte); break;
+                            case 1: b = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("C7"), kaartGrootte); break;
+                            case 2: b = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("D7"), kaartGrootte); break;
+                            case 3: b = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("S7"), kaartGrootte); break;
+                        } break;
+
+                    case 8:
+                        switch (kleur)
+                        {
+                            case 0: b = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("H8"), kaartGrootte); break;
+                            case 1: b = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("C8"), kaartGrootte); break;
+                            case 2: b = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("D8"), kaartGrootte); break;
+                            case 3: b = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("S8"), kaartGrootte); break;
+                        } break;
+
+                    case 9 :
+                        switch (kleur)
+                        {
+                            case 0: b = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("H9"), kaartGrootte); break;
+                            case 1: b = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("C9"), kaartGrootte); break;
+                            case 2: b = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("D9"), kaartGrootte); break;
+                            case 3: b = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("S9"), kaartGrootte); break;
+                        } break;
+
+                    case 10:
+                        switch (kleur)
+                        {
+                            case 0: b = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("H10"), kaartGrootte); break;
+                            case 1: b = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("C10"), kaartGrootte); break;
+                            case 2: b = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("D10"), kaartGrootte); break;
+                            case 3: b = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("S10"), kaartGrootte); break;
+                        } break;
+
+                    case 11: //Boeren
+                        switch (kleur)
+                        {
+                            case 0: b = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("HJ"), kaartGrootte); break;
+                            case 1: b = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("CJ"), kaartGrootte); break;
+                            case 2: b = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("DJ"), kaartGrootte); break;
+                            case 3: b = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("SJ"), kaartGrootte); break;
+                        } break;
+
+                    case 12: //Vrouwen
+                        switch (kleur)
+                        {
+                            case 0: b = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("HQ"), kaartGrootte); break;
+                            case 1: b = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("CQ"), kaartGrootte); break;
+                            case 2: b = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("DQ"), kaartGrootte); break;
+                            case 3: b = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("SQ"), kaartGrootte); break;
+                        } break;
+
+                    case 13: //Heren
+                        switch (kleur)
+                        {
+                            case 0: b = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("HK"), kaartGrootte); break;
+                            case 1: b = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("CK"), kaartGrootte); break;
+                            case 2: b = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("DK"), kaartGrootte); break;
+                            case 3: b = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("SK"), kaartGrootte); break;
+                        } break;
                 }
-                else
-                {
-                    string beeld;
-                    switch (waarde)
-                    {
-                        case 1: beeld = "A"; break;
-                        case 11: beeld = "J"; break;
-                        case 12: beeld = "Q"; break;
-                        case 13: beeld = "K"; break;
-                        default: beeld = waarde.ToString(); break;
-                    }
-                    gr.DrawString(beeld, new Font(FontFamily.GenericSansSerif, 14), kwast, new Point(10, 10));
-
-                    switch (kleur)
-                    {
-                        case 0: beeld = "♥"; break;
-                        case 1: beeld = "♣"; break;
-                        case 2: beeld = "♦"; break;
-                        case 3: beeld = "♠"; break;
-                    }
-                    gr.DrawString(beeld, new Font(FontFamily.GenericSansSerif, 14), kwast, new Point(10, 40));                  
-                }
-                
-
-
-                
 
                 return b;
             }
@@ -186,9 +265,8 @@ namespace CyberPesten
         {
             get
             {
-                Bitmap b = new Bitmap(90, 135);
+                Bitmap b = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Back_design_2"), kaartGrootte);
                 Graphics gr = Graphics.FromImage(b);
-                gr.FillRectangle(Brushes.Red, 0, 0, b.Width, b.Height);
                 return b;
             }
         }

@@ -31,7 +31,7 @@ namespace CyberPesten
             kaartHoogte = 135;
             afstand = 10;
 
-            BackgroundImage = (Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("groen");
+            BackgroundImage = (Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Achtergrond");
             Size = menu.Size;
             FormBorderStyle = FormBorderStyle.None;
             WindowState = FormWindowState.Maximized;

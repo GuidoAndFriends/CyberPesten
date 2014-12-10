@@ -81,9 +81,55 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\SQ.png" />
+    <None Include="Resources\SK.png" />
+    <None Include="Resources\SJ.png" />
     <Resource Include="Resources\groen.png" />
+    <None Include="Resources\Achtergrond.png" />
+    <None Include="Resources\C2.png" />
+    <None Include="Resources\C3.png" />
+    <None Include="Resources\C4.png" />
+    <None Include="Resources\C5.png" />
+    <None Include="Resources\C6.png" />
+    <None Include="Resources\C7.png" />
+    <None Include="Resources\C8.png" />
+    <None Include="Resources\C9.png" />
+    <None Include="Resources\C10.png" />
+    <None Include="Resources\CA.png" />
+    <None Include="Resources\CJ.png" />
+    <None Include="Resources\CK.png" />
+    <None Include="Resources\CQ.png" />
+    <None Include="Resources\D2.png" />
+    <None Include="Resources\D3.png" />
+    <None Include="Resources\D4.png" />
+    <None Include="Resources\D5.png" />
+    <None Include="Resources\D6.png" />
+    <None Include="Resources\D7.png" />
+    <None Include="Resources\D8.png" />
+    <None Include="Resources\D9.png" />
+    <None Include="Resources\D10.png" />
+    <None Include="Resources\DA.png" />
+    <None Include="Resources\DJ.png" />
+    <None Include="Resources\DK.png" />
+    <None Include="Resources\DQ.png" />
+    <None Include="Resources\H2.png" />
+    <None Include="Resources\H3.png" />
+    <None Include="Resources\H4.png" />
+    <None Include="Resources\H5.png" />
+    <None Include="Resources\H6.png" />
+    <None Include="Resources\H7.png" />
+    <None Include="Resources\H8.png" />
+    <None Include="Resources\H9.png" />
+    <None Include="Resources\H10.png" />
+    <None Include="Resources\HA.png" />
+    <None Include="Resources\Back design 1.png" />
+    <None Include="Resources\Back design 2.png" />
     <Content Include="Resources\harten.png" />
     <None Include="Resources\Help.png" />
+    <None Include="Resources\HJ.png" />
+    <None Include="Resources\HK.png" />
+    <None Include="Resources\HQ.png" />
+    <None Include="Resources\Joker.png" />
     <Content Include="Resources\klavers.png" />
     <None Include="Resources\Menu achtergrond.png" />
     <None Include="Resources\Menu logo.png" />
@@ -91,12 +137,23 @@
     <None Include="Resources\Online.png" />
     <None Include="Resources\Players.png" />
     <Content Include="Resources\ruiten.png" />
+    <None Include="Resources\S2.png" />
+    <None Include="Resources\S3.png" />
+    <None Include="Resources\S4.png" />
+    <None Include="Resources\S5.png" />
+    <None Include="Resources\S6.png" />
+    <None Include="Resources\S7.png" />
+    <None Include="Resources\S8.png" />
+    <None Include="Resources\S9.png" />
+    <None Include="Resources\S10.png" />
+    <None Include="Resources\SA.png" />
     <Content Include="Resources\schoppen.png" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
