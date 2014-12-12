@@ -36,7 +36,7 @@ namespace CyberPesten
                 {
                     for (int k = 1; k < 14; k++)
                     {
-                    pot.Add(new Kaart(j,k));
+                        pot.Add(new Kaart(j,k));
                     }
                 }
             }

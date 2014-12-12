@@ -187,17 +187,22 @@ namespace CyberPesten
             spelend = (spelend + richting) % (spelers.Count);
             if (spelend != 0)
             {
-                spelers[spelend].doeZet();
+                Thread nadenken = new Thread(wachten);
+                nadenken.Start();
             }
         }
         
+        public void wachten()
+        {
+            Thread.Sleep(1500);
+            spelers[spelend].doeZet();
+        }
 
         public void laatsteKaart(int sender)
         {
             if (sender == 1)
             {
                 speelveld.laatsteKaart.BackColor = Color.Green;
-                MessageBox.Show("Laatste kaart aangegeven");
                 laatsteKaartAangegeven = true;
             }
             else

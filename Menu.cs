@@ -12,38 +12,35 @@ namespace CyberPesten
     {
         private Form veld;
         private NumericUpDown aantal;
+        int buttonWidth;
+        int buttonHeight;
+        int buttonWidthSmall;
+        int buttonHeightSmall;
+        int lokaalX;
+        int onlineX;
+        int buttonY;
+        int helpX;
+        int playersX;
+        int buttonSmallY;
 
         public Menu()
         {
             Text = "CyberPesten: Menu";
-            BackgroundImage = (Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("groen");
+            BackgroundImage = (Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Menu_achtergrond");
             Rectangle maat = System.Windows.Forms.Screen.PrimaryScreen.Bounds;
             Size = new Size(maat.X, maat.Y);
             FormBorderStyle = FormBorderStyle.None;
             WindowState = FormWindowState.Maximized;
 
-            //Knoppen er uit gaan laten zien als kaarten?
-
-            Button lokaal = new Button();
-            lokaal.Size = new Size(200, 300);
-            lokaal.Location = new Point(200, 300);
-            lokaal.Text = "Lokaal";
-            lokaal.Font = new Font(FontFamily.GenericSansSerif, 28);
-            lokaal.MouseClick += lokaalKlik;
-            Controls.Add(lokaal);
-
-            Button online = new Button();
-            online.Size = new Size(200, 300);
-            online.Location = new Point(600, 300);
-            online.Text = "Online";
-            online.Font = new Font(FontFamily.GenericSansSerif, 28);
-            online.MouseClick += onlineKlik;
-            Controls.Add(online);
+            this.Paint += this.buildMenuGraphics;
+            this.MouseClick += this.klik;
+            DoubleBuffered = true;
 
             aantal = new NumericUpDown();
             aantal.Size = new Size(200, 50);
             aantal.Location = new Point(200, 620);
             aantal.Value = 4;
+<<<<<<< HEAD
             Controls.Add(aantal);
 
             Button help = new Button();
@@ -60,10 +57,14 @@ namespace CyberPesten
         void Menu_FormClosed(object sender, FormClosedEventArgs e)
         {
             Application.Exit();
+=======
+            //Controls.Add(aantal);
+>>>>>>> origin/master
         }
 
-        private void lokaalKlik(object sender, MouseEventArgs mea)
+        private void klik(object sender, MouseEventArgs mea)
         {
+<<<<<<< HEAD
             veld = new Speelveld(false, (int)aantal.Value, this);
             veld.FormClosed += veld_FormClosed;
             this.Hide();
@@ -83,11 +84,56 @@ namespace CyberPesten
             veld = new inlogScherm();
             veld.FormClosed += veld_FormClosed;
             this.Hide();
+=======
+            Rectangle lokaalButton = new Rectangle(lokaalX, buttonY, buttonWidth, buttonHeight);
+            Rectangle onlineButton = new Rectangle(onlineX, buttonY, buttonWidth, buttonHeight);
+            Rectangle helpButton = new Rectangle(helpX, buttonSmallY, buttonWidthSmall, buttonHeightSmall);
+            Rectangle playersButton = new Rectangle(playersX, buttonSmallY, buttonWidthSmall, buttonHeightSmall);
+
+            if (lokaalButton.Contains(mea.Location))
+            {
+                veld = new Speelveld(false, (int)aantal.Value, this);
+                this.Hide();
+            }
+            if (onlineButton.Contains(mea.Location))
+            {
+                //veld = new Speelveld(true, aantal.Value, this);
+                this.Hide();
+            }
+            if (helpButton.Contains(mea.Location))
+            {
+                Help help = new Help();
+            }
+>>>>>>> origin/master
         }
 
-        private void helpKlik(object sender, MouseEventArgs mea)
+        public void buildMenuGraphics(Object o, PaintEventArgs pea)
         {
-            Help help = new Help();
+            Bitmap menuLogo = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Menu_logo"));
+            int logoWidth = Screen.PrimaryScreen.Bounds.Width * 3/5;
+            int logoHeight = logoWidth * menuLogo.Height / menuLogo.Width;
+            int logoCenter = Screen.PrimaryScreen.Bounds.Width / 2 - logoWidth / 2;
+            pea.Graphics.DrawImage(menuLogo, logoCenter, Screen.PrimaryScreen.Bounds.Height / 9, logoWidth, logoHeight);
+
+            Bitmap lokaal = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Lokaal"));
+            Bitmap online = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Online"));
+            Bitmap help = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Help"));
+            Bitmap players = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Players"));
+            buttonWidth = Screen.PrimaryScreen.Bounds.Width / 8;
+            buttonHeight = buttonWidth * lokaal.Height / lokaal.Width;
+            buttonWidthSmall = Screen.PrimaryScreen.Bounds.Width / 10;
+            buttonHeightSmall = buttonWidthSmall * help.Height / help.Width;
+            lokaalX = Screen.PrimaryScreen.Bounds.Width / 16 * 5;
+            onlineX = Screen.PrimaryScreen.Bounds.Width / 16 * 9;
+            buttonY = Screen.PrimaryScreen.Bounds.Height / 2;
+            helpX = Screen.PrimaryScreen.Bounds.Width / 20 * 15;
+            playersX = Screen.PrimaryScreen.Bounds.Width / 20 * 3;
+            buttonSmallY = Screen.PrimaryScreen.Bounds.Height / 7 * 4;
+   
+            pea.Graphics.DrawImage(players, playersX, buttonSmallY, buttonWidthSmall, buttonHeightSmall);
+            pea.Graphics.DrawImage(lokaal, lokaalX, buttonY, buttonWidth, buttonHeight);
+            pea.Graphics.DrawImage(online, onlineX, buttonY, buttonWidth, buttonHeight);
+            pea.Graphics.DrawImage(help, helpX, buttonSmallY, buttonWidthSmall, buttonHeightSmall);
         }
     }
 }
