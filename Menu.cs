@@ -40,7 +40,6 @@ namespace CyberPesten
             aantal.Size = new Size(200, 50);
             aantal.Location = new Point(200, 620);
             aantal.Value = 4;
-<<<<<<< HEAD
             Controls.Add(aantal);
 
             Button help = new Button();
@@ -48,7 +47,7 @@ namespace CyberPesten
             help.Location = new Point(865, 710);
             help.Text = "Help";
             help.Font = new Font(FontFamily.GenericSansSerif, 20);
-            help.MouseClick += helpKlik;
+            //help.MouseClick += helpKlik;
             Controls.Add(help);
 
             this.FormClosed += Menu_FormClosed;
@@ -57,17 +56,30 @@ namespace CyberPesten
         void Menu_FormClosed(object sender, FormClosedEventArgs e)
         {
             Application.Exit();
-=======
             //Controls.Add(aantal);
->>>>>>> origin/master
         }
 
         private void klik(object sender, MouseEventArgs mea)
         {
-<<<<<<< HEAD
-            veld = new Speelveld(false, (int)aantal.Value, this);
-            veld.FormClosed += veld_FormClosed;
-            this.Hide();
+            Rectangle lokaalButton = new Rectangle(lokaalX, buttonY, buttonWidth, buttonHeight);
+            Rectangle onlineButton = new Rectangle(onlineX, buttonY, buttonWidth, buttonHeight);
+            Rectangle helpButton = new Rectangle(helpX, buttonSmallY, buttonWidthSmall, buttonHeightSmall);
+            Rectangle playersButton = new Rectangle(playersX, buttonSmallY, buttonWidthSmall, buttonHeightSmall);
+
+            if (lokaalButton.Contains(mea.Location))
+            {
+                veld = new Speelveld(false, (int)aantal.Value, this);
+                this.Hide();
+            }
+            if (onlineButton.Contains(mea.Location))
+            {
+                veld = new inlogScherm();
+                this.Hide();
+            }
+            if (helpButton.Contains(mea.Location))
+            {
+                Help help = new Help();
+            }
         }
 
         void veld_FormClosed(object sender, FormClosedEventArgs e)
@@ -79,12 +91,11 @@ namespace CyberPesten
             Application.Exit();
         }
 
-        private void onlineKlik(object sender, MouseEventArgs mea)
+        private void onlineKlik(object sender, MouseEventArgs mea)//Volgens mij kan deze weg - Guido
         {
             veld = new inlogScherm();
             veld.FormClosed += veld_FormClosed;
             this.Hide();
-=======
             Rectangle lokaalButton = new Rectangle(lokaalX, buttonY, buttonWidth, buttonHeight);
             Rectangle onlineButton = new Rectangle(onlineX, buttonY, buttonWidth, buttonHeight);
             Rectangle helpButton = new Rectangle(helpX, buttonSmallY, buttonWidthSmall, buttonHeightSmall);
@@ -104,7 +115,6 @@ namespace CyberPesten
             {
                 Help help = new Help();
             }
->>>>>>> origin/master
         }
 
         public void buildMenuGraphics(Object o, PaintEventArgs pea)
