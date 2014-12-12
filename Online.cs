@@ -34,7 +34,7 @@ namespace CyberPesten
             string inlogPath = Path.Combine(CP,"inlogData.cyberpesten");
             if(File.Exists(inlogPath)){//misschien een knop om van account te wisselen
                 string[] s = FileLines(inlogPath);
-                string[] str2 = {"naam","unid"};
+                string[] str2 = {"name","unid"};
                 string[] str3 = {s[0],s[1]};
                 string str1 = PHPrequest("http://harbingerofme.info/GnF/login.php",str2,str3);
                 if(str1 == "ja"){
@@ -155,7 +155,7 @@ namespace CyberPesten
                 if (ret == "ja")
                 {
                     string stuff = str2[0] + "\n" + hash + "\n";
-                    if (writeFile(Path.Combine(CP, "inlogdata.cberpesten"), stuff))
+                    if (writeFile(Path.Combine(CP, "inlogdata.cyberpesten"), stuff))
                     {
                         a.Visible = false;
                         string str12 = PHPrequest("http://harbingerofme.info/GnF/login.php", str1, str2);//we sturen wat data meer, maar dat maakt niet uit
