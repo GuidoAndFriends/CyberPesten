@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Drawing;
-using System.Threading;
 
 namespace CyberPesten
 {
@@ -17,6 +16,7 @@ namespace CyberPesten
         public int spelend, richting, speciaal, pakAantal;
         public string status;
         public bool laatsteKaartAangegeven = false;
+        public System.Timers.Timer timer;
 
         //public Spel(Speelveld s, int aantalSpelers)
         public Spel()
@@ -187,14 +187,14 @@ namespace CyberPesten
             spelend = (spelend + richting) % (spelers.Count);
             if (spelend != 0)
             {
-                Thread nadenken = new Thread(wachten);
-                nadenken.Start();
+                timer.Interval = 1500; //Eventueel nog random
+                timer.Start();
             }
         }
         
-        public void wachten()
+        public void tijd(object sender, EventArgs ea)
         {
-            Thread.Sleep(1500);
+            timer.Stop();
             spelers[spelend].doeZet();
         }
 

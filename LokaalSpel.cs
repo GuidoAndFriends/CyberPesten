@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Threading;
 using System.Drawing;
 
 namespace CyberPesten
@@ -21,6 +22,9 @@ namespace CyberPesten
             richting = 1; //welke kant er op gespeeld word
             speciaal = -1; //of er een speciale kaart gespeeld is
             pakAantal = 0;
+
+            timer = new System.Timers.Timer();
+            timer.Elapsed += tijd;
 
             //Spelers toevoegen
             spelers.Add(new Mens());
