@@ -26,10 +26,17 @@ namespace CyberPesten
         {
             Graphics graphics = pea.Graphics;
             tekst = new List<string>();
-
-            tekst.Add("Eerste regel");
-            tekst.Add("Tweede regel");
-            tekst.Add("Derde regel");
+            // voorlopige tekst, is nog lang niet af
+            tekst.Add("Help");
+            tekst.Add("");
+            tekst.Add("Cyberpesten is een kaartspel.");
+            tekst.Add("De bedoeling van het spel is om zo snel mogelijk de kaarten in je hand kwijt te raken. Dit kan je doen door op een geldige kaart in je hand te klikken, jouw beurt is dan voorbij en de computer legt nu zijn kaart op. Iedereen krijgt om en om een beurt, maar pas op voor spelkaarten, deze kunnen gevolgen hebben op jou spel");
+            tekst.Add("");
+            tekst.Add("Wat is een geldige zet?");
+            tekst.Add("Een kaart van dezelfde soort als de bovenwste kaart op de speelstapel is altijd een geldige kaart, maar je kan ook het type an de kaarten die gespeeld worden veranderen door een kaart met hetzelfde nummer als de bovenste kaart van speelstapel op de speelstapel te leggen");
+            tekst.Add("");
+            tekst.Add("Welke pestkaarten zijn er?");
+            tekst.Add("nog uit te werken");
 
             y = 10;
             foreach(string stuk in tekst)
