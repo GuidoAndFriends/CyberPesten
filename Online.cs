@@ -227,13 +227,8 @@ namespace CyberPesten
                     lst.Add(str);
                 }
                 a.Close();
-                string[] ret = new string[lst.Count]; int b = 0;
-                foreach (string str2 in lst)
-                {
-                    ret[b] = str2;
-                    b++;
-                }
-                return ret;
+                string[] ret = lst.ToArray();
+				return ret;
             }
             catch { return null; }
         }
