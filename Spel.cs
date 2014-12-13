@@ -68,13 +68,14 @@ namespace CyberPesten
                         if (spelend == 0)
                         {
                             status = "Jij speelde " + kaart.tekst;
-                            spelers[0].maakXY();
+                            spelers[0].updateBlok();
                         }
                         else
                         {
                             status = "Speler " + spelend + " speelde " + kaart.tekst;
-                            speelveld.Invalidate();
                         }
+                        spelers[spelend].updateBlok();
+                        speelveld.Invalidate();
                         //kaartActie();
                         eindeSpel();
                         return true;
@@ -93,14 +94,13 @@ namespace CyberPesten
                     if (spelend == 0)
                     {
                         status = "Jij speelde " + kaart.tekst;
-                        spelers[0].maakXY();
-                        speelveld.Invalidate();
                     }
                     else
                     {
                         status = "Speler " + spelend + " speelde " + kaart.tekst;
-                        speelveld.Invalidate();
                     }
+                    spelers[spelend].updateBlok();
+                    speelveld.Invalidate();
                     kaartActie();
                     laatsteKaart(0);
                     //volgende();
@@ -142,12 +142,13 @@ namespace CyberPesten
             if (spelend == 0)
             {
                 status = ("Je kon niet en hebt een kaart gepakt");
-                spelers[0].maakXY();
+                
             }
             else
             {
                 status = ("Speler " + spelend + " kon niet en heeft een kaart gepakt");
             }
+            spelers[spelend].updateBlok();
             speelveld.Invalidate();
         }
 
@@ -175,14 +176,19 @@ namespace CyberPesten
 
         public void volgende()
         {
+            Speler oud = spelers[spelend];
+
             spelend = (spelend + richting + spelers.Count) % (spelers.Count);
             if (!(mens) & spelend == 0)
             {
                 spelend = (spelend + richting + spelers.Count) % (spelers.Count);
             }
+
+            oud.updateBlok();
             
             if (spelend != 0)
             {
+                spelers[spelend].updateBlok();
                 timerAI.Interval = 1000; //Eventueel nog random
                 timerAI.Start();
             }

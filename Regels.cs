@@ -96,7 +96,16 @@ namespace CyberPesten
         public void regelWacht()
         {
             //zou eventueel ook meerdere spelers kunnen overslaan
+            Speler oud = spelers[spelend];
+
             spelend = (spelend + richting + spelers.Count) % (spelers.Count);
+            if (!(mens) & spelend == 0)
+            {
+                spelend = (spelend + richting + spelers.Count) % (spelers.Count);
+            }
+
+            oud.updateBlok();
+
             volgende();
         }
 

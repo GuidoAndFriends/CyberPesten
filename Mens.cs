@@ -14,7 +14,7 @@ namespace CyberPesten
             naam = "Speler";
         }
 
-        public override void maakXY()
+        public override void updateBlok()
         {
             int breedte = hand.Count * (90 + 10) - 10;
             int basis = 1920 / 2 - breedte / 2;

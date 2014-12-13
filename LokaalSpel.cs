@@ -62,7 +62,10 @@ namespace CyberPesten
                 }
             }
 
-            spelers[0].maakXY();
+            foreach(Speler speler in spelers)
+            {
+                speler.updateBlok();
+            }
             verplaatsKaart(pot, 0, stapel);
             s.Invalidate();
             if (! mens)

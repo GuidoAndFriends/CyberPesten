@@ -18,9 +18,8 @@ namespace CyberPesten
             int hash = GetHashCode();
             naam = "Guido" + hash;
             System.Diagnostics.Debug.WriteLine(hash.ToString());
+            blok = new System.Drawing.Bitmap(10, 10);
         }
-
-        public override void maakXY() { }
 
         public override void doeZet()
         {
