@@ -14,6 +14,7 @@ namespace CyberPesten
         public Menu menu;
         public Spel spel;
         public int kaartBreedte, kaartHoogte, afstand;
+        public Point potPlek;
         
         //Voor het verslepen van een kaart
         public bool muisLaag;
@@ -34,7 +35,7 @@ namespace CyberPesten
             kaartBreedte = 90;
             kaartHoogte = 135;
             afstand = 10;
-
+            
             muisLaag = false;
 
             BackgroundImage = (Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Achtergrond");
@@ -42,6 +43,8 @@ namespace CyberPesten
             FormBorderStyle = FormBorderStyle.None;
             WindowState = FormWindowState.Maximized;
             DoubleBuffered = true;
+
+            potPlek = new Point(Width / 2 + 50, Height / 2 - kaartHoogte / 2);
 
             help = new Button();
             help.Size = new Size(kaartHoogte, kaartBreedte);
@@ -77,7 +80,7 @@ namespace CyberPesten
             else
             {
                 Text = "CyberPesten: Lokaal spel";
-                spel = new LokaalSpel(this, aantalSpelers, false);
+                spel = new LokaalSpel(this, aantalSpelers, true);
             }
 
             this.Show();
@@ -96,7 +99,7 @@ namespace CyberPesten
 
             //pot
             plaatje = spel.pot[spel.pot.Count - 1].achterkant;
-            gr.DrawImage(plaatje, Width / 2 + 50, Height / 2 - kaartHoogte / 2);
+            gr.DrawImage(plaatje, potPlek);
 
             //hand van speler
             foreach (Kaart kaart in spel.spelers[0].hand)
@@ -126,7 +129,7 @@ namespace CyberPesten
         {
             if (spel.spelend == 0)
             {
-                if (mea.X >= 550 && mea.X <= 550 + kaartBreedte && mea.Y >= 300 && mea.Y <= 300 + kaartHoogte)
+                if (mea.X >= potPlek.X && mea.X <= potPlek.X + kaartBreedte && mea.Y >= potPlek.Y && mea.Y <= potPlek.Y + kaartHoogte)
                 //pot
                 {
                     spel.pakKaart();

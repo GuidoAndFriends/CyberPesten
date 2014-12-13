@@ -175,10 +175,10 @@ namespace CyberPesten
 
         public void volgende()
         {
-            spelend = (spelend + richting) % (spelers.Count);
+            spelend = (spelend + richting + spelers.Count) % (spelers.Count);
             if (!(mens) & spelend == 0)
             {
-                spelend = (spelend + richting) % (spelers.Count);
+                spelend = (spelend + richting + spelers.Count) % (spelers.Count);
             }
             
             if (spelend != 0)

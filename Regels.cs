@@ -8,6 +8,23 @@ namespace CyberPesten
 {
     partial class Spel
     {
+
+        public bool speelbaar(Kaart kaart)
+        {
+            if (kaart.Kleur == stapel[stapel.Count - 1].Kleur ||
+                kaart.Waarde == stapel[stapel.Count - 1].Waarde ||
+                kaart.Kleur == 4 || //joker
+                kaart.Waarde == 11) //boer
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        /*
         public bool speelbaar(Kaart kaart)
         {
             bool speelbaar = false;
@@ -41,6 +58,7 @@ namespace CyberPesten
              }
              return speelbaar;
         }
+         */
 
         public void kaartActie()
         {
@@ -53,14 +71,17 @@ namespace CyberPesten
             {
                 switch (kaart.Waarde)
                 {
-                    case 2: regelPakken(2); break;
-                    //case 7: regelKleven(); break;
+                    //case 2: regelPakken(2); break;
                     case 8: regelWacht(); break;
-                    case 11: regelKleur(); break;
+                    //case 11: regelKleur(); break;
                     case 1: regelDraai(); break;
                 }
             }
-            if (kaart.Waarde != 7)
+            if (kaart.Waarde == 7)
+            {
+                spelers[spelend].doeZet();
+            }
+            else
             {
                 volgende();
             }
@@ -72,14 +93,10 @@ namespace CyberPesten
             speciaal = 4;
         }
 
-        public void regelKleven()
-        {
-            //spelend -= richting;
-        }
-
         public void regelWacht()
         {
             //zou eventueel ook meerdere spelers kunnen overslaan
+            spelend = (spelend + richting + spelers.Count) % (spelers.Count);
             volgende();
         }
 
@@ -91,7 +108,7 @@ namespace CyberPesten
 
         public void regelDraai()
         {
-            //richting *= -1;
+            richting *= -1;
         }
     }
 }
