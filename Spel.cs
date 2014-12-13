@@ -15,25 +15,33 @@ namespace CyberPesten
         public Speelveld speelveld;
         public int spelend, richting, speciaal, pakAantal;
         public string status;
-        public bool laatsteKaartAangegeven = false;
         public System.Timers.Timer timer;
 
-        //public Spel(Speelveld s, int aantalSpelers)
         public Spel()
         {
 
         }
-
-        public bool speelKaart(Kaart kaart)
+        
+        public void verplaatsKaart(List<Kaart> van, int index, List<Kaart> naar)
         {
-            return speelKaart(spelers[spelend].hand.IndexOf(kaart));
+            if (van.Count > 0)
+            {
+                naar.Add(van[index]);
+                van.RemoveAt(index);
+            }
         }
 
-        public bool speelKaart(int index)//Legt een kaart met de gegeven index van degene die aan de beurt is op de stapel. Geeft true bij een geldige kaart, anders false
+        public void verplaatsKaart(List<Kaart> van, List<Kaart> naar)
+        {
+            verplaatsKaart(van, van.Count - 1, naar);
+        }
+
+        public bool speelKaart(int index)
+        //Legt een kaart met de gegeven index van degene die aan de beurt is op de stapel. Geeft true bij een geldige kaart, anders false
         {
             List<Kaart> hand = spelers.ElementAt(spelend).hand;
-            Kaart k = hand[index];
-            if (speelbaar(k))
+            Kaart kaart = hand[index];
+            if (speelbaar(kaart))
             {
                 /*
                 //Goede animatie:
@@ -50,31 +58,23 @@ namespace CyberPesten
                 speelveld.verplaatsen2(p1, new Point(350, 300), index);
                 */
                 
-                /*
-                //(nog) niet goede animatie
-                speelveld.schuifAnimatie = new Thread(speelveld.verplaatsen);
-                speelveld.schuifAnimatie.Start();
-                for (int i = 0; i < 5 * 50; i++)
-                {
-                    Application.DoEvents();
-                    Thread.Sleep(5);
-                }
-                */
+                //Controle bij laatste kaart
                 if (hand.Count == 1)
                 {
-                    if (laatsteKaartAangegeven)
+                    if (spelers[spelend].gemeld)
                     {
                         verplaatsKaart(hand, index, stapel);
                         if (spelend == 0)
                         {
+                            status = "Jij speelde " + kaart.tekst;
                             spelers[0].maakXY();
                         }
                         else
                         {
-                            status = "Speler " + spelend + " speelde " + k.tekst;
+                            status = "Speler " + spelend + " speelde " + kaart.tekst;
                             speelveld.Invalidate();
                         }
-                        kaartActie();
+                        //kaartActie();
                         eindeSpel();
                         return true;
                     }
@@ -91,11 +91,13 @@ namespace CyberPesten
                     verplaatsKaart(hand, index, stapel);
                     if (spelend == 0)
                     {
+                        status = "Jij speelde " + kaart.tekst;
                         spelers[0].maakXY();
+                        speelveld.Invalidate();
                     }
                     else
                     {
-                        status = "Speler " + spelend + " speelde " + k.tekst;
+                        status = "Speler " + spelend + " speelde " + kaart.tekst;
                         speelveld.Invalidate();
                     }
                     kaartActie();
@@ -106,33 +108,44 @@ namespace CyberPesten
             }
             else
             {
+                //kaart mag niet opgelegd worden
                 return false;
             }
         }
 
-        public void eindeSpel()
+        public bool speelKaart(Kaart kaart)
         {
-            MessageBox.Show("Spel afgelopen");
+            return speelKaart(spelers[spelend].hand.IndexOf(kaart));
         }
 
-        public void pakKaart() //geeft de bovenste kaart van de pot aan degene die aan de beurt is, als er geen kaart gepakt kan worden, dan wordt de stapel de nieuwe pot. de bovenste kaart van de stapel blijft liggen.
+        public void eindeSpel()
         {
-            Kaart i;
+            MessageBox.Show("Speler " + spelend + " heeft gewonnen");
+        }
+
+        public void pakKaart()
+        //geeft de bovenste kaart van de pot aan degene die aan de beurt is.
+        {
+            //als de pot leeg is, gaan de kaarten die opgelegd zijn op de stapel naar de pot, op de bovenste kaart na
             if (pot.Count == 0)
             {
-                int a = stapel.Count - 1;
-                i = stapel[a];//haal de bovenste kaart van de stapel
-                stapel.RemoveAt(a);
+                
+                int boven = stapel.Count - 1;
+                Kaart bovenste = stapel[boven];
+                stapel.RemoveAt(boven);
 
-                pot = stapel;//pak de stapel en maak er de pot van
-                stapel = new List<Kaart>();//maak de opleg stapel leeg.
+                pot = stapel;
+                pot = schud(pot);
 
-                stapel.Add(i);//leg de bovenste kaart terug
-                pot = schud(pot);//en schud de pot
+                stapel = new List<Kaart>();
+                stapel.Add(bovenste);
             }
+
             verplaatsKaart(pot, 0, spelers[spelend].hand);
+
             if (spelend == 0)
             {
+                status = ("Je kon niet en hebt een kaart gepakt");
                 spelers[0].maakXY();
             }
             else
@@ -148,25 +161,6 @@ namespace CyberPesten
             {
                 pakKaart();
             }
-        }
-
-        public void verplaatsKaart(List<Kaart> van, int index, List<Kaart> naar)
-        {
-            if (van.Count > 0)
-            {
-                naar.Add(van[index]);
-                van.RemoveAt(index);
-            }
-        }
-
-        public void verplaatsKaart(List<Kaart> van, List<Kaart> naar)
-        {
-            if (van.Count > 0)
-            {
-                naar.Add(van[van.Count - 1]);
-                van.RemoveAt(van.Count - 1);
-            }
-
         }
 
         public List<Kaart> schud(List<Kaart> stapel)
@@ -202,12 +196,13 @@ namespace CyberPesten
         {
             if (sender == 1)
             {
+                spelers[0].gemeld = true;
                 speelveld.laatsteKaart.BackColor = Color.Green;
-                laatsteKaartAangegeven = true;
+                
             }
             else
             {
-                laatsteKaartAangegeven = false;
+                spelers[0].gemeld = false;
                 speelveld.laatsteKaart.BackColor = Color.Red;
            }
         }
