@@ -38,11 +38,12 @@ namespace CyberPesten
             
             muisLaag = false;
 
-            BackgroundImage = (Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Achtergrond");
             Size = menu.Size;
             FormBorderStyle = FormBorderStyle.None;
             WindowState = FormWindowState.Maximized;
             DoubleBuffered = true;
+
+            BackgroundImage = (Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Achtergrond");
 
             potPlek = new Point(Width / 2 + 50, Height / 2 - kaartHoogte / 2);
 
@@ -91,7 +92,9 @@ namespace CyberPesten
             Graphics gr = pea.Graphics;
 
             //achtergrond
-            gr.FillRectangle(new TextureBrush(BackgroundImage), 0, 0, Width, Height);
+            gr.FillRectangle(Brushes.DarkGreen, 0, 0, Width, Height);
+            //gr.FillRectangle(new TextureBrush(BackgroundImage), 0, 0, Width, Height);
+            //gr.DrawImage(BackgroundImage, 0, 0);
 
             //stapel
             Bitmap plaatje = spel.stapel[spel.stapel.Count - 1].voorkant;
