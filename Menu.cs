@@ -22,6 +22,7 @@ namespace CyberPesten
         int helpX;
         int playersX;
         int buttonSmallY;
+        int spelers;
 
         public Menu()
         {
@@ -36,19 +37,7 @@ namespace CyberPesten
             this.MouseClick += this.klik;
             DoubleBuffered = true;
 
-            aantal = new NumericUpDown();
-            aantal.Size = new Size(200, 50);
-            aantal.Location = new Point(200, 620);
-            aantal.Value = 4;
-            Controls.Add(aantal);
-
-            Button help = new Button();
-            help.Size = new Size(135, 90);
-            help.Location = new Point(865, 710);
-            help.Text = "Help";
-            help.Font = new Font(FontFamily.GenericSansSerif, 20);
-            //help.MouseClick += helpKlik;
-            Controls.Add(help);
+            spelers = 4;
 
             this.FormClosed += Menu_FormClosed;
         }
@@ -68,7 +57,7 @@ namespace CyberPesten
 
             if (lokaalButton.Contains(mea.Location))
             {
-                veld = new Speelveld(false, (int)aantal.Value, this);
+                veld = new Speelveld(false, spelers, this);
                 this.Hide();
             }
             if (onlineButton.Contains(mea.Location))
@@ -89,32 +78,6 @@ namespace CyberPesten
 
             //DEBUG:
             Application.Exit();
-        }
-
-        private void onlineKlik(object sender, MouseEventArgs mea)//Volgens mij kan deze weg - Guido
-        {
-            veld = new inlogScherm();
-            veld.FormClosed += veld_FormClosed;
-            this.Hide();
-            Rectangle lokaalButton = new Rectangle(lokaalX, buttonY, buttonWidth, buttonHeight);
-            Rectangle onlineButton = new Rectangle(onlineX, buttonY, buttonWidth, buttonHeight);
-            Rectangle helpButton = new Rectangle(helpX, buttonSmallY, buttonWidthSmall, buttonHeightSmall);
-            Rectangle playersButton = new Rectangle(playersX, buttonSmallY, buttonWidthSmall, buttonHeightSmall);
-
-            if (lokaalButton.Contains(mea.Location))
-            {
-                veld = new Speelveld(false, (int)aantal.Value, this);
-                this.Hide();
-            }
-            if (onlineButton.Contains(mea.Location))
-            {
-                //veld = new Speelveld(true, aantal.Value, this);
-                this.Hide();
-            }
-            if (helpButton.Contains(mea.Location))
-            {
-                Help help = new Help();
-            }
         }
 
         public void buildMenuGraphics(Object o, PaintEventArgs pea)

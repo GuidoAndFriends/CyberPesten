@@ -13,23 +13,29 @@ namespace CyberPesten
     {
         public Menu menu;
         public Spel spel;
-        public int muisX, delta, laagIndex, laagX, laagY, kaartBreedte, kaartHoogte, afstand;
+        public int kaartBreedte, kaartHoogte, afstand;
+        
+        //Voor het verslepen van een kaart
+        public bool muisLaag;
+        public int laagIndex, laagX, laagY;
+
+        //Voor het verschuiven van de hand van de speler
+        public Thread schuifAnimatie;
+        public int muisX, delta;
+
+        //Voor het verplaatsen van een kaart die gespeeld of gepakt wordt
         public Kaart bewegendeKaart;
         
-        public Thread schuifAnimatie;
-        public bool muisLaag;
-
-        public Button laatsteKaart;
-
-        
+        public Button laatsteKaart, help;
 
         public Speelveld(bool online, int aantalSpelers, Menu m)
         {
             menu = m;
-            muisLaag = false;
             kaartBreedte = 90;
             kaartHoogte = 135;
             afstand = 10;
+
+            muisLaag = false;
 
             BackgroundImage = (Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Achtergrond");
             Size = menu.Size;
@@ -37,25 +43,26 @@ namespace CyberPesten
             WindowState = FormWindowState.Maximized;
             DoubleBuffered = true;
 
-            /*
-            Button help = new Button();
-            ... als in Menu.cs ...
+            help = new Button();
+            help.Size = new Size(kaartHoogte, kaartBreedte);
+            help.Location = new Point(Width / 2 - 500 - kaartBreedte, Height / 2 - kaartBreedte / 2);
+            help.Text = "Help";
+            help.Font = new Font(FontFamily.GenericSansSerif, 20);
+            help.MouseClick += helpKlik;
             Controls.Add(help);
-            //Er zal vanalles over de helpknop heen getekend worden
-             */
-
+            
             laatsteKaart = new Button();
-            laatsteKaart.Size = new Size(135, 90);
+            laatsteKaart.Size = new Size(kaartHoogte, kaartBreedte);
             laatsteKaart.Location = new Point(Width / 2 + 500, Height / 2 - kaartBreedte / 2);
             laatsteKaart.Text = "Laatste kaart";
             laatsteKaart.BackColor = Color.OrangeRed;
             laatsteKaart.Font = new Font(FontFamily.GenericSansSerif, 20);
-            laatsteKaart.MouseClick += laatsteKaart_Click;
+            laatsteKaart.MouseClick += laatsteKaartKlick;
             Controls.Add(laatsteKaart);
 
             Paint += teken;
-            MouseClick += klik;
-            MouseMove += beweeg;
+            MouseClick += muisKlik;
+            MouseMove += muisBeweeg;
             MouseDown += muisOmlaag;
             MouseUp += muisOmhoog;
             MouseLeave += muisWeg;
@@ -72,54 +79,55 @@ namespace CyberPesten
                 Text = "CyberPesten: Lokaal spel";
                 spel = new LokaalSpel(this, aantalSpelers);
             }
-            
-            
 
             this.Show();
-        }
-
-        private void laatsteKaart_Click(object sender, EventArgs e)
-        {
-            spel.laatsteKaart(1);
         }
 
         private void teken(object sender, PaintEventArgs pea)
         {
             Graphics gr = pea.Graphics;
-            gr.FillRectangle(new TextureBrush(BackgroundImage), 0, 0, Width, Height);
-            //gr.FillRectangle(Brushes.DarkGreen, 0, 0, Width, Height);
 
+            //achtergrond
+            gr.FillRectangle(new TextureBrush(BackgroundImage), 0, 0, Width, Height);
+
+            //stapel
             Bitmap plaatje = spel.stapel[spel.stapel.Count - 1].voorkant;
             gr.DrawImage(plaatje, Width / 2 - 50 - kaartBreedte, Height / 2 - kaartHoogte / 2);
+
+            //pot
             plaatje = spel.pot[spel.pot.Count - 1].achterkant;
             gr.DrawImage(plaatje, Width / 2 + 50, Height / 2 - kaartHoogte / 2);
 
+            //hand van speler
             foreach (Kaart kaart in spel.spelers[0].hand)
             {
                 gr.DrawImage(kaart.voorkant, kaart.X, kaart.Y);
             }
 
+            //blokken van AI
             int breedte = (spel.spelers.Count - 1) * (290 + 40);
-            int over = (breedte - 20) / (spel.spelers.Count - 2);
-
+            int tussenruimte = (breedte - 20) / (spel.spelers.Count - 2);
             for (int i = 1; i < spel.spelers.Count; i++)
             {
-                gr.DrawImage(spel.spelers[i].blok, 10 + (290 + over) * (i - 1), 10);
+                gr.DrawImage(spel.spelers[i].blok, 10 + (290 + tussenruimte) * (i - 1), 10);
             }
 
+            //een eventuele bewegende kaart
             if (bewegendeKaart != null)
             {
                 gr.DrawImage(bewegendeKaart.voorkant, bewegendeKaart.X, bewegendeKaart.Y);
             }
 
+            //status van het spel
             gr.DrawString(spel.status, new Font(FontFamily.GenericSansSerif, 14), Brushes.Black, new Point(40, 450));
         }
 
-        private void klik(object sender, MouseEventArgs mea)
+        private void muisKlik(object sender, MouseEventArgs mea)
         {
             if (spel.spelend == 0)
             {
                 if (mea.X >= 550 && mea.X <= 550 + kaartBreedte && mea.Y >= 300 && mea.Y <= 300 + kaartHoogte)
+                //pot
                 {
                     spel.pakKaart();
                     spel.volgende();
@@ -130,6 +138,7 @@ namespace CyberPesten
                 {
                     if (mea.X >= kaart.X && mea.X <= kaart.X + kaartBreedte && mea.Y >= kaart.Y && mea.Y <= kaart.Y + kaartHoogte)
                     {
+                        //kaart in hand van speler
                         if (spel.speelKaart(spel.spelers[0].hand.IndexOf(kaart)))
                         {
                             Invalidate();
@@ -140,7 +149,18 @@ namespace CyberPesten
             } 
         }
 
+        private void laatsteKaartKlick(object sender, EventArgs e)
+        {
+            spel.laatsteKaart(1);
+        }
+
+        private void helpKlik(object sender, MouseEventArgs mea)
+        {
+            Help help = new Help();
+        }
+
         private void scroll(object sender, EventArgs ea)
+        //zal een kaart spelen als er gescrolld wordt
         {
             /*
             int muisX = MousePosition.X;
@@ -159,11 +179,13 @@ namespace CyberPesten
              */
         }
 
-        private void beweeg(object sender, MouseEventArgs mea)
+        private void muisBeweeg(object sender, MouseEventArgs mea)
         {
+            //werkt de x van de muis bij om eventueel de hand van de speler te laten bewegen
             muisX = mea.X;
             if (muisLaag)
             {
+                //verplaatst de kaart waarop de speler de muis ingedrukt houdt
                 spel.spelers[0].hand[laagIndex].X = mea.X - laagX;
                 spel.spelers[0].hand[laagIndex].Y = mea.Y - laagY;
                 Invalidate();
@@ -171,15 +193,16 @@ namespace CyberPesten
         }
 
         private void muisOmlaag(object sender, MouseEventArgs mea)
-        {
-            muisLaag = true;
+        { 
             int index = 0;
             foreach (Kaart kaart in spel.spelers[0].hand)
             {
+                //kijkt of er op een kaart is geklikt
                 int deltaX = mea.X - kaart.X;
                 int deltaY = mea.Y - kaart.Y;
                 if (deltaX >= 0 && deltaX <= 100 && deltaY >= 0 && deltaY <= 140)
                 {
+                    muisLaag = true;
                     laagIndex = index;
                     laagX = deltaX;
                     laagY = deltaY;
@@ -190,7 +213,6 @@ namespace CyberPesten
             }
         }
 
-
         private void muisOmhoog(object sender, MouseEventArgs mea)
         {
             muisLaag = false;
@@ -198,6 +220,7 @@ namespace CyberPesten
 
         private void muisWeg(object sender, EventArgs ea)
         {
+            //verschuift de hand van de speler als de muis buiten beeld gaat
             int breedte = spel.spelers[0].hand.Count * kaartBreedte - 10;
             if (breedte > Width)
             {
@@ -209,7 +232,6 @@ namespace CyberPesten
                 schuifAnimatie = new Thread(schuiven);
                 schuifAnimatie.Start();
             }
-            
         }
 
         private void muisTerug(object sender, EventArgs ea)
@@ -221,6 +243,7 @@ namespace CyberPesten
         {
             while (schuifAnimatie != null)
             {
+                //als er nog een stuk van de hand buiten beeld is
                 if (delta > 0 && spel.spelers[0].hand[0].X < 50 || delta < 0 && spel.spelers[0].hand[spel.spelers[0].hand.Count - 1].X + 100 > 1000 - 50)
                 {
                     foreach (Kaart kaart in spel.spelers[0].hand)
@@ -232,6 +255,8 @@ namespace CyberPesten
                 }
             }
         }
+
+        //hieronder pogingen tot animatie van een kaart die gespeeld of gepakt wordt
 
         /*
         public int verplaatsIndex, verplaatsStap;

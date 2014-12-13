@@ -118,11 +118,6 @@ namespace CyberPesten
             return speelKaart(spelers[spelend].hand.IndexOf(kaart));
         }
 
-        public void eindeSpel()
-        {
-            MessageBox.Show("Speler " + spelend + " heeft gewonnen");
-        }
-
         public void pakKaart()
         //geeft de bovenste kaart van de pot aan degene die aan de beurt is.
         {
@@ -170,6 +165,7 @@ namespace CyberPesten
             List<Kaart> geschud = new List<Kaart>();
             while (stapel.Count > 0)
             {
+                //verplaatst een willekeurige kaart van de oorspronkelijke stapel naar de geschudde stapel
                 i = r.Next(stapel.Count);
                 verplaatsKaart(stapel, i, geschud);
             }
@@ -205,6 +201,11 @@ namespace CyberPesten
                 spelers[0].gemeld = false;
                 speelveld.laatsteKaart.BackColor = Color.Red;
            }
+        }
+
+        public void eindeSpel()
+        {
+            MessageBox.Show("Speler " + spelend + " heeft gewonnen");
         }
     }
 }
