@@ -10,21 +10,23 @@ namespace CyberPesten
 {
     class LokaalSpel : Spel
     {
-        public LokaalSpel(Speelveld s, int aantalSpelers)
+        public LokaalSpel(Speelveld s, int aantalSpelers, bool mensSpelend)
         {
             speelveld = s;
-            spelers = new List<Speler>();//moet aangeroepen worden met de Spel() functie
+            spelers = new List<Speler>();
             stapel = new List<Kaart>();
             pot = new List<Kaart>();
+            mens = mensSpelend;
+
             int kaartspellen = (aantalSpelers) / 4 + 1; //hoeveel kaartspellen gebruikt worden
             int startkaarten = 7; //hoeveel kaarten de spelers in het begin krijgen
             spelend = 0; //welke speler aan de beurt is
             richting = 1; //welke kant er op gespeeld word
             speciaal = -1; //of er een speciale kaart gespeeld is
-            pakAantal = 0;
+            pakAantal = 0; //hoeveel kaarten er gepakt moeten worden (voor 2 en joker)
 
-            timer = new System.Timers.Timer();
-            timer.Elapsed += tijd;
+            timerAI = new System.Timers.Timer();
+            timerAI.Elapsed += tijd;
 
             //Spelers toevoegen
             spelers.Add(new Mens());
@@ -49,15 +51,25 @@ namespace CyberPesten
             //Kaarten delen
             for (int i = 0; i < startkaarten; i++)
             {
-                foreach (Speler speler in spelers)
+                int j = 0;
+                if (! mens)
                 {
-                    verplaatsKaart(pot, speler.hand);
+                    j++;
+                }
+                for (; j < spelers.Count; j++)
+                {
+                    verplaatsKaart(pot, spelers[j].hand);
                 }
             }
 
             spelers[0].maakXY();
             verplaatsKaart(pot, 0, stapel);
             s.Invalidate();
+            if (! mens)
+            {
+                spelend++;
+                spelers[spelend].doeZet();
+            }
         }
     }
 }

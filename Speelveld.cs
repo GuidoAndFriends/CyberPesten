@@ -72,12 +72,12 @@ namespace CyberPesten
             if (online)
             {
                 Text = "CyberPesten: Online spel";
-                spel = new OnlineSpel(this, aantalSpelers);
+                spel = new OnlineSpel(this, aantalSpelers, true);
             }
             else
             {
                 Text = "CyberPesten: Lokaal spel";
-                spel = new LokaalSpel(this, aantalSpelers);
+                spel = new LokaalSpel(this, aantalSpelers, false);
             }
 
             this.Show();

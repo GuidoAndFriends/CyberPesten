@@ -6,10 +6,9 @@ using System.Threading.Tasks;
 
 namespace CyberPesten
 {
-    
     class OnlineSpel : Spel 
     {
-        public OnlineSpel(Speelveld s, int aantalSpelers)
+        public OnlineSpel(Speelveld s, int aantalSpelers, bool mens)
         {
         }
     }

@@ -11,18 +11,9 @@ namespace CyberPesten
     class Menu : Form
     {
         private Form veld;
-        private NumericUpDown aantal;
-        int buttonWidth;
-        int buttonHeight;
-        int buttonWidthSmall;
-        int buttonHeightSmall;
-        int lokaalX;
-        int onlineX;
-        int buttonY;
-        int helpX;
-        int playersX;
-        int buttonSmallY;
-        int spelers;
+        int buttonWidth, buttonHeight, buttonWidthSmall, buttonHeightSmall;
+        int lokaalX, onlineX, buttonY, helpX, playersX, buttonSmallY;
+        int aantalSpelers;
 
         public Menu()
         {
@@ -37,7 +28,7 @@ namespace CyberPesten
             this.MouseClick += this.klik;
             DoubleBuffered = true;
 
-            spelers = 4;
+            aantalSpelers = 4;
 
             this.FormClosed += Menu_FormClosed;
         }
@@ -57,7 +48,7 @@ namespace CyberPesten
 
             if (lokaalButton.Contains(mea.Location))
             {
-                veld = new Speelveld(false, spelers, this);
+                veld = new Speelveld(false, aantalSpelers, this);
                 this.Hide();
             }
             if (onlineButton.Contains(mea.Location))

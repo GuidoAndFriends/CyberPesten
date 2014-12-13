@@ -15,7 +15,8 @@ namespace CyberPesten
         public Speelveld speelveld;
         public int spelend, richting, speciaal, pakAantal;
         public string status;
-        public System.Timers.Timer timer;
+        public System.Timers.Timer timerAI;
+        public bool mens;
 
         public Spel()
         {
@@ -175,16 +176,21 @@ namespace CyberPesten
         public void volgende()
         {
             spelend = (spelend + richting) % (spelers.Count);
+            if (!(mens) & spelend == 0)
+            {
+                spelend = (spelend + richting) % (spelers.Count);
+            }
+            
             if (spelend != 0)
             {
-                timer.Interval = 1500; //Eventueel nog random
-                timer.Start();
+                timerAI.Interval = 1000; //Eventueel nog random
+                timerAI.Start();
             }
         }
         
         public void tijd(object sender, EventArgs ea)
         {
-            timer.Stop();
+            timerAI.Stop();
             spelers[spelend].doeZet();
         }
 
