@@ -84,6 +84,7 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\Settings button.png" />
     <None Include="Resources\SQ.png" />
     <None Include="Resources\SK.png" />
     <None Include="Resources\SJ.png" />
@@ -127,12 +128,15 @@
     <None Include="Resources\HA.png" />
     <None Include="Resources\Back design 1.png" />
     <None Include="Resources\Back design 2.png" />
+    <None Include="Resources\Gradient.png" />
     <Content Include="Resources\harten.png" />
     <None Include="Resources\Help.png" />
     <None Include="Resources\HJ.png" />
     <None Include="Resources\HK.png" />
     <None Include="Resources\HQ.png" />
     <None Include="Resources\Joker.png" />
+    <None Include="Resources\Help button.png" />
+    <None Include="Resources\Home button.png" />
     <Content Include="Resources\klavers.png" />
     <None Include="Resources\Menu achtergrond.png" />
     <None Include="Resources\Menu logo.png" />

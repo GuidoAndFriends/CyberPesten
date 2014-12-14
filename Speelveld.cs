@@ -29,6 +29,10 @@ namespace CyberPesten
         
         public Button laatsteKaart, help;
 
+        //Voor de buttons
+        Rectangle helpButton;
+        Rectangle homeButton;
+
         public Speelveld(bool online, int aantalSpelers, Menu m)
         {
             menu = m;
@@ -47,13 +51,13 @@ namespace CyberPesten
 
             potPlek = new Point(Width / 2 + 50, Height / 2 - kaartHoogte / 2);
 
-            help = new Button();
+            /*help = new Button();
             help.Size = new Size(kaartHoogte, kaartBreedte);
             help.Location = new Point(Width / 2 - 500 - kaartBreedte, Height / 2 - kaartBreedte / 2);
             help.Text = "Help";
             help.Font = new Font(FontFamily.GenericSansSerif, 20);
             help.MouseClick += helpKlik;
-            Controls.Add(help);
+            Controls.Add(help);*/
             
             laatsteKaart = new Button();
             laatsteKaart.Size = new Size(kaartHoogte, kaartBreedte);
@@ -66,6 +70,7 @@ namespace CyberPesten
 
             Paint += teken;
             MouseClick += muisKlik;
+            MouseClick += buttonKlik;
             MouseMove += muisBeweeg;
             MouseDown += muisOmlaag;
             MouseUp += muisOmhoog;
@@ -92,7 +97,7 @@ namespace CyberPesten
             Graphics gr = pea.Graphics;
 
             //achtergrond
-            gr.FillRectangle(Brushes.DarkGreen, 0, 0, Width, Height);
+            gr.FillRectangle(new SolidBrush(Color.FromArgb(29, 129, 47)), 0, 0, Width, Height);
             //gr.FillRectangle(new TextureBrush(BackgroundImage), 0, 0, Width, Height);
             //gr.DrawImage(BackgroundImage, 0, 0);
 
@@ -107,7 +112,7 @@ namespace CyberPesten
             //hand van speler
             foreach (Kaart kaart in spel.spelers[0].hand)
             {
-                gr.DrawImage(kaart.voorkant, kaart.X, kaart.Y);
+                gr.DrawImage(kaart.voorkant, kaart.X, kaart.Y - 20);
             }
 
             //blokken van AI
@@ -126,6 +131,34 @@ namespace CyberPesten
 
             //status van het spel
             gr.DrawString(spel.status, new Font(FontFamily.GenericSansSerif, 14), Brushes.Black, new Point(40, 450));
+
+            //Buttons
+            Image HelpButton = (Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Help_button");
+            Image SettingsButton = (Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Settings_button");
+            Image HomeButton = (Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Home_button");
+
+            int buttonWidth = HelpButton.Size.Width;
+
+            gr.DrawImage(HelpButton, 25, this.Height - 25 - HelpButton.Size.Height, buttonWidth, buttonWidth);
+            gr.DrawImage(SettingsButton, 50 + buttonWidth, this.Height - 25 - buttonWidth, buttonWidth, buttonWidth);
+            gr.DrawImage(HomeButton, 75 + 2 * buttonWidth, this.Height - 25 - buttonWidth, buttonWidth, buttonWidth);
+
+            helpButton = new Rectangle(25, this.Height - 25 - buttonWidth, buttonWidth, buttonWidth);
+            homeButton = new Rectangle(75 + 2 * buttonWidth, this.Height - 25 - buttonWidth, buttonWidth, buttonWidth);     
+        }
+
+        private void buttonKlik(object sender, MouseEventArgs mea) //Regelt wat er gebeurt als er op de buttons wordt geklikt
+        {
+            if (helpButton.Contains(mea.Location))
+            {
+                Help help = new Help();
+            }
+
+            if (homeButton.Contains(mea.Location))
+            {
+                this.Close();
+                //Terug naar menu
+            }
         }
 
         private void muisKlik(object sender, MouseEventArgs mea)
@@ -158,11 +191,6 @@ namespace CyberPesten
         private void laatsteKaartKlick(object sender, EventArgs e)
         {
             spel.laatsteKaart(1);
-        }
-
-        private void helpKlik(object sender, MouseEventArgs mea)
-        {
-            Help help = new Help();
         }
 
         private void scroll(object sender, EventArgs ea)
