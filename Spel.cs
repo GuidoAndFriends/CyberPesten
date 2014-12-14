@@ -205,13 +205,13 @@ namespace CyberPesten
             if (sender == 1)
             {
                 spelers[0].gemeld = true;
-                speelveld.laatsteKaart.BackColor = Color.Green;
+                //speelveld.laatsteKaart.BackColor = Color.Green;
                 
             }
             else
             {
                 spelers[0].gemeld = false;
-                speelveld.laatsteKaart.BackColor = Color.Red;
+                //speelveld.laatsteKaart.BackColor = Color.Red;
            }
         }
 

@@ -543,6 +543,16 @@ namespace CyberPesten.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Laatste_kaart {
+            get {
+                object obj = ResourceManager.GetObject("Laatste_kaart", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Lokaal {
             get {
                 object obj = ResourceManager.GetObject("Lokaal", resourceCulture);

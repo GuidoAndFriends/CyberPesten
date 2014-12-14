@@ -31,7 +31,9 @@ namespace CyberPesten
 
         //Voor de buttons
         Rectangle helpButton;
+        //Rectangle settingsButton;
         Rectangle homeButton;
+        Rectangle laatsteKaartButton;
 
         public Speelveld(bool online, int aantalSpelers, Menu m)
         {
@@ -57,7 +59,7 @@ namespace CyberPesten
             help.Text = "Help";
             help.Font = new Font(FontFamily.GenericSansSerif, 20);
             help.MouseClick += helpKlik;
-            Controls.Add(help);*/
+            Controls.Add(help);
             
             laatsteKaart = new Button();
             laatsteKaart.Size = new Size(kaartHoogte, kaartBreedte);
@@ -66,7 +68,7 @@ namespace CyberPesten
             laatsteKaart.BackColor = Color.OrangeRed;
             laatsteKaart.Font = new Font(FontFamily.GenericSansSerif, 20);
             laatsteKaart.MouseClick += laatsteKaartKlick;
-            Controls.Add(laatsteKaart);
+            Controls.Add(laatsteKaart);*/
 
             Paint += teken;
             MouseClick += muisKlik;
@@ -144,7 +146,12 @@ namespace CyberPesten
             gr.DrawImage(HomeButton, 75 + 2 * buttonWidth, this.Height - 25 - buttonWidth, buttonWidth, buttonWidth);
 
             helpButton = new Rectangle(25, this.Height - 25 - buttonWidth, buttonWidth, buttonWidth);
-            homeButton = new Rectangle(75 + 2 * buttonWidth, this.Height - 25 - buttonWidth, buttonWidth, buttonWidth);     
+            homeButton = new Rectangle(75 + 2 * buttonWidth, this.Height - 25 - buttonWidth, buttonWidth, buttonWidth);   
+
+            // Laatste kaart button
+            Image LaatsteKaartButton = (Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Laatste_kaart");
+            gr.DrawImage(LaatsteKaartButton, this.Width - 750, this.Height / 2 - LaatsteKaartButton.Width / 2 + 5, LaatsteKaartButton.Width, LaatsteKaartButton.Width);
+            laatsteKaartButton = new Rectangle(this.Width - 750, this.Height / 2 - LaatsteKaartButton.Width / 2 + 5, LaatsteKaartButton.Width, LaatsteKaartButton.Width);
         }
 
         private void buttonKlik(object sender, MouseEventArgs mea) //Regelt wat er gebeurt als er op de buttons wordt geklikt
@@ -158,6 +165,10 @@ namespace CyberPesten
             {
                 this.Close();
                 //Terug naar menu
+            }
+            if (laatsteKaartButton.Contains(mea.Location))
+            {
+                spel.laatsteKaart(1);
             }
         }
 
@@ -188,10 +199,11 @@ namespace CyberPesten
             } 
         }
 
+        /*
         private void laatsteKaartKlick(object sender, EventArgs e)
         {
             spel.laatsteKaart(1);
-        }
+        }*/
 
         private void scroll(object sender, EventArgs ea)
         //zal een kaart spelen als er gescrolld wordt

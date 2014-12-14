@@ -143,6 +143,7 @@
     <None Include="Resources\Lokaal.png" />
     <None Include="Resources\Online.png" />
     <None Include="Resources\Players.png" />
+    <None Include="Resources\Laatste kaart.png" />
     <Content Include="Resources\ruiten.png" />
     <None Include="Resources\S2.png" />
     <None Include="Resources\S3.png" />
