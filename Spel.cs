@@ -44,20 +44,22 @@ namespace CyberPesten
             Kaart kaart = hand[index];
             if (speelbaar(kaart))
             {
-                /*
+                
                 //Goede animatie:
                 Point p1;
                 if (spelend == 0)
                 {
-                    p1 = new Point(k.X, k.Y);
+                    p1 = new Point(kaart.X, kaart.Y);
                 }
                 else
                 {
-                    p1 = new Point(10 + (290 + 40) * (spelend - 1) + 100, 10);
+                    int breedte = (spelers.Count - 1) * (290 + 40);
+                    int tussenruimte = (breedte - 20) / (spelers.Count - 2);
+                    p1 = new Point(10 + (290 + tussenruimte) * (spelend - 1), 10);
                 }
-                speelveld.bewegendeKaart = k;
-                speelveld.verplaatsen2(p1, new Point(350, 300), index);
-                */
+                speelveld.bewegendeKaart = kaart;
+                speelveld.verplaatsen2(p1, speelveld.stapelPlek, index);
+                
                 
                 //Controle bij laatste kaart
                 if (hand.Count == 1)

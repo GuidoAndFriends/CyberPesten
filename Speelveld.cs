@@ -14,8 +14,10 @@ namespace CyberPesten
         public Menu menu;
         public Spel spel;
         public int kaartBreedte, kaartHoogte, afstand;
-        public Point potPlek;
-        
+        public Point stapelPlek, potPlek;
+
+        public bool tekenHelemaal;
+
         //Voor het verslepen van een kaart
         public bool muisLaag;
         public int laagIndex, laagX, laagY;
@@ -38,19 +40,23 @@ namespace CyberPesten
         public Speelveld(bool online, int aantalSpelers, Menu m)
         {
             menu = m;
-            kaartBreedte = 90;
-            kaartHoogte = 135;
+            kaartBreedte = 110;
+            kaartHoogte = 153;
             afstand = 10;
             
             muisLaag = false;
+            tekenHelemaal = true;
 
             Size = menu.Size;
             FormBorderStyle = FormBorderStyle.None;
             WindowState = FormWindowState.Maximized;
             DoubleBuffered = true;
 
-            BackgroundImage = (Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Achtergrond");
+            Bitmap achtergrond = new Bitmap(Width, Height, System.Drawing.Imaging.PixelFormat.Format32bppPArgb);
+            Graphics.FromImage(achtergrond).DrawImage((Bitmap)CyberPesten.Properties.Resources.ResourceManager.GetObject("Achtergrond"), 0, 0);
+            BackgroundImage = achtergrond;
 
+            stapelPlek = new Point(Width / 2 - 50 - kaartBreedte, Height / 2 - kaartHoogte / 2);
             potPlek = new Point(Width / 2 + 50, Height / 2 - kaartHoogte / 2);
 
             /*help = new Button();
@@ -98,60 +104,63 @@ namespace CyberPesten
         {
             Graphics gr = pea.Graphics;
 
-            //achtergrond
-            gr.FillRectangle(new SolidBrush(Color.FromArgb(29, 129, 47)), 0, 0, Width, Height);
-            //gr.FillRectangle(new TextureBrush(BackgroundImage), 0, 0, Width, Height);
-            //gr.DrawImage(BackgroundImage, 0, 0);
-
-            //stapel
-            Bitmap plaatje = spel.stapel[spel.stapel.Count - 1].voorkant;
-            gr.DrawImage(plaatje, Width / 2 - 50 - kaartBreedte, Height / 2 - kaartHoogte / 2);
-
-            //pot
-            plaatje = spel.pot[spel.pot.Count - 1].achterkant;
-            gr.DrawImage(plaatje, potPlek);
-
-            //hand van speler
-            foreach (Kaart kaart in spel.spelers[0].hand)
+            if (tekenHelemaal)
             {
-                gr.DrawImage(kaart.voorkant, kaart.X, kaart.Y - 20);
+                //achtergrond
+                gr.CompositingMode = System.Drawing.Drawing2D.CompositingMode.SourceCopy;
+                gr.DrawImage(BackgroundImage, 0, 0);
+                gr.CompositingMode = System.Drawing.Drawing2D.CompositingMode.SourceOver;
+
+                //stapel
+                Bitmap plaatje = spel.stapel[spel.stapel.Count - 1].voorkant;
+                gr.DrawImage(plaatje, stapelPlek);
+
+                //pot
+                plaatje = spel.pot[spel.pot.Count - 1].achterkant;
+                gr.DrawImage(plaatje, potPlek);
+
+                //hand van speler
+                foreach (Kaart kaart in spel.spelers[0].hand)
+                {
+                    gr.DrawImage(kaart.voorkant, kaart.X, kaart.Y - 20);
+                }
+
+                //blokken van AI
+                int breedte = (spel.spelers.Count - 1) * (290 + 40);
+                int tussenruimte = (breedte - 20) / (spel.spelers.Count - 2);
+                for (int i = 1; i < spel.spelers.Count; i++)
+                {
+                    gr.DrawImage(spel.spelers[i].blok, 10 + (290 + tussenruimte) * (i - 1), 10);
+                }
+
+                //een eventuele bewegende kaart
+                if (bewegendeKaart != null)
+                {
+                    gr.DrawImage(bewegendeKaart.voorkant, bewegendeKaart.X, bewegendeKaart.Y);
+                }
+
+                //status van het spel
+                gr.DrawString(spel.status, new Font(FontFamily.GenericSansSerif, 14), Brushes.Black, new Point(40, 450));
+
+                //Buttons
+                Image HelpButton = (Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Help_button");
+                Image SettingsButton = (Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Settings_button");
+                Image HomeButton = (Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Home_button");
+
+                int buttonWidth = HelpButton.Size.Width;
+
+                gr.DrawImage(HelpButton, 25, this.Height - 25 - HelpButton.Size.Height, buttonWidth, buttonWidth);
+                gr.DrawImage(SettingsButton, 50 + buttonWidth, this.Height - 25 - buttonWidth, buttonWidth, buttonWidth);
+                gr.DrawImage(HomeButton, 75 + 2 * buttonWidth, this.Height - 25 - buttonWidth, buttonWidth, buttonWidth);
+
+                helpButton = new Rectangle(25, this.Height - 25 - buttonWidth, buttonWidth, buttonWidth);
+                homeButton = new Rectangle(75 + 2 * buttonWidth, this.Height - 25 - buttonWidth, buttonWidth, buttonWidth);
+
+                // Laatste kaart button
+                Image LaatsteKaartButton = (Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Laatste_kaart");
+                gr.DrawImage(LaatsteKaartButton, this.Width - 750, this.Height / 2 - LaatsteKaartButton.Width / 2 + 5, LaatsteKaartButton.Width, LaatsteKaartButton.Width);
+                laatsteKaartButton = new Rectangle(this.Width - 750, this.Height / 2 - LaatsteKaartButton.Width / 2 + 5, LaatsteKaartButton.Width, LaatsteKaartButton.Width);
             }
-
-            //blokken van AI
-            int breedte = (spel.spelers.Count - 1) * (290 + 40);
-            int tussenruimte = (breedte - 20) / (spel.spelers.Count - 2);
-            for (int i = 1; i < spel.spelers.Count; i++)
-            {
-                gr.DrawImage(spel.spelers[i].blok, 10 + (290 + tussenruimte) * (i - 1), 10);
-            }
-
-            //een eventuele bewegende kaart
-            if (bewegendeKaart != null)
-            {
-                gr.DrawImage(bewegendeKaart.voorkant, bewegendeKaart.X, bewegendeKaart.Y);
-            }
-
-            //status van het spel
-            gr.DrawString(spel.status, new Font(FontFamily.GenericSansSerif, 14), Brushes.Black, new Point(40, 450));
-
-            //Buttons
-            Image HelpButton = (Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Help_button");
-            Image SettingsButton = (Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Settings_button");
-            Image HomeButton = (Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Home_button");
-
-            int buttonWidth = HelpButton.Size.Width;
-
-            gr.DrawImage(HelpButton, 25, this.Height - 25 - HelpButton.Size.Height, buttonWidth, buttonWidth);
-            gr.DrawImage(SettingsButton, 50 + buttonWidth, this.Height - 25 - buttonWidth, buttonWidth, buttonWidth);
-            gr.DrawImage(HomeButton, 75 + 2 * buttonWidth, this.Height - 25 - buttonWidth, buttonWidth, buttonWidth);
-
-            helpButton = new Rectangle(25, this.Height - 25 - buttonWidth, buttonWidth, buttonWidth);
-            homeButton = new Rectangle(75 + 2 * buttonWidth, this.Height - 25 - buttonWidth, buttonWidth, buttonWidth);   
-
-            // Laatste kaart button
-            Image LaatsteKaartButton = (Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Laatste_kaart");
-            gr.DrawImage(LaatsteKaartButton, this.Width - 750, this.Height / 2 - LaatsteKaartButton.Width / 2 + 5, LaatsteKaartButton.Width, LaatsteKaartButton.Width);
-            laatsteKaartButton = new Rectangle(this.Width - 750, this.Height / 2 - LaatsteKaartButton.Width / 2 + 5, LaatsteKaartButton.Width, LaatsteKaartButton.Width);
         }
 
         private void buttonKlik(object sender, MouseEventArgs mea) //Regelt wat er gebeurt als er op de buttons wordt geklikt
@@ -297,6 +306,7 @@ namespace CyberPesten
                         kaart.X += delta;
                     }
                     Invalidate();
+                    Update();
                     Thread.Sleep(25);
                 }
             }
@@ -331,8 +341,8 @@ namespace CyberPesten
 
                 verplaatsStap++;
                 Invalidate();
-                Application.DoEvents();
-                Thread.Sleep(1);
+                Update
+                Thread.Sleep(25);
             }
 
             verplaatsAnimatie = null;
@@ -342,20 +352,18 @@ namespace CyberPesten
         public void verplaatsen2(Point p1, Point p2, int index)
         {
             int deltaX, deltaY, stappen, stap;
-            Point pOud;
             stappen = 20;
             stap = 0;
             Kaart kaart = spel.spelers[spel.spelend].hand[index];
-            pOud = p1;
 
-            while (stap < stappen)
+            while (stap < stappen + 1)
             {
                 //het is iets ingewikkelder vanwege de afronding van int, waarschijnlijk is het beter om float te gebruiken
 
                 deltaX = stap * (p2.X - p1.X) / stappen;
                 deltaY = stap * (p2.Y - p1.Y) / stappen;
-                kaart.X = pOud.X + deltaX;
-                kaart.Y = pOud.Y + deltaY;
+                kaart.X = p1.X + deltaX;
+                kaart.Y = p1.Y + deltaY;
 
                 //deltaX = (verplaatsPunt2.X - verplaatsPunt1.X) / stappen;
                 //deltaY = (verplaatsPunt2.Y - verplaatsPunt1.Y) / stappen;
@@ -363,9 +371,9 @@ namespace CyberPesten
                 //kaart.Y += deltaY;
 
                 stap++;
-                Invalidate();
-                Application.DoEvents();
-                Thread.Sleep(1);
+                Invoke(new Action(() => Invalidate()));
+                Invoke(new Action(() => Update()));
+                Thread.Sleep(20);
             }
         }
     }

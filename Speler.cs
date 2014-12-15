@@ -20,7 +20,7 @@ namespace CyberPesten
         public virtual void updateBlok()
         {
             //Maakt een plaatje met maximaal drie kaarten en de naam, het aantal kaarten en een pijltje als de speler aan de beurt is
-            Bitmap b = new Bitmap(290, 180);
+            Bitmap b = new Bitmap(290, 180, System.Drawing.Imaging.PixelFormat.Format32bppPArgb);
             Graphics gr = Graphics.FromImage(b);
 
             for (int i = 0; i < hand.Count && i < 3; i++)

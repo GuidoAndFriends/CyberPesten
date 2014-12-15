@@ -23,8 +23,13 @@ namespace CyberPesten
             {
                 kleur = k;
                 waarde = w;
-                voorkant = maakVoorkant();
-                achterkant = maakAchterkant(); //het is niet echt efficient om voor elke kaart de achterkant op te slaan
+
+                voorkant = new Bitmap(kaartGrootte.Width, kaartGrootte.Height, System.Drawing.Imaging.PixelFormat.Format32bppPArgb);
+                Graphics.FromImage(voorkant).DrawImage(maakVoorkant(), 0, 0);
+
+                achterkant = new Bitmap(kaartGrootte.Width, kaartGrootte.Height, System.Drawing.Imaging.PixelFormat.Format32bppPArgb);
+                Graphics.FromImage(achterkant).DrawImage(maakAchterkant(), 0, 0);
+                //het is niet echt efficient om voor elke kaart de achterkant op te slaan
             }
             else
             {
@@ -38,8 +43,12 @@ namespace CyberPesten
             {
                 kleur = 4;
                 waarde = 0;
-                voorkant = maakVoorkant();
-                achterkant = maakAchterkant();
+
+                voorkant = new Bitmap(kaartGrootte.Width, kaartGrootte.Height, System.Drawing.Imaging.PixelFormat.Format32bppPArgb);
+                Graphics.FromImage(voorkant).DrawImage(maakVoorkant(), 0, 0);
+
+                achterkant = new Bitmap(kaartGrootte.Width, kaartGrootte.Height, System.Drawing.Imaging.PixelFormat.Format32bppPArgb);
+                Graphics.FromImage(achterkant).DrawImage(maakAchterkant(), 0, 0);
             }
             else
             {
