@@ -29,7 +29,7 @@ namespace CyberPesten
             timerAI.Elapsed += tijd;
 
             //Spelers toevoegen
-            spelers.Add(new Mens());
+            spelers.Add(new Mens(this));
             for (int i = 1; i < aantalSpelers; i++)
             {
                 spelers.Add(new Guido(this));

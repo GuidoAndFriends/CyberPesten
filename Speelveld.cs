@@ -126,11 +126,11 @@ namespace CyberPesten
                 }
 
                 //blokken van AI
-                int breedte = (spel.spelers.Count - 1) * (290 + 40);
-                int tussenruimte = (breedte - 20) / (spel.spelers.Count - 2);
+                int breedte = (spel.spelers.Count - 1) * 370 - 20;
+                int tussenruimte = (Width - breedte - 20) / (spel.spelers.Count - 2);
                 for (int i = 1; i < spel.spelers.Count; i++)
                 {
-                    gr.DrawImage(spel.spelers[i].blok, 10 + (290 + tussenruimte) * (i - 1), 10);
+                    gr.DrawImage(spel.spelers[i].blok, 10 + (370 + tussenruimte) * (i - 1), 10);
                 }
 
                 //een eventuele bewegende kaart

@@ -20,12 +20,13 @@ namespace CyberPesten
         public virtual void updateBlok()
         {
             //Maakt een plaatje met maximaal drie kaarten en de naam, het aantal kaarten en een pijltje als de speler aan de beurt is
-            Bitmap b = new Bitmap(290, 180, System.Drawing.Imaging.PixelFormat.Format32bppPArgb);
+            //Breedte is 3 kaarten en 2 keer tussenruimte: 3 * 110 + 2 * 10 = 350
+            Bitmap b = new Bitmap(350, 183, System.Drawing.Imaging.PixelFormat.Format32bppPArgb);
             Graphics gr = Graphics.FromImage(b);
 
             for (int i = 0; i < hand.Count && i < 3; i++)
             {
-                gr.DrawImage(hand[0].achterkant, i * 100, 0);
+                gr.DrawImage(hand[0].achterkant, i * 120, 0);
             }
 
             string tekst = naam + " : " + hand.Count;
@@ -33,7 +34,7 @@ namespace CyberPesten
             {
                 tekst += " \u25C0";
             }
-            gr.DrawString(tekst, new Font(FontFamily.GenericSansSerif, 14), Brushes.Black, 0, 145);
+            gr.DrawString(tekst, new Font(FontFamily.GenericSansSerif, 14), Brushes.Black, 0, 153 + 10);
 
             blok =  b;
         }
