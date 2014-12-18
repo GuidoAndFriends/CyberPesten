@@ -10,6 +10,7 @@ namespace CyberPesten
 {
     partial class Spel
     {
+        public KleurKiezen kleur;
         public List<Kaart> pot, stapel;
         public List<Speler> spelers;
         public Speelveld speelveld;
@@ -87,6 +88,7 @@ namespace CyberPesten
                         verplaatsKaart(hand, index, stapel);
                         pakKaart(5);
                         laatsteKaart(0);
+                        volgende();
                         return true;
                     }
                 }
@@ -138,7 +140,7 @@ namespace CyberPesten
                 stapel = new List<Kaart>();
                 stapel.Add(bovenste);
             }
-
+            
             verplaatsKaart(pot, 0, spelers[spelend].hand);
 
             if (spelend == 0)
@@ -220,6 +222,11 @@ namespace CyberPesten
         public void eindeSpel()
         {
             MessageBox.Show("Speler " + spelend + " heeft gewonnen");
+        }
+
+        public void veranderKleur(int kleur)
+        {
+
         }
     }
 }
