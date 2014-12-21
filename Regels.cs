@@ -10,8 +10,24 @@ namespace CyberPesten
     {
 
         public bool speelbaar(Kaart kaart)
-        {
-            if (kaart.Kleur == stapel[stapel.Count - 1].Kleur ||
+        {/*
+            if (stapel[stapel.Count - 1].Waarde == 2 || stapel[stapel.Count - 1].Kleur == 4)
+            {
+                if (pakAantal != 0)
+                {
+                    if (kaart.Waarde == 2 || kaart.Kleur == 4)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+                else
+                    return true;
+            }*/
+            if(kaart.Kleur == stapel[stapel.Count - 1].Kleur ||
                 kaart.Waarde == stapel[stapel.Count - 1].Waarde ||
                 kaart.Kleur == 4 || //joker
                 kaart.Waarde == 11) //boer
@@ -63,34 +79,50 @@ namespace CyberPesten
         public void kaartActie()
         {
             Kaart kaart = stapel[stapel.Count - 1];
+            
             if (kaart.Kleur == 4) //joker
             {
                 regelPakken(5);
+                speciaal = 4;
             }
             else
             {
                 switch (kaart.Waarde)
                 {
-                    //case 2: regelPakken(2); break;
+                    case 2: regelPakken(2); break;
                     case 8: regelWacht(); break;
-                    //case 11: regelKleur(); break;
                     case 1: regelDraai(); break;
                 }
             }
+            
             if (kaart.Waarde == 7)
             {
                 spelers[spelend].doeZet();
             }
+            else if (kaart.Waarde == 11)
+            {
+                regelKleur();
+            }
             else if (kaart.Waarde != 8)
             {
                 volgende();
+            }
+
+            if (stapel[stapel.Count - 2].Waarde == 2 || stapel[stapel.Count - 2].Kleur == 4 && kaart.Waarde != 2 || kaart.Kleur != 4)
+            {
+                    regelEchtPakken(pakAantal);
+                    pakAantal = 0;
             }
         }
 
         public void regelPakken(int aantal)
         {
             pakAantal += aantal;
-            speciaal = 4;
+        }
+
+        public void regelEchtPakken(int pakAantal)
+        {
+            pakKaart(pakAantal);
         }
 
         public void regelWacht()
@@ -113,8 +145,20 @@ namespace CyberPesten
 
         public void regelKleur()
         {
-            //speler een kleur laten kiezen
-            //speciaal = gekozen kleur
+            if (spelend == 0)
+            {
+                kleur = new KleurKiezen();
+                kleur.FormClosed += kleur_FormClosed;
+            }
+            else
+            {
+                volgende();
+            }
+        }
+
+        void kleur_FormClosed(object sender, System.Windows.Forms.FormClosedEventArgs e)
+        {
+            volgende();
         }
 
         public void regelDraai()
