@@ -50,11 +50,13 @@ namespace CyberPesten
             {
                 veld = new Speelveld(false, aantalSpelers, this);
                 this.Hide();
+                //this.Dispose();
             }
             if (onlineButton.Contains(mea.Location))
             {
                 veld = new inlogScherm();
                 this.Hide();
+                //this.Dispose();
             }
             if (helpButton.Contains(mea.Location))
             {

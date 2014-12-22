@@ -29,7 +29,7 @@ namespace CyberPesten
         //Voor het verplaatsen van een kaart die gespeeld of gepakt wordt
         public Kaart bewegendeKaart;
         
-        public Button laatsteKaart, help;
+        //public Button laatsteKaart, help;
 
         //Voor de buttons
         Rectangle helpButton;
@@ -172,7 +172,9 @@ namespace CyberPesten
 
             if (homeButton.Contains(mea.Location))
             {
-                this.Close();
+                //this.Close();
+                Application.Exit();
+                //this.Dispose();
                 //Terug naar menu
             }
             if (laatsteKaartButton.Contains(mea.Location))
@@ -241,8 +243,8 @@ namespace CyberPesten
             if (muisLaag)
             {
                 //verplaatst de kaart waarop de speler de muis ingedrukt houdt
-                spel.spelers[0].hand[laagIndex].X = mea.X - laagX;
-                spel.spelers[0].hand[laagIndex].Y = mea.Y - laagY;
+                bewegendeKaart.X = mea.X - laagX;
+                bewegendeKaart.Y = mea.Y - laagY;
                 Invalidate();
             }
         }
@@ -255,10 +257,12 @@ namespace CyberPesten
                 //kijkt of er op een kaart is geklikt
                 int deltaX = mea.X - kaart.X;
                 int deltaY = mea.Y - kaart.Y;
-                if (deltaX >= 0 && deltaX <= 100 && deltaY >= 0 && deltaY <= 140)
+                if (deltaX >= 0 && deltaX <= kaartBreedte && deltaY >= 0 && deltaY <= kaartHoogte)
                 {
                     muisLaag = true;
-                    laagIndex = index;
+                    bewegendeKaart = spel.spelers[0].hand[index];
+                    spel.spelers[0].hand.RemoveAt(index);
+                    //laagIndex = index;
                     laagX = deltaX;
                     laagY = deltaY;
                     return;
@@ -271,6 +275,17 @@ namespace CyberPesten
         private void muisOmhoog(object sender, MouseEventArgs mea)
         {
             muisLaag = false;
+            if (spel.spelend == 0 && spel.speelbaar(bewegendeKaart))
+            {
+                spel.spelers[0].hand.Add(bewegendeKaart);
+                spel.speelKaart(spel.spelers[0].hand.Count - 1);
+                bewegendeKaart = null;
+            }
+            else
+            {
+                spel.spelers[0].hand.Add(bewegendeKaart);
+                bewegendeKaart = null;
+            }
         }
 
         private void muisWeg(object sender, EventArgs ea)
