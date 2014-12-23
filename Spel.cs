@@ -233,5 +233,37 @@ namespace CyberPesten
         {
 
         }
+
+        public Speler willekeurigeAI()
+        {
+            List<string> namen = new List<string>();
+            namen.Add("Guido");
+            namen.Add("Ayco");
+            namen.Add("Kaj");
+            namen.Add("Mehul");
+            namen.Add("Noah");
+            namen.Add("Norico");
+            namen.Add("Rik");
+
+            Random random = new Random();
+            string naam = namen[random.Next(namen.Count)];
+            
+            int aantal = 1;
+            int nummer = random.Next(aantal);
+            Speler gekozen;
+
+            switch (nummer)
+            {
+                case 0:
+                    gekozen = new AI1Random(this, naam);
+                    break;
+                default:
+                    MessageBox.Show("Er is iets mis in de functie willekeurigeAI");
+                    gekozen = new AI1Random(this, naam);
+                    break;
+            }
+
+            return gekozen;
+        }
     }
 }
