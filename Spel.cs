@@ -45,29 +45,12 @@ namespace CyberPesten
             Kaart kaart = hand[index];
             if (speelbaar(kaart))
             {
-                
-                //Goede animatie:
-                Point p1;
-                if (spelend == 0)
-                {
-                    p1 = new Point(kaart.X, kaart.Y);
-                }
-                else
-                {
-                    int breedte = (spelers.Count - 1) * (290 + 40);
-                    int tussenruimte = (breedte - 20) / (spelers.Count - 2);
-                    p1 = new Point(10 + (290 + tussenruimte) * (spelend - 1), 10);
-                }
-                speelveld.bewegendeKaart = kaart;
-                speelveld.verplaatsen2(p1, speelveld.stapelPlek, index);
-                
-                
                 //Controle bij laatste kaart
                 if (hand.Count == 1)
                 {
                     if (spelers[spelend].gemeld)
                     {
-                        verplaatsKaart(hand, index, stapel);
+                        speelKaartNu(hand, index, stapel);
                         if (spelend == 0)
                         {
                             status = "Jij speelde " + kaart.tekst;
@@ -85,7 +68,7 @@ namespace CyberPesten
                     }
                     else
                     {
-                        verplaatsKaart(hand, index, stapel);
+                        speelKaartNu(hand, index, stapel);
                         pakKaart(5);
                         laatsteKaart(0);
                         volgende();
@@ -94,7 +77,7 @@ namespace CyberPesten
                 }
                 else
                 {
-                    verplaatsKaart(hand, index, stapel);
+                    speelKaartNu(hand, index, stapel);
                     if (spelend == 0)
                     {
                         status = "Jij speelde " + kaart.tekst;
@@ -121,6 +104,28 @@ namespace CyberPesten
         public bool speelKaart(Kaart kaart)
         {
             return speelKaart(spelers[spelend].hand.IndexOf(kaart));
+        }
+
+
+        public void speelKaartNu(List<Kaart> van, int index, List<Kaart> naar)
+        {
+            Kaart kaart = van[index];
+            Point p1;
+            if (spelend == 0)
+            {
+                p1 = new Point(kaart.X, kaart.Y);
+            }
+            else
+            {
+                int breedte = (spelers.Count - 1) * (290 + 40);
+                int tussenruimte = (breedte - 20) / (spelers.Count - 2);
+                p1 = new Point(10 + (290 + tussenruimte) * (spelend - 1), 10);
+            }
+            speelveld.bewegendeKaart = kaart;
+            van.RemoveAt(index);
+            speelveld.verplaatsen(p1, speelveld.stapelPlek, index);
+            naar.Add(speelveld.bewegendeKaart);
+
         }
 
         public void pakKaart()

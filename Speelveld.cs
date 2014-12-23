@@ -20,7 +20,7 @@ namespace CyberPesten
 
         //Voor het verslepen van een kaart
         public bool muisLaag;
-        public int laagIndex, laagX, laagY;
+        public int laagX, laagY;
 
         //Voor het verschuiven van de hand van de speler
         public Thread schuifAnimatie;
@@ -120,7 +120,10 @@ namespace CyberPesten
                 //hand van speler
                 foreach (Kaart kaart in spel.spelers[0].hand)
                 {
-                    gr.DrawImage(kaart.voorkant, kaart.X, kaart.Y - 20);
+                    if (kaart != null)
+                    {
+                        gr.DrawImage(kaart.voorkant, kaart.X, kaart.Y - 20);
+                    }
                 }
 
                 //blokken van AI
@@ -330,7 +333,7 @@ namespace CyberPesten
                     }
                     Invoke(new Action(() => Invalidate()));
                     Invoke(new Action(() => Update()));
-                    Thread.Sleep(25);
+                    Thread.Sleep(20);
                 }
                 else
                 {
@@ -341,49 +344,14 @@ namespace CyberPesten
             schuifAnimatie = null;
         }
 
-        //hieronder pogingen tot animatie van een kaart die gespeeld of gepakt wordt
-
-        /*
-        public int verplaatsIndex, verplaatsStap;
-        public Thread verplaatsAnimatie;
-        public Point verplaatsPuntOud, verplaatsPunt1, verplaatsPunt2;
-        
-        public void verplaatsen()
-        {
-            int deltaX, deltaY, stappen;
-            stappen = 50;
-            Kaart kaart = spel.spelers[spel.spelend].hand[verplaatsIndex];
-
-            while (verplaatsStap < stappen)
-            {
-                //het is iets ingewikkelder vanwege de afronding van int, waarschijnlijk is het beter om float te gebruiken
-                
-                deltaX = verplaatsStap * (verplaatsPunt2.X - verplaatsPunt1.X) / stappen;
-                deltaY = verplaatsStap * (verplaatsPunt2.Y - verplaatsPunt1.Y) / stappen;
-                kaart.X = verplaatsPuntOud.X + deltaX;
-                kaart.Y = verplaatsPuntOud.Y + deltaY;
-                
-                //deltaX = (verplaatsPunt2.X - verplaatsPunt1.X) / stappen;
-                //deltaY = (verplaatsPunt2.Y - verplaatsPunt1.Y) / stappen;
-                //kaart.X += deltaX;
-                //kaart.Y += deltaY;
-
-                verplaatsStap++;
-                Invalidate();
-                Update
-                Thread.Sleep(25);
-            }
-
-            verplaatsAnimatie = null;
-        }
-        */
-
-        public void verplaatsen2(Point p1, Point p2, int index)
+        public void verplaatsen(Point p1, Point p2, int index)
         {
             int deltaX, deltaY, stappen, stap;
-            stappen = 20;
+            deltaX = p2.X - p1.X;
+            deltaY = p2.Y - p1.Y;
+            stappen = 2 + (int)(Math.Sqrt(deltaX * deltaX + deltaY * deltaY) / 50);
             stap = 0;
-            Kaart kaart = spel.spelers[spel.spelend].hand[index];
+            //Kaart kaart = spel.spelers[spel.spelend].hand[index];
 
             while (stap < stappen + 1)
             {
@@ -391,8 +359,8 @@ namespace CyberPesten
 
                 deltaX = stap * (p2.X - p1.X) / stappen;
                 deltaY = stap * (p2.Y - p1.Y) / stappen;
-                kaart.X = p1.X + deltaX;
-                kaart.Y = p1.Y + deltaY;
+                bewegendeKaart.X = p1.X + deltaX;
+                bewegendeKaart.Y = p1.Y + deltaY;
 
                 //deltaX = (verplaatsPunt2.X - verplaatsPunt1.X) / stappen;
                 //deltaY = (verplaatsPunt2.Y - verplaatsPunt1.Y) / stappen;
