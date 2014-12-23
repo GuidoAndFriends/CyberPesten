@@ -24,7 +24,7 @@ namespace CyberPesten
 
         //Voor het verschuiven van de hand van de speler
         public Thread schuifAnimatie;
-        public int muisX, delta;
+        public int delta;
 
         //Voor het verplaatsen van een kaart die gespeeld of gepakt wordt
         public Kaart bewegendeKaart;
@@ -82,8 +82,6 @@ namespace CyberPesten
             MouseMove += muisBeweeg;
             MouseDown += muisOmlaag;
             MouseUp += muisOmhoog;
-            MouseLeave += muisWeg;
-            MouseEnter += muisTerug;
             Scroll += scroll;
 
             if (online)
@@ -238,14 +236,45 @@ namespace CyberPesten
 
         private void muisBeweeg(object sender, MouseEventArgs mea)
         {
-            //werkt de x van de muis bij om eventueel de hand van de speler te laten bewegen
-            muisX = mea.X;
             if (muisLaag)
             {
                 //verplaatst de kaart waarop de speler de muis ingedrukt houdt
                 bewegendeKaart.X = mea.X - laagX;
                 bewegendeKaart.Y = mea.Y - laagY;
                 Invalidate();
+            }
+            if (delta == 0)
+            {
+                if (mea.Y > Height - 10 - kaartHoogte)
+                {
+                    if (mea.X <= 50)
+                    {
+                        int breedte = spel.spelers[0].hand.Count * kaartBreedte - 10;
+                        if (breedte > Width)
+                        {
+                            delta = 10 + 10 * breedte / Width;
+                        }
+                        schuifAnimatie = new Thread(schuiven);
+                        schuifAnimatie.Start();
+                    }
+                    else if (mea.X >= Width - 50)
+                    {
+                        int breedte = spel.spelers[0].hand.Count * kaartBreedte - 10;
+                        if (breedte > Width)
+                        {
+                            delta = -10 + -10 * breedte / Width;
+                        }
+                        schuifAnimatie = new Thread(schuiven);
+                        schuifAnimatie.Start();
+                    }
+                }
+            } 
+            else
+            {
+                if (mea.Y < Height - 10 - kaartHoogte | (mea.X > 50 & mea.X < Width - 50))
+                {
+                    delta = 0;
+                }
             }
         }
 
@@ -288,43 +317,28 @@ namespace CyberPesten
             }
         }
 
-        private void muisWeg(object sender, EventArgs ea)
-        {
-            //verschuift de hand van de speler als de muis buiten beeld gaat
-            int breedte = spel.spelers[0].hand.Count * kaartBreedte - 10;
-            if (breedte > Width)
-            {
-                delta = 10 + 10 * breedte / Width;
-                if (muisX > 500)
-                {
-                    delta *= -1;
-                }
-                schuifAnimatie = new Thread(schuiven);
-                schuifAnimatie.Start();
-            }
-        }
-
-        private void muisTerug(object sender, EventArgs ea)
-        {
-            schuifAnimatie = null;
-        }
-
         private void schuiven()
         {
-            while (schuifAnimatie != null)
+            while (delta != 0)
             {
                 //als er nog een stuk van de hand buiten beeld is
-                if (delta > 0 && spel.spelers[0].hand[0].X < 50 || delta < 0 && spel.spelers[0].hand[spel.spelers[0].hand.Count - 1].X + 100 > 1000 - 50)
+                if (delta > 0 && spel.spelers[0].hand[0].X < 50 || delta < 0 && spel.spelers[0].hand[spel.spelers[0].hand.Count - 1].X + kaartBreedte > Width - 50)
                 {
                     foreach (Kaart kaart in spel.spelers[0].hand)
                     {
                         kaart.X += delta;
                     }
-                    Invalidate();
-                    Update();
+                    Invoke(new Action(() => Invalidate()));
+                    Invoke(new Action(() => Update()));
                     Thread.Sleep(25);
                 }
+                else
+                {
+                    delta = 0; 
+                }
             }
+            //MessageBox.Show("klaar");
+            schuifAnimatie = null;
         }
 
         //hieronder pogingen tot animatie van een kaart die gespeeld of gepakt wordt
