@@ -21,6 +21,9 @@ namespace CyberPesten
         TextBox maakAccountTextbox2 = new TextBox();
         Label maakAccountLabel1 = new Label();
         string CP;
+        bool done;
+        Thread helper_thread;
+
         public inlogScherm()
         {
             String bericht;
@@ -33,12 +36,13 @@ namespace CyberPesten
             DoubleBuffered = true;
             string inlogPath = Path.Combine(CP,"inlogData.cyberpesten");
             if(File.Exists(inlogPath)){//misschien een knop om van account te wisselen
-                string[] s = FileLines(inlogPath);
+                string[] s = Online.FileLines(inlogPath);
                 string[] str2 = {"name","unid"};
                 string[] str3 = {s[0],s[1]};
-                string str1 = PHPrequest("http://harbingerofme.info/GnF/login.php",str2,str3);
+                string str1 = Online.PHPrequest("http://harbingerofme.info/GnF/login.php",str2,str3);
                 if(str1 == "ja"){
                     bericht = s[0]+", je bent succesvol ingelogd. Welkom terug, vriend!";
+                    gaVerder();
                 }else{
                     bericht = "Er is iets misgegaan, kijk op onze site voor hulp!";
                 }
@@ -148,20 +152,21 @@ namespace CyberPesten
                 TimeSpan diff = DateTime.Now.ToUniversalTime() - origin;
                 string dt = "" + Math.Floor(diff.TotalSeconds);
                 MD5 md5hash = MD5.Create();
-                string hash = GetMd5Hash(md5hash, maakAccountTextbox1.Text + dt);
+                string hash = Online.GetMd5Hash(md5hash, maakAccountTextbox1.Text + dt);
                 string[] str1 = { "name", "email", "datetime", "unid" };
                 string[] str2 = { maakAccountTextbox1.Text, maakAccountTextbox2.Text, dt, hash };
-                string ret = PHPrequest("http://harbingerofme.info/GnF/new_user.php", str1, str2);
+                string ret = Online.PHPrequest("http://harbingerofme.info/GnF/new_user.php", str1, str2);
                 if (ret == "ja")
                 {
                     string stuff = str2[0] + "\n" + hash + "\n";
-                    if (writeFile(Path.Combine(CP, "inlogdata.cyberpesten"), stuff))
+                    if (Online.writeFile(Path.Combine(CP, "inlogdata.cyberpesten"), stuff))
                     {
                         a.Visible = false;
-                        string str12 = PHPrequest("http://harbingerofme.info/GnF/login.php", str1, str2);//we sturen wat data meer, maar dat maakt niet uit
+                        string str12 = Online.PHPrequest("http://harbingerofme.info/GnF/login.php", str1, str2);//we sturen wat data meer, maar dat maakt niet uit
                         if (str12 == "ja")
                         {
                             maakAccountLabel1.Text = str2[0] + ", je account is aangemaakt, en je bent alvast ingelogd";
+                            gaVerder();
                         }
                         else
                         {
@@ -171,7 +176,7 @@ namespace CyberPesten
                     else//fout in het opslaan van de gegevens
                     {
                         berichtHouder.Text = "Fout in het filesysteem, probeer het opnieuw";
-                        PHPrequest("htttp://harbingerofme.info/GnF/delete_user.php", str1, str2);
+                        Online.PHPrequest("htttp://harbingerofme.info/GnF/delete_user.php", str1, str2);
                     }
                 }
                 else
@@ -191,9 +196,94 @@ namespace CyberPesten
                 }
             }
         }
+        public void gaVerder(){
+          /*  if (!done)
+            {
+                helper_thread = new Thread(wachtEven);
+            }
+            else
+            {
+                this.Close();
+                helper_thread.Abort();
+            }*/
+        }
+        public void wachtEven(){
+            Thread.Sleep(500);
+            done = true;
+            gaVerder();
+            
+        }
+
+    }
+
+    class openSpellenScherm : Form//Ayco, vul dit op
+    {
+        //wat test spellen voor je
+        online_openSpel debug_spel1 = new online_openSpel("Test1", 2, 4, "Standaard", false);
+        online_openSpel debug_spel2 = new online_openSpel("2Test", 1, 8, "Familie", false);
+        online_openSpel debug_spel3 = new online_openSpel("StartTest", 3, 3, "Crazy8", true);
+        //doe ermee wat je wilt
+
+        public online_openSpel[] krijgSpellen()//deze vul ik op, je kan hem wel alvast aanroepen, maar hij zal altijd hetzelfde terugkeren  -Guido
+        {
+            online_openSpel[] returnal = { debug_spel1, debug_spel2, debug_spel3 };
+            /*
+            Online.PHPRequest("krijgspellen.php",null);//miss beveiliging?
+
+             *verwerk resultaten 
+
+            */
+            return returnal;
+        }
+    }
+
+    public class online_openSpel//een online spel
+    {
+        public string spelnaam;
+        public int spelerAantal;
+        public int maxSpelerAantal;
+        public string Spelregel;//kan ook als int, met 0 standaard, 1 voor familie regels, 2 voor iets anders, 3 voor custom ofzo.
+        public bool begonnen;
+        public string tags;//zodat er gezocht kan worden, er is nu nog geen definitie voor.
+        public string host;//voor het archief
+        public string spelernamen;//de spelernamen, gescheiden met een spatie
+        public int id;//voor het archief
+
+        //wachtwoord?
+
+
+        public online_openSpel(string spelname, int spelers, int maxSpelers,string regels, bool gestart)//goed genoeg voor testen
+        {
+            spelnaam = spelname;
+            spelerAantal = spelers;
+            maxSpelerAantal = maxSpelers;
+            Spelregel = regels;
+            begonnen = gestart;
+            host = "Guido";
+            tags = "naam:"+spelnaam + "regels:"+regels + spelernamen + "host:"+host;
+            
+        }
+
+        public online_openSpel(int ID, string spelname, int spelers, int maxSpelers,string regels, bool gestart, string hoster, string spelernames)//wat we echt gaan gebruiken
+        {
+            spelnaam = spelname;
+            spelerAantal = spelers;
+            maxSpelerAantal = maxSpelers;
+            Spelregel = regels;
+            begonnen = gestart;
+            id = ID;
+            host = hoster;
+            spelernamen = spelernames;
+            tags = "naam:" + spelnaam.ToLower() + "regels:" + regels.ToLower() + spelernamen.ToLower() + "host:" + host.ToLower() + "id:"+id;
+        }
+    }
+    
+    
+    class Online//bevat al onze hulp methoden
+    {
 
         //onderstaande methoden moeten waarschijnlijk naar een hoger niveua verplaatst worden
-        public string PHPrequest(string URL, string[] argument_names, string[] argument_values)
+        public static string PHPrequest(string URL, string[] argument_names, string[] argument_values)
         {
             if (argument_names.Count() != argument_values.Count()) { throw new ArgumentException(); }
             WebClient wc = new WebClient();
@@ -209,13 +299,13 @@ namespace CyberPesten
             return responsefromserver;
         }
 
-        public string FileReadAll(string path)//stuurt het hele bestand terug als tekst, geeft een null terug als er een fout optreed (bestand bestaat niet, geen toegang, etc.) - uiteraard is het makkelijker om dit zelf aan te roepen, maar ja
+        public static string FileReadAll(string path)//stuurt het hele bestand terug als tekst, geeft een null terug als er een fout optreed (bestand bestaat niet, geen toegang, etc.) - uiteraard is het makkelijker om dit zelf aan te roepen, maar ja
         {
             try { return File.ReadAllText(path); }
             catch { return null; }
         }
 
-        public string[] FileLines(string path)//stuurt het hele bestand terug als losse regels, null bij een fout
+        public static string[] FileLines(string path)//stuurt het hele bestand terug als losse regels, null bij een fout
         {
             try
             {
@@ -228,12 +318,12 @@ namespace CyberPesten
                 }
                 a.Close();
                 string[] ret = lst.ToArray();
-				return ret;
+                return ret;
             }
             catch { return null; }
         }
 
-        public bool writeFile(string path, string stuff)//schrijft naar een bestand, mocht dit bestand niet bestaan, dan wordt het gemaakt. Geeft true als gelukt, false als mislukt om wat voor reden dan ook
+        public static bool writeFile(string path, string stuff)//schrijft naar een bestand, mocht dit bestand niet bestaan, dan wordt het gemaakt. Geeft true als gelukt, false als mislukt om wat voor reden dan ook
         {
             try
             {
@@ -244,7 +334,7 @@ namespace CyberPesten
             catch { return false; }
         }
 
-        public bool appendFile(string path, string stuff)//schrijft aan het einde van een bestand, pas op met regel eindes.
+        public static bool appendFile(string path, string stuff)//schrijft aan het einde van een bestand, pas op met regel eindes.
         {
             try
             {
@@ -257,7 +347,7 @@ namespace CyberPesten
             }
         }
 
-        static string GetMd5Hash(MD5 md5Hash, string input)//Gekopierd van msdn
+        public static string GetMd5Hash(MD5 md5Hash, string input)//Gekopierd van msdn
         {
 
             // Convert the input string to a byte array and compute the hash. 
@@ -277,11 +367,6 @@ namespace CyberPesten
             // Return the hexadecimal string. 
             return sBuilder.ToString();
         }
-
-    }
-    class Online
-    {
-        
 
     }
 

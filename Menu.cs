@@ -84,6 +84,7 @@ namespace CyberPesten
 
         void veld_FormClosed(object sender, FormClosedEventArgs e)
         {
+            Online.appendFile("D:\test.txt", e.CloseReason + "\n");
             veld.Dispose();
             this.Show();
 
