@@ -48,6 +48,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AI\AI1Random.cs" />
+    <Compile Include="AI\AI2Pester.cs" />
+    <Compile Include="AI\AI3Oke.cs" />
     <Compile Include="HandPB.cs">
       <SubType>Component</SubType>
     </Compile>
