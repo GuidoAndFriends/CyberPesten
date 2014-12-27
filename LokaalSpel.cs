@@ -29,11 +29,19 @@ namespace CyberPesten
             timerAI.Elapsed += tijd;
 
             //Spelers toevoegen
+            namen = new List<string>();
+            namen.Add("Guido");
+            namen.Add("Ayco");
+            namen.Add("Kaj");
+            namen.Add("Mehul");
+            namen.Add("Noah");
+            namen.Add("Norico");
+            namen.Add("Rik");
+
             spelers.Add(new Mens(this));
             for (int i = 1; i < aantalSpelers; i++)
             {
                 spelers.Add(willekeurigeAI());
-                    
             }
 
             //Kaarten toevoegen

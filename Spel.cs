@@ -12,6 +12,7 @@ namespace CyberPesten
     {
         public KleurKiezen kleur;
         public List<Kaart> pot, stapel;
+        public List<string> namen;
         public List<Speler> spelers;
         public Speelveld speelveld;
         public int spelend, richting, speciaal, pakAantal;
@@ -236,17 +237,9 @@ namespace CyberPesten
 
         public Speler willekeurigeAI()
         {
-            List<string> namen = new List<string>();
-            namen.Add("Guido");
-            namen.Add("Ayco");
-            namen.Add("Kaj");
-            namen.Add("Mehul");
-            namen.Add("Noah");
-            namen.Add("Norico");
-            namen.Add("Rik");
-
             Random random = new Random();
             string naam = namen[random.Next(namen.Count)];
+            namen.Remove(naam);
             
             int aantal = 1;
             int nummer = random.Next(aantal);
@@ -256,6 +249,12 @@ namespace CyberPesten
             {
                 case 0:
                     gekozen = new AI1Random(this, naam);
+                    break;
+                case 1:
+                    gekozen = new AI2Pester(this, naam);
+                    break;
+                case 2:
+                    gekozen = new AI3Oke(this, naam);
                     break;
                 default:
                     MessageBox.Show("Er is iets mis in de functie willekeurigeAI");
