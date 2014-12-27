@@ -21,7 +21,7 @@ namespace CyberPesten
         {
             //Maakt een plaatje met maximaal drie kaarten en de naam, het aantal kaarten en een pijltje als de speler aan de beurt is
             //Breedte is 3 kaarten en 2 keer tussenruimte: 3 * 110 + 2 * 10 = 350
-            Bitmap b = new Bitmap(350, 183, System.Drawing.Imaging.PixelFormat.Format32bppPArgb);
+            Bitmap b = new Bitmap(350, 193, System.Drawing.Imaging.PixelFormat.Format32bppPArgb);
             Graphics gr = Graphics.FromImage(b);
 
             for (int i = 0; i < hand.Count && i < 3; i++)
