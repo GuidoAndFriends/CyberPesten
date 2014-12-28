@@ -133,34 +133,41 @@ namespace CyberPesten
         public void pakKaart()
         //geeft de bovenste kaart van de pot aan degene die aan de beurt is.
         {
-            //als de pot leeg is, gaan de kaarten die opgelegd zijn op de stapel naar de pot, op de bovenste kaart na
-            if (pot.Count == 0)
+            if (speciaal == 4)
             {
-                
-                int boven = stapel.Count - 1;
-                Kaart bovenste = stapel[boven];
-                stapel.RemoveAt(boven);
-
-                pot = stapel;
-                pot = schud(pot);
-
-                stapel = new List<Kaart>();
-                stapel.Add(bovenste);
-            }
-            
-            verplaatsKaart(pot, 0, spelers[spelend].hand);
-
-            if (spelend == 0)
-            {
-                status = ("Je kon niet en hebt een kaart gepakt");
-                
+                regelPakkenNu();
             }
             else
             {
-                status = ("Speler " + spelend + " kon niet en heeft een kaart gepakt");
+                //als de pot leeg is, gaan de kaarten die opgelegd zijn op de stapel naar de pot, op de bovenste kaart na
+                if (pot.Count == 0)
+                {
+
+                    int boven = stapel.Count - 1;
+                    Kaart bovenste = stapel[boven];
+                    stapel.RemoveAt(boven);
+
+                    pot = stapel;
+                    pot = schud(pot);
+
+                    stapel = new List<Kaart>();
+                    stapel.Add(bovenste);
+                }
+
+                verplaatsKaart(pot, 0, spelers[spelend].hand);
+
+                if (spelend == 0)
+                {
+                    status = ("Je kon niet en hebt een kaart gepakt");
+
+                }
+                else
+                {
+                    status = ("Speler " + spelend + " kon niet en heeft een kaart gepakt");
+                }
+                spelers[spelend].updateBlok();
+                speelveld.Invalidate();
             }
-            spelers[spelend].updateBlok();
-            speelveld.Invalidate();
         }
 
         public void pakKaart(int aantal)

@@ -196,10 +196,18 @@ namespace CyberPesten
                 if (mea.X >= potPlek.X && mea.X <= potPlek.X + kaartBreedte && mea.Y >= potPlek.Y && mea.Y <= potPlek.Y + kaartHoogte)
                 //pot
                 {
-                    spel.pakKaart();
-                    spel.volgende();
-                    Invalidate();
-                    return;
+                    if (spel.speciaal == 4)
+                    {
+                        spel.regelPakkenNu();
+                        return;
+                    }
+                    else
+                    {
+                        spel.pakKaart();
+                        spel.volgende();
+                        Invalidate();
+                        return;
+                    }
                 }
                 foreach (Kaart kaart in spel.spelers[0].hand)
                 {

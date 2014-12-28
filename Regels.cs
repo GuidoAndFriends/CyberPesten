@@ -78,7 +78,6 @@ namespace CyberPesten
                     if (kaart.Kleur == speciaal || kaart.Kleur == 4 || kaart.Waarde == 11)
                     {
                         speelbaar = true;
-                        //speciaal = -1; //moet waarschijnlijk pas tijdens het spelen van de kaart
                     }
                     break;
              }
@@ -93,7 +92,6 @@ namespace CyberPesten
             if (kaart.Kleur == 4) //joker
             {
                 regelPakken(5);
-                speciaal = 4;
             }
             else
             {
@@ -107,31 +105,38 @@ namespace CyberPesten
             
             if (kaart.Waarde == 7 || kaart.Waarde == 13)
             {
+                //7 kleven, heer nog een keer
                 spelers[spelend].doeZet();
             }
             else if (kaart.Waarde == 11)
             {
+                //boer
                 regelKleur();
+                volgende();
             }
             else if (kaart.Waarde != 8)
             {
+                //8 wacht, volgende is al afgehandeld
                 volgende();
             }
-
+            /*
             if (stapel[stapel.Count - 2].Waarde == 2 || stapel[stapel.Count - 2].Kleur == 4 && kaart.Waarde != 2 || kaart.Kleur != 4)
             {
                     regelEchtPakken(pakAantal);
                     pakAantal = 0;
             }
+             */
         }
 
         public void regelPakken(int aantal)
         {
             pakAantal += aantal;
+            speciaal = 4;
         }
 
-        public void regelEchtPakken(int pakAantal)
+        public void regelPakkenNu()
         {
+            speciaal = -1;
             pakKaart(pakAantal);
         }
 
