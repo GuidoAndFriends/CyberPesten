@@ -37,7 +37,7 @@ namespace CyberPesten
         Rectangle homeButton;
         Rectangle laatsteKaartButton;
 
-        public Speelveld(bool online, int aantalSpelers, Menu m)
+        public Speelveld(bool online, int aantalSpelers, Menu m, Instellingen instellingen)
         {
             menu = m;
             kaartBreedte = 110;
@@ -87,12 +87,12 @@ namespace CyberPesten
             if (online)
             {
                 Text = "CyberPesten: Online spel";
-                spel = new OnlineSpel(this, aantalSpelers, true);
+                spel = new OnlineSpel(this, aantalSpelers, true, instellingen);
             }
             else
             {
                 Text = "CyberPesten: Lokaal spel";
-                spel = new LokaalSpel(this, aantalSpelers, true);
+                spel = new LokaalSpel(this, aantalSpelers, true, instellingen);
             }
 
             this.Show();
@@ -168,15 +168,20 @@ namespace CyberPesten
         {
             if (helpButton.Contains(mea.Location))
             {
-                Help help = new Help();
+                Help help = new Help(menu);
             }
 
             if (homeButton.Contains(mea.Location))
             {
-                //this.Close();
-                Application.Exit();
-                //this.Dispose();
-                //Terug naar menu
+                if (mea.Button == MouseButtons.Left)
+                {
+                    this.Close();
+                    menu.Show();
+                }
+                else
+                {
+                    Application.Exit();
+                }
             }
             if (laatsteKaartButton.Contains(mea.Location))
             {
@@ -286,21 +291,24 @@ namespace CyberPesten
             int index = 0;
             foreach (Kaart kaart in spel.spelers[0].hand)
             {
-                //kijkt of er op een kaart is geklikt
-                int deltaX = mea.X - kaart.X;
-                int deltaY = mea.Y - kaart.Y;
-                if (deltaX >= 0 && deltaX <= kaartBreedte && deltaY >= 0 && deltaY <= kaartHoogte)
+                if (kaart != null)
                 {
-                    muisLaag = true;
-                    bewegendeKaart = spel.spelers[0].hand[index];
-                    spel.spelers[0].hand.RemoveAt(index);
-                    //laagIndex = index;
-                    laagX = deltaX;
-                    laagY = deltaY;
-                    return;
-                    //als de muis op een kaart is, moet het nog duidelijk worden dat de kaart opgepakt is
+                    //kijkt of er op een kaart is geklikt
+                    int deltaX = mea.X - kaart.X;
+                    int deltaY = mea.Y - kaart.Y;
+                    if (deltaX >= 0 && deltaX <= kaartBreedte && deltaY >= 0 && deltaY <= kaartHoogte)
+                    {
+                        muisLaag = true;
+                        bewegendeKaart = spel.spelers[0].hand[index];
+                        spel.spelers[0].hand.RemoveAt(index);
+                        //laagIndex = index;
+                        laagX = deltaX;
+                        laagY = deltaY;
+                        return;
+                        //als de muis op een kaart is, moet het nog duidelijk worden dat de kaart opgepakt is
+                    }
+                    index++;
                 }
-                index++;
             }
         }
 

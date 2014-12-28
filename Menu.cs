@@ -12,8 +12,9 @@ namespace CyberPesten
     {
         private Form veld;
         int buttonWidth, buttonHeight, buttonWidthSmall, buttonHeightSmall;
-        int lokaalX, onlineX, buttonY, helpX, playersX, buttonSmallY;
+        int lokaalX, onlineX, buttonY, helpX, instellingenX, buttonSmallY;
         int aantalSpelers;
+        public Instellingen instellingen;
 
         public Menu()
         {
@@ -44,23 +45,27 @@ namespace CyberPesten
             Rectangle lokaalButton = new Rectangle(lokaalX, buttonY, buttonWidth, buttonHeight);
             Rectangle onlineButton = new Rectangle(onlineX, buttonY, buttonWidth, buttonHeight);
             Rectangle helpButton = new Rectangle(helpX, buttonSmallY, buttonWidthSmall, buttonHeightSmall);
-            Rectangle playersButton = new Rectangle(playersX, buttonSmallY, buttonWidthSmall, buttonHeightSmall);
+            Rectangle instellingenButton = new Rectangle(instellingenX, buttonSmallY, buttonWidthSmall, buttonHeightSmall);
 
             if (lokaalButton.Contains(mea.Location))
             {
-                veld = new Speelveld(false, aantalSpelers, this);
+                veld = new Speelveld(false, aantalSpelers, this, instellingen);
                 this.Hide();
-                //this.Dispose();
             }
             if (onlineButton.Contains(mea.Location))
             {
                 veld = new inlogScherm();
                 this.Hide();
-                //this.Dispose();
             }
             if (helpButton.Contains(mea.Location))
             {
-                Help help = new Help();
+                Help help = new Help(this);
+                this.Hide();
+            }
+            if (instellingenButton.Contains(mea.Location))
+            {
+                Instellingenscherm isntellingenscherm = new Instellingenscherm(this);
+                this.Hide();
             }
         }
 
@@ -93,10 +98,10 @@ namespace CyberPesten
             onlineX = Screen.PrimaryScreen.Bounds.Width / 16 * 9;
             buttonY = Screen.PrimaryScreen.Bounds.Height / 2;
             helpX = Screen.PrimaryScreen.Bounds.Width / 20 * 15;
-            playersX = Screen.PrimaryScreen.Bounds.Width / 20 * 3;
+            instellingenX = Screen.PrimaryScreen.Bounds.Width / 20 * 3;
             buttonSmallY = Screen.PrimaryScreen.Bounds.Height / 7 * 4;
    
-            pea.Graphics.DrawImage(players, playersX, buttonSmallY, buttonWidthSmall, buttonHeightSmall);
+            pea.Graphics.DrawImage(players, instellingenX, buttonSmallY, buttonWidthSmall, buttonHeightSmall);
             pea.Graphics.DrawImage(lokaal, lokaalX, buttonY, buttonWidth, buttonHeight);
             pea.Graphics.DrawImage(online, onlineX, buttonY, buttonWidth, buttonHeight);
             pea.Graphics.DrawImage(help, helpX, buttonSmallY, buttonWidthSmall, buttonHeightSmall);

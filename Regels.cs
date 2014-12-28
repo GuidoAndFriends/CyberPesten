@@ -10,29 +10,38 @@ namespace CyberPesten
     {
 
         public bool speelbaar(Kaart kaart)
-        {/*
-            if (stapel[stapel.Count - 1].Waarde == 2 || stapel[stapel.Count - 1].Kleur == 4)
+        {
+            if (kaart != null)
             {
-                if (pakAantal != 0)
+
+                /*
+                if (stapel[stapel.Count - 1].Waarde == 2 || stapel[stapel.Count - 1].Kleur == 4)
                 {
-                    if (kaart.Waarde == 2 || kaart.Kleur == 4)
+                    if (pakAantal != 0)
                     {
-                        return true;
+                        if (kaart.Waarde == 2 || kaart.Kleur == 4)
+                        {
+                            return true;
+                        }
+                        else
+                        {
+                            return false;
+                        }
                     }
                     else
-                    {
-                        return false;
-                    }
+                        return true;
+                }*/
+                if (kaart.Kleur == stapel[stapel.Count - 1].Kleur ||
+                    kaart.Waarde == stapel[stapel.Count - 1].Waarde ||
+                    kaart.Kleur == 4 || //joker
+                    kaart.Waarde == 11) //boer
+                {
+                    return true;
                 }
                 else
-                    return true;
-            }*/
-            if(kaart.Kleur == stapel[stapel.Count - 1].Kleur ||
-                kaart.Waarde == stapel[stapel.Count - 1].Waarde ||
-                kaart.Kleur == 4 || //joker
-                kaart.Waarde == 11) //boer
-            {
-                return true;
+                {
+                    return false;
+                }
             }
             else
             {

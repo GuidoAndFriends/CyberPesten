@@ -10,13 +10,14 @@ namespace CyberPesten
 {
     class LokaalSpel : Spel
     {
-        public LokaalSpel(Speelveld s, int aantalSpelers, bool mensSpelend)
+        public LokaalSpel(Speelveld s, int aantalSpelers, bool mensSpelend, Instellingen _instellingen)
         {
             speelveld = s;
             spelers = new List<Speler>();
             stapel = new List<Kaart>();
             pot = new List<Kaart>();
             mens = mensSpelend;
+            instellingen = _instellingen;
 
             int kaartspellen = (aantalSpelers) / 4 + 1; //hoeveel kaartspellen gebruikt worden
             int startkaarten = 7; //hoeveel kaarten de spelers in het begin krijgen
@@ -70,6 +71,8 @@ namespace CyberPesten
                     verplaatsKaart(pot, spelers[j].hand);
                 }
             }
+
+
 
             foreach(Speler speler in spelers)
             {

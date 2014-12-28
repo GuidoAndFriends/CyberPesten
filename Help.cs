@@ -13,11 +13,14 @@ namespace CyberPesten
         int y;
         List<string> tekst;
 
-        public Help()
+        public Help(Menu menu)
         {
             Text = "CyberPesten: Help";
             BackgroundImage = (Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("groen");
-            ClientSize = new Size(1000, 800);
+            ClientSize = menu.Size;
+            FormBorderStyle = FormBorderStyle.None;
+            WindowState = FormWindowState.Maximized;
+            DoubleBuffered = true;
             Paint += teken;
             this.Show();
         }

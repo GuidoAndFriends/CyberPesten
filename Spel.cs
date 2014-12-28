@@ -19,6 +19,7 @@ namespace CyberPesten
         public string status;
         public System.Timers.Timer timerAI;
         public bool mens;
+        public Instellingen instellingen;
 
         public Spel()
         {
@@ -253,9 +254,11 @@ namespace CyberPesten
                 case 1:
                     gekozen = new AI2Pester(this, naam);
                     break;
+                /*
                 case 2:
                     gekozen = new AI3Oke(this, naam);
                     break;
+                 */
                 default:
                     MessageBox.Show("Er is iets mis in de functie willekeurigeAI");
                     gekozen = new AI1Random(this, naam);
