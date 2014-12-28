@@ -10,7 +10,6 @@ namespace CyberPesten
 {
     partial class Spel
     {
-        public KleurKiezen kleur;
         public List<Kaart> pot, stapel;
         public List<string> namen;
         public List<Speler> spelers;
@@ -119,9 +118,18 @@ namespace CyberPesten
             }
             else
             {
-                int breedte = (spelers.Count - 1) * (290 + 40);
-                int tussenruimte = (breedte - 20) / (spelers.Count - 2);
-                p1 = new Point(10 + (290 + tussenruimte) * (spelend - 1), 10);
+                /*
+                 * int breedte = (spel.spelers.Count - 1) * 350;
+                int tussenruimte = (Width - breedte - 20) / (spel.spelers.Count - 2);
+                for (int i = 1; i < spel.spelers.Count; i++)
+                {
+                    gr.DrawImage(spel.spelers[i].blok, 10 + (350 + tussenruimte) * (i - 1), 10);
+                }
+                 */
+
+                int breedte = (spelers.Count - 1) * 350;
+                int tussenruimte = (speelveld.Width - breedte - 20) / (spelers.Count - 2);
+                p1 = new Point(10 + (350 + tussenruimte) * (spelend - 1) + 120, 10);
             }
             speelveld.bewegendeKaart = kaart;
             van.RemoveAt(index);

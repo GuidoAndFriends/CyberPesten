@@ -50,6 +50,8 @@ namespace CyberPesten
             aantalSpelersCon = new NumericUpDown();
             aantalSpelersCon.Value = instellingen.aantalSpelers;
             aantalSpelersCon.Location = new Point(220, 150);
+            aantalSpelersCon.DecimalPlaces = 0;
+            aantalSpelersCon.ValueChanged += aantalSpelers;
             Controls.Add(aantalSpelersCon);
 
             Label mensSpelendLab = new Label();
@@ -82,6 +84,18 @@ namespace CyberPesten
             this.Show();
         }
 
+        private void aantalSpelers(object sender, EventArgs ea)
+        {
+            if (aantalSpelersCon.Value < 2)
+            {
+                aantalSpelersCon.Value = 2;
+            }
+            else if (aantalSpelersCon.Value > 7)
+            {
+                aantalSpelersCon.Value = 7;
+            }
+            instellingen.aantalSpelers = (int)aantalSpelersCon.Value;
+        }
 
         private void mensSpelend(object sender, EventArgs ea)
         {
