@@ -15,7 +15,7 @@ namespace CyberPesten
         public List<string> namen;
         public List<Speler> spelers;
         public Speelveld speelveld;
-        public int spelend, richting, speciaal, pakAantal;
+        public int spelend, richting, speciaal, pakAantal, aantalSpelers;
         public string status;
         public System.Timers.Timer timerAI;
         public bool mens;
@@ -187,6 +187,13 @@ namespace CyberPesten
 
         public void volgende()
         {
+            string s = "";
+            foreach (Kaart kaart in spelers[0].hand)
+            {
+                s+= kaart.ToString();
+            }
+            System.Diagnostics.Debug.WriteLine(s);
+
             Speler oud = spelers[spelend];
 
             spelend = (spelend + richting + spelers.Count) % (spelers.Count);
@@ -200,7 +207,15 @@ namespace CyberPesten
             if (spelend != 0)
             {
                 spelers[spelend].updateBlok();
-                timerAI.Interval = 1000; //Eventueel nog random
+                if (mens)
+                {
+                    timerAI.Interval = 1000;
+                    //Eventueel nog random
+                }
+                else
+                {
+                    timerAI.Interval = 10; 
+                }
                 timerAI.Start();
             }
         }
@@ -235,6 +250,7 @@ namespace CyberPesten
         {
 
         }
+
 
         public Speler willekeurigeAI()
         {

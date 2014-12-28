@@ -10,18 +10,27 @@ namespace CyberPesten
 {
     class LokaalSpel : Spel
     {
-        public LokaalSpel(Speelveld s, int aantalSpelers, bool mensSpelend, Instellingen _instellingen)
+        public LokaalSpel(Speelveld s, Instellingen _instellingen)
         {
             speelveld = s;
             spelers = new List<Speler>();
             stapel = new List<Kaart>();
             pot = new List<Kaart>();
-            mens = mensSpelend;
             instellingen = _instellingen;
+            mens = instellingen.mensSpelend;
+            aantalSpelers = instellingen.aantalSpelers;
 
             int kaartspellen = (aantalSpelers) / 4 + 1; //hoeveel kaartspellen gebruikt worden
             int startkaarten = 7; //hoeveel kaarten de spelers in het begin krijgen
-            spelend = 0; //welke speler aan de beurt is
+            //welke speler aan de beurt is
+            if (mens)
+            {
+                spelend = 0;
+            }
+            else
+            {
+                spelend = 1;
+            }
             richting = 1; //welke kant er op gespeeld word
             speciaal = -1; //of er een speciale kaart gespeeld is
             pakAantal = 0; //hoeveel kaarten er gepakt moeten worden (voor 2 en joker)
@@ -55,6 +64,7 @@ namespace CyberPesten
                         pot.Add(new Kaart(j,k));
                     }
                 }
+                pot.Add(new Kaart());
             }
             pot = schud(pot);
 

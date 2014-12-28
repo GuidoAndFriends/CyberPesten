@@ -39,6 +39,8 @@ namespace CyberPesten
             blok =  b;
         }
 
+        public abstract void kiesKleur();
+
         public int laatsteKaart
         {
             get

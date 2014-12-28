@@ -11,9 +11,15 @@ namespace CyberPesten
     class Instellingenscherm : Form
     {
         Instellingen instellingen;
+        NumericUpDown regelsetCon, aantalSpelersCon;
+        Button mensSpelendCon;
+        Menu menu;
 
-        public Instellingenscherm(Menu menu)
+        public Instellingenscherm(Menu _menu)
         {
+            menu = _menu;
+            instellingen = menu.instellingen;
+
             Text = "CyberPesten: Help";
             BackgroundImage = (Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("groen");
             ClientSize = menu.Size;
@@ -21,58 +27,80 @@ namespace CyberPesten
             WindowState = FormWindowState.Maximized;
             DoubleBuffered = true;
 
-            instellingen = menu.instellingen;
-            instellingen = new Instellingen();
+            Label regelsetLab = new Label();
+            regelsetLab.Text = "Regelset";
+            regelsetLab.BackColor = Color.Transparent;
+            regelsetLab.Size = new Size(150, 40);
+            regelsetLab.Location = new Point(50, 50);
+            Controls.Add(regelsetLab);
 
-            Label regelsetLabel = new Label();
-            regelsetLabel.Text = "Regelset";
-            regelsetLabel.Size = new Size(150, 40);
-            regelsetLabel.Location = new Point(50, 50);
-            Controls.Add(regelsetLabel);
-
-            NumericUpDown regelsetNumericUpDown = new NumericUpDown();
-            regelsetNumericUpDown.Location = new Point(220, 50);
-            Controls.Add(regelsetNumericUpDown);
+            regelsetCon = new NumericUpDown();
+            regelsetCon.Location = new Point(220, 50);
+            Controls.Add(regelsetCon);
 
             //regelsUitgeschakeld
 
-            Label aantalSpelersLabel = new Label();
-            aantalSpelersLabel.Text = "Aantal spelers";
-            aantalSpelersLabel.Size = new Size(150, 40);
-            aantalSpelersLabel.Location = new Point(50, 150);
-            Controls.Add(aantalSpelersLabel);
+            Label aantalSpelersLab = new Label();
+            aantalSpelersLab.Text = "Aantal spelers";
+            aantalSpelersLab.BackColor = Color.Transparent;
+            aantalSpelersLab.Size = new Size(150, 40);
+            aantalSpelersLab.Location = new Point(50, 150);
+            Controls.Add(aantalSpelersLab);
 
-            NumericUpDown aantalSpelersNumericUpDown = new NumericUpDown();
-            aantalSpelersNumericUpDown.Value = instellingen.aantalSpelers;
-            aantalSpelersNumericUpDown.Location = new Point(220, 150);
-            Controls.Add(aantalSpelersNumericUpDown);
+            aantalSpelersCon = new NumericUpDown();
+            aantalSpelersCon.Value = instellingen.aantalSpelers;
+            aantalSpelersCon.Location = new Point(220, 150);
+            Controls.Add(aantalSpelersCon);
 
-            Label mensSpelendLabel = new Label();
-            mensSpelendLabel.Text = "Menselijke speler";
-            mensSpelendLabel.Size = new Size(150, 40);
-            mensSpelendLabel.Location = new Point(50, 250);
-            Controls.Add(mensSpelendLabel);
+            Label mensSpelendLab = new Label();
+            mensSpelendLab.Text = "Menselijke speler";
+            mensSpelendLab.BackColor = Color.Transparent;
+            mensSpelendLab.Size = new Size(150, 40);
+            mensSpelendLab.Location = new Point(50, 250);
+            Controls.Add(mensSpelendLab);
 
-            Button mensSpelendButton = new Button();
+            mensSpelendCon = new Button();
             if (instellingen.mensSpelend)
             {
-                mensSpelendButton.Text = "Aan";
+                mensSpelendCon.Text = "Aan";
             }
             else
             {
-                mensSpelendButton.Text = "Uit";
+                mensSpelendCon.Text = "Uit";
             }
-            mensSpelendButton.Location = new Point(220, 250);
-            Controls.Add(mensSpelendButton);
+            mensSpelendCon.Location = new Point(220, 250);
+            mensSpelendCon.Click += mensSpelend;
+            Controls.Add(mensSpelendCon);
 
-            /*
-            regelset = 0;
-             = null;
-            aantalSpelers = 4;
-            mensSpelend = true;
-            */
+            Button terugCon = new Button();
+            terugCon.Text = "Terug naar menu";
+            terugCon.Size = new Size(150, 40);
+            terugCon.Location = new Point(50, 350);
+            terugCon.Click += terug;
+            Controls.Add(terugCon);
 
             this.Show();
+        }
+
+
+        private void mensSpelend(object sender, EventArgs ea)
+        {
+            if (instellingen.mensSpelend)
+            {
+                instellingen.mensSpelend = false;
+                mensSpelendCon.Text = "Uit";
+            }
+            else
+            {
+                instellingen.mensSpelend = true;
+                mensSpelendCon.Text = "Aan";
+            }
+        }
+
+        private void terug(object sender, EventArgs ea)
+        {
+            menu.Show();
+            this.Close(); 
         }
     }
 }

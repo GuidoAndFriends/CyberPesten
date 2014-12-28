@@ -40,6 +40,9 @@ namespace CyberPesten
             tekst.Add("");
             tekst.Add("Welke pestkaarten zijn er?");
             tekst.Add("nog uit te werken");
+            tekst.Add("...");
+            tekst.Add("0 = harten, 1 = klaver, 2 = ruiten, 3 = schoppen (alfabetische volgorde) en 4 = joker (kleurloos)");
+            tekst.Add("0 doet niet mee, 1 is een aas, 2-10 komen overeen met de nummers zelf, 11 boer, 12 vrouw, 13 heer");      
 
             y = 10;
             foreach(string stuk in tekst)

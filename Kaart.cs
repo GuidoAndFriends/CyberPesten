@@ -9,7 +9,7 @@ namespace CyberPesten
 {
     public class Kaart
     {
-        private int kleur; //integere getal van de kleur, 0 = harten, 1 = klaver, 2 = ruiten, 3= schoppen (alfabetische volgorde) en 4 = joker (kleurloos)
+        private int kleur; //integere getal van de kleur, 0 = harten, 1 = klaver, 2 = ruiten, 3 = schoppen (alfabetische volgorde) en 4 = joker (kleurloos)
         private int waarde; //waarde van de kaart, 0 doet niet mee, 1 is een aas, 2-10 komen overeen met de nummers zelf, 11 boer, 12 vrouw, 13 heer.
         public int X, Y;
         public Size kaartGrootte = new Size(110, 153);
@@ -37,23 +37,16 @@ namespace CyberPesten
             }
         }
 
-        public Kaart(int k)//maakt een nieuwe joker
+        public Kaart()//maakt een nieuwe joker
         {
-            if (k == 4)
-            {
-                kleur = 4;
-                waarde = 0;
+            kleur = 4;
+            waarde = 0;
 
-                voorkant = new Bitmap(kaartGrootte.Width, kaartGrootte.Height, System.Drawing.Imaging.PixelFormat.Format32bppPArgb);
-                Graphics.FromImage(voorkant).DrawImage(maakVoorkant(), 0, 0);
+            voorkant = new Bitmap(kaartGrootte.Width, kaartGrootte.Height, System.Drawing.Imaging.PixelFormat.Format32bppPArgb);
+            Graphics.FromImage(voorkant).DrawImage(maakVoorkant(), 0, 0);
 
-                achterkant = new Bitmap(kaartGrootte.Width, kaartGrootte.Height, System.Drawing.Imaging.PixelFormat.Format32bppPArgb);
-                Graphics.FromImage(achterkant).DrawImage(maakAchterkant(), 0, 0);
-            }
-            else
-            {
-                throw new ArgumentException("Ongeldige waarde, deze methode accepteerd alleen maar 4 als parameter");
-            }
+            achterkant = new Bitmap(kaartGrootte.Width, kaartGrootte.Height, System.Drawing.Imaging.PixelFormat.Format32bppPArgb);
+            Graphics.FromImage(achterkant).DrawImage(maakAchterkant(), 0, 0);
         }
 
         public int Kleur //maak of verkrijgt de kleur van een kaart, bij een ongeldige waarde wordt er een ArgumentOutOfRangeException gegooid

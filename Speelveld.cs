@@ -37,7 +37,7 @@ namespace CyberPesten
         Rectangle homeButton;
         Rectangle laatsteKaartButton;
 
-        public Speelveld(bool online, int aantalSpelers, Menu m, Instellingen instellingen)
+        public Speelveld(Menu m, Instellingen instellingen, bool online)
         {
             menu = m;
             kaartBreedte = 110;
@@ -87,12 +87,12 @@ namespace CyberPesten
             if (online)
             {
                 Text = "CyberPesten: Online spel";
-                spel = new OnlineSpel(this, aantalSpelers, true, instellingen);
+                spel = new OnlineSpel(this, instellingen);
             }
             else
             {
                 Text = "CyberPesten: Lokaal spel";
-                spel = new LokaalSpel(this, aantalSpelers, true, instellingen);
+                spel = new LokaalSpel(this, instellingen);
             }
 
             this.Show();
@@ -175,8 +175,8 @@ namespace CyberPesten
             {
                 if (mea.Button == MouseButtons.Left)
                 {
-                    this.Close();
                     menu.Show();
+                    this.Close(); 
                 }
                 else
                 {
@@ -376,9 +376,17 @@ namespace CyberPesten
                 //kaart.Y += deltaY;
 
                 stap++;
-                Invoke(new Action(() => Invalidate()));
-                Invoke(new Action(() => Update()));
-                Thread.Sleep(20);
+
+                if (this.IsHandleCreated)
+                {
+                    Invoke(new Action(() => Invalidate()));
+                    Invoke(new Action(() => Update()));
+                    Thread.Sleep(20);
+                }
+                else
+                {
+                    stap = stappen + 1;
+                }
             }
         }
     }

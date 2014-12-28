@@ -8,7 +8,7 @@ namespace CyberPesten
 {
     partial class Spel
     {
-
+        /*
         public bool speelbaar(Kaart kaart)
         {
             if (kaart != null)
@@ -31,6 +31,7 @@ namespace CyberPesten
                     else
                         return true;
                 }*/
+        /*
                 if (kaart.Kleur == stapel[stapel.Count - 1].Kleur ||
                     kaart.Waarde == stapel[stapel.Count - 1].Waarde ||
                     kaart.Kleur == 4 || //joker
@@ -48,8 +49,8 @@ namespace CyberPesten
                 return false;
             }
         }
-
-        /*
+        */
+        
         public bool speelbaar(Kaart kaart)
         {
             bool speelbaar = false;
@@ -77,13 +78,13 @@ namespace CyberPesten
                     if (kaart.Kleur == speciaal || kaart.Kleur == 4 || kaart.Waarde == 11)
                     {
                         speelbaar = true;
-                        speciaal = -1; //moet waarschijnlijk pas tijdens het spelen van de kaart
+                        //speciaal = -1; //moet waarschijnlijk pas tijdens het spelen van de kaart
                     }
                     break;
              }
              return speelbaar;
         }
-         */
+        
 
         public void kaartActie()
         {
@@ -154,21 +155,10 @@ namespace CyberPesten
 
         public void regelKleur()
         {
-            if (spelend == 0)
-            {
-                kleur = new KleurKiezen();
-                kleur.FormClosed += kleur_FormClosed;
-            }
-            else
-            {
-                volgende();
-            }
+            spelers[spelend].kiesKleur();
         }
 
-        void kleur_FormClosed(object sender, System.Windows.Forms.FormClosedEventArgs e)
-        {
-            volgende();
-        }
+        
 
         public void regelDraai()
         {
