@@ -27,6 +27,7 @@ namespace CyberPesten
 
         List<Kaart> mogelijk = new List<Kaart>();
         List<Kaart> pester = new List<Kaart>();
+        List<Kaart> bonus = new List<Kaart>();
 
         public override void doeZet()
         {
@@ -47,6 +48,14 @@ namespace CyberPesten
                 }
             }
 
+            foreach (Kaart kaart in mogelijk)
+            {
+                if (kaart.Waarde == 7 || kaart.Waarde == 13)
+                {
+                    bonus.Add(kaart);
+                }
+            }
+
 
             if (mogelijk.Count > 0)
             {
@@ -56,7 +65,15 @@ namespace CyberPesten
                 }
                 else
                 {
-                    spel.speelKaart(mogelijk[0]);
+                    if (bonus.Count > 0)
+                    {
+                        spel.speelKaart(bonus[0]);
+                    }
+                    
+                    else
+                    {
+                        spel.speelKaart(mogelijk[0]);
+                    }                    
                 }
             }
 
