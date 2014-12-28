@@ -57,12 +57,12 @@ namespace CyberPesten
                 }
             }
 
+
             if (mogelijk.Count > 0)
             {
                 if (pester.Count > 0)
                 {
-                    if (oud.hand.Count < 3)
-                        spel.speelKaart(pester[0]);
+                    spel.speelKaart(pester[0]);
                 }
                 else
                 {
