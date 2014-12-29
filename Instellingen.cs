@@ -11,7 +11,8 @@ namespace CyberPesten
     {
         public int regelset, aantalSpelers;
         public bool mensSpelend;
-        public List<int> regelsUitgeschakeld;
+        public List<int> regelsUitgeschakeld, AIUitgeschakeld;
+        public string instellingenPad;
 
         public Instellingen()
         {
@@ -25,39 +26,88 @@ namespace CyberPesten
             {
                 Directory.CreateDirectory(CP);
             }
-            string instellingenPad = Path.Combine(CP, "instellingen.cyberpesten");
+            instellingenPad = Path.Combine(CP, "instellingen.cyberpesten");
             if (File.Exists(instellingenPad))
             {
-                lezen(instellingenPad);
+                lezen();
             }
             else
             {
                 standaard();
-                
             }
             
         }
 
-        public void lezen(string pad)
+        public void lezen()
         {
-            string[] regels = FileLines(pad);
+            List<string> regels = FileToStringList(instellingenPad);
+
             regelset = Int32.Parse(regels[0]);
-            int aantal = Int32.Parse(regels[1]);
-            if (aantal > 0)
+
+            string[] delen = regels[1].Split(new char[] { ',' });
+            regelsUitgeschakeld = new List<int>();
+            if (delen[0] != "")
             {
-                regelsUitgeschakeld = new List<int>();
-                for (int i = 0; i < aantal; i++)
+                for (int i = 0; i < delen.Length; i++)
                 {
-                    regelsUitgeschakeld.Add(Int32.Parse(regels[aantal + 2]));
+                    regelsUitgeschakeld.Add(Int32.Parse(delen[i]));
                 }
             }
-            aantalSpelers = Int32.Parse(regels[2 + aantal]);
-            mensSpelend = Boolean.Parse(regels[3 + aantal]);
+
+            aantalSpelers = Int32.Parse(regels[2]);
+
+            delen = regels[3].Split(new char[] {','});
+            AIUitgeschakeld = new List<int>();
+            if (delen[0] != "")
+            {
+                for (int i = 0; i < delen.Length; i++)
+                {
+                    AIUitgeschakeld.Add(Int32.Parse(delen[i]));
+                }
+            }
+
+            mensSpelend = Boolean.Parse(regels[4]);
         }
 
         public void schrijven()
         {
+            List<string> regels = new List<string>();
 
+            regels.Add(regelset.ToString());
+
+            string regel = "";
+            if (regelsUitgeschakeld != null)
+            {
+                if (regelsUitgeschakeld.Count != 0)
+                {
+                    regel += regelsUitgeschakeld[0].ToString();
+                    for (int i = 1; i < regelsUitgeschakeld.Count; i++)
+                    {
+                        regel += ',' + regelsUitgeschakeld[i];
+                    }
+                }
+            }
+            regels.Add(regel);
+
+            regels.Add(aantalSpelers.ToString());
+
+            regel = "";
+            if (AIUitgeschakeld != null)
+            {
+                if (AIUitgeschakeld.Count != 0)
+                {
+                    regel += AIUitgeschakeld[0].ToString();
+                    for (int i = 1; i < AIUitgeschakeld.Count; i++)
+                    {
+                        regel += ',' + AIUitgeschakeld[i];
+                    }
+                }
+            }
+            regels.Add(regel);
+
+            regels.Add(mensSpelend.ToString());
+
+            StringListToFile(regels, instellingenPad);
         }
 
         public void standaard()
@@ -65,11 +115,12 @@ namespace CyberPesten
             regelset = 0;
             regelsUitgeschakeld = null;
             aantalSpelers = 4;
+            AIUitgeschakeld = null;
             mensSpelend = true;
             schrijven();
         }
 
-        public string[] FileLines(string path)//stuurt het hele bestand terug als losse regels, null bij een fout
+        public List<string> FileToStringList(string path)//stuurt het hele bestand terug als losse regels, null bij een fout
         {
             try
             {
@@ -81,10 +132,19 @@ namespace CyberPesten
                     lst.Add(str);
                 }
                 a.Close();
-                string[] ret = lst.ToArray();
-                return ret;
+                return lst;
             }
             catch { return null; }
+        }
+
+        public void StringListToFile(List<string> regels, string path)
+        {
+            StreamWriter a = new StreamWriter(path);
+            foreach (string regel in regels)
+            {
+                a.WriteLine(regel);
+            }
+            a.Close();
         }
     }
 }

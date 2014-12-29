@@ -95,6 +95,7 @@ namespace CyberPesten
                 aantalSpelersCon.Value = 7;
             }
             instellingen.aantalSpelers = (int)aantalSpelersCon.Value;
+            instellingen.schrijven();
         }
 
         private void mensSpelend(object sender, EventArgs ea)
@@ -109,12 +110,14 @@ namespace CyberPesten
                 instellingen.mensSpelend = true;
                 mensSpelendCon.Text = "Aan";
             }
+            instellingen.schrijven();
         }
 
         private void reset(object sender, EventArgs ea)
         {
             instellingen.standaard();
             update();
+            instellingen.schrijven();
         }
 
 
