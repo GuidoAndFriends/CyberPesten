@@ -14,19 +14,25 @@ namespace CyberPesten
         public int spelend, richting;
         public bool mens;
 
-
         public AI3Oke(Spel s, string n)
         {
             hand = new List<Kaart>();
             spel = s;
-            int hash = GetHashCode();
             naam = n;
-            System.Diagnostics.Debug.WriteLine(hash.ToString());
             blok = new System.Drawing.Bitmap(10, 10);
+            spelers = spel.spelers;
+            spelend = spel.spelend;
+            richting = spel.richting;
+            mens = spel.mens;
         }
 
         public override void doeZet()
         {
+            spelers = spel.spelers;
+            spelend = spel.spelend;
+            richting = spel.richting;
+            mens = spel.mens;
+
             Speler oud = spelers[spelend];
             List<Kaart> mogelijk = new List<Kaart>();
             List<Kaart> pester = new List<Kaart>();
@@ -92,6 +98,27 @@ namespace CyberPesten
                 spel.pakKaart();
                 spel.volgende();
             }
+        }
+
+        public override void kiesKleur()
+        {
+            int[] kleuren = { 0, 0, 0, 0 };
+            foreach (Kaart kaart in hand)
+            {
+                kleuren[kaart.Kleur]++;
+            }
+
+            int kleur = 0;
+            for (int i = 1; i < 4; i++)
+            {
+                if (kleuren[i] > kleuren[kleur])
+                {
+                    kleur = i;
+                }
+            }
+
+            spel.speciaal = kleur;
+            spel.status += " en koos voor " + kleur;
         }
     }
 }

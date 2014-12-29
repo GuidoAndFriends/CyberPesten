@@ -9,15 +9,12 @@ using System.Windows.Forms;
 namespace CyberPesten
 {
     class AI1Random : Speler
-    { //soort van nodig
-        //voorbeeld AI
+    {
         public AI1Random(Spel s, string n)
         {
             hand = new List<Kaart>();
             spel = s;
-            int hash = GetHashCode();
             naam = n;
-            System.Diagnostics.Debug.WriteLine(hash.ToString());
             blok = new System.Drawing.Bitmap(10, 10);
         }
 

@@ -36,7 +36,6 @@ namespace CyberPesten
         void Menu_FormClosed(object sender, FormClosedEventArgs e)
         {
             Application.Exit();
-            //Controls.Add(aantal);
         }
 
         private void klik(object sender, MouseEventArgs mea)
@@ -66,15 +65,6 @@ namespace CyberPesten
                 Instellingenscherm isntellingenscherm = new Instellingenscherm(this);
                 this.Hide();
             }
-        }
-
-        void veld_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            veld.Dispose();
-            this.Show();
-
-            //DEBUG:
-            Application.Exit();
         }
 
         public void buildMenuGraphics(Object o, PaintEventArgs pea)

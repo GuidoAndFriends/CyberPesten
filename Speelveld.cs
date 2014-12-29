@@ -59,26 +59,8 @@ namespace CyberPesten
             stapelPlek = new Point(Width / 2 - 50 - kaartBreedte, Height / 2 - kaartHoogte / 2);
             potPlek = new Point(Width / 2 + 50, Height / 2 - kaartHoogte / 2);
 
-            /*help = new Button();
-            help.Size = new Size(kaartHoogte, kaartBreedte);
-            help.Location = new Point(Width / 2 - 500 - kaartBreedte, Height / 2 - kaartBreedte / 2);
-            help.Text = "Help";
-            help.Font = new Font(FontFamily.GenericSansSerif, 20);
-            help.MouseClick += helpKlik;
-            Controls.Add(help);
-            
-            laatsteKaart = new Button();
-            laatsteKaart.Size = new Size(kaartHoogte, kaartBreedte);
-            laatsteKaart.Location = new Point(Width / 2 + 500, Height / 2 - kaartBreedte / 2);
-            laatsteKaart.Text = "Laatste kaart";
-            laatsteKaart.BackColor = Color.OrangeRed;
-            laatsteKaart.Font = new Font(FontFamily.GenericSansSerif, 20);
-            laatsteKaart.MouseClick += laatsteKaartKlick;
-            Controls.Add(laatsteKaart);*/
-
             Paint += teken;
             MouseClick += muisKlik;
-            MouseClick += buttonKlik;
             MouseMove += muisBeweeg;
             MouseDown += muisOmlaag;
             MouseUp += muisOmhoog;
@@ -164,18 +146,18 @@ namespace CyberPesten
             }
         }
 
-        private void buttonKlik(object sender, MouseEventArgs mea) //Regelt wat er gebeurt als er op de buttons wordt geklikt
+        private void muisKlik(object sender, MouseEventArgs mea)
         {
             if (helpButton.Contains(mea.Location))
             {
                 Help help = new Help(menu);
             }
-
-            if (homeButton.Contains(mea.Location))
+            else if (homeButton.Contains(mea.Location))
             {
                 if (mea.Button == MouseButtons.Left)
                 {
                     menu.Show();
+                    this.Dispose();
                     this.Close(); 
                 }
                 else
@@ -183,15 +165,11 @@ namespace CyberPesten
                     Application.Exit();
                 }
             }
-            if (laatsteKaartButton.Contains(mea.Location))
+            else if (laatsteKaartButton.Contains(mea.Location))
             {
                 spel.laatsteKaart(1);
             }
-        }
-
-        private void muisKlik(object sender, MouseEventArgs mea)
-        {
-            if (spel.spelend == 0)
+            else if (spel.spelend == 0)
             {
                 if (mea.X >= potPlek.X && mea.X <= potPlek.X + kaartBreedte && mea.Y >= potPlek.Y && mea.Y <= potPlek.Y + kaartHoogte)
                 //pot
@@ -223,12 +201,6 @@ namespace CyberPesten
                 }
             } 
         }
-
-        /*
-        private void laatsteKaartKlick(object sender, EventArgs e)
-        {
-            spel.laatsteKaart(1);
-        }*/
 
         private void scroll(object sender, EventArgs ea)
         //zal een kaart spelen als er gescrolld wordt
@@ -323,16 +295,19 @@ namespace CyberPesten
         private void muisOmhoog(object sender, MouseEventArgs mea)
         {
             muisLaag = false;
-            if (spel.spelend == 0 && spel.speelbaar(bewegendeKaart))
+            if (bewegendeKaart != null)
             {
-                spel.spelers[0].hand.Add(bewegendeKaart);
-                spel.speelKaart(spel.spelers[0].hand.Count - 1);
-                bewegendeKaart = null;
-            }
-            else
-            {
-                spel.spelers[0].hand.Add(bewegendeKaart);
-                bewegendeKaart = null;
+                if (spel.spelend == 0 && spel.speelbaar(bewegendeKaart))
+                {
+                    spel.spelers[0].hand.Add(bewegendeKaart);
+                    spel.speelKaart(spel.spelers[0].hand.Count - 1);
+                    bewegendeKaart = null;
+                }
+                else
+                {
+                    spel.spelers[0].hand.Add(bewegendeKaart);
+                    bewegendeKaart = null;
+                }
             }
         }
 

@@ -7,50 +7,7 @@ using System.Threading.Tasks;
 namespace CyberPesten
 {
     partial class Spel
-    {
-        /*
-        public bool speelbaar(Kaart kaart)
-        {
-            if (kaart != null)
-            {
-
-                /*
-                if (stapel[stapel.Count - 1].Waarde == 2 || stapel[stapel.Count - 1].Kleur == 4)
-                {
-                    if (pakAantal != 0)
-                    {
-                        if (kaart.Waarde == 2 || kaart.Kleur == 4)
-                        {
-                            return true;
-                        }
-                        else
-                        {
-                            return false;
-                        }
-                    }
-                    else
-                        return true;
-                }*/
-        /*
-                if (kaart.Kleur == stapel[stapel.Count - 1].Kleur ||
-                    kaart.Waarde == stapel[stapel.Count - 1].Waarde ||
-                    kaart.Kleur == 4 || //joker
-                    kaart.Waarde == 11) //boer
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-            else
-            {
-                return false;
-            }
-        }
-        */
-        
+    {    
         public bool speelbaar(Kaart kaart)
         {
             bool speelbaar = false;
@@ -83,7 +40,6 @@ namespace CyberPesten
              }
              return speelbaar;
         }
-        
 
         public void kaartActie()
         {
@@ -119,13 +75,6 @@ namespace CyberPesten
                 //8 wacht, volgende is al afgehandeld
                 volgende();
             }
-            /*
-            if (stapel[stapel.Count - 2].Waarde == 2 || stapel[stapel.Count - 2].Kleur == 4 && kaart.Waarde != 2 || kaart.Kleur != 4)
-            {
-                    regelEchtPakken(pakAantal);
-                    pakAantal = 0;
-            }
-             */
         }
 
         public void regelPakken(int aantal)
@@ -162,8 +111,6 @@ namespace CyberPesten
         {
             spelers[spelend].kiesKleur();
         }
-
-        
 
         public void regelDraai()
         {

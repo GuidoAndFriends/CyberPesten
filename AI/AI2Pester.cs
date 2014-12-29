@@ -19,10 +19,12 @@ namespace CyberPesten
         {
             hand = new List<Kaart>();
             spel = s;
-            int hash = GetHashCode();
             naam = n;
-            System.Diagnostics.Debug.WriteLine(hash.ToString());
             blok = new System.Drawing.Bitmap(10, 10);
+            spelers = spel.spelers;
+            spelend = spel.spelend;
+            richting = spel.richting;
+            mens = spel.mens;
         }
 
         List<Kaart> mogelijk = new List<Kaart>();
@@ -31,7 +33,11 @@ namespace CyberPesten
 
         public override void doeZet()
         {
-            
+            spelers = spel.spelers;
+            spelend = spel.spelend;
+            richting = spel.richting;
+            mens = spel.mens;
+
             foreach (Kaart kaart in hand)
             {
                 if (spel.speelbaar(kaart))
@@ -82,6 +88,27 @@ namespace CyberPesten
                 spel.pakKaart();
                 spel.volgende();
             }
+        }
+
+        public override void kiesKleur()
+        {
+            int[] kleuren = { 0, 0, 0, 0 };
+            foreach (Kaart kaart in hand)
+            {
+                kleuren[kaart.Kleur]++;
+            }
+
+            int kleur = 0;
+            for (int i = 1; i < 4; i++)
+            {
+                if (kleuren[i] > kleuren[kleur])
+                {
+                    kleur = i;
+                }
+            }
+
+            spel.speciaal = kleur;
+            spel.status += " en koos voor " + kleur;
         }
     }
 }

@@ -21,7 +21,7 @@ namespace CyberPesten
             instellingen = menu.instellingen;
 
             Text = "CyberPesten: Help";
-            BackgroundImage = (Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("groen");
+            BackgroundImage = (Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Achtergrond");
             ClientSize = menu.Size;
             FormBorderStyle = FormBorderStyle.None;
             WindowState = FormWindowState.Maximized;
@@ -35,6 +35,7 @@ namespace CyberPesten
             Controls.Add(regelsetLab);
 
             regelsetCon = new NumericUpDown();
+            regelsetCon.Value = instellingen.regelset;
             regelsetCon.Location = new Point(220, 50);
             Controls.Add(regelsetCon);
 
@@ -48,7 +49,6 @@ namespace CyberPesten
             Controls.Add(aantalSpelersLab);
 
             aantalSpelersCon = new NumericUpDown();
-            aantalSpelersCon.Value = instellingen.aantalSpelers;
             aantalSpelersCon.Location = new Point(220, 150);
             aantalSpelersCon.DecimalPlaces = 0;
             aantalSpelersCon.ValueChanged += aantalSpelers;
@@ -62,25 +62,25 @@ namespace CyberPesten
             Controls.Add(mensSpelendLab);
 
             mensSpelendCon = new Button();
-            if (instellingen.mensSpelend)
-            {
-                mensSpelendCon.Text = "Aan";
-            }
-            else
-            {
-                mensSpelendCon.Text = "Uit";
-            }
             mensSpelendCon.Location = new Point(220, 250);
             mensSpelendCon.Click += mensSpelend;
             Controls.Add(mensSpelendCon);
 
+            Button resetCon = new Button();
+            resetCon.Text = "Standaard instellingen";
+            resetCon.Size = new Size(150, 40);
+            resetCon.Location = new Point(50, 350);
+            resetCon.Click += reset;
+            Controls.Add(resetCon);
+
             Button terugCon = new Button();
             terugCon.Text = "Terug naar menu";
             terugCon.Size = new Size(150, 40);
-            terugCon.Location = new Point(50, 350);
+            terugCon.Location = new Point(50, 450);
             terugCon.Click += terug;
             Controls.Add(terugCon);
 
+            update();
             this.Show();
         }
 
@@ -108,6 +108,27 @@ namespace CyberPesten
             {
                 instellingen.mensSpelend = true;
                 mensSpelendCon.Text = "Aan";
+            }
+        }
+
+        private void reset(object sender, EventArgs ea)
+        {
+            instellingen.standaard();
+            update();
+        }
+
+
+        private void update()
+        {
+            regelsetCon.Value = instellingen.regelset;
+            aantalSpelersCon.Value = instellingen.aantalSpelers;
+            if (instellingen.mensSpelend)
+            {
+                mensSpelendCon.Text = "Aan";
+            }
+            else
+            {
+                mensSpelendCon.Text = "Uit";
             }
         }
 

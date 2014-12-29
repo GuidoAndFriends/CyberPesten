@@ -82,8 +82,6 @@ namespace CyberPesten
                 }
             }
 
-
-
             foreach(Speler speler in spelers)
             {
                 speler.updateBlok();
