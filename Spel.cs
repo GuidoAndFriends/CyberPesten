@@ -15,7 +15,7 @@ namespace CyberPesten
         public List<Speler> spelers;
         public Speelveld speelveld;
         public int spelend, richting, speciaal, pakAantal, aantalSpelers;
-        public string status;
+        public string status, aantalKaarten;
         public System.Timers.Timer timerAI;
         public bool mens;
         public Instellingen instellingen;
@@ -111,6 +111,8 @@ namespace CyberPesten
 
         public void speelKaartNu(List<Kaart> van, int index, List<Kaart> naar)
         {
+            checkNullKaart();
+
             Kaart kaart = van[index];
             Point p1;
             if (spelend == 0)
@@ -128,11 +130,14 @@ namespace CyberPesten
             speelveld.verplaatsen(p1, speelveld.stapelPlek, true);
             naar.Add(speelveld.bewegendeKaart);
 
+            checkNullKaart();
         }
 
         public void pakKaart()
         //geeft de bovenste kaart van de pot aan degene die aan de beurt is.
         {
+            checkNullKaart();
+
             if (speciaal == 4)
             {
                 regelPakkenNu();
@@ -170,6 +175,7 @@ namespace CyberPesten
                 speelveld.verplaatsen(speelveld.potPlek, p2, false);
                 spelers[spelend].hand.Add(speelveld.bewegendeKaart);
 
+                checkNullKaart();
                 //verplaatsKaart(pot, 0, spelers[spelend].hand);
 
 
@@ -316,10 +322,12 @@ namespace CyberPesten
 
         public void checkNullKaart()
         {
+            int aantal = 0;
             foreach (Speler speler in spelers)
             {
                 foreach (Kaart kaart in speler.hand)
                 {
+                    aantal++;
                     if (kaart == null)
                     {
                         MessageBox.Show("null kaart gevonden");
@@ -328,6 +336,7 @@ namespace CyberPesten
             }
             foreach (Kaart kaart in stapel)
             {
+                aantal++;
                 if (kaart == null)
                 {
                     MessageBox.Show("null kaart gevonden");
@@ -335,11 +344,13 @@ namespace CyberPesten
             }
             foreach (Kaart kaart in pot)
             {
+                aantal++;
                 if (kaart == null)
                 {
                     MessageBox.Show("null kaart gevonden");
                 }
             }
+            aantalKaarten = aantal.ToString();
         }
     }
 }

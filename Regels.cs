@@ -88,11 +88,13 @@ namespace CyberPesten
         public void regelPakken(int aantal)
         {
             pakAantal += aantal;
+            status += " en het totaal is nu " + pakAantal;
             speciaal = 4;
         }
 
         public void regelPakkenNu()
         {
+            System.Diagnostics.Debug.WriteLine(pakAantal.ToString());
             speciaal = 5;
             pakKaart(pakAantal);
             spelers[spelend].doeZet();

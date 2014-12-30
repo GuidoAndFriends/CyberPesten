@@ -33,10 +33,8 @@ namespace CyberPesten
         //public Button laatsteKaart, help;
 
         //Voor de buttons
-        Rectangle helpButton;
-        //Rectangle settingsButton;
-        Rectangle homeButton;
-        Rectangle laatsteKaartButton;
+        Rectangle helpButton, homeButton, laatsteKaartButton; //settingsButton,
+        Bitmap help, settings, home;
 
         public Speelveld(Menu m, Instellingen instellingen, bool online)
         {
@@ -77,6 +75,10 @@ namespace CyberPesten
                 Text = "CyberPesten: Lokaal spel";
                 spel = new LokaalSpel(this, instellingen);
             }
+
+            help = (Bitmap)CyberPesten.Properties.Resources.ResourceManager.GetObject("Help_button");
+            settings = (Bitmap)CyberPesten.Properties.Resources.ResourceManager.GetObject("Settings_button");
+            home = (Bitmap)CyberPesten.Properties.Resources.ResourceManager.GetObject("Home_button");
 
             this.Show();
         }
@@ -133,17 +135,14 @@ namespace CyberPesten
 
                 //status van het spel
                 gr.DrawString(spel.status, new Font(FontFamily.GenericSansSerif, 14), Brushes.Black, new Point(40, 450));
+                gr.DrawString(spel.aantalKaarten, new Font(FontFamily.GenericSansSerif, 14), Brushes.Black, new Point(40, 500));
 
                 //Buttons
-                Image HelpButton = (Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Help_button");
-                Image SettingsButton = (Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Settings_button");
-                Image HomeButton = (Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Home_button");
+                int buttonWidth = help.Size.Width;
 
-                int buttonWidth = HelpButton.Size.Width;
-
-                gr.DrawImage(HelpButton, 25, this.Height - 25 - HelpButton.Size.Height, buttonWidth, buttonWidth);
-                gr.DrawImage(SettingsButton, 50 + buttonWidth, this.Height - 25 - buttonWidth, buttonWidth, buttonWidth);
-                gr.DrawImage(HomeButton, 75 + 2 * buttonWidth, this.Height - 25 - buttonWidth, buttonWidth, buttonWidth);
+                gr.DrawImage(help, 25, this.Height - 250 - help.Size.Height, buttonWidth, buttonWidth);
+                gr.DrawImage(settings, 50 + buttonWidth, this.Height - 250 - buttonWidth, buttonWidth, buttonWidth);
+                gr.DrawImage(home, 75 + 2 * buttonWidth, this.Height - 250 - buttonWidth, buttonWidth, buttonWidth);
 
                 helpButton = new Rectangle(25, this.Height - 25 - buttonWidth, buttonWidth, buttonWidth);
                 homeButton = new Rectangle(75 + 2 * buttonWidth, this.Height - 25 - buttonWidth, buttonWidth, buttonWidth);
@@ -159,7 +158,16 @@ namespace CyberPesten
         {
             if (helpButton.Contains(mea.Location))
             {
-                Help help = new Help(menu);
+                if (mea.Button == MouseButtons.Left)
+                {
+                    Help help = new Help(menu);
+                }
+                else
+                {
+                    System.Diagnostics.Debug.WriteLine("Breakpoint");
+                    System.Diagnostics.Debug.WriteLine("Breakpoint");
+                    System.Diagnostics.Debug.WriteLine("Breakpoint");
+                }
             }
             else if (homeButton.Contains(mea.Location))
             {
@@ -306,16 +314,29 @@ namespace CyberPesten
             muisLaag = false;
             if (bewegendeKaart != null)
             {
-                if (spel.spelend == 0 && spel.speelbaar(bewegendeKaart))
+                if (spel.spelend == 0)
                 {
-                    spel.spelers[0].hand.Add(bewegendeKaart);
-                    spel.speelKaart(spel.spelers[0].hand.Count - 1);
-                    bewegendeKaart = null;
-                }
-                else
-                {
-                    spel.spelers[0].hand.Add(bewegendeKaart);
-                    bewegendeKaart = null;
+                    if (spel.speelbaar(bewegendeKaart))
+                    {
+                        spel.spelers[0].hand.Add(bewegendeKaart);
+                        spel.speelKaart(spel.spelers[0].hand.Count - 1);
+                        bewegendeKaart = null;
+                        if (this.IsHandleCreated)
+                        {
+                            Invoke(new Action(() => Invalidate()));
+                            Invoke(new Action(() => Update()));
+                        }
+                    }
+                    else
+                    {
+                        spel.spelers[0].hand.Add(bewegendeKaart);
+                        bewegendeKaart = null;
+                        if (this.IsHandleCreated)
+                        {
+                            Invoke(new Action(() => Invalidate()));
+                            Invoke(new Action(() => Update()));
+                        }
+                    }
                 }
             }
         }
@@ -331,9 +352,16 @@ namespace CyberPesten
                     {
                         kaart.X += delta;
                     }
-                    Invoke(new Action(() => Invalidate()));
-                    Invoke(new Action(() => Update()));
-                    Thread.Sleep(20);
+                    if (this.IsHandleCreated)
+                    {
+                        Invoke(new Action(() => Invalidate()));
+                        Invoke(new Action(() => Update()));
+                        Thread.Sleep(20);
+                    }
+                    else
+                    {
+                        delta = 0;
+                    }
                 }
                 else
                 {
@@ -341,6 +369,12 @@ namespace CyberPesten
                 }
             }
             //MessageBox.Show("klaar");
+           
+            if (this.IsHandleCreated)
+            {
+                Invoke(new Action(() => Invalidate()));
+                Invoke(new Action(() => Update()));
+            }
             schuifAnimatie = null;
         }
 
@@ -380,6 +414,11 @@ namespace CyberPesten
                 {
                     stap = stappen + 1;
                 }
+            }
+            if (this.IsHandleCreated)
+            {
+                Invoke(new Action(() => Invalidate()));
+                Invoke(new Action(() => Update()));
             }
         }
     }

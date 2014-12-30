@@ -67,6 +67,7 @@ namespace CyberPesten
                 pot.Add(new Kaart());
             }
             pot = schud(pot);
+            aantalKaarten = pot.Count.ToString();
 
             //Kaarten delen
             for (int i = 0; i < startkaarten; i++)
