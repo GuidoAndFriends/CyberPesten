@@ -47,7 +47,10 @@
     <None Include="Resources\schop.xcf" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AI\AI1Random.cs" />
+    <Compile Include="AI\AI0Random.cs" />
+    <Compile Include="AI\AI1Cheat.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="AI\AI2Pester.cs" />
     <Compile Include="AI\AI3Oke.cs" />
     <Compile Include="Help.cs">

@@ -55,6 +55,7 @@ namespace CyberPesten
         {
             spel.speciaal = 3;
             spel.status += " en koos voor schoppen";
+            spel.volgende();
             this.Close();
         }
 
@@ -62,6 +63,7 @@ namespace CyberPesten
         {
             spel.speciaal = 2;
             spel.status += " en koos voor ruiten";
+            spel.volgende();
             this.Close();
         }
 
@@ -69,6 +71,7 @@ namespace CyberPesten
         {
             spel.speciaal = 0;
             spel.status += " en koos voor harten";
+            spel.volgende();
             this.Close();
         }
 
@@ -76,6 +79,7 @@ namespace CyberPesten
         {
             spel.speciaal = 1;
             spel.status += " en koos voor klaver";
+            spel.volgende();
             this.Close();
         }
     }

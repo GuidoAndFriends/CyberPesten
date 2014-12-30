@@ -115,7 +115,9 @@ namespace CyberPesten
             regelset = 0;
             regelsUitgeschakeld = null;
             aantalSpelers = 4;
-            AIUitgeschakeld = null;
+            AIUitgeschakeld = new List<int>();
+            AIUitgeschakeld.Add(1);
+            AIUitgeschakeld.Add(2);
             mensSpelend = true;
             schrijven();
         }

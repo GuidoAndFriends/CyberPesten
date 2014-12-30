@@ -31,7 +31,7 @@ namespace CyberPesten
 
         public override void doeZet() { }
 
-        public override void kiesKleur()
+        public override void kiesKleurEnVolgende()
         {
             KleurKiezen kleur = new KleurKiezen(spel);
         }

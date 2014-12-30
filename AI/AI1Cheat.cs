@@ -3,14 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Threading;
-using System.Windows.Forms;
 
 namespace CyberPesten
 {
-    class AI1Random : Speler
+    class AI1Cheat : Speler
     {
-        public AI1Random(Spel s, string n)
+        public AI1Cheat(Spel s, string n)
         {
             hand = new List<Kaart>();
             spel = s;
@@ -35,16 +33,21 @@ namespace CyberPesten
             else
             {
                 spel.pakKaart();
+                //Hier moet een eigen functie voor pakKaart
                 spel.volgende();
             }
         }
 
-        public override void kiesKleur()
+        public override void kiesKleurEnVolgende()
         {
             int[] kleuren = { 0, 0, 0, 0 };
             foreach (Kaart kaart in hand)
             {
-                kleuren[kaart.Kleur]++;
+                if (kaart.Kleur != 4) //joker
+                {
+                    kleuren[kaart.Kleur]++;
+                }
+                
             }
 
             int kleur = 0;
@@ -58,6 +61,7 @@ namespace CyberPesten
            
             spel.speciaal = kleur;
             spel.status += " en koos voor " + kleur;
+            spel.volgende();
         }
     }
 }

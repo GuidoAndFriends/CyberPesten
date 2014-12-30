@@ -30,6 +30,10 @@ namespace CyberPesten
                         speelbaar = true;
                     }
                     break;
+                //alles mag
+                case 5:
+                    speelbaar = true;
+                    break;
                 //veranderde kleur
                 default:
                     if (kaart.Kleur == speciaal || kaart.Kleur == 4 || kaart.Waarde == 11)
@@ -45,6 +49,11 @@ namespace CyberPesten
         {
             Kaart kaart = stapel[stapel.Count - 1];
             
+            if (speciaal == 5)
+            {
+                speciaal = -1;
+            }
+
             if (kaart.Kleur == 4) //joker
             {
                 regelPakken(5);
@@ -67,8 +76,7 @@ namespace CyberPesten
             else if (kaart.Waarde == 11)
             {
                 //boer
-                regelKleur();
-                volgende();
+                regelKleurEnVolgende();
             }
             else if (kaart.Waarde != 8)
             {
@@ -85,8 +93,9 @@ namespace CyberPesten
 
         public void regelPakkenNu()
         {
-            speciaal = -1;
+            speciaal = 5;
             pakKaart(pakAantal);
+            spelers[spelend].doeZet();
         }
 
         public void regelWacht()
@@ -107,9 +116,9 @@ namespace CyberPesten
             volgende();
         }
 
-        public void regelKleur()
+        public void regelKleurEnVolgende()
         {
-            spelers[spelend].kiesKleur();
+            spelers[spelend].kiesKleurEnVolgende();
         }
 
         public void regelDraai()

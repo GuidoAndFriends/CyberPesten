@@ -39,7 +39,7 @@ namespace CyberPesten
             blok =  b;
         }
 
-        public abstract void kiesKleur();
+        public abstract void kiesKleurEnVolgende();
 
         public int laatsteKaart
         {

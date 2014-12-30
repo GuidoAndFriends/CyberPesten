@@ -28,6 +28,7 @@ namespace CyberPesten
 
         //Voor het verplaatsen van een kaart die gespeeld of gepakt wordt
         public Kaart bewegendeKaart;
+        public bool zichtbaar;
         
         //public Button laatsteKaart, help;
 
@@ -119,7 +120,15 @@ namespace CyberPesten
                 //een eventuele bewegende kaart
                 if (bewegendeKaart != null)
                 {
-                    gr.DrawImage(bewegendeKaart.voorkant, bewegendeKaart.X, bewegendeKaart.Y);
+                    if (zichtbaar)
+                    {
+                        gr.DrawImage(bewegendeKaart.voorkant, bewegendeKaart.X, bewegendeKaart.Y);
+                    }
+                    else
+                    {
+                        gr.DrawImage(bewegendeKaart.achterkant, bewegendeKaart.X, bewegendeKaart.Y);
+                    }
+                    
                 }
 
                 //status van het spel
@@ -335,8 +344,9 @@ namespace CyberPesten
             schuifAnimatie = null;
         }
 
-        public void verplaatsen(Point p1, Point p2, int index)
+        public void verplaatsen(Point p1, Point p2, bool _zichtbaar)
         {
+            zichtbaar = _zichtbaar;
             int deltaX, deltaY, stappen, stap;
             deltaX = p2.X - p1.X;
             deltaY = p2.Y - p1.Y;

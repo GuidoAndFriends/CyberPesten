@@ -87,12 +87,17 @@ namespace CyberPesten
                 speler.updateBlok();
             }
             verplaatsKaart(pot, 0, stapel);
+            if (stapel[0].Kleur == 4)
+            {
+                speciaal = 5;
+            }
             s.Invalidate();
             if (! mens)
             {
                 spelend++;
                 spelers[spelend].doeZet();
             }
+            checkNullKaart();
         }
     }
 }

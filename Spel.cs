@@ -27,6 +27,7 @@ namespace CyberPesten
         
         public void verplaatsKaart(List<Kaart> van, int index, List<Kaart> naar)
         {
+            checkNullKaart();
             if (van.Count > 0)
             {
                 naar.Add(van[index]);
@@ -124,7 +125,7 @@ namespace CyberPesten
             }
             speelveld.bewegendeKaart = kaart;
             van.RemoveAt(index);
-            speelveld.verplaatsen(p1, speelveld.stapelPlek, index);
+            speelveld.verplaatsen(p1, speelveld.stapelPlek, true);
             naar.Add(speelveld.bewegendeKaart);
 
         }
@@ -153,7 +154,24 @@ namespace CyberPesten
                     stapel.Add(bovenste);
                 }
 
-                verplaatsKaart(pot, 0, spelers[spelend].hand);
+                Point p2;
+                if (spelend == 0)
+                {
+                    p2 = new Point(spelers[0].hand[spelers[0].hand.Count - 1].X + 10 + 110, spelers[0].hand[0].Y);
+                }
+                else
+                {
+                    int breedte = (spelers.Count - 1) * 350;
+                    int tussenruimte = (speelveld.Width - breedte - 20) / (spelers.Count - 2);
+                    p2 = new Point(10 + (350 + tussenruimte) * (spelend - 1) + 120, 10);
+                }
+                speelveld.bewegendeKaart = pot[0];
+                pot.RemoveAt(0);
+                speelveld.verplaatsen(speelveld.potPlek, p2, false);
+                spelers[spelend].hand.Add(speelveld.bewegendeKaart);
+
+                //verplaatsKaart(pot, 0, spelers[spelend].hand);
+
 
                 if (spelend == 0)
                 {
@@ -264,30 +282,64 @@ namespace CyberPesten
             string naam = namen[random.Next(namen.Count)];
             namen.Remove(naam);
             
-            int aantal = 1;
+            int aantal = 3;
             int nummer = random.Next(aantal);
             Speler gekozen;
+
+            while (instellingen.AIUitgeschakeld.Contains(nummer))
+            {
+                nummer = random.Next(aantal);
+            }
 
             switch (nummer)
             {
                 case 0:
-                    gekozen = new AI1Random(this, naam);
+                    gekozen = new AI0Random(this, "0 " + naam);
                     break;
                 case 1:
-                    gekozen = new AI2Pester(this, naam);
+                    gekozen = new AI1Cheat(this, "1 " + naam);
                     break;
-                /*
                 case 2:
-                    gekozen = new AI3Oke(this, naam);
+                    gekozen = new AI2Pester(this, "2 " + naam);
                     break;
-                 */
+                case 3:
+                    gekozen = new AI3Oke(this, "3 " + naam);
+                    break;
                 default:
                     MessageBox.Show("Er is iets mis in de functie willekeurigeAI");
-                    gekozen = new AI1Random(this, naam);
+                    gekozen = new AI0Random(this, naam);
                     break;
             }
 
             return gekozen;
+        }
+
+        public void checkNullKaart()
+        {
+            foreach (Speler speler in spelers)
+            {
+                foreach (Kaart kaart in speler.hand)
+                {
+                    if (kaart == null)
+                    {
+                        MessageBox.Show("null kaart gevonden");
+                    }
+                }
+            }
+            foreach (Kaart kaart in stapel)
+            {
+                if (kaart == null)
+                {
+                    MessageBox.Show("null kaart gevonden");
+                }
+            }
+            foreach (Kaart kaart in pot)
+            {
+                if (kaart == null)
+                {
+                    MessageBox.Show("null kaart gevonden");
+                }
+            }
         }
     }
 }
