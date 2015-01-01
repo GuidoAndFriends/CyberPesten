@@ -47,6 +47,7 @@ namespace CyberPesten
             namen.Add("Noah");
             namen.Add("Norico");
             namen.Add("Rik");
+            namen.Add("Sjaak");
 
             spelers.Add(new Mens(this));
             for (int i = 1; i < aantalSpelers; i++)
