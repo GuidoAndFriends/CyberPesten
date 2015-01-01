@@ -20,6 +20,7 @@ namespace CyberPesten
         public bool mens;
         public Instellingen instellingen;
 
+
         public Spel()
         {
 
@@ -258,17 +259,23 @@ namespace CyberPesten
 
         public void laatsteKaart(int sender)
         {
+            Speler sjaak = spelers[spelend];
+            
             if (sender == 1)
             {
-                spelers[0].gemeld = true;
-                //speelveld.laatsteKaart.BackColor = Color.Green;
-                
+                if(sjaak.hand.Count == 1)
+                {
+                    spelers[0].gemeld = true;
+                    MessageBox.Show("Laatste kaart gemeld");
+                    //speelveld.laatsteKaart.BackColor = Color.Green;
+                }
+                else
+                {
+                    spelers[0].gemeld = false;
+                    MessageBox.Show("Dit is niet van toepassing");
+                    //speelveld.laatsteKaart.BackColor = Color.Red;
+                }                
             }
-            else
-            {
-                spelers[0].gemeld = false;
-                //speelveld.laatsteKaart.BackColor = Color.Red;
-           }
         }
 
         public void eindeSpel()

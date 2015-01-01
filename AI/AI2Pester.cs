@@ -48,7 +48,7 @@ namespace CyberPesten
 
             foreach (Kaart kaart in mogelijk)
             {
-                if (kaart.Waarde == 2 || kaart.Waarde == 4 || kaart.Waarde == 8 || kaart.Waarde == 1)
+                if (kaart.Waarde == 2 || kaart.Waarde == 0 || kaart.Waarde == 8 || kaart.Waarde == 1)
                 {
                     pester.Add(kaart);
                 }
