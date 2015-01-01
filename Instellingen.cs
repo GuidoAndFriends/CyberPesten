@@ -42,8 +42,10 @@ namespace CyberPesten
         {
             List<string> regels = FileToStringList(instellingenPad);
 
+            //0 regelset
             regelset = Int32.Parse(regels[0]);
 
+            //1 regels uitgeschakeld
             string[] delen = regels[1].Split(new char[] { ',' });
             regelsUitgeschakeld = new List<int>();
             if (delen[0] != "")
@@ -54,8 +56,10 @@ namespace CyberPesten
                 }
             }
 
+            //2 aantal spelers
             aantalSpelers = Int32.Parse(regels[2]);
 
+            //3 AI uitgeschakeld
             delen = regels[3].Split(new char[] {','});
             AIUitgeschakeld = new List<int>();
             if (delen[0] != "")
@@ -66,6 +70,7 @@ namespace CyberPesten
                 }
             }
 
+            //4 mens speelt mee
             mensSpelend = Boolean.Parse(regels[4]);
         }
 
@@ -73,8 +78,10 @@ namespace CyberPesten
         {
             List<string> regels = new List<string>();
 
+            //0 regelset
             regels.Add(regelset.ToString());
 
+            //1 regels uitgeschakeld
             string regel = "";
             if (regelsUitgeschakeld != null)
             {
@@ -89,8 +96,10 @@ namespace CyberPesten
             }
             regels.Add(regel);
 
+            //2 aantal spelers
             regels.Add(aantalSpelers.ToString());
 
+            //3 AI uitgeschakeld
             regel = "";
             if (AIUitgeschakeld != null)
             {
@@ -99,12 +108,13 @@ namespace CyberPesten
                     regel += AIUitgeschakeld[0].ToString();
                     for (int i = 1; i < AIUitgeschakeld.Count; i++)
                     {
-                        regel += ',' + AIUitgeschakeld[i];
+                        regel += "," + AIUitgeschakeld[i].ToString();
                     }
                 }
             }
             regels.Add(regel);
 
+            //4 mens speelt mee
             regels.Add(mensSpelend.ToString());
 
             StringListToFile(regels, instellingenPad);
@@ -118,6 +128,7 @@ namespace CyberPesten
             AIUitgeschakeld = new List<int>();
             AIUitgeschakeld.Add(1);
             AIUitgeschakeld.Add(2);
+            AIUitgeschakeld.Add(3);
             mensSpelend = true;
             schrijven();
         }
@@ -141,6 +152,9 @@ namespace CyberPesten
 
         public void StringListToFile(List<string> regels, string path)
         {
+            //maakt het bestand leeg
+            System.IO.File.WriteAllText(path, string.Empty);
+
             StreamWriter a = new StreamWriter(path);
             foreach (string regel in regels)
             {

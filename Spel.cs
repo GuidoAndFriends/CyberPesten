@@ -288,13 +288,19 @@ namespace CyberPesten
             string naam = namen[random.Next(namen.Count)];
             namen.Remove(naam);
             
-            int aantal = 3;
+            int aantal = 4;
             int nummer = random.Next(aantal);
             Speler gekozen;
 
-            while (instellingen.AIUitgeschakeld.Contains(nummer))
+            int teller = 0;
+            while (instellingen.AIUitgeschakeld.Contains(nummer) && teller < 1000)
             {
                 nummer = random.Next(aantal);
+                teller++;
+            }
+            if (teller  == 1000)
+            {
+                MessageBox.Show("Alle AI's zijn uitgeschakeld? Let op dat het aantal voor random.Next(aantal) 1 hoger is dan het aantal AI");
             }
 
             switch (nummer)
@@ -330,7 +336,7 @@ namespace CyberPesten
                     aantal++;
                     if (kaart == null)
                     {
-                        MessageBox.Show("null kaart gevonden");
+                        MessageBox.Show("null kaart gevonden in hand van speler " + speler.naam);
                     }
                 }
             }
@@ -339,7 +345,7 @@ namespace CyberPesten
                 aantal++;
                 if (kaart == null)
                 {
-                    MessageBox.Show("null kaart gevonden");
+                    MessageBox.Show("null kaart gevonden in stapel");
                 }
             }
             foreach (Kaart kaart in pot)
@@ -347,7 +353,7 @@ namespace CyberPesten
                 aantal++;
                 if (kaart == null)
                 {
-                    MessageBox.Show("null kaart gevonden");
+                    MessageBox.Show("null kaart gevonden in pot");
                 }
             }
             aantalKaarten = aantal.ToString();

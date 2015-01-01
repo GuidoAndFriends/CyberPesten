@@ -62,7 +62,7 @@ namespace CyberPesten
             }
             if (instellingenButton.Contains(mea.Location))
             {
-                Instellingenscherm isntellingenscherm = new Instellingenscherm(this);
+                Instellingenscherm instellingenscherm = new Instellingenscherm(this);
                 this.Hide();
             }
         }

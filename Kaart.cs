@@ -10,7 +10,7 @@ namespace CyberPesten
     public class Kaart
     {
         private int kleur; //integere getal van de kleur, 0 = harten, 1 = klaver, 2 = ruiten, 3 = schoppen (alfabetische volgorde) en 4 = joker (kleurloos)
-        private int waarde; //waarde van de kaart, 0 doet niet mee, 1 is een aas, 2-10 komen overeen met de nummers zelf, 11 boer, 12 vrouw, 13 heer.
+        private int waarde; //waarde van de kaart, (0 is joker), 1 is een aas, 2-10 komen overeen met de nummers zelf, 11 boer, 12 vrouw, 13 heer.
         public int X, Y;
         public Size kaartGrootte = new Size(110, 153);
         public Bitmap voorkant, achterkant;

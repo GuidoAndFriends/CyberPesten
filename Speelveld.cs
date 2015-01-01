@@ -33,8 +33,9 @@ namespace CyberPesten
         //public Button laatsteKaart, help;
 
         //Voor de buttons
-        Rectangle helpButton, homeButton, laatsteKaartButton; //settingsButton,
-        Bitmap help, settings, home;
+        Rectangle helpButton, settingsButton, homeButton, laatsteKaartButton;
+        Bitmap helpBitmap, settingsBitmap, homeBitmap, laatsteKaartBitmap;
+        int buttonWidth;
 
         public Speelveld(Menu m, Instellingen instellingen, bool online)
         {
@@ -76,10 +77,18 @@ namespace CyberPesten
                 spel = new LokaalSpel(this, instellingen);
             }
 
-            help = (Bitmap)CyberPesten.Properties.Resources.ResourceManager.GetObject("Help_button");
-            settings = (Bitmap)CyberPesten.Properties.Resources.ResourceManager.GetObject("Settings_button");
-            home = (Bitmap)CyberPesten.Properties.Resources.ResourceManager.GetObject("Home_button");
+            helpBitmap = (Bitmap)CyberPesten.Properties.Resources.ResourceManager.GetObject("Help_button");
+            settingsBitmap = (Bitmap)CyberPesten.Properties.Resources.ResourceManager.GetObject("Settings_button");
+            homeBitmap = (Bitmap)CyberPesten.Properties.Resources.ResourceManager.GetObject("Home_button");
+            laatsteKaartBitmap = (Bitmap)CyberPesten.Properties.Resources.ResourceManager.GetObject("Laatste_kaart");
 
+            buttonWidth = helpBitmap.Width;
+
+            helpButton = new Rectangle(25, this.Height - 250 - buttonWidth, buttonWidth, buttonWidth);
+            settingsButton = new Rectangle(50 + buttonWidth, this.Height - 250 - buttonWidth, buttonWidth, buttonWidth);
+            homeButton = new Rectangle(75 + 2 * buttonWidth, this.Height - 250 - buttonWidth, buttonWidth, buttonWidth);
+            laatsteKaartButton = new Rectangle(this.Width - 750, this.Height / 2 - laatsteKaartBitmap.Width / 2 + 5, laatsteKaartBitmap.Width, laatsteKaartBitmap.Width);
+   
             this.Show();
         }
 
@@ -130,7 +139,6 @@ namespace CyberPesten
                     {
                         gr.DrawImage(bewegendeKaart.achterkant, bewegendeKaart.X, bewegendeKaart.Y);
                     }
-                    
                 }
 
                 //status van het spel
@@ -138,19 +146,10 @@ namespace CyberPesten
                 gr.DrawString(spel.aantalKaarten, new Font(FontFamily.GenericSansSerif, 14), Brushes.Black, new Point(40, 500));
 
                 //Buttons
-                int buttonWidth = help.Size.Width;
-
-                gr.DrawImage(help, 25, this.Height - 250 - help.Size.Height, buttonWidth, buttonWidth);
-                gr.DrawImage(settings, 50 + buttonWidth, this.Height - 250 - buttonWidth, buttonWidth, buttonWidth);
-                gr.DrawImage(home, 75 + 2 * buttonWidth, this.Height - 250 - buttonWidth, buttonWidth, buttonWidth);
-
-                helpButton = new Rectangle(25, this.Height - 25 - buttonWidth, buttonWidth, buttonWidth);
-                homeButton = new Rectangle(75 + 2 * buttonWidth, this.Height - 25 - buttonWidth, buttonWidth, buttonWidth);
-
-                // Laatste kaart button
-                Image LaatsteKaartButton = (Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Laatste_kaart");
-                gr.DrawImage(LaatsteKaartButton, this.Width - 750, this.Height / 2 - LaatsteKaartButton.Width / 2 + 5, LaatsteKaartButton.Width, LaatsteKaartButton.Width);
-                laatsteKaartButton = new Rectangle(this.Width - 750, this.Height / 2 - LaatsteKaartButton.Width / 2 + 5, LaatsteKaartButton.Width, LaatsteKaartButton.Width);
+                gr.DrawImage(helpBitmap, helpButton);
+                gr.DrawImage(settingsBitmap, settingsButton);
+                gr.DrawImage(homeBitmap, homeButton);
+                gr.DrawImage(laatsteKaartBitmap, laatsteKaartButton);
             }
         }
 
@@ -164,10 +163,15 @@ namespace CyberPesten
                 }
                 else
                 {
-                    System.Diagnostics.Debug.WriteLine("Breakpoint");
-                    System.Diagnostics.Debug.WriteLine("Breakpoint");
-                    System.Diagnostics.Debug.WriteLine("Breakpoint");
+                    //debug info
+                    Kaart krt = null;
+                    MessageBox.Show(krt.tekst);
                 }
+            }
+            else if (settingsButton.Contains(mea.Location))
+            {
+                //het spel gaat gewoon door, dus niet handig
+                Instellingenscherm instellingenscherm = new Instellingenscherm(menu);
             }
             else if (homeButton.Contains(mea.Location))
             {
