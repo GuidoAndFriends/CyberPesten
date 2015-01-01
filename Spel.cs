@@ -276,11 +276,6 @@ namespace CyberPesten
                     //speelveld.laatsteKaart.BackColor = Color.Red;
                 }                
             }
-            /*else
-            {
-                spelers[0].gemeld = false;
-                //speelveld.laatsteKaart.BackColor = Color.Red;
-           }*/
         }
 
         public void eindeSpel()
