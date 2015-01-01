@@ -84,11 +84,11 @@ namespace CyberPesten
 
             buttonWidth = helpBitmap.Width;
 
-            helpButton = new Rectangle(25, this.Height - 250 - buttonWidth, buttonWidth, buttonWidth);
-            settingsButton = new Rectangle(50 + buttonWidth, this.Height - 250 - buttonWidth, buttonWidth, buttonWidth);
-            homeButton = new Rectangle(75 + 2 * buttonWidth, this.Height - 250 - buttonWidth, buttonWidth, buttonWidth);
-            laatsteKaartButton = new Rectangle(this.Width - 750, this.Height / 2 - laatsteKaartBitmap.Width / 2 + 5, laatsteKaartBitmap.Width, laatsteKaartBitmap.Width);
-   
+            laatsteKaartButton = new Rectangle(Width / 2 + 100 + laatsteKaartBitmap.Width, this.Height / 2 - laatsteKaartBitmap.Width / 2 + 5, laatsteKaartBitmap.Width, laatsteKaartBitmap.Width);
+            helpButton = new Rectangle(Width - 75 - 3 * buttonWidth, this.Height / 2 - buttonWidth / 2, buttonWidth, buttonWidth);
+            settingsButton = new Rectangle(Width - 50 - 2 * buttonWidth, this.Height / 2 - buttonWidth / 2, buttonWidth, buttonWidth);
+            homeButton = new Rectangle(Width - 25 - buttonWidth, this.Height / 2 - buttonWidth / 2, buttonWidth, buttonWidth);
+            
             this.Show();
         }
 
@@ -142,8 +142,8 @@ namespace CyberPesten
                 }
 
                 //status van het spel
-                gr.DrawString(spel.status, new Font(FontFamily.GenericSansSerif, 14), Brushes.Black, new Point(40, 450));
-                gr.DrawString(spel.aantalKaarten, new Font(FontFamily.GenericSansSerif, 14), Brushes.Black, new Point(40, 500));
+                gr.DrawString(spel.status, new Font(FontFamily.GenericSansSerif, 14), Brushes.Black, new Point(40, Height / 2 - FontHeight / 2));
+                gr.DrawString(spel.aantalKaarten, new Font(FontFamily.GenericSansSerif, 14), Brushes.Black, new Point(40, Height / 2 + 2 * FontHeight));
 
                 //Buttons
                 gr.DrawImage(helpBitmap, helpButton);
