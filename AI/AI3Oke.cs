@@ -33,7 +33,7 @@ namespace CyberPesten
             richting = spel.richting;
             mens = spel.mens;
 
-            Speler oud = spelers[spelend];
+            Speler volgende = spelers[spelend];
             List<Kaart> mogelijk = new List<Kaart>();
             List<Kaart> pester = new List<Kaart>();
             List<Kaart> bonus = new List<Kaart>();
@@ -44,9 +44,6 @@ namespace CyberPesten
             {
                 spelend = (spelend + richting + spelers.Count) % (spelers.Count);
             }
-
-            oud.updateBlok();
-
 
             foreach (Kaart kaart in hand)
             {
@@ -76,7 +73,7 @@ namespace CyberPesten
             {
                 if (pester.Count > 0)
                 {
-                    if (oud.hand.Count < 3)
+                    if (volgende.hand.Count < 3)
                         spel.speelKaart(pester[0]);
                 }
                 else
