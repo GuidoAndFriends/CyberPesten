@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
+using System.Windows.Forms;
 
 namespace CyberPesten
 {
@@ -14,6 +15,7 @@ namespace CyberPesten
         public bool gemeld;
         public Spel spel;
         public Bitmap blok;
+        
 
         public abstract void doeZet();
 
@@ -40,7 +42,7 @@ namespace CyberPesten
         }
 
         public abstract void kiesKleurEnVolgende();
-
+        
         public int laatsteKaart
         {
             get

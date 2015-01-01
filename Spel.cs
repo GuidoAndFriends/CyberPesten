@@ -261,6 +261,7 @@ namespace CyberPesten
             if (sender == 1)
             {
                 spelers[0].gemeld = true;
+                MessageBox.Show("Laatste kaart gemeld");
                 //speelveld.laatsteKaart.BackColor = Color.Green;
                 
             }

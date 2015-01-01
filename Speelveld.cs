@@ -35,6 +35,7 @@ namespace CyberPesten
         //Voor de buttons
         Rectangle helpButton, homeButton, laatsteKaartButton; //settingsButton,
         Bitmap help, settings, home;
+        Pen green;
 
         public Speelveld(Menu m, Instellingen instellingen, bool online)
         {
@@ -149,8 +150,11 @@ namespace CyberPesten
 
                 // Laatste kaart button
                 Image LaatsteKaartButton = (Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Laatste_kaart");
-                gr.DrawImage(LaatsteKaartButton, this.Width - 750, this.Height / 2 - LaatsteKaartButton.Width / 2 + 5, LaatsteKaartButton.Width, LaatsteKaartButton.Width);
-                laatsteKaartButton = new Rectangle(this.Width - 750, this.Height / 2 - LaatsteKaartButton.Width / 2 + 5, LaatsteKaartButton.Width, LaatsteKaartButton.Width);
+                gr.DrawImage(LaatsteKaartButton, this.Width - 500, this.Height / 2 - LaatsteKaartButton.Width / 2 + 5, LaatsteKaartButton.Width, LaatsteKaartButton.Width);
+                laatsteKaartButton = new Rectangle(this.Width - 500, this.Height / 2 - LaatsteKaartButton.Width / 2 + 5, LaatsteKaartButton.Width, LaatsteKaartButton.Width);
+                //green = new Pen(Color.Green);
+                //gr.DrawRectangle(green, this.Width - 500, this.Height / 2 - LaatsteKaartButton.Width / 2 + 5, LaatsteKaartButton.Width, LaatsteKaartButton.Width);
+                
             }
         }
 
