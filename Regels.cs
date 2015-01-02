@@ -48,24 +48,15 @@ namespace CyberPesten
         public void kaartActie()
         {
             Kaart kaart = stapel[stapel.Count - 1];
-            
-            if (speciaal == 5)
-            {
-                speciaal = -1;
-            }
+           
+            speciaal = -1;
 
-            if (kaart.Kleur == 4) //joker
+        switch (kaart.Waarde)
             {
-                regelPakken(5);
-            }
-            else
-            {
-                switch (kaart.Waarde)
-                {
-                    case 2: regelPakken(2); break;
-                    case 8: regelWacht(); break;
-                    case 1: regelDraai(); break;
-                }
+                case 0: regelPakken(5); break; //joker
+                case 2: regelPakken(2); break;
+                case 8: regelWacht(); break;
+                case 1: regelDraai(); break;
             }
             
             if (kaart.Waarde == 7 || kaart.Waarde == 13)
@@ -97,6 +88,7 @@ namespace CyberPesten
             System.Diagnostics.Debug.WriteLine(pakAantal.ToString());
             speciaal = 5;
             pakKaart(pakAantal);
+            pakAantal = 0;
             spelers[spelend].doeZet();
         }
 

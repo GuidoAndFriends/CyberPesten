@@ -146,18 +146,24 @@ namespace CyberPesten
             else
             {
                 //als de pot leeg is, gaan de kaarten die opgelegd zijn op de stapel naar de pot, op de bovenste kaart na
-                if (pot.Count == 0)
+                if (pot.Count < 2)
                 {
+                    //if (stapel.Count > 3)
+                    {
+                        int boven = stapel.Count - 1;
+                        Kaart bovenste = stapel[boven];
+                        stapel.RemoveAt(boven);
 
-                    int boven = stapel.Count - 1;
-                    Kaart bovenste = stapel[boven];
-                    stapel.RemoveAt(boven);
+                        pot = stapel;
+                        pot = schud(pot);
 
-                    pot = stapel;
-                    pot = schud(pot);
-
-                    stapel = new List<Kaart>();
-                    stapel.Add(bovenste);
+                        stapel = new List<Kaart>();
+                        stapel.Add(bovenste);
+                    }
+                    //else
+                    {
+                        //extraPak(pot);
+                    }
                 }
 
                 Point p2;
@@ -331,6 +337,18 @@ namespace CyberPesten
             }
 
             return gekozen;
+        }
+
+        public void extraPak(List<Kaart> lijst)
+        {
+            for (int j = 0; j < 4; j++)
+            {
+                for (int k = 1; k < 14; k++)
+                {
+                    lijst.Add(new Kaart(j, k));
+                }
+            }
+            lijst.Add(new Kaart());
         }
 
         public void checkNullKaart()

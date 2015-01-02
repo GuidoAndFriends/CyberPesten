@@ -58,14 +58,7 @@ namespace CyberPesten
             //Kaarten toevoegen
             for (int i = 0; i < kaartspellen; i++)
             {
-                for (int j = 0; j < 4; j++)
-                {
-                    for (int k = 1; k < 14; k++)
-                    {
-                        pot.Add(new Kaart(j,k));
-                    }
-                }
-                pot.Add(new Kaart());
+                extraPak(pot);
             }
             pot = schud(pot);
             aantalKaarten = pot.Count.ToString();

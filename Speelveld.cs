@@ -308,7 +308,8 @@ namespace CyberPesten
         }
 
         private void muisOmlaag(object sender, MouseEventArgs mea)
-        { 
+        {
+            spel.checkNullKaart();
             int index = 0;
             foreach (Kaart kaart in spel.spelers[0].hand)
             {
@@ -321,48 +322,42 @@ namespace CyberPesten
                     {
                         muisLaag = true;
                         bewegendeKaart = spel.spelers[0].hand[index];
+                        spel.checkNullKaart();
                         spel.spelers[0].hand.RemoveAt(index);
                         //laagIndex = index;
                         laagX = deltaX;
                         laagY = deltaY;
+                        zichtbaar = true;
                         return;
                         //als de muis op een kaart is, moet het nog duidelijk worden dat de kaart opgepakt is
                     }
                     index++;
                 }
             }
+            spel.checkNullKaart();
         }
 
         private void muisOmhoog(object sender, MouseEventArgs mea)
         {
+            spel.checkNullKaart();
             muisLaag = false;
             if (bewegendeKaart != null)
             {
-                if (spel.spelend == 0)
+                spel.spelers[0].hand.Add(bewegendeKaart);
+                
+                if (spel.spelend == 0 && spel.speelbaar(bewegendeKaart))
                 {
-                    if (spel.speelbaar(bewegendeKaart))
-                    {
-                        spel.spelers[0].hand.Add(bewegendeKaart);
-                        spel.speelKaart(spel.spelers[0].hand.Count - 1);
-                        bewegendeKaart = null;
-                        if (this.IsHandleCreated)
-                        {
-                            Invoke(new Action(() => Invalidate()));
-                            Invoke(new Action(() => Update()));
-                        }
-                    }
-                    else
-                    {
-                        spel.spelers[0].hand.Add(bewegendeKaart);
-                        bewegendeKaart = null;
-                        if (this.IsHandleCreated)
-                        {
-                            Invoke(new Action(() => Invalidate()));
-                            Invoke(new Action(() => Update()));
-                        }
-                    }
+                    spel.speelKaart(spel.spelers[0].hand.Count - 1);
+                }
+
+                bewegendeKaart = null;
+                if (this.IsHandleCreated)
+                {
+                    Invoke(new Action(() => Invalidate()));
+                    Invoke(new Action(() => Update()));
                 }
             }
+            spel.checkNullKaart();
         }
 
         private void schuiven()

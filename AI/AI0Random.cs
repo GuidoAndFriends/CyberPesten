@@ -31,6 +31,10 @@ namespace CyberPesten
             if (mogelijk.Count > 0)
             {
                 spel.speelKaart(mogelijk[0]);
+                if (hand.Count == 1)
+                {
+                    gemeld = true;
+                } 
             }
             else
             {
