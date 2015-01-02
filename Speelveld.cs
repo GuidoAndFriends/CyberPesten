@@ -37,6 +37,10 @@ namespace CyberPesten
         Bitmap helpBitmap, settingsBitmap, homeBitmap, laatsteKaartBitmap;
         int buttonWidth;
 
+        //public List<Speler> spelers;
+        //public int spelend, richting;
+        public Pen green, red;
+
         public Speelveld(Menu m, Instellingen instellingen, bool online)
         {
             menu = m;
@@ -95,6 +99,7 @@ namespace CyberPesten
         private void teken(object sender, PaintEventArgs pea)
         {
             Graphics gr = pea.Graphics;
+            
 
             if (tekenHelemaal)
             {
@@ -150,8 +155,23 @@ namespace CyberPesten
                 gr.DrawImage(settingsBitmap, settingsButton);
                 gr.DrawImage(homeBitmap, homeButton);
                 gr.DrawImage(laatsteKaartBitmap, laatsteKaartButton);
+
+                green = Pens.Green;
+                red = Pens.Red;
+                //spelend = (spelend + richting + spelers.Count) % (spelers.Count);
+
+                if (spel.spelers[spel.spelend].hand.Count == 6)
+                {
+                    gr.DrawRectangle(green, Width / 2 + 100 + laatsteKaartBitmap.Width, this.Height / 2 - laatsteKaartBitmap.Width / 2 + 5, laatsteKaartBitmap.Width, laatsteKaartBitmap.Width);
+                }
+                else
+                {
+                    gr.DrawRectangle(red, Width / 2 + 100 + laatsteKaartBitmap.Width, this.Height / 2 - laatsteKaartBitmap.Width / 2 + 5, laatsteKaartBitmap.Width, laatsteKaartBitmap.Width);
+                }             
             }
         }
+
+            
 
         private void muisKlik(object sender, MouseEventArgs mea)
         {
