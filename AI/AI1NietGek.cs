@@ -52,39 +52,6 @@ namespace CyberPesten
             }
         }
 
-        public override void kiesKleurEnVolgende()
-        {
-            int[] kleuren = { 0, 0, 0, 0 };
-            foreach (Kaart kaart in hand)
-            {
-                if (kaart.Kleur != 4) //joker
-                {
-                    kleuren[kaart.Kleur]++;
-                }
-                
-            }
-
-            int kleur = 0;
-            for (int i = 1; i < 4; i++)
-            {
-                if (kleuren[i] > kleuren[kleur])
-                {
-                    kleur = i;
-                }
-            }
-           
-            spel.speciaal = kleur;
-            spel.status += " en koos voor ";
-            switch (kleur)
-            {
-                case 0: spel.status += "Harten "; break;
-                case 1: spel.status += "Klaver "; break;
-                case 2: spel.status += "Ruiten "; break;
-                case 3: spel.status += "Schoppen "; break;
-            }
-            spel.volgende();
-        }
-
         bool straksGeenMogelijkeZet(Kaart gepland)
         {
             List<Kaart> mogelijk = new List<Kaart>();

@@ -16,6 +16,7 @@ namespace CyberPesten
 
         public Instellingen()
         {
+            //Er wordt gecontroleerd of de benodigde mappen en het instellingenbestand bestaan en eventueel worden ze aangemaakt
             string GNF = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Guido&Friends");
             if (!Directory.Exists(GNF))
             {
@@ -132,7 +133,7 @@ namespace CyberPesten
             schrijven();
         }
 
-        List<string> FileToStringList(string path)//stuurt het hele bestand terug als losse regels, null bij een fout
+        List<string> FileToStringList(string path) //stuurt het hele bestand terug als losse regels, null bij een fout
         {
             try
             {
@@ -149,7 +150,7 @@ namespace CyberPesten
             catch { return null; }
         }
 
-        void StringListToFile(List<string> regels, string path)
+        void StringListToFile(List<string> regels, string path) //maakt van de list met regels een tekstbestand in het gegeven pad
         {
             //maakt het bestand leeg
             System.IO.File.WriteAllText(path, string.Empty);
