@@ -34,6 +34,7 @@ namespace CyberPesten
             richting = 1; //welke kant er op gespeeld word
             speciaal = -1; //of er een speciale kaart gespeeld is
             pakAantal = 0; //hoeveel kaarten er gepakt moeten worden (voor 2 en joker)
+            speciaalTekst = "-1 normaal";
 
             timerAI = new System.Timers.Timer();
             timerAI.Elapsed += tijd;

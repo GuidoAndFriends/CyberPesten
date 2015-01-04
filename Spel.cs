@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Drawing;
+using System.Threading;
 
 namespace CyberPesten
 {
@@ -15,7 +16,7 @@ namespace CyberPesten
         public List<Speler> spelers;
         public Speelveld speelveld;
         public int spelend, richting, speciaal, pakAantal, aantalSpelers;
-        public string status, aantalKaarten;
+        public string status, aantalKaarten, speciaalTekst;
         public System.Timers.Timer timerAI;
         public bool mens;
         public Instellingen instellingen;
@@ -224,13 +225,6 @@ namespace CyberPesten
 
         public void volgende()
         {
-            string s = "";
-            foreach (Kaart kaart in spelers[0].hand)
-            {
-                s+= kaart.ToString();
-            }
-            System.Diagnostics.Debug.WriteLine(s);
-
             Speler oud = spelers[spelend];
 
             spelend = (spelend + richting + spelers.Count) % (spelers.Count);
@@ -238,6 +232,8 @@ namespace CyberPesten
             {
                 spelend = (spelend + richting + spelers.Count) % (spelers.Count);
             }
+
+            //vanaf hier is de volgende speler spelend
 
             oud.updateBlok();
             
@@ -251,7 +247,7 @@ namespace CyberPesten
                 }
                 else
                 {
-                    timerAI.Interval = 10; 
+                    timerAI.Interval = 100; 
                 }
                 timerAI.Start();
             }
@@ -286,7 +282,15 @@ namespace CyberPesten
 
         public void eindeSpel()
         {
-            MessageBox.Show("Speler " + spelend + " heeft gewonnen");
+            if (spelend == 0)
+            {
+                MessageBox.Show("Gefeliciteerd, je hebt gewonnen!");
+            }
+            else
+            {
+                MessageBox.Show("Helaas, " + spelers[spelend].naam + " heeft gewonnen.");
+            }
+            //Terugkeren naar het menu?
         }
 
         public void veranderKleur(int kleur)

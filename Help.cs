@@ -10,11 +10,11 @@ namespace CyberPesten
 {
     class Help : Form
     {
-        public Help(Menu menu)
+        public Help(Form form)
         {
             Text = "CyberPesten: Help";
             BackgroundImage = (Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("groen");
-            Size = menu.Size;
+            Size = form.Size;
             FormBorderStyle = FormBorderStyle.None;
             WindowState = FormWindowState.Maximized;
             DoubleBuffered = true;

@@ -28,6 +28,7 @@ namespace CyberPesten
                     mogelijk.Add(kaart);
                 }
             }
+            
             if (mogelijk.Count > 0)
             {
                 spel.speelKaart(mogelijk[0]);

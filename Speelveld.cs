@@ -119,7 +119,7 @@ namespace CyberPesten
                 //hand van speler
                 foreach (Kaart kaart in spel.spelers[0].hand)
                 {
-                    if (kaart != null)
+                    //if (kaart != null)
                     {
                         gr.DrawImage(kaart.voorkant, kaart.X, kaart.Y - 20);
                     }
@@ -149,6 +149,7 @@ namespace CyberPesten
                 //status van het spel
                 gr.DrawString(spel.status, new Font(FontFamily.GenericSansSerif, 14), Brushes.Black, new Point(40, Height / 2 - FontHeight / 2));
                 gr.DrawString(spel.aantalKaarten, new Font(FontFamily.GenericSansSerif, 14), Brushes.Black, new Point(40, Height / 2 + 2 * FontHeight));
+                gr.DrawString(spel.speciaalTekst, new Font(FontFamily.GenericSansSerif, 14), Brushes.Black, new Point(40, Height / 2 + 4 * FontHeight));
 
                 //Buttons
                 gr.DrawImage(helpBitmap, helpButton);
@@ -171,15 +172,13 @@ namespace CyberPesten
             }
         }
 
-            
-
         private void muisKlik(object sender, MouseEventArgs mea)
         {
             if (helpButton.Contains(mea.Location))
             {
                 if (mea.Button == MouseButtons.Left)
                 {
-                    Help help = new Help(menu);
+                    Help help = new Help(this);
                 }
                 else
                 {

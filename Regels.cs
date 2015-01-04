@@ -50,6 +50,7 @@ namespace CyberPesten
             Kaart kaart = stapel[stapel.Count - 1];
            
             speciaal = -1;
+            speciaalTekst = "-1 normaal";
 
         switch (kaart.Waarde)
             {
@@ -81,12 +82,14 @@ namespace CyberPesten
             pakAantal += aantal;
             status += " en het totaal is nu " + pakAantal;
             speciaal = 4;
+            speciaalTekst = "4 alleen joker of 2";
         }
 
         public void regelPakkenNu()
         {
             System.Diagnostics.Debug.WriteLine(pakAantal.ToString());
             speciaal = 5;
+            speciaalTekst = "5 alles mag";
             pakKaart(pakAantal);
             pakAantal = 0;
             spelers[spelend].doeZet();

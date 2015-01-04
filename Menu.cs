@@ -44,26 +44,31 @@ namespace CyberPesten
             Rectangle onlineButton = new Rectangle(onlineX, buttonY, buttonWidth, buttonHeight);
             Rectangle helpButton = new Rectangle(helpX, buttonSmallY, buttonWidthSmall, buttonHeightSmall);
             Rectangle instellingenButton = new Rectangle(instellingenX, buttonSmallY, buttonWidthSmall, buttonHeightSmall);
+            Rectangle exitButton = new Rectangle(Width - 100, Height - 100, 100, 100);
 
             if (lokaalButton.Contains(mea.Location))
             {
                 veld = new Speelveld(this, instellingen, false);
                 this.Hide();
             }
-            if (onlineButton.Contains(mea.Location))
+            else if (onlineButton.Contains(mea.Location))
             {
                 veld = new inlogScherm();
                 this.Hide();
             }
-            if (helpButton.Contains(mea.Location))
+            else if (helpButton.Contains(mea.Location))
             {
                 Help help = new Help(this);
                 this.Hide();
             }
-            if (instellingenButton.Contains(mea.Location))
+            else if (instellingenButton.Contains(mea.Location))
             {
                 Instellingenscherm instellingenscherm = new Instellingenscherm(this);
                 this.Hide();
+            }
+            else if (exitButton.Contains(mea.Location))
+            {
+                Application.Exit();
             }
         }
 
@@ -79,6 +84,9 @@ namespace CyberPesten
             Bitmap online = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Online"));
             Bitmap help = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Help"));
             Bitmap players = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Players"));
+            Bitmap exit = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Home_button"));
+            //design van exit knop moet nog gemaakt worden
+
             buttonWidth = Screen.PrimaryScreen.Bounds.Width / 8;
             buttonHeight = buttonWidth * lokaal.Height / lokaal.Width;
             buttonWidthSmall = Screen.PrimaryScreen.Bounds.Width / 10;
@@ -94,6 +102,7 @@ namespace CyberPesten
             pea.Graphics.DrawImage(lokaal, lokaalX, buttonY, buttonWidth, buttonHeight);
             pea.Graphics.DrawImage(online, onlineX, buttonY, buttonWidth, buttonHeight);
             pea.Graphics.DrawImage(help, helpX, buttonSmallY, buttonWidthSmall, buttonHeightSmall);
+            pea.Graphics.DrawImage(exit, new Point(Width - 100, Height - 100));
         }
     }
 }
