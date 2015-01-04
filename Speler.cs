@@ -40,7 +40,7 @@ namespace CyberPesten
             blok =  b;
         }
 
-        public void kiesKleurEnVolgende()
+        public virtual void kiesKleurEnVolgende()
         {
             //er wordt gekeken welke kleur het vaakst voor komt in de hand
             int[] kleuren = { 0, 0, 0, 0 };

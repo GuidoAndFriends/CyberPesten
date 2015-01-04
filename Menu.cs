@@ -28,16 +28,9 @@ namespace CyberPesten
             DoubleBuffered = true;
 
             instellingen = new Instellingen();
-
-            this.FormClosed += Menu_FormClosed;
         }
 
-        void Menu_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            Application.Exit();
-        }
-
-        private void klik(object sender, MouseEventArgs mea)
+        void klik(object sender, MouseEventArgs mea)
         {
             Rectangle lokaalButton = new Rectangle(lokaalX, buttonY, buttonWidth, buttonHeight);
             Rectangle onlineButton = new Rectangle(onlineX, buttonY, buttonWidth, buttonHeight);
@@ -71,7 +64,7 @@ namespace CyberPesten
             }
         }
 
-        public void buildMenuGraphics(Object o, PaintEventArgs pea)
+        void buildMenuGraphics(Object o, PaintEventArgs pea)
         {
             Bitmap menuLogo = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Menu_logo"));
             int logoWidth = Screen.PrimaryScreen.Bounds.Width * 3/5;

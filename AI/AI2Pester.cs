@@ -61,6 +61,7 @@ namespace CyberPesten
                 if (kaart.Waarde == 7 || kaart.Waarde == 13)
                 {
                     bonus.Add(kaart);
+                    //Controleren of het nut heeft?
                 }
             }
 
