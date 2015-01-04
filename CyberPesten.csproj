@@ -93,6 +93,7 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\Settings.png" />
     <None Include="Resources\Settings button.png" />
     <None Include="Resources\SQ.png" />
     <None Include="Resources\SK.png" />
@@ -138,6 +139,8 @@
     <None Include="Resources\Back design 1.png" />
     <None Include="Resources\Back design 2.png" />
     <None Include="Resources\Gradient.png" />
+    <None Include="Resources\Exit button.png" />
+    <None Include="Resources\Faded buttons.png" />
     <Content Include="Resources\harten.png" />
     <None Include="Resources\Help.png" />
     <None Include="Resources\HJ.png" />

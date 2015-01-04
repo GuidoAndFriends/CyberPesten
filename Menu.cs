@@ -10,9 +10,10 @@ namespace CyberPesten
 {
     class Menu : Form
     {
-        int buttonWidth, buttonHeight, buttonWidthSmall, buttonHeightSmall;
-        int lokaalX, onlineX, buttonY, helpX, instellingenX, buttonSmallY;
+        int buttonWidth, buttonHeight;
+        bool onlineHover, lokaalHover, settingsHover, helpHover, exitHover;
         public Instellingen instellingen;
+        float verhouding; //De grootte van de plaatjes worden allemaal gebaseerd op de verhoudingen van de achtergrond
 
         public Menu()
         {
@@ -22,43 +23,133 @@ namespace CyberPesten
             Size = new Size(maat.X, maat.Y);
             FormBorderStyle = FormBorderStyle.None;
             WindowState = FormWindowState.Maximized;
-
-            this.Paint += this.buildMenuGraphics;
+            verhouding = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width / BackgroundImage.Width;
+            this.MouseMove += this.hover;
             this.MouseClick += this.klik;
+
+            //Ik heb de plaatjes in verschillende methodes gezet zodat de nieuw getekende plaatjes niet de oude gingen overlappen, weet niet of dat handig is?
+            this.Paint += this.buildMenuGraphics;
+            this.Paint += this.selected;
+            this.Paint += this.buildTitle;
+
             DoubleBuffered = true;
 
             instellingen = new Instellingen();
         }
 
-        void klik(object sender, MouseEventArgs mea)
+        public void selected(object sender, PaintEventArgs pea)
         {
-            Rectangle lokaalButton = new Rectangle(lokaalX, buttonY, buttonWidth, buttonHeight);
-            Rectangle onlineButton = new Rectangle(onlineX, buttonY, buttonWidth, buttonHeight);
-            Rectangle helpButton = new Rectangle(helpX, buttonSmallY, buttonWidthSmall, buttonHeightSmall);
-            Rectangle instellingenButton = new Rectangle(instellingenX, buttonSmallY, buttonWidthSmall, buttonHeightSmall);
-            Rectangle exitButton = new Rectangle(Width - 100, Height - 100, 100, 100);
+            Bitmap online = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Online"));
+            Bitmap lokaal = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Lokaal"));
+            Bitmap settings = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Settings"));
+            Bitmap help = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Help"));
+            Bitmap exit = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Exit_button"));
+
+            if (onlineHover)
+            {
+                pea.Graphics.DrawImage(online, 0, 0, buttonWidth, buttonHeight);
+            }
+            if (lokaalHover)
+            {
+                pea.Graphics.DrawImage(lokaal, 0, 0, buttonWidth, buttonHeight);
+            }
+            if (settingsHover)
+            {
+                pea.Graphics.DrawImage(settings, 0, 0, buttonWidth, buttonHeight);
+            }
+            if (helpHover)
+            {
+                pea.Graphics.DrawImage(help, 0, 0, buttonWidth, buttonHeight);
+            }
+            if (exitHover)
+            {
+                pea.Graphics.DrawImage(exit, 0, 0, buttonWidth, buttonHeight);
+            }
+            Invalidate();
+
+        }
+
+        public void hover(object sender, MouseEventArgs mea)
+        {
+            int rectangleWidth = (int)(85 * verhouding);
+            int rectangleHeight = (int)(254 * verhouding);
+
+            Rectangle onlineButton = new Rectangle((int)(650 * verhouding), (int)(648 * verhouding), rectangleWidth, rectangleHeight);
+            Rectangle lokaalButton = new Rectangle((int)(830 * verhouding), (int)(648 * verhouding), rectangleWidth, rectangleHeight);
+            Rectangle settingsButton = new Rectangle((int)(1007 * verhouding), (int)(648 * verhouding), rectangleWidth, rectangleHeight);
+            Rectangle helpButton = new Rectangle((int)(1189 * verhouding), (int)(648 * verhouding), rectangleWidth, rectangleHeight);
+            Rectangle exitButton = new Rectangle((int)(1862 * verhouding), (int)(1022 * verhouding), (int)(42 * verhouding), (int)(42 * verhouding));
+
+            if (onlineButton.Contains(mea.Location))
+            {
+                onlineHover = true;
+            }
+            else
+            {
+                onlineHover = false;
+            }
 
             if (lokaalButton.Contains(mea.Location))
             {
-                Form veld = new Speelveld(this, instellingen, false);
-                this.Hide();
+                lokaalHover = true;
             }
-            else if (onlineButton.Contains(mea.Location))
+            else
+            {
+                lokaalHover = false;
+            }
+
+            if (settingsButton.Contains(mea.Location))
+            {
+                settingsHover = true;
+            }
+            else
+            {
+                settingsHover = false;
+            }
+
+            if (helpButton.Contains(mea.Location))
+            {
+                helpHover = true;
+            }
+            else
+            {
+                helpHover = false;
+            }
+            if (exitButton.Contains(mea.Location))
+            {
+                exitHover = true;
+            }
+            else
+            {
+                exitHover = false;
+            }
+
+            Invalidate();
+        }
+
+        private void klik(object sender, MouseEventArgs mea)
+        {
+            if (onlineHover)
             {
                 Form veld = new inlogScherm();
                 this.Hide();
             }
-            else if (helpButton.Contains(mea.Location))
+            else if (lokaalHover)
+            {
+                Form veld = new Speelveld(this, instellingen, false);
+                this.Hide();
+            }
+            else if (helpHover)
             {
                 Help help = new Help(this);
                 this.Hide();
             }
-            else if (instellingenButton.Contains(mea.Location))
+            else if (settingsHover)
             {
                 Instellingenscherm instellingenscherm = new Instellingenscherm(this);
                 this.Hide();
             }
-            else if (exitButton.Contains(mea.Location))
+            else if (exitHover)
             {
                 Application.Exit();
             }
@@ -66,35 +157,20 @@ namespace CyberPesten
 
         void buildMenuGraphics(Object o, PaintEventArgs pea)
         {
+            Bitmap fadedButtons = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Faded_buttons"));
+
+            buttonWidth = (int)(fadedButtons.Width * verhouding);
+            buttonHeight = (int)(fadedButtons.Height * verhouding);
+
+            pea.Graphics.DrawImage(fadedButtons, 0, 0, fadedButtons.Width * verhouding, fadedButtons.Height * verhouding);
+        }
+
+        public void buildTitle(Object o, PaintEventArgs pea)
+        {
             Bitmap menuLogo = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Menu_logo"));
-            int logoWidth = Screen.PrimaryScreen.Bounds.Width * 3/5;
-            int logoHeight = logoWidth * menuLogo.Height / menuLogo.Width;
-            int logoCenter = Screen.PrimaryScreen.Bounds.Width / 2 - logoWidth / 2;
-            pea.Graphics.DrawImage(menuLogo, logoCenter, Screen.PrimaryScreen.Bounds.Height / 9, logoWidth, logoHeight);
-
-            Bitmap lokaal = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Lokaal"));
-            Bitmap online = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Online"));
-            Bitmap help = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Help"));
-            Bitmap players = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Players"));
-            Bitmap exit = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Home_button"));
-            //design van exit knop moet nog gemaakt worden
-
-            buttonWidth = Screen.PrimaryScreen.Bounds.Width / 8;
-            buttonHeight = buttonWidth * lokaal.Height / lokaal.Width;
-            buttonWidthSmall = Screen.PrimaryScreen.Bounds.Width / 10;
-            buttonHeightSmall = buttonWidthSmall * help.Height / help.Width;
-            lokaalX = Screen.PrimaryScreen.Bounds.Width / 16 * 5;
-            onlineX = Screen.PrimaryScreen.Bounds.Width / 16 * 9;
-            buttonY = Screen.PrimaryScreen.Bounds.Height / 2;
-            helpX = Screen.PrimaryScreen.Bounds.Width / 20 * 15;
-            instellingenX = Screen.PrimaryScreen.Bounds.Width / 20 * 3;
-            buttonSmallY = Screen.PrimaryScreen.Bounds.Height / 7 * 4;
-   
-            pea.Graphics.DrawImage(players, instellingenX, buttonSmallY, buttonWidthSmall, buttonHeightSmall);
-            pea.Graphics.DrawImage(lokaal, lokaalX, buttonY, buttonWidth, buttonHeight);
-            pea.Graphics.DrawImage(online, onlineX, buttonY, buttonWidth, buttonHeight);
-            pea.Graphics.DrawImage(help, helpX, buttonSmallY, buttonWidthSmall, buttonHeightSmall);
-            pea.Graphics.DrawImage(exit, new Point(Width - 100, Height - 100));
+            int logoWidth = (int)(menuLogo.Width * verhouding);
+            int logoHeight = (int)(menuLogo.Height * verhouding);
+            pea.Graphics.DrawImage(menuLogo, 0, 0, logoWidth, logoHeight);
         }
     }
 }
