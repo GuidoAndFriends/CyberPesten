@@ -28,12 +28,22 @@ namespace CyberPesten
             WindowState = FormWindowState.Maximized;
             verhouding = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width / BackgroundImage.Width;
 
+            /*nog meer snelheidsverbeteringen: 
+             * - PixelFormat Format32bppPArgb en schaling maar 1 keer
+             * Bitmap achtergrond = new Bitmap(Width, Height, System.Drawing.Imaging.PixelFormat.Format32bppPArgb);
+             * Graphics.FromImage(plaatje).DrawImage((Bitmap)CyberPesten.Properties.Resources.ResourceManager.GetObject("Achtergrond"), 0, 0, breedte, hoogte);
+             * - Zoveel mogelijk op 1 niet transparante bitmap en die tekenen met CompositingMode SourceCopy
+             * gr.CompositingMode = System.Drawing.Drawing2D.CompositingMode.SourceCopy;
+             * gr.DrawImage(plaatje, 0, 0);
+             * gr.CompositingMode = System.Drawing.Drawing2D.CompositingMode.SourceOver;
+             *
+             */
+
             online = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Online"));
             lokaal = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Lokaal"));
             settings = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Settings"));
             help = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Help"));
             exit = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Exit_button"));
-
             fadedButtons = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Faded_buttons"));
             menuLogo = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Menu_logo"));
 
