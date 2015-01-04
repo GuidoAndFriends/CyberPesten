@@ -14,6 +14,8 @@ namespace CyberPesten
         bool onlineHover, lokaalHover, settingsHover, helpHover, exitHover;
         public Instellingen instellingen;
         float verhouding; //De grootte van de plaatjes worden allemaal gebaseerd op de verhoudingen van de achtergrond
+        Bitmap online, lokaal, settings, help, exit;
+        Rectangle onlineButton, lokaalButton, settingsButton, helpButton, exitButton;
 
         public Menu()
         {
@@ -24,6 +26,21 @@ namespace CyberPesten
             FormBorderStyle = FormBorderStyle.None;
             WindowState = FormWindowState.Maximized;
             verhouding = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width / BackgroundImage.Width;
+
+            online = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Online"));
+            lokaal = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Lokaal"));
+            settings = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Settings"));
+            help = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Help"));
+            exit = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Exit_button"));
+
+            int rectangleWidth = (int)(85 * verhouding);
+            int rectangleHeight = (int)(254 * verhouding);
+            onlineButton = new Rectangle((int)(650 * verhouding), (int)(648 * verhouding), rectangleWidth, rectangleHeight);
+            lokaalButton = new Rectangle((int)(830 * verhouding), (int)(648 * verhouding), rectangleWidth, rectangleHeight);
+            settingsButton = new Rectangle((int)(1007 * verhouding), (int)(648 * verhouding), rectangleWidth, rectangleHeight);
+            helpButton = new Rectangle((int)(1189 * verhouding), (int)(648 * verhouding), rectangleWidth, rectangleHeight);
+            exitButton = new Rectangle((int)(1862 * verhouding), (int)(1022 * verhouding), (int)(42 * verhouding), (int)(42 * verhouding));
+
             this.MouseMove += this.hover;
             this.MouseClick += this.klik;
 
@@ -39,12 +56,6 @@ namespace CyberPesten
 
         public void selected(object sender, PaintEventArgs pea)
         {
-            Bitmap online = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Online"));
-            Bitmap lokaal = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Lokaal"));
-            Bitmap settings = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Settings"));
-            Bitmap help = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Help"));
-            Bitmap exit = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Exit_button"));
-
             if (onlineHover)
             {
                 pea.Graphics.DrawImage(online, 0, 0, buttonWidth, buttonHeight);
@@ -71,15 +82,6 @@ namespace CyberPesten
 
         public void hover(object sender, MouseEventArgs mea)
         {
-            int rectangleWidth = (int)(85 * verhouding);
-            int rectangleHeight = (int)(254 * verhouding);
-
-            Rectangle onlineButton = new Rectangle((int)(650 * verhouding), (int)(648 * verhouding), rectangleWidth, rectangleHeight);
-            Rectangle lokaalButton = new Rectangle((int)(830 * verhouding), (int)(648 * verhouding), rectangleWidth, rectangleHeight);
-            Rectangle settingsButton = new Rectangle((int)(1007 * verhouding), (int)(648 * verhouding), rectangleWidth, rectangleHeight);
-            Rectangle helpButton = new Rectangle((int)(1189 * verhouding), (int)(648 * verhouding), rectangleWidth, rectangleHeight);
-            Rectangle exitButton = new Rectangle((int)(1862 * verhouding), (int)(1022 * verhouding), (int)(42 * verhouding), (int)(42 * verhouding));
-
             if (onlineButton.Contains(mea.Location))
             {
                 onlineHover = true;
@@ -123,7 +125,6 @@ namespace CyberPesten
             {
                 exitHover = false;
             }
-
             Invalidate();
         }
 
