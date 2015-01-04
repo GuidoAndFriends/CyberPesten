@@ -106,7 +106,7 @@ namespace CyberPesten
             this.Show();
         }
 
-        private void regelsUitgeschakeld(object sender, EventArgs ea)
+        void regelsUitgeschakeld(object sender, EventArgs ea)
         {
             string[] delen = regelsUitgeschakeldCon.Text.Split(new char[] { ',' });
             instellingen.regelsUitgeschakeld = new List<int>();
@@ -119,7 +119,7 @@ namespace CyberPesten
             }
         }
 
-        private void aantalSpelers(object sender, EventArgs ea)
+        void aantalSpelers(object sender, EventArgs ea)
         {
             if (aantalSpelersCon.Value < 2)
             {
@@ -133,7 +133,7 @@ namespace CyberPesten
             instellingen.schrijven();
         }
 
-        private void AIUitgeschakeld(object sender, EventArgs ea)
+        void AIUitgeschakeld(object sender, EventArgs ea)
         {
             string[] delen = AIUitgeschakeldCon.Text.Split(new char[] { ',' });
             instellingen.AIUitgeschakeld = new List<int>();
@@ -148,7 +148,7 @@ namespace CyberPesten
             instellingen.schrijven();
         }
 
-        private void mensSpelend(object sender, EventArgs ea)
+        void mensSpelend(object sender, EventArgs ea)
         {
             if (instellingen.mensSpelend)
             {
@@ -163,7 +163,7 @@ namespace CyberPesten
             instellingen.schrijven();
         }
 
-        private void reset(object sender, EventArgs ea)
+        void reset(object sender, EventArgs ea)
         {
             instellingen.standaard();
             update();
@@ -171,7 +171,7 @@ namespace CyberPesten
         }
 
 
-        private void update()
+        void update()
         {
             regelsetCon.Value = instellingen.regelset;
             aantalSpelersCon.Value = instellingen.aantalSpelers;
@@ -200,7 +200,7 @@ namespace CyberPesten
             }
         }
 
-        private void terug(object sender, EventArgs ea)
+        void terug(object sender, EventArgs ea)
         {
             menu.Show();
             this.Close(); 

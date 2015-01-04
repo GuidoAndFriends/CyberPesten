@@ -12,7 +12,7 @@ namespace CyberPesten
         public int regelset, aantalSpelers;
         public bool mensSpelend;
         public List<int> regelsUitgeschakeld, AIUitgeschakeld;
-        public string instellingenPad;
+        string instellingenPad;
 
         public Instellingen()
         {
@@ -126,14 +126,13 @@ namespace CyberPesten
             regelsUitgeschakeld = null;
             aantalSpelers = 4;
             AIUitgeschakeld = new List<int>();
-            AIUitgeschakeld.Add(1);
             AIUitgeschakeld.Add(2);
             AIUitgeschakeld.Add(3);
             mensSpelend = true;
             schrijven();
         }
 
-        public List<string> FileToStringList(string path)//stuurt het hele bestand terug als losse regels, null bij een fout
+        List<string> FileToStringList(string path)//stuurt het hele bestand terug als losse regels, null bij een fout
         {
             try
             {
@@ -150,7 +149,7 @@ namespace CyberPesten
             catch { return null; }
         }
 
-        public void StringListToFile(List<string> regels, string path)
+        void StringListToFile(List<string> regels, string path)
         {
             //maakt het bestand leeg
             System.IO.File.WriteAllText(path, string.Empty);

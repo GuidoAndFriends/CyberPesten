@@ -5,18 +5,20 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
 using System.Windows.Forms;
+using System.Drawing;
 
 namespace CyberPesten
 {
     class AI2Pester : Speler
     {
-        public List<Speler> spelers;
-        public int spelend, richting;
-        public bool mens;
+        List<Speler> spelers;
+        int spelend, richting;
+        bool mens;
 
 
         public AI2Pester(Spel s, string n)
         {
+            achterkant = new Bitmap((Bitmap)CyberPesten.Properties.Resources.ResourceManager.GetObject("Back_design_2"), 110, 153);
             hand = new List<Kaart>();
             spel = s;
             naam = n;

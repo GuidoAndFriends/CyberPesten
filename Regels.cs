@@ -45,7 +45,7 @@ namespace CyberPesten
              return speelbaar;
         }
 
-        public void kaartActie()
+        void kaartActie()
         {
             Kaart kaart = stapel[stapel.Count - 1];
            
@@ -58,6 +58,7 @@ namespace CyberPesten
                 case 2: regelPakken(2); break;
                 case 8: regelWacht(); break;
                 case 1: regelDraai(); break;
+                //case 10: regelWas(); break;
             }
             
             if (kaart.Waarde == 7 || kaart.Waarde == 13)
@@ -77,7 +78,7 @@ namespace CyberPesten
             }
         }
 
-        public void regelPakken(int aantal)
+        void regelPakken(int aantal)
         {
             pakAantal += aantal;
             status += " en het totaal is nu " + pakAantal;
@@ -95,7 +96,7 @@ namespace CyberPesten
             spelers[spelend].doeZet();
         }
 
-        public void regelWacht()
+        void regelWacht()
         {          
             Speler oud = spelers[spelend];
 
@@ -111,14 +112,54 @@ namespace CyberPesten
             volgende();
         }
 
-        public void regelKleurEnVolgende()
+        void regelKleurEnVolgende()
         {
             spelers[spelend].kiesKleurEnVolgende();
         }
 
-        public void regelDraai()
+        void regelDraai()
         {
             richting *= -1;
+        }
+
+        void regelWas()
+        {
+            if (richting == 1)
+            {
+                //spelen met klok mee, draaien tegen klok in
+                List<Kaart> tijdelijk = spelers[1].hand;
+                for (int i = 1; i < aantalSpelers - 2; i++)
+                {
+                    spelers[i].hand = spelers[i + 1].hand;
+                }
+                if (mens)
+                {
+                    spelers[aantalSpelers - 1].hand = spelers[0].hand;
+                    spelers[0].hand = tijdelijk;
+                }
+                else
+                {
+                    spelers[1].hand = tijdelijk;
+                }
+            }
+            else
+            {
+                //spelen tegen klok in, draaien met klok mee
+                List<Kaart> tijdelijk = spelers[aantalSpelers - 1].hand;
+                for (int i = aantalSpelers - 1; i > 0; i--)
+                {
+                    spelers[i].hand = spelers[i - 1].hand;
+                }
+                if (mens)
+                {
+                    spelers[1].hand = spelers[0].hand;
+                    spelers[0].hand = tijdelijk;
+                }
+                else
+                {
+                    spelers[1].hand = tijdelijk;
+                }
+            }
         }
     }
 }

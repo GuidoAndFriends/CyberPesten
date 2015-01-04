@@ -14,7 +14,7 @@ namespace CyberPesten
         public bool gemeld;
         public Spel spel;
         public Bitmap blok;
-        
+        protected Bitmap achterkant;
 
         public abstract void doeZet();
 
@@ -27,7 +27,7 @@ namespace CyberPesten
 
             for (int i = 0; i < hand.Count && i < 3; i++)
             {
-                gr.DrawImage(hand[0].achterkant, i * 120, 0);
+                gr.DrawImage(achterkant, i * 120, 0);
             }
 
             string tekst = naam + " : " + hand.Count;

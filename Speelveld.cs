@@ -12,11 +12,11 @@ namespace CyberPesten
     class Speelveld : Form
     {
         public Menu menu;
-        public Spel spel;
+        Spel spel;
         public int kaartBreedte, kaartHoogte, afstand;
         public Point stapelPlek, potPlek;
 
-        public bool tekenHelemaal;
+        public Bitmap achterkant;
 
         //Voor het verslepen van een kaart
         public bool muisLaag;
@@ -29,8 +29,6 @@ namespace CyberPesten
         //Voor het verplaatsen van een kaart die gespeeld of gepakt wordt
         public Kaart bewegendeKaart;
         public bool zichtbaar;
-        
-        //public Button laatsteKaart, help;
 
         //Voor de buttons
         Rectangle helpButton, settingsButton, homeButton, laatsteKaartButton;
@@ -49,7 +47,6 @@ namespace CyberPesten
             afstand = 10;
             
             muisLaag = false;
-            tekenHelemaal = true;
 
             Size = menu.Size;
             FormBorderStyle = FormBorderStyle.None;
@@ -60,6 +57,8 @@ namespace CyberPesten
             Graphics.FromImage(achtergrond).DrawImage((Bitmap)CyberPesten.Properties.Resources.ResourceManager.GetObject("Achtergrond"), 0, 0);
             BackgroundImage = achtergrond;
 
+            achterkant = new Bitmap((Bitmap)CyberPesten.Properties.Resources.ResourceManager.GetObject("Back_design_2"), kaartBreedte, kaartHoogte);
+
             stapelPlek = new Point(Width / 2 - 50 - kaartBreedte, Height / 2 - kaartHoogte / 2);
             potPlek = new Point(Width / 2 + 50, Height / 2 - kaartHoogte / 2);
 
@@ -68,7 +67,8 @@ namespace CyberPesten
             MouseMove += muisBeweeg;
             MouseDown += muisOmlaag;
             MouseUp += muisOmhoog;
-            Scroll += scroll;
+            MouseWheel += muisWiel;
+            //Scroll += scroll;
 
             if (online)
             {
@@ -96,83 +96,77 @@ namespace CyberPesten
             this.Show();
         }
 
-        private void teken(object sender, PaintEventArgs pea)
+        void teken(object sender, PaintEventArgs pea)
         {
             Graphics gr = pea.Graphics;
-            
+            //achtergrond
+            gr.CompositingMode = System.Drawing.Drawing2D.CompositingMode.SourceCopy;
+            gr.DrawImage(BackgroundImage, 0, 0);
+            gr.CompositingMode = System.Drawing.Drawing2D.CompositingMode.SourceOver;
 
-            if (tekenHelemaal)
+            //stapel
+            Bitmap plaatje = spel.stapel[spel.stapel.Count - 1].voorkant;
+            gr.DrawImage(plaatje, stapelPlek);
+
+            //pot
+            gr.DrawImage(achterkant, potPlek);
+
+            //hand van speler
+            foreach (Kaart kaart in spel.spelers[0].hand)
             {
-                //achtergrond
-                gr.CompositingMode = System.Drawing.Drawing2D.CompositingMode.SourceCopy;
-                gr.DrawImage(BackgroundImage, 0, 0);
-                gr.CompositingMode = System.Drawing.Drawing2D.CompositingMode.SourceOver;
-
-                //stapel
-                Bitmap plaatje = spel.stapel[spel.stapel.Count - 1].voorkant;
-                gr.DrawImage(plaatje, stapelPlek);
-
-                //pot
-                plaatje = spel.pot[spel.pot.Count - 1].achterkant;
-                gr.DrawImage(plaatje, potPlek);
-
-                //hand van speler
-                foreach (Kaart kaart in spel.spelers[0].hand)
+                //if (kaart != null)
                 {
-                    //if (kaart != null)
-                    {
-                        gr.DrawImage(kaart.voorkant, kaart.X, kaart.Y - 20);
-                    }
+                    gr.DrawImage(kaart.voorkant, kaart.X, kaart.Y - 20);
                 }
+            }
 
-                //blokken van AI
-                int breedte = (spel.spelers.Count - 1) * 350;
-                int tussenruimte = (Width - breedte - 20) / (spel.spelers.Count - 2);
-                for (int i = 1; i < spel.spelers.Count; i++)
+            //blokken van AI
+            int breedte = (spel.spelers.Count - 1) * 350;
+            int tussenruimte = (Width - breedte - 20) / (spel.spelers.Count - 2);
+            for (int i = 1; i < spel.spelers.Count; i++)
+            {
+                gr.DrawImage(spel.spelers[i].blok, 10 + (350 + tussenruimte) * (i - 1), 10);
+            }
+
+            //een eventuele bewegende kaart
+            if (bewegendeKaart != null)
+            {
+                if (zichtbaar)
                 {
-                    gr.DrawImage(spel.spelers[i].blok, 10 + (350 + tussenruimte) * (i - 1), 10);
-                }
-
-                //een eventuele bewegende kaart
-                if (bewegendeKaart != null)
-                {
-                    if (zichtbaar)
-                    {
-                        gr.DrawImage(bewegendeKaart.voorkant, bewegendeKaart.X, bewegendeKaart.Y);
-                    }
-                    else
-                    {
-                        gr.DrawImage(bewegendeKaart.achterkant, bewegendeKaart.X, bewegendeKaart.Y);
-                    }
-                }
-
-                //status van het spel
-                gr.DrawString(spel.status, new Font(FontFamily.GenericSansSerif, 14), Brushes.Black, new Point(40, Height / 2 - FontHeight / 2));
-                gr.DrawString(spel.aantalKaarten, new Font(FontFamily.GenericSansSerif, 14), Brushes.Black, new Point(40, Height / 2 + 2 * FontHeight));
-                gr.DrawString(spel.speciaalTekst, new Font(FontFamily.GenericSansSerif, 14), Brushes.Black, new Point(40, Height / 2 + 4 * FontHeight));
-
-                //Buttons
-                gr.DrawImage(helpBitmap, helpButton);
-                gr.DrawImage(settingsBitmap, settingsButton);
-                gr.DrawImage(homeBitmap, homeButton);
-                gr.DrawImage(laatsteKaartBitmap, laatsteKaartButton);
-
-                green = Pens.Green;
-                red = Pens.Red;
-                //spelend = (spelend + richting + spelers.Count) % (spelers.Count);
-
-                if (spel.spelers[spel.spelend].hand.Count == 6)
-                {
-                    gr.DrawRectangle(green, Width / 2 + 100 + laatsteKaartBitmap.Width, this.Height / 2 - laatsteKaartBitmap.Width / 2 + 5, laatsteKaartBitmap.Width, laatsteKaartBitmap.Width);
+                    gr.DrawImage(bewegendeKaart.voorkant, bewegendeKaart.X, bewegendeKaart.Y);
                 }
                 else
                 {
-                    gr.DrawRectangle(red, Width / 2 + 100 + laatsteKaartBitmap.Width, this.Height / 2 - laatsteKaartBitmap.Width / 2 + 5, laatsteKaartBitmap.Width, laatsteKaartBitmap.Width);
-                }             
+                    gr.DrawImage(achterkant, bewegendeKaart.X, bewegendeKaart.Y);
+                }
+            }
+
+            //status van het spel
+            gr.DrawString(spel.status, new Font(FontFamily.GenericSansSerif, 14), Brushes.Black, new Point(40, Height / 2 - FontHeight / 2));
+            gr.DrawString(spel.aantalKaarten, new Font(FontFamily.GenericSansSerif, 14), Brushes.Black, new Point(40, Height / 2 + 2 * FontHeight));
+            gr.DrawString(spel.speciaalTekst, new Font(FontFamily.GenericSansSerif, 14), Brushes.Black, new Point(40, Height / 2 + 4 * FontHeight));
+
+            //Buttons
+            gr.DrawImage(helpBitmap, helpButton);
+            gr.DrawImage(settingsBitmap, settingsButton);
+            gr.DrawImage(homeBitmap, homeButton);
+            gr.DrawImage(laatsteKaartBitmap, laatsteKaartButton);
+
+            green = Pens.Green;
+            red = Pens.Red;
+            //spelend = (spelend + richting + spelers.Count) % (spelers.Count);
+
+            if (spel.spelers[spel.spelend].hand.Count == 6)
+            {
+                gr.DrawRectangle(green, Width / 2 + 100 + laatsteKaartBitmap.Width, this.Height / 2 - laatsteKaartBitmap.Width / 2 + 5, laatsteKaartBitmap.Width, laatsteKaartBitmap.Width);
+            }
+            else
+            {
+                gr.DrawRectangle(red, Width / 2 + 100 + laatsteKaartBitmap.Width, this.Height / 2 - laatsteKaartBitmap.Width / 2 + 5, laatsteKaartBitmap.Width, laatsteKaartBitmap.Width);
             }
         }
 
-        private void muisKlik(object sender, MouseEventArgs mea)
+        void muisKlik(object sender, MouseEventArgs mea)
         {
             if (helpButton.Contains(mea.Location))
             {
@@ -242,27 +236,27 @@ namespace CyberPesten
             } 
         }
 
-        private void scroll(object sender, EventArgs ea)
-        //zal een kaart spelen als er gescrolld wordt
+        void muisWiel(object sender, MouseEventArgs mea)
         {
-            /*
-            int muisX = MousePosition.X;
-            int muisY = MousePosition.Y;
-            foreach (Kaart kaart in spel.spelers[0].hand)
+            if (spel.spelend == 0)
             {
-                if (muisX >= kaart.X && muisX <= kaart.X + kaartBreedte && muisY >= kaart.Y && muisY <= kaart.Y + kaartHoogte)
+                int index = 0;
+                foreach (Kaart kaart in spel.spelers[0].hand)
                 {
-                    if (spel.speelKaart(spel.spelers[0].hand.IndexOf(kaart)))
+                    //kijkt of er op een kaart is geklikt
+                    int deltaX = mea.X - kaart.X;
+                    int deltaY = mea.Y - kaart.Y;
+                    if (deltaX >= 0 && deltaX <= kaartBreedte && deltaY >= 0 && deltaY <= kaartHoogte)
                     {
-                        Invalidate();
+                        spel.speelKaart(index);
                         return;
                     }
+                    index++;
                 }
             }
-             */
         }
 
-        private void muisBeweeg(object sender, MouseEventArgs mea)
+        void muisBeweeg(object sender, MouseEventArgs mea)
         {
             if (muisLaag)
             {
@@ -306,7 +300,7 @@ namespace CyberPesten
             }
         }
 
-        private void muisOmlaag(object sender, MouseEventArgs mea)
+        void muisOmlaag(object sender, MouseEventArgs mea)
         {
             spel.checkNullKaart();
             int index = 0;
@@ -336,7 +330,7 @@ namespace CyberPesten
             spel.checkNullKaart();
         }
 
-        private void muisOmhoog(object sender, MouseEventArgs mea)
+        void muisOmhoog(object sender, MouseEventArgs mea)
         {
             spel.checkNullKaart();
             muisLaag = false;
@@ -359,7 +353,7 @@ namespace CyberPesten
             spel.checkNullKaart();
         }
 
-        private void schuiven()
+        void schuiven()
         {
             while (delta != 0)
             {

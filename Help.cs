@@ -22,7 +22,7 @@ namespace CyberPesten
             this.Show();
         }
 
-        private void teken(object sender, PaintEventArgs pea)
+        void teken(object sender, PaintEventArgs pea)
         {
             // voorlopige tekst, is nog lang niet af
             string tekst = "Cyberpesten is een kaartspel.";

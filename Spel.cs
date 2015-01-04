@@ -209,7 +209,7 @@ namespace CyberPesten
             }
         }
 
-        public List<Kaart> schud(List<Kaart> stapel)
+        protected List<Kaart> schud(List<Kaart> stapel)
         {
             int i;
             Random r = new Random();
@@ -253,7 +253,7 @@ namespace CyberPesten
             }
         }
         
-        public void tijd(object sender, EventArgs ea)
+        protected void tijd(object sender, EventArgs ea)
         {
             timerAI.Stop();
             spelers[spelend].doeZet();
@@ -280,7 +280,7 @@ namespace CyberPesten
             }
         }
 
-        public void eindeSpel()
+        protected void eindeSpel()
         {
             if (spelend == 0)
             {
@@ -299,7 +299,7 @@ namespace CyberPesten
         }
 
 
-        public Speler willekeurigeAI()
+        protected Speler willekeurigeAI()
         {
             Random random = new Random();
             string naam = namen[random.Next(namen.Count)];
@@ -326,7 +326,7 @@ namespace CyberPesten
                     gekozen = new AI0Random(this, "0 " + naam);
                     break;
                 case 1:
-                    gekozen = new AI1Cheat(this, "1 " + naam);
+                    gekozen = new AI1NietGek(this, "1 " + naam);
                     break;
                 case 2:
                     gekozen = new AI2Pester(this, "2 " + naam);
@@ -343,7 +343,7 @@ namespace CyberPesten
             return gekozen;
         }
 
-        public void extraPak(List<Kaart> lijst)
+        protected void extraPak(List<Kaart> lijst)
         {
             for (int j = 0; j < 4; j++)
             {

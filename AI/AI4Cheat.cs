@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Drawing;
 
 namespace CyberPesten
 {
-    class AI1Cheat : Speler
+    class AI4Cheat : Speler
     {
-        public AI1Cheat(Spel s, string n)
+        public AI4Cheat(Spel s, string n)
         {
+            achterkant = new Bitmap((Bitmap)CyberPesten.Properties.Resources.ResourceManager.GetObject("Back_design_2"), 110, 153);
             hand = new List<Kaart>();
             spel = s;
             naam = n;

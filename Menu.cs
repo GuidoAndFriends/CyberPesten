@@ -10,7 +10,6 @@ namespace CyberPesten
 {
     class Menu : Form
     {
-        private Form veld;
         int buttonWidth, buttonHeight, buttonWidthSmall, buttonHeightSmall;
         int lokaalX, onlineX, buttonY, helpX, instellingenX, buttonSmallY;
         public Instellingen instellingen;
@@ -48,12 +47,12 @@ namespace CyberPesten
 
             if (lokaalButton.Contains(mea.Location))
             {
-                veld = new Speelveld(this, instellingen, false);
+                Form veld = new Speelveld(this, instellingen, false);
                 this.Hide();
             }
             else if (onlineButton.Contains(mea.Location))
             {
-                veld = new inlogScherm();
+                Form veld = new inlogScherm();
                 this.Hide();
             }
             else if (helpButton.Contains(mea.Location))

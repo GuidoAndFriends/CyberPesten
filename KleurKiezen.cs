@@ -51,7 +51,7 @@ namespace CyberPesten
         }
 
 
-        public void schoppen_Click(object sender, EventArgs e)
+        void schoppen_Click(object sender, EventArgs e)
         {
             spel.speciaal = 3;
             spel.status += " en koos voor schoppen";
@@ -59,7 +59,7 @@ namespace CyberPesten
             this.Close();
         }
 
-        public void ruiten_Click(object sender, EventArgs e)
+        void ruiten_Click(object sender, EventArgs e)
         {
             spel.speciaal = 2;
             spel.status += " en koos voor ruiten";
@@ -67,7 +67,7 @@ namespace CyberPesten
             this.Close();
         }
 
-        public void harten_Click(object sender, EventArgs e)
+        void harten_Click(object sender, EventArgs e)
         {
             spel.speciaal = 0;
             spel.status += " en koos voor harten";
@@ -75,7 +75,7 @@ namespace CyberPesten
             this.Close();
         }
 
-        public void klaver_Click(object sender, EventArgs e)
+        void klaver_Click(object sender, EventArgs e)
         {
             spel.speciaal = 1;
             spel.status += " en koos voor klaver";
