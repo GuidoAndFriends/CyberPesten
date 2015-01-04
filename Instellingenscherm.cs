@@ -15,6 +15,10 @@ namespace CyberPesten
         TextBox regelsUitgeschakeldCon, AIUitgeschakeldCon;
         Button mensSpelendCon;
         Menu menu;
+        Bitmap settingsButtons, terugBitmap, standSetBitmap;
+        bool terugHover, standSetHover;
+        Rectangle terugButton, standSetButton;
+        float verhouding;
 
         public Instellingenscherm(Menu _menu)
         {
@@ -22,41 +26,41 @@ namespace CyberPesten
             instellingen = menu.instellingen;
 
             Text = "CyberPesten: Help";
-            BackgroundImage = (Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Achtergrond");
+            BackgroundImage = (Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Menu_achtergrond");
             ClientSize = menu.Size;
             FormBorderStyle = FormBorderStyle.None;
             WindowState = FormWindowState.Maximized;
             DoubleBuffered = true;
 
-            Label regelsetLab = new Label();
+            /*Label regelsetLab = new Label();
             regelsetLab.Text = "Regelset";
             regelsetLab.BackColor = Color.Transparent;
             regelsetLab.Size = new Size(150, 40);
             regelsetLab.Location = new Point(50, 50);
-            Controls.Add(regelsetLab);
+            Controls.Add(regelsetLab);*/
 
             regelsetCon = new NumericUpDown();
             regelsetCon.Value = instellingen.regelset;
             regelsetCon.Location = new Point(220, 50);
             Controls.Add(regelsetCon);
 
-            Label regelsUitgeschakeldLab = new Label();
+            /*Label regelsUitgeschakeldLab = new Label();
             regelsUitgeschakeldLab.Text = "Uitgeschakelde regels (1,2,3)";
             regelsUitgeschakeldLab.BackColor = Color.Transparent;
             regelsUitgeschakeldLab.Size = new Size(150, 40);
             regelsUitgeschakeldLab.Location = new Point(50, 150);
-            Controls.Add(regelsUitgeschakeldLab);
+            Controls.Add(regelsUitgeschakeldLab);*/
 
             regelsUitgeschakeldCon = new TextBox();
             regelsUitgeschakeldCon.Location = new Point(220, 150);
             Controls.Add(regelsUitgeschakeldCon);
 
-            Label aantalSpelersLab = new Label();
+            /*Label aantalSpelersLab = new Label();
             aantalSpelersLab.Text = "Aantal spelers";
             aantalSpelersLab.BackColor = Color.Transparent;
             aantalSpelersLab.Size = new Size(150, 40);
             aantalSpelersLab.Location = new Point(50, 250);
-            Controls.Add(aantalSpelersLab);
+            Controls.Add(aantalSpelersLab);*/
 
             aantalSpelersCon = new NumericUpDown();
             aantalSpelersCon.Location = new Point(220, 250);
@@ -64,46 +68,60 @@ namespace CyberPesten
             aantalSpelersCon.ValueChanged += aantalSpelers;
             Controls.Add(aantalSpelersCon);
 
-            Label AIUitgeschakeldLab = new Label();
+            /*Label AIUitgeschakeldLab = new Label();
             AIUitgeschakeldLab.Text = "Uitgeschakelde AI (0,2,3)";
             AIUitgeschakeldLab.BackColor = Color.Transparent;
             AIUitgeschakeldLab.Size = new Size(150, 40);
             AIUitgeschakeldLab.Location = new Point(50, 350);
-            Controls.Add(AIUitgeschakeldLab);
+            Controls.Add(AIUitgeschakeldLab);*/
 
             AIUitgeschakeldCon = new TextBox();
             AIUitgeschakeldCon.Location = new Point(220, 350);
             AIUitgeschakeldCon.TextChanged += AIUitgeschakeld;
             Controls.Add(AIUitgeschakeldCon);
 
-            Label mensSpelendLab = new Label();
+            /*Label mensSpelendLab = new Label();
             mensSpelendLab.Text = "Menselijke speler";
             mensSpelendLab.BackColor = Color.Transparent;
             mensSpelendLab.Size = new Size(150, 40);
             mensSpelendLab.Location = new Point(50, 450);
-            Controls.Add(mensSpelendLab);
+            Controls.Add(mensSpelendLab);*/
 
             mensSpelendCon = new Button();
             mensSpelendCon.Location = new Point(220, 450);
             mensSpelendCon.Click += mensSpelend;
             Controls.Add(mensSpelendCon);
 
-            Button resetCon = new Button();
+            /*Button resetCon = new Button();
             resetCon.Text = "Standaard instellingen";
             resetCon.Size = new Size(150, 40);
             resetCon.Location = new Point(50, 550);
             resetCon.Click += reset;
-            Controls.Add(resetCon);
+            Controls.Add(resetCon);*/
 
-            Button terugCon = new Button();
+            /*Button terugCon = new Button();
             terugCon.Text = "Terug naar menu";
             terugCon.Size = new Size(150, 40);
             terugCon.Location = new Point(50, 650);
             terugCon.Click += terug;
-            Controls.Add(terugCon);
+            Controls.Add(terugCon);*/
 
             update();
             this.Show();
+
+            settingsButtons = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Settings_buttons"));
+            terugBitmap = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Terug_button"));
+            standSetBitmap = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("StandSet_button"));
+
+            verhouding = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width / settingsButtons.Width;
+
+            terugButton = new Rectangle(0, (int)(verhouding * 53), (int)(verhouding * 234), (int)(verhouding * 74));
+            standSetButton = new Rectangle(0, (int)(verhouding * 927), (int)(verhouding * 1230), (int)(verhouding * 74));
+
+            this.Paint += this.buildSettings;
+            this.Paint += this.selected;
+            this.MouseMove += this.hover;
+            this.MouseClick += this.klik;
         }
 
         void regelsUitgeschakeld(object sender, EventArgs ea)
@@ -163,14 +181,6 @@ namespace CyberPesten
             instellingen.schrijven();
         }
 
-        void reset(object sender, EventArgs ea)
-        {
-            instellingen.standaard();
-            update();
-            instellingen.schrijven();
-        }
-
-
         void update()
         {
             regelsetCon.Value = instellingen.regelset;
@@ -200,10 +210,61 @@ namespace CyberPesten
             }
         }
 
-        void terug(object sender, EventArgs ea)
+        void buildSettings(object sender, PaintEventArgs pea)
         {
-            menu.Show();
-            this.Close(); 
+            pea.Graphics.DrawImage(settingsButtons, 0, 0, settingsButtons.Width * verhouding, settingsButtons.Height * verhouding);
+        }
+
+        private void selected(object sender, PaintEventArgs pea)
+        {
+            if (terugHover)
+            {
+                pea.Graphics.DrawImage(terugBitmap, 0, 0, (int)(terugBitmap.Width * verhouding), (int)(terugBitmap.Height * verhouding));
+            }
+            if (standSetHover)
+            {
+                pea.Graphics.DrawImage(standSetBitmap, 0, 0, (int)(standSetBitmap.Width * verhouding), (int)(standSetBitmap.Height * verhouding));
+            }
+
+            Invalidate();
+        }
+
+        private void hover(object sender, MouseEventArgs mea)
+        {
+            if (terugButton.Contains(mea.Location))
+            {
+                terugHover = true;
+            }
+            else
+            {
+                terugHover = false;
+            }
+
+            if (standSetButton.Contains(mea.Location))
+            {
+                standSetHover = true;
+            }
+            else
+            {
+                standSetHover = false;
+            }
+            Invalidate();
+        }
+
+        private void klik(object sender, MouseEventArgs mea)
+        {
+            if (terugHover)
+            {
+                menu.Show();
+                this.Close();
+            }
+
+            if (standSetHover)
+            {
+                instellingen.standaard();
+                update();
+                instellingen.schrijven();
+            }
         }
     }
 }

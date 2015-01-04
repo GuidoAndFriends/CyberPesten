@@ -93,6 +93,9 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\Terug button.png" />
+    <None Include="Resources\StandSet button.png" />
+    <None Include="Resources\Settings buttons.png" />
     <None Include="Resources\Settings.png" />
     <None Include="Resources\Settings button.png" />
     <None Include="Resources\SQ.png" />
@@ -149,6 +152,8 @@
     <None Include="Resources\Joker.png" />
     <None Include="Resources\Help button.png" />
     <None Include="Resources\Home button.png" />
+    <None Include="Resources\Help achtergrond.png" />
+    <None Include="Resources\Help buttons.png" />
     <Content Include="Resources\klavers.png" />
     <None Include="Resources\Menu achtergrond.png" />
     <None Include="Resources\Menu logo.png" />

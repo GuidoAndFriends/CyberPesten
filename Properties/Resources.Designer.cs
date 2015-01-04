@@ -503,9 +503,29 @@ namespace CyberPesten.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Help_achtergrond {
+            get {
+                object obj = ResourceManager.GetObject("Help_achtergrond", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Help_button {
             get {
                 object obj = ResourceManager.GetObject("Help_button", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Help_buttons {
+            get {
+                object obj = ResourceManager.GetObject("Help_buttons", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -743,6 +763,16 @@ namespace CyberPesten.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Settings_buttons {
+            get {
+                object obj = ResourceManager.GetObject("Settings_buttons", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap SJ {
             get {
                 object obj = ResourceManager.GetObject("SJ", resourceCulture);
@@ -766,6 +796,26 @@ namespace CyberPesten.Properties {
         internal static System.Drawing.Bitmap SQ {
             get {
                 object obj = ResourceManager.GetObject("SQ", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap StandSet_button {
+            get {
+                object obj = ResourceManager.GetObject("StandSet_button", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Terug_button {
+            get {
+                object obj = ResourceManager.GetObject("Terug_button", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
