@@ -15,8 +15,8 @@ namespace CyberPesten
             {
                 //geen speciale kaart
                 case -1:
-                    if (kaart.Kleur == stapel[stapel.Count - 1].Kleur ||
-                        kaart.Waarde == stapel[stapel.Count - 1].Waarde ||
+                    if (kaart.Kleur == stapel[stapel.Count - 1].Kleur || //zelfde kleur
+                        kaart.Waarde == stapel[stapel.Count - 1].Waarde || //zelfde waarde
                         kaart.Kleur == 4 || //joker
                         kaart.Waarde == 11) //boer
                     {
@@ -25,7 +25,8 @@ namespace CyberPesten
                     break;
                 //2 of joker
                 case 4:
-                    if (kaart.Waarde == 2 || kaart.Kleur == 4)
+                    if (kaart.Waarde == 2 || //2
+                        kaart.Kleur == 4) //joker
                     {
                         speelbaar = true;
                     }
@@ -34,9 +35,11 @@ namespace CyberPesten
                 case 5:
                     speelbaar = true;
                     break;
-                //veranderde kleur
+                //veranderde kleur (0, 1, 2 of 3)
                 default:
-                    if (kaart.Kleur == speciaal || kaart.Kleur == 4 || kaart.Waarde == 11)
+                    if (kaart.Kleur == speciaal || //de gekozen kleur
+                        kaart.Kleur == 4 || //joker
+                        kaart.Waarde == 11) //boer
                     {
                         speelbaar = true;
                     }
@@ -48,11 +51,11 @@ namespace CyberPesten
         void kaartActie()
         {
             Kaart kaart = stapel[stapel.Count - 1];
-           
+            //speciaal wordt op -1 gezet en daarna als dat nodig is (bij joker of 2) weer veranderd
             speciaal = -1;
             speciaalTekst = "-1 normaal";
 
-        switch (kaart.Waarde)
+            switch (kaart.Waarde)
             {
                 case 0: regelPakken(5); break; //joker
                 case 2: regelPakken(2); break;
@@ -73,7 +76,9 @@ namespace CyberPesten
             }
             else if (kaart.Waarde != 8)
             {
-                //8 wacht, volgende is al afgehandeld
+                //geen 7 of heer
+                //geen boer, want daarbij wordt volgende al afgehandeld
+                //geen 8 wacht, want daarbij wordt volgende al afgehandeld
                 volgende();
             }
         }
@@ -86,29 +91,18 @@ namespace CyberPesten
             speciaalTekst = "4 alleen joker of 2";
         }
 
-        public void regelPakkenNu()
-        {
-            System.Diagnostics.Debug.WriteLine(pakAantal.ToString());
-            speciaal = 5;
-            speciaalTekst = "5 alles mag";
-            pakKaart(pakAantal);
-            pakAantal = 0;
-            spelers[spelend].doeZet();
-        }
-
         void regelWacht()
         {          
+            //Spelend wordt een speler verder gemaakt, maar zonder doeZet() van die speler aan te roepen
             Speler oud = spelers[spelend];
-
             spelend = (spelend + richting + spelers.Count) % (spelers.Count);
-
             if ((!(mens)) & spelend == 0)
             {
                 spelend = (spelend + richting + spelers.Count) % (spelers.Count);
             }
-
             oud.updateBlok();
-            
+
+            //Spelend wordt een speler verder gemaakt op de normale manier, dus met het aanroepen van doeZet() van die speler
             volgende();
         }
 
@@ -160,6 +154,16 @@ namespace CyberPesten
                     spelers[1].hand = tijdelijk;
                 }
             }
+        }
+
+        public void regelPakkenNu()
+        {
+            System.Diagnostics.Debug.WriteLine(pakAantal.ToString());
+            speciaal = 5;
+            speciaalTekst = "5 alles mag";
+            pakKaart(pakAantal);
+            pakAantal = 0;
+            spelers[spelend].doeZet();
         }
     }
 }

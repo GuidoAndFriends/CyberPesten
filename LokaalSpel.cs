@@ -22,15 +22,7 @@ namespace CyberPesten
 
             int kaartspellen = (aantalSpelers) / 4 + 1; //hoeveel kaartspellen gebruikt worden
             int startkaarten = 7; //hoeveel kaarten de spelers in het begin krijgen
-            //welke speler aan de beurt is
-            if (mens)
-            {
-                spelend = 0;
-            }
-            else
-            {
-                spelend = 1;
-            }
+            spelend = 0; //welke speler aan de beurt is (zonder mens wordt aan het einde van de constructormethode afgehandeld)
             richting = 1; //welke kant er op gespeeld word
             speciaal = -1; //of er een speciale kaart gespeeld is
             pakAantal = 0; //hoeveel kaarten er gepakt moeten worden (voor 2 en joker)

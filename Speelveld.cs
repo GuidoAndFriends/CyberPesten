@@ -154,7 +154,6 @@ namespace CyberPesten
 
             green = Pens.Green;
             red = Pens.Red;
-            //spelend = (spelend + richting + spelers.Count) % (spelers.Count);
 
             if (spel.spelers[spel.spelend].hand.Count == 6)
             {

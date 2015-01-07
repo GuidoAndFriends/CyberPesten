@@ -35,17 +35,17 @@ namespace CyberPesten
             richting = spel.richting;
             mens = spel.mens;
 
-            Speler volgende = spelers[spelend];
             List<Kaart> mogelijk = new List<Kaart>();
             List<Kaart> pester = new List<Kaart>();
             List<Kaart> bonus = new List<Kaart>();
 
-            spelend = (spelend + richting + spelers.Count) % (spelers.Count);
+            int volgendeIndex = (spelend + richting + spelers.Count) % (spelers.Count);
 
-            if ((!(mens)) & spelend == 0)
+            if ((!(mens)) & volgendeIndex == 0)
             {
-                spelend = (spelend + richting + spelers.Count) % (spelers.Count);
+                volgendeIndex = (volgendeIndex + richting + spelers.Count) % (spelers.Count);
             }
+            Speler volgende = spelers[volgendeIndex];
 
             foreach (Kaart kaart in hand)
             {
