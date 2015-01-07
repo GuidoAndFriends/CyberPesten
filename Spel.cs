@@ -54,47 +54,26 @@ namespace CyberPesten
                 {
                     if (spelers[spelend].gemeld)
                     {
+                        //laatste kaart en gemeld
                         speelKaartNu(hand, index, stapel);
-                        if (spelend == 0)
-                        {
-                            status = "Jij speelde " + kaart.tekst;
-                            spelers[0].updateBlok();
-                        }
-                        else
-                        {
-                            status = "Speler " + spelend + " speelde " + kaart.tekst;
-                        }
-                        spelers[spelend].updateBlok();
-                        speelveld.Invalidate();
-                        //kaartActie();
+                        kaartActie();
                         eindeSpel();
                         return true;
                     }
                     else
                     {
+                        //laatste kaart en niet gemeld
                         speelKaartNu(hand, index, stapel);
                         pakKaart(5);
-                        laatsteKaart(0);
-                        volgende();
+                        kaartActie();
                         return true;
                     }
                 }
                 else
                 {
+                    //niet de laatste kaart
                     speelKaartNu(hand, index, stapel);
-                    if (spelend == 0)
-                    {
-                        status = "Jij speelde " + kaart.tekst;
-                    }
-                    else
-                    {
-                        status = "Speler " + spelend + " speelde " + kaart.tekst;
-                    }
-                    spelers[spelend].updateBlok();
-                    speelveld.Invalidate();
                     kaartActie();
-                    laatsteKaart(0);
-                    //volgende();
                     return true;
                 }
             }
@@ -131,6 +110,17 @@ namespace CyberPesten
             van.RemoveAt(index);
             speelveld.verplaatsen(p1, speelveld.stapelPlek, true);
             naar.Add(speelveld.bewegendeKaart);
+
+            if (spelend == 0)
+            {
+                status = "Jij speelde " + kaart.tekst;
+                spelers[0].updateBlok();
+            }
+            else
+            {
+                status = "Speler " + spelend + " speelde " + kaart.tekst;
+            }
+            spelers[spelend].updateBlok();
 
             checkNullKaart();
         }

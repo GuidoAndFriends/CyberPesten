@@ -192,7 +192,7 @@ namespace CyberPesten
                 {
                     menu.Show();
                     this.Dispose();
-                    this.Close(); 
+                    this.Close();
                 }
                 else
                 {
