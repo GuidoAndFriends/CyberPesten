@@ -20,6 +20,7 @@ namespace CyberPesten
         public System.Timers.Timer timerAI;
         public bool mens;
         public Instellingen instellingen;
+        public bool afgelopen;
 
 
         public Spel()
@@ -45,41 +46,48 @@ namespace CyberPesten
         public bool speelKaart(int index)
         //Legt een kaart met de gegeven index van degene die aan de beurt is op de stapel. Geeft true bij een geldige kaart, anders false
         {
-            List<Kaart> hand = spelers.ElementAt(spelend).hand;
-            Kaart kaart = hand[index];
-            if (speelbaar(kaart))
+            if (!afgelopen)
             {
-                //Controle bij laatste kaart
-                if (hand.Count == 1)
+                List<Kaart> hand = spelers.ElementAt(spelend).hand;
+                Kaart kaart = hand[index];
+                if (speelbaar(kaart))
                 {
-                    if (spelers[spelend].gemeld)
+                    //Controle bij laatste kaart
+                    if (hand.Count == 1)
                     {
-                        //laatste kaart en gemeld
-                        speelKaartNu(hand, index, stapel);
-                        kaartActie();
-                        eindeSpel();
-                        return true;
+                        if (spelers[spelend].gemeld)
+                        {
+                            //laatste kaart en gemeld
+                            speelKaartNu(hand, index, stapel);
+                            kaartActie();
+                            eindeSpel();
+                            return true;
+                        }
+                        else
+                        {
+                            //laatste kaart en niet gemeld
+                            speelKaartNu(hand, index, stapel);
+                            pakKaart(5);
+                            kaartActie();
+                            return true;
+                        }
                     }
                     else
                     {
-                        //laatste kaart en niet gemeld
+                        //niet de laatste kaart
                         speelKaartNu(hand, index, stapel);
-                        pakKaart(5);
                         kaartActie();
                         return true;
                     }
                 }
                 else
                 {
-                    //niet de laatste kaart
-                    speelKaartNu(hand, index, stapel);
-                    kaartActie();
-                    return true;
+                    //kaart mag niet opgelegd worden
+                    return false;
                 }
             }
             else
             {
-                //kaart mag niet opgelegd worden
                 return false;
             }
         }
@@ -106,10 +114,10 @@ namespace CyberPesten
                 int tussenruimte = (speelveld.Width - breedte - 20) / (spelers.Count - 2);
                 p1 = new Point(10 + (350 + tussenruimte) * (spelend - 1) + 120, 10);
             }
-            speelveld.bewegendeKaart = kaart;
+            speelveld.verplaatsendeKaart = kaart;
             van.RemoveAt(index);
             speelveld.verplaatsen(p1, speelveld.stapelPlek, true);
-            naar.Add(speelveld.bewegendeKaart);
+            naar.Add(speelveld.verplaatsendeKaart);
 
             if (spelend == 0)
             {
@@ -118,7 +126,7 @@ namespace CyberPesten
             }
             else
             {
-                status = "Speler " + spelend + " speelde " + kaart.tekst;
+                status = spelers[spelend].naam + " speelde " + kaart.tekst;
             }
             spelers[spelend].updateBlok();
 
@@ -168,10 +176,10 @@ namespace CyberPesten
                     int tussenruimte = (speelveld.Width - breedte - 20) / (spelers.Count - 2);
                     p2 = new Point(10 + (350 + tussenruimte) * (spelend - 1) + 120, 10);
                 }
-                speelveld.bewegendeKaart = pot[0];
+                speelveld.verplaatsendeKaart = pot[0];
                 pot.RemoveAt(0);
                 speelveld.verplaatsen(speelveld.potPlek, p2, false);
-                spelers[spelend].hand.Add(speelveld.bewegendeKaart);
+                spelers[spelend].hand.Add(speelveld.verplaatsendeKaart);
 
                 checkNullKaart();
                 //verplaatsKaart(pot, 0, spelers[spelend].hand);
@@ -184,7 +192,7 @@ namespace CyberPesten
                 }
                 else
                 {
-                    status = ("Speler " + spelend + " kon niet en heeft een kaart gepakt");
+                    status = (spelers[spelend].naam + " kon niet en heeft een kaart gepakt");
                 }
                 spelers[spelend].updateBlok();
                 speelveld.Invalidate();
@@ -226,7 +234,14 @@ namespace CyberPesten
             //vanaf hier is de volgende speler spelend
 
             oud.updateBlok();
-            
+            spelers[spelend].updateBlok();
+
+            if (speelveld.IsHandleCreated)
+            {
+                speelveld.Invoke(new Action(() => speelveld.Invalidate()));
+                speelveld.Invoke(new Action(() => speelveld.Update()));
+            }
+
             if (spelend != 0)
             {
                 spelers[spelend].updateBlok();
@@ -237,7 +252,7 @@ namespace CyberPesten
                 }
                 else
                 {
-                    timerAI.Interval = 100; 
+                    timerAI.Interval = 300; 
                 }
                 timerAI.Start();
             }
@@ -246,7 +261,10 @@ namespace CyberPesten
         protected void tijd(object sender, EventArgs ea)
         {
             timerAI.Stop();
-            spelers[spelend].doeZet();
+            if (!afgelopen)
+            {
+                spelers[spelend].doeZet();
+            }
         }
 
         public void laatsteKaart(int sender)
@@ -258,28 +276,29 @@ namespace CyberPesten
                 if(sjaak.hand.Count == 1)
                 {
                     spelers[0].gemeld = true;
-                    MessageBox.Show("Laatste kaart gemeld");
-                    //speelveld.laatsteKaart.BackColor = Color.Green;
+                    speelveld.laatsteKaartBrush = Brushes.Green;
                 }
                 else
                 {
                     spelers[0].gemeld = false;
-                    MessageBox.Show("Dit is niet van toepassing");
-                    //speelveld.laatsteKaart.BackColor = Color.Red;
+                    speelveld.laatsteKaartBrush = Brushes.Red;
                 }                
             }
         }
 
         protected void eindeSpel()
         {
+            afgelopen = true;
+            string tekst;
             if (spelend == 0)
             {
-                MessageBox.Show("Gefeliciteerd, je hebt gewonnen!");
+                tekst = "Gefeliciteerd, je hebt gewonnen!";
             }
             else
             {
-                MessageBox.Show("Helaas, " + spelers[spelend].naam + " heeft gewonnen.");
+                tekst = "Helaas, " + spelers[spelend].naam + " heeft gewonnen.";
             }
+            MessageBox.Show(tekst);
             //Terugkeren naar het menu?
         }
 

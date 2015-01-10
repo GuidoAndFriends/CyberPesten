@@ -19,6 +19,7 @@ namespace CyberPesten
         public Bitmap achterkant;
 
         //Voor het verslepen van een kaart
+        public Kaart bewegendeKaart;
         public bool muisLaag;
         public int laagX, laagY;
 
@@ -27,17 +28,14 @@ namespace CyberPesten
         public int delta;
 
         //Voor het verplaatsen van een kaart die gespeeld of gepakt wordt
-        public Kaart bewegendeKaart;
+        public Kaart verplaatsendeKaart;
         public bool zichtbaar;
 
         //Voor de buttons
         Rectangle helpButton, settingsButton, homeButton, laatsteKaartButton;
         Bitmap helpBitmap, settingsBitmap, homeBitmap, laatsteKaartBitmap;
         int buttonWidth;
-
-        //public List<Speler> spelers;
-        //public int spelend, richting;
-        public Pen green, red;
+        public Brush laatsteKaartBrush;
 
         public Speelveld(Menu m, Instellingen instellingen, bool online)
         {
@@ -61,6 +59,7 @@ namespace CyberPesten
 
             stapelPlek = new Point(Width / 2 - 50 - kaartBreedte, Height / 2 - kaartHoogte / 2);
             potPlek = new Point(Width / 2 + 50, Height / 2 - kaartHoogte / 2);
+            laatsteKaartBrush = Brushes.Red;
 
             Paint += teken;
             MouseClick += muisKlik;
@@ -128,16 +127,20 @@ namespace CyberPesten
                 gr.DrawImage(spel.spelers[i].blok, 10 + (350 + tussenruimte) * (i - 1), 10);
             }
 
-            //een eventuele bewegende kaart
+            //een eventuele bewegende en verplaatsende kaart
             if (bewegendeKaart != null)
+            {
+                gr.DrawImage(bewegendeKaart.voorkant, bewegendeKaart.X, bewegendeKaart.Y);
+            }
+            if (verplaatsendeKaart != null)
             {
                 if (zichtbaar)
                 {
-                    gr.DrawImage(bewegendeKaart.voorkant, bewegendeKaart.X, bewegendeKaart.Y);
+                    gr.DrawImage(verplaatsendeKaart.voorkant, verplaatsendeKaart.X, verplaatsendeKaart.Y);
                 }
                 else
                 {
-                    gr.DrawImage(achterkant, bewegendeKaart.X, bewegendeKaart.Y);
+                    gr.DrawImage(achterkant, verplaatsendeKaart.X, verplaatsendeKaart.Y);
                 }
             }
 
@@ -150,19 +153,8 @@ namespace CyberPesten
             gr.DrawImage(helpBitmap, helpButton);
             gr.DrawImage(settingsBitmap, settingsButton);
             gr.DrawImage(homeBitmap, homeButton);
+            gr.FillEllipse(laatsteKaartBrush, laatsteKaartButton);
             gr.DrawImage(laatsteKaartBitmap, laatsteKaartButton);
-
-            green = Pens.Green;
-            red = Pens.Red;
-
-            if (spel.spelers[spel.spelend].hand.Count == 6)
-            {
-                gr.DrawRectangle(green, Width / 2 + 100 + laatsteKaartBitmap.Width, this.Height / 2 - laatsteKaartBitmap.Width / 2 + 5, laatsteKaartBitmap.Width, laatsteKaartBitmap.Width);
-            }
-            else
-            {
-                gr.DrawRectangle(red, Width / 2 + 100 + laatsteKaartBitmap.Width, this.Height / 2 - laatsteKaartBitmap.Width / 2 + 5, laatsteKaartBitmap.Width, laatsteKaartBitmap.Width);
-            }
         }
 
         void muisKlik(object sender, MouseEventArgs mea)
@@ -405,8 +397,8 @@ namespace CyberPesten
                 
                 deltaX = stap * (p2.X - p1.X) / stappen;
                 deltaY = stap * (p2.Y - p1.Y) / stappen;
-                bewegendeKaart.X = p1.X + deltaX;
-                bewegendeKaart.Y = p1.Y + deltaY;
+                verplaatsendeKaart.X = p1.X + deltaX;
+                verplaatsendeKaart.Y = p1.Y + deltaY;
 
                 //deltaX = (verplaatsPunt2.X - verplaatsPunt1.X) / stappen;
                 //deltaY = (verplaatsPunt2.Y - verplaatsPunt1.Y) / stappen;

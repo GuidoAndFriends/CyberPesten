@@ -27,6 +27,7 @@ namespace CyberPesten
             speciaal = -1; //of er een speciale kaart gespeeld is
             pakAantal = 0; //hoeveel kaarten er gepakt moeten worden (voor 2 en joker)
             speciaalTekst = "-1 normaal";
+            afgelopen = false;
 
             timerAI = new System.Timers.Timer();
             timerAI.Elapsed += tijd;
@@ -75,6 +76,7 @@ namespace CyberPesten
                 speler.updateBlok();
             }
             verplaatsKaart(pot, 0, stapel);
+            //stapel.Add(new Kaart()); als je wilt testen hoe het gaat als de eerste kaart een joker is
             if (stapel[0].Kleur == 4)
             {
                 speciaal = 5;
