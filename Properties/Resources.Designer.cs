@@ -593,9 +593,29 @@ namespace CyberPesten.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap login_select {
+            get {
+                object obj = ResourceManager.GetObject("login_select", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Lokaal {
             get {
                 object obj = ResourceManager.GetObject("Lokaal", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap maak_account_select {
+            get {
+                object obj = ResourceManager.GetObject("maak_account_select", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -626,6 +646,16 @@ namespace CyberPesten.Properties {
         internal static System.Drawing.Bitmap Online {
             get {
                 object obj = ResourceManager.GetObject("Online", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap online_menu {
+            get {
+                object obj = ResourceManager.GetObject("online_menu", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
