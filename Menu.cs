@@ -171,8 +171,16 @@ namespace CyberPesten
             }
             else if (settingsHover)
             {
-                Instellingenscherm instellingenscherm = new Instellingenscherm(this);
-                this.Hide();
+                if (mea.Button == MouseButtons.Right)
+                {
+                    InstellingenschermOud instellingenschermOud = new InstellingenschermOud(this);
+                    this.Hide();
+                }
+                else
+                {
+                    Instellingenscherm instellingenscherm = new Instellingenscherm(this);
+                    this.Hide();
+                }
             }
             else if (exitHover)
             {

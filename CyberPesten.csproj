@@ -61,6 +61,9 @@
     <Compile Include="Instellingenscherm.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="InstellingenschermOud.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Kaart.cs" />
     <Compile Include="KleurKiezen.cs">
       <SubType>Form</SubType>
