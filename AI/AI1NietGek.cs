@@ -20,6 +20,7 @@ namespace CyberPesten
 
         public override void doeZet()
         {
+            bezig = true;
             List<Kaart> mogelijk = new List<Kaart>();
             foreach (Kaart kaart in hand)
             {
@@ -50,6 +51,7 @@ namespace CyberPesten
                 spel.pakKaart();
                 spel.volgende();
             }
+            bezig = false;
         }
 
         bool straksGeenMogelijkeZet(Kaart gepland)

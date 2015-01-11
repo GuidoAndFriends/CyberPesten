@@ -14,6 +14,7 @@ namespace CyberPesten
         float verhouding;
         bool terugHover;
         Rectangle terugButton;
+        public Spel spel;
 
         public Help(Form form)
         {
@@ -89,6 +90,13 @@ namespace CyberPesten
             if (terugHover)
             {
                 this.Close();
+                if (spel != null)
+                {
+                    if (!spel.spelers[spel.spelend].bezig)
+                    {
+                        spel.spelers[spel.spelend].doeZet();
+                    }
+                }
             }
         }
 

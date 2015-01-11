@@ -15,6 +15,7 @@ namespace CyberPesten
         public Spel spel;
         public Bitmap blok;
         protected Bitmap achterkant;
+        public bool bezig;
 
         public abstract void doeZet();
 

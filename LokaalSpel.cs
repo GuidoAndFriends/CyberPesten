@@ -27,7 +27,7 @@ namespace CyberPesten
             speciaal = -1; //of er een speciale kaart gespeeld is
             pakAantal = 0; //hoeveel kaarten er gepakt moeten worden (voor 2 en joker)
             speciaalTekst = "-1 normaal";
-            afgelopen = false;
+            bezig = true;
 
             timerAI = new System.Timers.Timer();
             timerAI.Elapsed += tijd;

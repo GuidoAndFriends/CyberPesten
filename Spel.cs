@@ -20,7 +20,7 @@ namespace CyberPesten
         public System.Timers.Timer timerAI;
         public bool mens;
         public Instellingen instellingen;
-        public bool afgelopen;
+        public bool bezig;
 
 
         public Spel()
@@ -46,7 +46,7 @@ namespace CyberPesten
         public bool speelKaart(int index)
         //Legt een kaart met de gegeven index van degene die aan de beurt is op de stapel. Geeft true bij een geldige kaart, anders false
         {
-            if (!afgelopen)
+            if (bezig)
             {
                 List<Kaart> hand = spelers.ElementAt(spelend).hand;
                 Kaart kaart = hand[index];
@@ -265,7 +265,7 @@ namespace CyberPesten
         protected void tijd(object sender, EventArgs ea)
         {
             timerAI.Stop();
-            if (!afgelopen)
+            if (bezig)
             {
                 spelers[spelend].doeZet();
             }
@@ -290,7 +290,7 @@ namespace CyberPesten
 
         protected void eindeSpel()
         {
-            afgelopen = true;
+            bezig = false;
             string tekst;
             if (spelend == 0)
             {

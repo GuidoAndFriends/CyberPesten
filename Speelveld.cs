@@ -12,7 +12,7 @@ namespace CyberPesten
     class Speelveld : Form
     {
         public Menu menu;
-        Spel spel;
+        public Spel spel;
         public int kaartBreedte, kaartHoogte, afstand;
         public Point stapelPlek, potPlek;
 
@@ -196,6 +196,10 @@ namespace CyberPesten
                 if (mea.Button == MouseButtons.Left)
                 {
                     Help help = new Help(this);
+                    if (Text == "CyberPesten: Lokaal spel")
+                    {
+                        help.spel = spel;
+                    }
                 }
                 else
                 {

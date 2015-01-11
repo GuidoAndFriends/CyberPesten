@@ -35,6 +35,7 @@ namespace CyberPesten
 
         public override void doeZet()
         {
+            bezig = true;
             spelers = spel.spelers;
             spelend = spel.spelend;
             richting = spel.richting;
@@ -91,6 +92,7 @@ namespace CyberPesten
                 spel.pakKaart();
                 spel.volgende();
             }
+            bezig = false;
         }
     }
 }
