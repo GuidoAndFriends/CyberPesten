@@ -40,7 +40,7 @@ namespace CyberPesten
             blok =  b;
         }
 
-        public virtual void kiesKleurEnVolgende()
+        public virtual void kiesKleur()
         {
             //er wordt gekeken welke kleur het vaakst voor komt in de hand
             int[] kleuren = { 0, 0, 0, 0 };
@@ -69,7 +69,6 @@ namespace CyberPesten
                 case 2: spel.status += "Ruiten "; break;
                 case 3: spel.status += "Schoppen "; break;
             }
-            spel.volgende();
         }
         
         public int laatsteKaart

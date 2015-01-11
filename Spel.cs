@@ -180,7 +180,7 @@ namespace CyberPesten
                 pot.RemoveAt(0);
                 speelveld.verplaatsen(speelveld.potPlek, p2, false);
                 spelers[spelend].hand.Add(speelveld.verplaatsendeKaart);
-
+                speelveld.verplaatsendeKaart = null;
                 checkNullKaart();
                 //verplaatsKaart(pot, 0, spelers[spelend].hand);
 
@@ -195,7 +195,11 @@ namespace CyberPesten
                     status = (spelers[spelend].naam + " kon niet en heeft een kaart gepakt");
                 }
                 spelers[spelend].updateBlok();
-                speelveld.Invalidate();
+                if (speelveld.IsHandleCreated)
+                {
+                    speelveld.Invoke(new Action(() => speelveld.Invalidate()));
+                    speelveld.Invoke(new Action(() => speelveld.Update()));
+                }
             }
         }
 
@@ -252,7 +256,7 @@ namespace CyberPesten
                 }
                 else
                 {
-                    timerAI.Interval = 300; 
+                    timerAI.Interval = 600; 
                 }
                 timerAI.Start();
             }
@@ -267,13 +271,11 @@ namespace CyberPesten
             }
         }
 
-        public void laatsteKaart(int sender)
-        {
-            Speler sjaak = spelers[spelend];
-            
-            if (sender == 1)
+        public void laatsteKaart(bool melden)
+        {          
+            if (melden)
             {
-                if(sjaak.hand.Count == 1)
+                if (spelers[0].hand.Count == 1)
                 {
                     spelers[0].gemeld = true;
                     speelveld.laatsteKaartBrush = Brushes.Green;

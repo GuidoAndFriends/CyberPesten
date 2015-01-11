@@ -67,12 +67,15 @@ namespace CyberPesten
             if (kaart.Waarde == 7 || kaart.Waarde == 13)
             {
                 //7 kleven, heer nog een keer
-                spelers[spelend].doeZet();
+                if (!afgelopen)
+                {
+                    spelers[spelend].doeZet();
+                }
             }
             else if (kaart.Waarde == 11)
             {
                 //boer
-                regelKleurEnVolgende();
+                regelKleur();
             }
             else if (kaart.Waarde != 8)
             {
@@ -107,9 +110,13 @@ namespace CyberPesten
             volgende();
         }
 
-        void regelKleurEnVolgende()
+        void regelKleur()
         {
-            spelers[spelend].kiesKleurEnVolgende();
+            spelers[spelend].kiesKleur();
+            if (spelend != 0)
+            {
+                volgende();
+            }
         }
 
         void regelDraai()
@@ -164,7 +171,10 @@ namespace CyberPesten
             speciaalTekst = "5 alles mag";
             pakKaart(pakAantal);
             pakAantal = 0;
-            spelers[spelend].doeZet();
+            if (!afgelopen)
+            {
+                spelers[spelend].doeZet();
+            }
         }
     }
 }

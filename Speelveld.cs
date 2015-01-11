@@ -37,6 +37,8 @@ namespace CyberPesten
         int buttonWidth;
         public Brush laatsteKaartBrush;
 
+        Button klaver, harten, ruiten, schoppen;
+
         public Speelveld(Menu m, Instellingen instellingen, bool online)
         {
             menu = m;
@@ -91,7 +93,37 @@ namespace CyberPesten
             helpButton = new Rectangle(Width - 75 - 3 * buttonWidth, this.Height / 2 - buttonWidth / 2, buttonWidth, buttonWidth);
             settingsButton = new Rectangle(Width - 50 - 2 * buttonWidth, this.Height / 2 - buttonWidth / 2, buttonWidth, buttonWidth);
             homeButton = new Rectangle(Width - 25 - buttonWidth, this.Height / 2 - buttonWidth / 2, buttonWidth, buttonWidth);
-            
+
+            klaver = new Button();
+            klaver.Click += klaver_Click;
+            klaver.Location = new Point(50, 250);
+            klaver.Size = new Size(200, 50);
+            klaver.Text = "Maak er Klaver van";
+
+            harten = new Button();
+            harten.Click += harten_Click;
+            harten.Location = new Point(300, 250);
+            harten.Size = new Size(200, 50);
+            harten.Text = "Maak er Harten van";
+
+            ruiten = new Button();
+            ruiten.Click += ruiten_Click;
+            ruiten.Location = new Point(50, 350);
+            ruiten.Size = new Size(200, 50);
+            ruiten.Text = "Maak er Ruiten van";
+
+            schoppen = new Button();
+            schoppen.Click += schoppen_Click;
+            schoppen.Location = new Point(300, 350);
+            schoppen.Size = new Size(200, 50);
+            schoppen.Text = "Maak er Schoppen van";
+
+            this.Controls.Add(klaver);
+            this.Controls.Add(harten);
+            this.Controls.Add(ruiten);
+            this.Controls.Add(schoppen);
+            verbergKleurknoppen();
+
             this.Show();
         }
 
@@ -192,7 +224,9 @@ namespace CyberPesten
             }
             else if (laatsteKaartButton.Contains(mea.Location))
             {
-                spel.laatsteKaart(1);
+                spel.laatsteKaart(true);
+                Invalidate();
+                Update();
             }
             else if (spel.spelend == 0)
             {
@@ -423,6 +457,54 @@ namespace CyberPesten
                 Invoke(new Action(() => Invalidate()));
                 Invoke(new Action(() => Update()));
             }
+        }
+
+        public void verbergKleurknoppen()
+        {
+            harten.Hide();
+            klaver.Hide();
+            ruiten.Hide();
+            schoppen.Hide();
+        }
+
+        public void toonKleurknoppen()
+        {
+            harten.Show();
+            klaver.Show();
+            ruiten.Show();
+            schoppen.Show();
+        }
+
+        void schoppen_Click(object sender, EventArgs e)
+        {
+            spel.speciaal = 3;
+            spel.status += " en koos voor schoppen";
+            spel.volgende();
+            verbergKleurknoppen();
+        }
+
+        void ruiten_Click(object sender, EventArgs e)
+        {
+            spel.speciaal = 2;
+            spel.status += " en koos voor ruiten";
+            spel.volgende();
+            verbergKleurknoppen();
+        }
+
+        void harten_Click(object sender, EventArgs e)
+        {
+            spel.speciaal = 0;
+            spel.status += " en koos voor harten";
+            spel.volgende();
+            verbergKleurknoppen();
+        }
+
+        void klaver_Click(object sender, EventArgs e)
+        {
+            spel.speciaal = 1;
+            spel.status += " en koos voor klaver";
+            spel.volgende();
+            verbergKleurknoppen();
         }
     }
 }
