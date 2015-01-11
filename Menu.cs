@@ -16,8 +16,7 @@ namespace CyberPesten
         float verhouding; //De grootte van de plaatjes worden allemaal gebaseerd op de verhoudingen van de achtergrond
         Bitmap online, lokaal, settings, help, exit, fadedButtons, menuLogo;
         Rectangle onlineButton, lokaalButton, settingsButton, helpButton, exitButton;
-
-
+        
         public Menu()
         {
             Text = "CyberPesten: Menu";
@@ -156,7 +155,7 @@ namespace CyberPesten
         {
             if (onlineHover)
             {
-                Form veld = new inlogScherm();
+                Form veld = new inlogScherm(this);
                 this.Hide();
             }
             else if (lokaalHover)
