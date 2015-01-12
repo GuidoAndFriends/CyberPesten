@@ -15,6 +15,7 @@ namespace CyberPesten
         bool terugHover;
         Rectangle terugButton;
         public Spel spel;
+        Form menuBack;
 
         public Help(Form form)
         {
@@ -28,6 +29,7 @@ namespace CyberPesten
             this.Show();
             buttonsBitmap = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Help_buttons"));
             verhouding = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width / buttonsBitmap.Width;
+            menuBack = form;
 
             terugBitmap = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Terug_button"));
             terugButton = new Rectangle(0, (int)(verhouding * 53), (int)(verhouding * 234), (int)(verhouding * 74));
@@ -89,6 +91,7 @@ namespace CyberPesten
         {
             if (terugHover)
             {
+                menuBack.Show();
                 this.Close();
                 if (spel != null)
                 {

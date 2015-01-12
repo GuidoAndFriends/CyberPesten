@@ -21,12 +21,14 @@ namespace CyberPesten
         TextBox maakAccountTextbox2 = new TextBox();
         Label maakAccountLabel1 = new Label();
         string CP;
-        Bitmap inlogMenu, login, maakAccount;
-        Rectangle loginButton, maakAccountButton;
-        bool loginHover, maakAccountHover;
+        Bitmap inlogMenu, login, maakAccount, terug;
+        Rectangle loginButton, maakAccountButton, terugButton;
+        bool loginHover, maakAccountHover, terugHover;
         float verhouding;
         Font arial;
-        public inlogScherm()
+        Form menuBack;
+
+        public inlogScherm(Form _menu)
         {
             String bericht;
             string GNF = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),"Guido&Friends");
@@ -39,13 +41,16 @@ namespace CyberPesten
             DoubleBuffered = true;
             verhouding = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width / BackgroundImage.Width;
             arial = new Font("Arial", (int)(15 * verhouding));
+            menuBack = _menu;
 
             inlogMenu = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("online_menu"));
             login = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("login_select"));
             maakAccount = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("maak_account_select"));
+            terug = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Terug_button"));
 
             loginButton = new Rectangle((int)(979 * verhouding), (int)(758 * verhouding), (int)(205 * verhouding), (int)(86 * verhouding));
             maakAccountButton = new Rectangle((int)(722 * verhouding), (int)(758 * verhouding), (int)(205 * verhouding), (int)(86 * verhouding));
+            terugButton = new Rectangle(0, (int)(verhouding * 53), (int)(verhouding * 234), (int)(verhouding * 74));
 
             this.Paint += this.buildMenu;
             this.MouseMove += this.hover;
@@ -147,15 +152,15 @@ namespace CyberPesten
                 //Controls.Add(maakAccountLabel1);
                 maakAccountTextbox1.Select();
             }
-            berichtHouder = new Label();
-            //berichtHouder.Text = bericht;
+            /*berichtHouder = new Label();
+            berichtHouder.Text = bericht;
             berichtHouder.Left = 30;
             berichtHouder.Top = 30;
             berichtHouder.Width = 1000;
             berichtHouder.Height = 200;
             berichtHouder.BackColor = Color.Transparent;
             berichtHouder.Font = new Font("Arial", 40);
-            Controls.Add(berichtHouder);
+            Controls.Add(berichtHouder);*/
 
             this.Show();
         }
@@ -310,6 +315,10 @@ namespace CyberPesten
             {
                 pea.Graphics.DrawImage(maakAccount, 0, 0, Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
             }
+            if (terugHover)
+            {
+                pea.Graphics.DrawImage(terug, 0, 0, Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
+            }
         }
 
         public void hover(object sender, MouseEventArgs mea)
@@ -332,6 +341,15 @@ namespace CyberPesten
                 maakAccountHover = false;
             }
 
+            if (terugButton.Contains(mea.Location))
+            {
+                terugHover = true;
+            }
+            else
+            {
+                terugHover = false;
+            }
+
             Invalidate();
         }
 
@@ -344,6 +362,11 @@ namespace CyberPesten
             else if (maakAccountHover)
             {
                 //Maak account
+            }
+            else if (terugHover)
+            {
+                menuBack.Show();
+                this.Close();
             }
         }
 
