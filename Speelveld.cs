@@ -74,12 +74,12 @@ namespace CyberPesten
             if (online)
             {
                 Text = "CyberPesten: Online spel";
-                spel = new OnlineSpel(this, instellingen);
+                spel = new OnlineSpel(this, instellingen, new string[] {"Dit", "is", "een", "voorbeeld"});
             }
             else
             {
                 Text = "CyberPesten: Lokaal spel";
-                spel = new LokaalSpel(this, instellingen);
+                spel = new Spel(this, instellingen);
             }
 
             helpBitmap = (Bitmap)CyberPesten.Properties.Resources.ResourceManager.GetObject("Help_button");

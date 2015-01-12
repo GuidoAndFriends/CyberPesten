@@ -8,9 +8,9 @@ using System.Drawing;
 
 namespace CyberPesten
 {
-    class LokaalSpel : Spel
+    partial class Spel
     {
-        public LokaalSpel(Speelveld s, Instellingen _instellingen)
+        public Spel(Speelveld s, Instellingen _instellingen)
         {
             speelveld = s;
             spelers = new List<Speler>();

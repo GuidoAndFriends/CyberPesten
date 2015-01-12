@@ -224,7 +224,7 @@ namespace CyberPesten
             return geschud;
         }
 
-        public void volgende()
+        public override void volgende()
         {
             Speler oud = spelers[spelend];
 
