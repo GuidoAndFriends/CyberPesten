@@ -23,7 +23,6 @@ namespace CyberPesten
         public Instellingen instellingen;
         public bool bezig;
 
-
         public Spel()
         {
 

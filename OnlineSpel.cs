@@ -27,6 +27,8 @@ namespace CyberPesten
             pakAantal = 0; //hoeveel kaarten er gepakt moeten worden (voor 2 en joker)
             speciaalTekst = "-1 normaal";
             bezig = true;
+            //Online: eigen variant met chat?
+            geschiedenis = new List<string>();
 
             /*
             //Online: niet van toepassing
