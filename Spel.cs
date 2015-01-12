@@ -17,6 +17,7 @@ namespace CyberPesten
         public Speelveld speelveld;
         public int spelend, richting, speciaal, pakAantal, aantalSpelers;
         public string status, aantalKaarten, speciaalTekst;
+        public List<string> geschiedenis;
         public System.Timers.Timer timerAI;
         public bool mens;
         public Instellingen instellingen;
@@ -224,7 +225,7 @@ namespace CyberPesten
             return geschud;
         }
 
-        public override void volgende()
+        public virtual void volgende()
         {
             Speler oud = spelers[spelend];
 
@@ -308,6 +309,15 @@ namespace CyberPesten
 
         }
 
+        void statusNieuw(string nieuw)
+        {
+            status = nieuw;
+            geschiedenis.Add(nieuw);
+            if (geschiedenis.Count > 100)
+            {
+                geschiedenis.RemoveAt(0);
+            }
+        }
 
         protected Speler willekeurigeAI()
         {
