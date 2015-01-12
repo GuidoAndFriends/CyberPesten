@@ -59,7 +59,6 @@ namespace CyberPesten
                         {
                             //laatste kaart en gemeld
                             speelKaartNu(hand, index, stapel);
-                            kaartActie();
                             eindeSpel();
                             return true;
                         }
@@ -315,21 +314,11 @@ namespace CyberPesten
             Random random = new Random();
             string naam = namen[random.Next(namen.Count)];
             namen.Remove(naam);
-            
-            int aantal = 4;
-            int nummer = random.Next(aantal);
-            Speler gekozen;
 
-            int teller = 0;
-            while (instellingen.AIUitgeschakeld.Contains(nummer) && teller < 1000)
-            {
-                nummer = random.Next(aantal);
-                teller++;
-            }
-            if (teller  == 1000)
-            {
-                MessageBox.Show("Alle AI's zijn uitgeschakeld? Let op dat het aantal voor random.Next(aantal) 1 hoger is dan het aantal AI");
-            }
+            int aantal = instellingen.AIIngeschakeld.Count;
+            int index = random.Next(aantal);
+            Speler gekozen;
+            int nummer = instellingen.AIIngeschakeld[index];
 
             switch (nummer)
             {
@@ -344,6 +333,9 @@ namespace CyberPesten
                     break;
                 case 3:
                     gekozen = new AI3Oke(this, "3 " + naam);
+                    break;
+                case 4:
+                    gekozen = new AI4Cheat(this, "4 " + naam);
                     break;
                 default:
                     MessageBox.Show("Er is iets mis in de functie willekeurigeAI");

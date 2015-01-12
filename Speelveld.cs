@@ -195,6 +195,7 @@ namespace CyberPesten
             {
                 if (mea.Button == MouseButtons.Left)
                 {
+                    spel.bezig = false;
                     Help help = new Help(this);
                     if (Text == "CyberPesten: Lokaal spel")
                     {

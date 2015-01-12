@@ -85,7 +85,9 @@ namespace CyberPesten
             if (! mens)
             {
                 spelend++;
-                spelers[spelend].doeZet();
+                //Even wachten en daarna de eerste AI laten spelen
+                timerAI.Interval = 1000;
+                timerAI.Start();
             }
             checkNullKaart();
         }

@@ -11,7 +11,7 @@ namespace CyberPesten
     {
         public int regelset, aantalSpelers;
         public bool mensSpelend;
-        public List<int> regelsUitgeschakeld, AIUitgeschakeld;
+        public List<int> regelsUitgeschakeld, AIIngeschakeld;
         string instellingenPad;
 
         public Instellingen()
@@ -62,12 +62,12 @@ namespace CyberPesten
 
             //3 AI uitgeschakeld
             delen = regels[3].Split(new char[] {','});
-            AIUitgeschakeld = new List<int>();
+            AIIngeschakeld = new List<int>();
             if (delen[0] != "")
             {
                 for (int i = 0; i < delen.Length; i++)
                 {
-                    AIUitgeschakeld.Add(Int32.Parse(delen[i]));
+                    AIIngeschakeld.Add(Int32.Parse(delen[i]));
                 }
             }
 
@@ -102,14 +102,14 @@ namespace CyberPesten
 
             //3 AI uitgeschakeld
             regel = "";
-            if (AIUitgeschakeld != null)
+            if (AIIngeschakeld != null)
             {
-                if (AIUitgeschakeld.Count != 0)
+                if (AIIngeschakeld.Count != 0)
                 {
-                    regel += AIUitgeschakeld[0].ToString();
-                    for (int i = 1; i < AIUitgeschakeld.Count; i++)
+                    regel += AIIngeschakeld[0].ToString();
+                    for (int i = 1; i < AIIngeschakeld.Count; i++)
                     {
-                        regel += "," + AIUitgeschakeld[i].ToString();
+                        regel += "," + AIIngeschakeld[i].ToString();
                     }
                 }
             }
@@ -126,9 +126,9 @@ namespace CyberPesten
             regelset = 0;
             regelsUitgeschakeld = null;
             aantalSpelers = 4;
-            AIUitgeschakeld = new List<int>();
-            AIUitgeschakeld.Add(2);
-            AIUitgeschakeld.Add(3);
+            AIIngeschakeld = new List<int>();
+            AIIngeschakeld.Add(2);
+            AIIngeschakeld.Add(3);
             mensSpelend = true;
             schrijven();
         }

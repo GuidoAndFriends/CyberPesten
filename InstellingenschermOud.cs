@@ -12,7 +12,7 @@ namespace CyberPesten
     {
         Instellingen instellingen;
         NumericUpDown regelsetCon, aantalSpelersCon;
-        TextBox regelsUitgeschakeldCon, AIUitgeschakeldCon;
+        TextBox regelsUitgeschakeldCon, AIIngeschakeldCon;
         Button mensSpelendCon;
         Menu menu;
 
@@ -64,17 +64,17 @@ namespace CyberPesten
             aantalSpelersCon.ValueChanged += aantalSpelers;
             Controls.Add(aantalSpelersCon);
 
-            Label AIUitgeschakeldLab = new Label();
-            AIUitgeschakeldLab.Text = "Uitgeschakelde AI (0,2,3)";
-            AIUitgeschakeldLab.BackColor = Color.Transparent;
-            AIUitgeschakeldLab.Size = new Size(150, 40);
-            AIUitgeschakeldLab.Location = new Point(50, 350);
-            Controls.Add(AIUitgeschakeldLab);
+            Label AIIngeschakeldLab = new Label();
+            AIIngeschakeldLab.Text = "Uitgeschakelde AI (0,2,3)";
+            AIIngeschakeldLab.BackColor = Color.Transparent;
+            AIIngeschakeldLab.Size = new Size(150, 40);
+            AIIngeschakeldLab.Location = new Point(50, 350);
+            Controls.Add(AIIngeschakeldLab);
 
-            AIUitgeschakeldCon = new TextBox();
-            AIUitgeschakeldCon.Location = new Point(220, 350);
-            AIUitgeschakeldCon.TextChanged += AIUitgeschakeld;
-            Controls.Add(AIUitgeschakeldCon);
+            AIIngeschakeldCon = new TextBox();
+            AIIngeschakeldCon.Location = new Point(220, 350);
+            AIIngeschakeldCon.TextChanged += AIIngeschakeld;
+            Controls.Add(AIIngeschakeldCon);
 
             Label mensSpelendLab = new Label();
             mensSpelendLab.Text = "Menselijke speler";
@@ -133,16 +133,16 @@ namespace CyberPesten
             instellingen.schrijven();
         }
 
-        void AIUitgeschakeld(object sender, EventArgs ea)
+        void AIIngeschakeld(object sender, EventArgs ea)
         {
-            string[] delen = AIUitgeschakeldCon.Text.Split(new char[] { ',' });
-            instellingen.AIUitgeschakeld = new List<int>();
+            string[] delen = AIIngeschakeldCon.Text.Split(new char[] { ',' });
+            instellingen.AIIngeschakeld = new List<int>();
 
             for (int i = 0; i < delen.Length; i++)
             {
                 if (delen[i] != "")
                 {
-                    instellingen.AIUitgeschakeld.Add(Int32.Parse(delen[i]));
+                    instellingen.AIIngeschakeld.Add(Int32.Parse(delen[i]));
                 }
             }
             instellingen.schrijven();
@@ -177,18 +177,18 @@ namespace CyberPesten
             aantalSpelersCon.Value = instellingen.aantalSpelers;
 
             string regel = "";
-            if (instellingen.AIUitgeschakeld != null)
+            if (instellingen.AIIngeschakeld != null)
             {
-                if (instellingen.AIUitgeschakeld.Count != 0)
+                if (instellingen.AIIngeschakeld.Count != 0)
                 {
-                    regel += instellingen.AIUitgeschakeld[0].ToString();
-                    for (int i = 1; i < instellingen.AIUitgeschakeld.Count; i++)
+                    regel += instellingen.AIIngeschakeld[0].ToString();
+                    for (int i = 1; i < instellingen.AIIngeschakeld.Count; i++)
                     {
-                        regel += "," + instellingen.AIUitgeschakeld[i].ToString();
+                        regel += "," + instellingen.AIIngeschakeld[i].ToString();
                     }
                 }
             }
-            AIUitgeschakeldCon.Text = regel;
+            AIIngeschakeldCon.Text = regel;
 
             if (instellingen.mensSpelend)
             {
