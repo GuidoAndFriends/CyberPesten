@@ -39,6 +39,7 @@ namespace CyberPesten
             List<Kaart> mogelijk = new List<Kaart>();
             List<Kaart> pester = new List<Kaart>();
             List<Kaart> bonus = new List<Kaart>();
+            List<Kaart> saai = new List<Kaart>();
 
             int volgendeIndex = (spelend + richting + spelers.Count) % (spelers.Count);
 
@@ -72,6 +73,14 @@ namespace CyberPesten
                 }
             }
 
+            foreach (Kaart kaart in mogelijk)
+            {
+                if (kaart.Waarde == 3 || kaart.Waarde == 4 || kaart.Waarde == 5 || kaart.Waarde == 6 || kaart.Waarde == 9 || kaart.Waarde == 10 || kaart.Waarde == 12)
+                {
+                    saai.Add(kaart);
+                }
+            }
+
             if (mogelijk.Count > 0)
             {
                 if (pester.Count > 0)
@@ -88,8 +97,16 @@ namespace CyberPesten
                     
                     else
                     {
-                        spel.speelKaart(mogelijk[0]);
-                    }                    
+                        if (saai.Count > 0)
+                        {
+                            spel.speelKaart(saai[0]);
+                        }
+
+                        else
+                        {
+                            spel.speelKaart(mogelijk[0]);
+                        } 
+                    }                   
                 }
             }
 
