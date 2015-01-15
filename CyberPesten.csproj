@@ -60,7 +60,7 @@
     <Compile Include="Menu.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Online.cs">
+    <Compile Include="OnlineSchermen.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="OnlineSpel.cs" />

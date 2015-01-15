@@ -73,7 +73,7 @@ namespace CyberPesten
             }
             if (onlineButton.Contains(mea.Location))
             {
-                veld = new inlogScherm();
+                veld = new openSpellenScherm();
                 this.Hide();
             }
             if (helpButton.Contains(mea.Location))

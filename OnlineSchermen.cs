@@ -26,14 +26,16 @@ namespace CyberPesten
 
         public inlogScherm()
         {
+            BackgroundImage = (Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("groen");
+            ClientSize = new Size(1000, 800);//moet nog naar fullscreen
+            DoubleBuffered = true;
+
+
             String bericht;
             string GNF = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),"Guido&Friends");
             if (!Directory.Exists(GNF)) { Directory.CreateDirectory(GNF); }
             CP = Path.Combine(GNF, "Cyperpesten");
             if (!Directory.Exists(CP)) { Directory.CreateDirectory(CP); }
-            BackgroundImage = (Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("groen");
-            ClientSize = new Size(1000, 800);//moet nog naar fullscreen
-            DoubleBuffered = true;
             string inlogPath = Path.Combine(CP,"inlogData.cyberpesten");
             if(File.Exists(inlogPath)){//misschien een knop om van account te wisselen
                 string[] s = Online.FileLines(inlogPath);
@@ -42,6 +44,8 @@ namespace CyberPesten
                 string str1 = Online.PHPrequest("http://harbingerofme.info/GnF/login.php",str2,str3);
                 if(str1 == "ja"){
                     bericht = s[0]+", je bent succesvol ingelogd. Welkom terug, vriend!";
+                    Online.username = s[0];
+                    Online.token = s[1];
                     gaVerder();
                 }else{
                     bericht = "Er is iets misgegaan, kijk op onze site voor hulp!";
@@ -166,6 +170,8 @@ namespace CyberPesten
                         if (str12 == "ja")
                         {
                             maakAccountLabel1.Text = str2[0] + ", je account is aangemaakt, en je bent alvast ingelogd";
+                            Online.username = str2[0];
+                            Online.token = str2[3];
                             gaVerder();
                         }
                         else
@@ -216,24 +222,73 @@ namespace CyberPesten
 
     }
 
-    class openSpellenScherm : Form//Ayco, vul dit op
+    class lobbyScherm : Form
     {
-        //wat test spellen voor je
-        online_openSpel debug_spel1 = new online_openSpel("Test1", 2, 4, "Standaard", false);
-        online_openSpel debug_spel2 = new online_openSpel("2Test", 1, 8, "Familie", false);
-        online_openSpel debug_spel3 = new online_openSpel("StartTest", 3, 3, "Crazy8", true);
-        //doe ermee wat je wilt
-
-        public online_openSpel[] krijgSpellen()//deze vul ik op, je kan hem wel alvast aanroepen, maar hij zal altijd hetzelfde terugkeren  -Guido
+        public lobbyScherm()
         {
-            online_openSpel[] returnal = { debug_spel1, debug_spel2, debug_spel3 };
-            /*
-            Online.PHPRequest("krijgspellen.php",null);//miss beveiliging?
 
-             *verwerk resultaten 
+        }
+    }
 
-            */
-            return returnal;
+
+    class openSpellenScherm : Form
+    {
+
+        public openSpellenScherm()
+        {
+            BackgroundImage = (Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("groen");
+            ClientSize = new Size(1000, 800);//moet nog naar fullscreen
+            DoubleBuffered = true;
+            this.Show();
+
+
+            Online.username = "Guido";
+            Online.token = "9e6a2c7a42c27b5852d709f162f21332";
+            online_openSpel[] list = krijgSpellen();
+            if(list.Count()>0){
+                foreach (online_openSpel oo in list) { 
+                //laat het zien
+                
+                }
+            }
+            else
+            {
+                //laat zien: Geen open spellen gevonden.
+            }
+        }
+
+
+
+        public bool join_spel(int spelid)
+        {
+            string raw = Online.PHPrequest("http://harbingerofme.info/GnF/join_game.php", new string[] { "name", "token","spelid" }, new string[] { Online.username, Online.token,spelid.ToString() });
+            return raw == "ja";//kweenie volgens mij moet er iets meer gebeuren
+        }
+
+
+
+
+        public online_openSpel[] krijgSpellen()
+        {
+            List<online_openSpel> returnal = new List<online_openSpel>();
+            string raw = Online.PHPrequest("http://harbingerofme.info/GnF/get_games.php", new string[] { "name", "token" }, new string[] { Online.username, Online.token });
+            if (!raw.StartsWith("Error:"))
+            {
+                string copy = raw.Substring(1, raw.Length - 2);//strip begin en einde
+                while(copy.Length>0)
+                {
+                    string substr = copy.Substring(1, copy.IndexOf('}') - 1);//misschien hoeft die min 1 niet? Testen nodig.
+                    string[] splits = substr.Split('|');
+                    string[] temp = splits[3].Split(',');string temp2 = "";
+                    for(int i = 1; i<temp.Count();i++){
+                        temp2 += temp[i]+" ";
+                    }
+                    temp2 = temp2.Trim();
+                    returnal.Add(new online_openSpel(int.Parse(splits[0]),"Missend",temp.Count(),int.Parse(splits[2]),splits[5],splits[4].Equals("2"),temp[0],temp2));
+
+                }
+            }
+            return returnal.ToArray();
         }
     }
 
@@ -281,6 +336,10 @@ namespace CyberPesten
     
     class Online//bevat al onze hulp methoden
     {
+        public static string username;
+        public static string token;
+        public static int game;
+
 
         //onderstaande methoden moeten waarschijnlijk naar een hoger niveua verplaatst worden
         public static string PHPrequest(string URL, string[] argument_names, string[] argument_values)
