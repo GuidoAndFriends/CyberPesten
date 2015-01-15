@@ -3,57 +3,94 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Threading;
 using System.Drawing;
 
 namespace CyberPesten
 {
-    class LokaalSpel : Spel
+    partial class Spel
     {
-        public LokaalSpel(Speelveld s, int aantalSpelers)
+        public Spel(Speelveld s, Instellingen _instellingen)
         {
             speelveld = s;
-            spelers = new List<Speler>();//moet aangeroepen worden met de Spel() functie
+            spelers = new List<Speler>();
             stapel = new List<Kaart>();
             pot = new List<Kaart>();
+            instellingen = _instellingen;
+            mens = instellingen.mensSpelend;
+            aantalSpelers = instellingen.aantalSpelers;
+
             int kaartspellen = (aantalSpelers) / 4 + 1; //hoeveel kaartspellen gebruikt worden
             int startkaarten = 7; //hoeveel kaarten de spelers in het begin krijgen
-            spelend = 0; //welke speler aan de beurt is
+            spelend = 0; //welke speler aan de beurt is (zonder mens wordt aan het einde van de constructormethode afgehandeld)
             richting = 1; //welke kant er op gespeeld word
             speciaal = -1; //of er een speciale kaart gespeeld is
-            pakAantal = 0;
+            pakAantal = 0; //hoeveel kaarten er gepakt moeten worden (voor 2 en joker)
+            speciaalTekst = "-1 normaal";
+            bezig = true;
+            geschiedenis = new List<string>();
+
+            timerAI = new System.Timers.Timer();
+            timerAI.Elapsed += tijd;
 
             //Spelers toevoegen
-            spelers.Add(new Mens());
+            namen = new List<string>();
+            namen.Add("Guido");
+            namen.Add("Ayco");
+            namen.Add("Kaj");
+            namen.Add("Mehul");
+            namen.Add("Noah");
+            namen.Add("Norico");
+            namen.Add("Rik");
+            namen.Add("Sjaak");
+
+            spelers.Add(new Mens(this));
             for (int i = 1; i < aantalSpelers; i++)
             {
-                spelers.Add(new Guido(this));
+                spelers.Add(willekeurigeAI());
             }
 
             //Kaarten toevoegen
             for (int i = 0; i < kaartspellen; i++)
             {
-                for (int j = 0; j < 4; j++)
-                {
-                    for (int k = 1; k < 14; k++)
-                    {
-                        pot.Add(new Kaart(j,k));
-                    }
-                }
+                extraPak(pot);
             }
             pot = schud(pot);
+            aantalKaarten = pot.Count.ToString();
 
             //Kaarten delen
             for (int i = 0; i < startkaarten; i++)
             {
-                foreach (Speler speler in spelers)
+                int j = 0;
+                if (! mens)
                 {
-                    verplaatsKaart(pot, speler.hand);
+                    j++;
+                }
+                for (; j < spelers.Count; j++)
+                {
+                    verplaatsKaart(pot, spelers[j].hand);
                 }
             }
 
-            spelers[0].maakXY();
+            foreach(Speler speler in spelers)
+            {
+                speler.updateBlok();
+            }
             verplaatsKaart(pot, 0, stapel);
+            //stapel.Add(new Kaart()); als je wilt testen hoe het gaat als de eerste kaart een joker is
+            if (stapel[0].Kleur == 4)
+            {
+                speciaal = 5;
+            }
             s.Invalidate();
+            if (! mens)
+            {
+                spelend++;
+                //Even wachten en daarna de eerste AI laten spelen
+                timerAI.Interval = 1000;
+                timerAI.Start();
+            }
+            checkNullKaart();
         }
     }
 }

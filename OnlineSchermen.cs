@@ -21,10 +21,21 @@ namespace CyberPesten
         TextBox maakAccountTextbox2 = new TextBox();
         Label maakAccountLabel1 = new Label();
         string CP;
+<<<<<<< HEAD:OnlineSchermen.cs
         bool done;
         Thread helper_thread;
 
         public inlogScherm()
+=======
+        Bitmap inlogMenu, login, maakAccount, terug;
+        Rectangle loginButton, maakAccountButton, terugButton;
+        bool loginHover, maakAccountHover, terugHover;
+        float verhouding;
+        Font arial;
+        Form menuBack;
+
+        public inlogScherm(Form _menu)
+>>>>>>> origin/master:Online.cs
         {
             BackgroundImage = (Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("groen");
             ClientSize = new Size(1000, 800);//moet nog naar fullscreen
@@ -36,6 +47,30 @@ namespace CyberPesten
             if (!Directory.Exists(GNF)) { Directory.CreateDirectory(GNF); }
             CP = Path.Combine(GNF, "Cyperpesten");
             if (!Directory.Exists(CP)) { Directory.CreateDirectory(CP); }
+<<<<<<< HEAD:OnlineSchermen.cs
+=======
+            BackgroundImage = (Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Menu_achtergrond");
+            FormBorderStyle = FormBorderStyle.None;
+            WindowState = FormWindowState.Maximized;
+            DoubleBuffered = true;
+            verhouding = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width / BackgroundImage.Width;
+            arial = new Font("Arial", (int)(15 * verhouding));
+            menuBack = _menu;
+
+            inlogMenu = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("online_menu"));
+            login = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("login_select"));
+            maakAccount = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("maak_account_select"));
+            terug = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Terug_button"));
+
+            loginButton = new Rectangle((int)(979 * verhouding), (int)(758 * verhouding), (int)(205 * verhouding), (int)(86 * verhouding));
+            maakAccountButton = new Rectangle((int)(722 * verhouding), (int)(758 * verhouding), (int)(205 * verhouding), (int)(86 * verhouding));
+            terugButton = new Rectangle(0, (int)(verhouding * 53), (int)(verhouding * 234), (int)(verhouding * 74));
+
+            this.Paint += this.buildMenu;
+            this.MouseMove += this.hover;
+            this.MouseClick += this.klik;
+
+>>>>>>> origin/master:Online.cs
             string inlogPath = Path.Combine(CP,"inlogData.cyberpesten");
             if(File.Exists(inlogPath)){//misschien een knop om van account te wisselen
                 string[] s = Online.FileLines(inlogPath);
@@ -52,7 +87,7 @@ namespace CyberPesten
                 }
                                
             }else{//als er nog geen inlog bestand bestaat.
-                bericht = "Welkom!";
+                /*bericht = "Welkom!";
                 a = new PictureBox();
                 a.BackColor = Color.Transparent;
                 a.Top = 0;
@@ -78,22 +113,22 @@ namespace CyberPesten
                 maakAccountLabel2.Width = 600;
                 maakAccountLabel2.BackColor = Color.Transparent;
                 maakAccountLabel2.Height = 200;
-                maakAccountLabel2.Parent = a;
+                maakAccountLabel2.Parent = a;*/
 
                 maakAccountTextbox1.AcceptsReturn = false;
                 maakAccountTextbox1.AcceptsTab = false;
                 maakAccountTextbox1.BackColor = Color.White;
                 maakAccountTextbox1.MaxLength = 20;
-                maakAccountTextbox1.TextAlign = HorizontalAlignment.Right;
-                maakAccountTextbox1.Top = 150;
-                maakAccountTextbox1.Left = 160;
-                maakAccountTextbox1.Width = 120;
-                maakAccountTextbox1.Height = 20;
+                maakAccountTextbox1.TextAlign = HorizontalAlignment.Left;
+                maakAccountTextbox1.Top = (int)(485 * verhouding);
+                maakAccountTextbox1.Left = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width / 2 - (int)(80 * verhouding);
+                maakAccountTextbox1.Width = (int)(320 * verhouding);
                 maakAccountTextbox1.ShortcutsEnabled = true;//staat de gebruiker toe om te plakken, of om control+a te drukken, etc.
                 maakAccountTextbox1.TabIndex = 0;
                 maakAccountTextbox1.Parent = a;
+                maakAccountTextbox1.Font = arial;
 
-                Label maakAccountLabel3 = new Label();
+                /*Label maakAccountLabel3 = new Label();
                 maakAccountLabel3.Font = new Font("Arial", 12);
                 maakAccountLabel3.Top = 180;
                 maakAccountLabel3.Left = 30;
@@ -101,7 +136,7 @@ namespace CyberPesten
                 maakAccountLabel3.Width = 600;
                 maakAccountLabel3.BackColor = Color.Transparent;
                 maakAccountLabel3.Height = 200;
-                maakAccountLabel3.Parent = a;
+                maakAccountLabel3.Parent = a;*/
                
 
                 maakAccountTextbox2 = new TextBox();
@@ -109,33 +144,33 @@ namespace CyberPesten
                 maakAccountTextbox2.AcceptsTab = false;
                 maakAccountTextbox2.ShortcutsEnabled = true;
                 maakAccountTextbox2.BackColor = Color.White;
-                maakAccountTextbox2.TextAlign = HorizontalAlignment.Right;
-                maakAccountTextbox2.Top = 180;
-                maakAccountTextbox2.Left = 160;
-                maakAccountTextbox2.Width = 180;
-                maakAccountTextbox2.Height = 20;
+                maakAccountTextbox2.TextAlign = HorizontalAlignment.Left;
+                maakAccountTextbox2.Top = (int)(570 * verhouding);
+                maakAccountTextbox2.Left = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width / 2 - (int)(80 * verhouding);
+                maakAccountTextbox2.Width = (int)(320 * verhouding);
                 maakAccountTextbox2.TabIndex = 1;
                 maakAccountTextbox2.Parent = a;
+                maakAccountTextbox2.Font = arial;
 
-                Button maakAccountKnop = new Button();
+                /*Button maakAccountKnop = new Button();
                 maakAccountKnop.AutoSize = true;
                 maakAccountKnop.Font = new Font("Arial", 20);
                 maakAccountKnop.Text = "Maak Account";
                 maakAccountKnop.Top = 210;
                 maakAccountKnop.Left = 30;
                 maakAccountKnop.Parent = a;
-                maakAccountKnop.Click += maakAccountKnop_Click;
+                maakAccountKnop.Click += maakAccountKnop_Click;*/
                 //int.Parse("assda");
                 //Controls.Add(a);
-                Controls.Add(maakAccountKnop);
+                //Controls.Add(maakAccountKnop);
                 Controls.Add(maakAccountTextbox2);
-                Controls.Add(maakAccountLabel3);
+                //Controls.Add(maakAccountLabel3);
                 Controls.Add(maakAccountTextbox1);
-                Controls.Add(maakAccountLabel2);
-                Controls.Add(maakAccountLabel1);
+                //Controls.Add(maakAccountLabel2);
+                //Controls.Add(maakAccountLabel1);
                 maakAccountTextbox1.Select();
             }
-            berichtHouder = new Label();
+            /*berichtHouder = new Label();
             berichtHouder.Text = bericht;
             berichtHouder.Left = 30;
             berichtHouder.Top = 30;
@@ -143,7 +178,7 @@ namespace CyberPesten
             berichtHouder.Height = 200;
             berichtHouder.BackColor = Color.Transparent;
             berichtHouder.Font = new Font("Arial", 40);
-            Controls.Add(berichtHouder);
+            Controls.Add(berichtHouder);*/
 
             this.Show();
         }
@@ -425,6 +460,73 @@ namespace CyberPesten
 
             // Return the hexadecimal string. 
             return sBuilder.ToString();
+        }
+
+        private void buildMenu(object sender, PaintEventArgs pea)
+        {
+            pea.Graphics.DrawImage(inlogMenu, 0, 0, (int)inlogMenu.Width * verhouding, (int)inlogMenu.Height * verhouding);
+
+            if (loginHover)
+            {
+                pea.Graphics.DrawImage(login, 0, 0, Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
+            }
+            if (maakAccountHover)
+            {
+                pea.Graphics.DrawImage(maakAccount, 0, 0, Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
+            }
+            if (terugHover)
+            {
+                pea.Graphics.DrawImage(terug, 0, 0, Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
+            }
+        }
+
+        public void hover(object sender, MouseEventArgs mea)
+        {
+            if (loginButton.Contains(mea.Location))
+            {
+                loginHover = true;
+            }
+            else
+            {
+                loginHover = false;
+            }
+
+            if (maakAccountButton.Contains(mea.Location))
+            {
+                maakAccountHover = true;
+            }
+            else
+            {
+                maakAccountHover = false;
+            }
+
+            if (terugButton.Contains(mea.Location))
+            {
+                terugHover = true;
+            }
+            else
+            {
+                terugHover = false;
+            }
+
+            Invalidate();
+        }
+
+        private void klik(object sender, MouseEventArgs mea)
+        {
+            if (loginHover)
+            {
+                //Login
+            }
+            else if (maakAccountHover)
+            {
+                //Maak account
+            }
+            else if (terugHover)
+            {
+                menuBack.Show();
+                this.Close();
+            }
         }
 
     }

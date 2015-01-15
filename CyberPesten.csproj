@@ -47,15 +47,27 @@
     <None Include="Resources\schop.xcf" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AI.cs" />
-    <Compile Include="Guido.cs" />
-    <Compile Include="HandPB.cs">
-      <SubType>Component</SubType>
+    <Compile Include="AI\AI1NietGek.cs" />
+    <Compile Include="AI\AI0Random.cs" />
+    <Compile Include="AI\AI4Cheat.cs">
+      <SubType>Code</SubType>
     </Compile>
+    <Compile Include="AI\AI2Pester.cs" />
+    <Compile Include="AI\AI3Oke.cs" />
     <Compile Include="Help.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Instellingen.cs" />
+    <Compile Include="Instellingenscherm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="InstellingenschermOud.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Kaart.cs" />
+    <Compile Include="KleurKiezen.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Mens.cs" />
     <Compile Include="Menu.cs">
       <SubType>Form</SubType>
@@ -84,6 +96,11 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\Terug button.png" />
+    <None Include="Resources\StandSet button.png" />
+    <None Include="Resources\Settings buttons.png" />
+    <None Include="Resources\Settings.png" />
+    <None Include="Resources\Settings button.png" />
     <None Include="Resources\SQ.png" />
     <None Include="Resources\SK.png" />
     <None Include="Resources\SJ.png" />
@@ -127,18 +144,29 @@
     <None Include="Resources\HA.png" />
     <None Include="Resources\Back design 1.png" />
     <None Include="Resources\Back design 2.png" />
+    <None Include="Resources\Gradient.png" />
+    <None Include="Resources\Exit button.png" />
+    <None Include="Resources\Faded buttons.png" />
     <Content Include="Resources\harten.png" />
     <None Include="Resources\Help.png" />
     <None Include="Resources\HJ.png" />
     <None Include="Resources\HK.png" />
     <None Include="Resources\HQ.png" />
     <None Include="Resources\Joker.png" />
+    <None Include="Resources\Help button.png" />
+    <None Include="Resources\Home button.png" />
+    <None Include="Resources\Help achtergrond.png" />
+    <None Include="Resources\Help buttons.png" />
     <Content Include="Resources\klavers.png" />
     <None Include="Resources\Menu achtergrond.png" />
     <None Include="Resources\Menu logo.png" />
     <None Include="Resources\Lokaal.png" />
     <None Include="Resources\Online.png" />
     <None Include="Resources\Players.png" />
+    <None Include="Resources\Laatste kaart.png" />
+    <None Include="Resources\online menu.png" />
+    <None Include="Resources\login select.png" />
+    <None Include="Resources\maak account select.png" />
     <Content Include="Resources\ruiten.png" />
     <None Include="Resources\S2.png" />
     <None Include="Resources\S3.png" />

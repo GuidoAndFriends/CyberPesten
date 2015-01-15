@@ -10,19 +10,13 @@ namespace CyberPesten
 {
     class Menu : Form
     {
-        private Form veld;
-        private NumericUpDown aantal;
-        int buttonWidth;
-        int buttonHeight;
-        int buttonWidthSmall;
-        int buttonHeightSmall;
-        int lokaalX;
-        int onlineX;
-        int buttonY;
-        int helpX;
-        int playersX;
-        int buttonSmallY;
-
+        int buttonWidth, buttonHeight;
+        bool onlineHover, lokaalHover, settingsHover, helpHover, exitHover;
+        public Instellingen instellingen;
+        float verhouding; //De grootte van de plaatjes worden allemaal gebaseerd op de verhoudingen van de achtergrond
+        Bitmap online, lokaal, settings, help, exit, fadedButtons, menuLogo;
+        Rectangle onlineButton, lokaalButton, settingsButton, helpButton, exitButton;
+        
         public Menu()
         {
             Text = "CyberPesten: Menu";
@@ -31,120 +25,179 @@ namespace CyberPesten
             Size = new Size(maat.X, maat.Y);
             FormBorderStyle = FormBorderStyle.None;
             WindowState = FormWindowState.Maximized;
+            verhouding = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width / BackgroundImage.Width;
 
-            this.Paint += this.buildMenuGraphics;
+            /*nog meer snelheidsverbeteringen: 
+             * - PixelFormat Format32bppPArgb en schaling maar 1 keer
+             * Bitmap achtergrond = new Bitmap(Width, Height, System.Drawing.Imaging.PixelFormat.Format32bppPArgb);
+             * Graphics.FromImage(plaatje).DrawImage((Bitmap)CyberPesten.Properties.Resources.ResourceManager.GetObject("Achtergrond"), 0, 0, breedte, hoogte);
+             * - Zoveel mogelijk op 1 niet transparante bitmap en die tekenen met CompositingMode SourceCopy
+             * gr.CompositingMode = System.Drawing.Drawing2D.CompositingMode.SourceCopy;
+             * gr.DrawImage(plaatje, 0, 0);
+             * gr.CompositingMode = System.Drawing.Drawing2D.CompositingMode.SourceOver;
+             *
+             */
+
+            online = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Online"));
+            lokaal = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Lokaal"));
+            settings = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Settings"));
+            help = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Help"));
+            exit = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Exit_button"));
+            fadedButtons = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Faded_buttons"));
+            menuLogo = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Menu_logo"));
+
+            int rectangleWidth = (int)(85 * verhouding);
+            int rectangleHeight = (int)(254 * verhouding);
+            onlineButton = new Rectangle((int)(650 * verhouding), (int)(648 * verhouding), rectangleWidth, rectangleHeight);
+            lokaalButton = new Rectangle((int)(830 * verhouding), (int)(648 * verhouding), rectangleWidth, rectangleHeight);
+            settingsButton = new Rectangle((int)(1007 * verhouding), (int)(648 * verhouding), rectangleWidth, rectangleHeight);
+            helpButton = new Rectangle((int)(1189 * verhouding), (int)(648 * verhouding), rectangleWidth, rectangleHeight);
+            exitButton = new Rectangle((int)(1862 * verhouding), (int)(1022 * verhouding), (int)(42 * verhouding), (int)(42 * verhouding));
+
+            this.MouseMove += this.hover;
             this.MouseClick += this.klik;
+
+            this.Paint += this.teken;
+
             DoubleBuffered = true;
 
-            aantal = new NumericUpDown();
-            aantal.Size = new Size(200, 50);
-            aantal.Location = new Point(200, 620);
-            aantal.Value = 4;
-            Controls.Add(aantal);
-
-            Button help = new Button();
-            help.Size = new Size(135, 90);
-            help.Location = new Point(865, 710);
-            help.Text = "Help";
-            help.Font = new Font(FontFamily.GenericSansSerif, 20);
-            //help.MouseClick += helpKlik;
-            Controls.Add(help);
-
-            this.FormClosed += Menu_FormClosed;
+            instellingen = new Instellingen();
         }
 
-        void Menu_FormClosed(object sender, FormClosedEventArgs e)
+        void teken(object sender, PaintEventArgs pea)
         {
-            Application.Exit();
-            //Controls.Add(aantal);
+            //buildMenuGraphics
+            buttonWidth = (int)(fadedButtons.Width * verhouding);
+            buttonHeight = (int)(fadedButtons.Height * verhouding);
+
+            pea.Graphics.DrawImage(fadedButtons, 0, 0, fadedButtons.Width * verhouding, fadedButtons.Height * verhouding);
+
+            //selected
+            if (onlineHover)
+            {
+                pea.Graphics.DrawImage(online, 0, 0, buttonWidth, buttonHeight);
+            }
+            if (lokaalHover)
+            {
+                pea.Graphics.DrawImage(lokaal, 0, 0, buttonWidth, buttonHeight);
+            }
+            if (settingsHover)
+            {
+                pea.Graphics.DrawImage(settings, 0, 0, buttonWidth, buttonHeight);
+            }
+            if (helpHover)
+            {
+                pea.Graphics.DrawImage(help, 0, 0, buttonWidth, buttonHeight);
+            }
+            if (exitHover)
+            {
+                pea.Graphics.DrawImage(exit, 0, 0, buttonWidth, buttonHeight);
+            }
+
+            //buildTitle
+            int logoWidth = (int)(menuLogo.Width * verhouding);
+            int logoHeight = (int)(menuLogo.Height * verhouding);
+            pea.Graphics.DrawImage(menuLogo, 0, 0, logoWidth, logoHeight);
         }
 
-        private void klik(object sender, MouseEventArgs mea)
+
+        public void hover(object sender, MouseEventArgs mea)
         {
-            Rectangle lokaalButton = new Rectangle(lokaalX, buttonY, buttonWidth, buttonHeight);
-            Rectangle onlineButton = new Rectangle(onlineX, buttonY, buttonWidth, buttonHeight);
-            Rectangle helpButton = new Rectangle(helpX, buttonSmallY, buttonWidthSmall, buttonHeightSmall);
-            Rectangle playersButton = new Rectangle(playersX, buttonSmallY, buttonWidthSmall, buttonHeightSmall);
+            if (onlineButton.Contains(mea.Location))
+            {
+                onlineHover = true;
+            }
+            else
+            {
+                onlineHover = false;
+            }
 
             if (lokaalButton.Contains(mea.Location))
             {
-                veld = new Speelveld(false, (int)aantal.Value, this);
-                this.Hide();
+                lokaalHover = true;
             }
-            if (onlineButton.Contains(mea.Location))
+            else
             {
+<<<<<<< HEAD
                 veld = new openSpellenScherm();
                 this.Hide();
+=======
+                lokaalHover = false;
             }
+
+            if (settingsButton.Contains(mea.Location))
+            {
+                settingsHover = true;
+>>>>>>> origin/master
+            }
+            else
+            {
+                settingsHover = false;
+            }
+
             if (helpButton.Contains(mea.Location))
             {
-                Help help = new Help();
+                helpHover = true;
             }
-        }
+            else
+            {
+                helpHover = false;
+            }
 
+<<<<<<< HEAD
         void veld_FormClosed(object sender, FormClosedEventArgs e)
         {
             Online.appendFile("D:\test.txt", e.CloseReason + "\n");
             veld.Dispose();
             this.Show();
+=======
+            if (exitButton.Contains(mea.Location))
+            {
+                exitHover = true;
+            }
+            else
+            {
+                exitHover = false;
+            }
+>>>>>>> origin/master
 
-            //DEBUG:
-            Application.Exit();
+            Invalidate();
         }
 
-        private void onlineKlik(object sender, MouseEventArgs mea)//Volgens mij kan deze weg - Guido
+        private void klik(object sender, MouseEventArgs mea)
         {
-            veld = new inlogScherm();
-            veld.FormClosed += veld_FormClosed;
-            this.Hide();
-            Rectangle lokaalButton = new Rectangle(lokaalX, buttonY, buttonWidth, buttonHeight);
-            Rectangle onlineButton = new Rectangle(onlineX, buttonY, buttonWidth, buttonHeight);
-            Rectangle helpButton = new Rectangle(helpX, buttonSmallY, buttonWidthSmall, buttonHeightSmall);
-            Rectangle playersButton = new Rectangle(playersX, buttonSmallY, buttonWidthSmall, buttonHeightSmall);
-
-            if (lokaalButton.Contains(mea.Location))
+            if (onlineHover)
             {
-                veld = new Speelveld(false, (int)aantal.Value, this);
+                Form veld = new inlogScherm(this);
                 this.Hide();
             }
-            if (onlineButton.Contains(mea.Location))
+            else if (lokaalHover)
             {
-                //veld = new Speelveld(true, aantal.Value, this);
+                Form veld = new Speelveld(this, instellingen, false);
                 this.Hide();
             }
-            if (helpButton.Contains(mea.Location))
+            else if (helpHover)
             {
-                Help help = new Help();
+                Help help = new Help(this);
+                this.Hide();
             }
-        }
-
-        public void buildMenuGraphics(Object o, PaintEventArgs pea)
-        {
-            Bitmap menuLogo = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Menu_logo"));
-            int logoWidth = Screen.PrimaryScreen.Bounds.Width * 3/5;
-            int logoHeight = logoWidth * menuLogo.Height / menuLogo.Width;
-            int logoCenter = Screen.PrimaryScreen.Bounds.Width / 2 - logoWidth / 2;
-            pea.Graphics.DrawImage(menuLogo, logoCenter, Screen.PrimaryScreen.Bounds.Height / 9, logoWidth, logoHeight);
-
-            Bitmap lokaal = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Lokaal"));
-            Bitmap online = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Online"));
-            Bitmap help = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Help"));
-            Bitmap players = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Players"));
-            buttonWidth = Screen.PrimaryScreen.Bounds.Width / 8;
-            buttonHeight = buttonWidth * lokaal.Height / lokaal.Width;
-            buttonWidthSmall = Screen.PrimaryScreen.Bounds.Width / 10;
-            buttonHeightSmall = buttonWidthSmall * help.Height / help.Width;
-            lokaalX = Screen.PrimaryScreen.Bounds.Width / 16 * 5;
-            onlineX = Screen.PrimaryScreen.Bounds.Width / 16 * 9;
-            buttonY = Screen.PrimaryScreen.Bounds.Height / 2;
-            helpX = Screen.PrimaryScreen.Bounds.Width / 20 * 15;
-            playersX = Screen.PrimaryScreen.Bounds.Width / 20 * 3;
-            buttonSmallY = Screen.PrimaryScreen.Bounds.Height / 7 * 4;
-   
-            pea.Graphics.DrawImage(players, playersX, buttonSmallY, buttonWidthSmall, buttonHeightSmall);
-            pea.Graphics.DrawImage(lokaal, lokaalX, buttonY, buttonWidth, buttonHeight);
-            pea.Graphics.DrawImage(online, onlineX, buttonY, buttonWidth, buttonHeight);
-            pea.Graphics.DrawImage(help, helpX, buttonSmallY, buttonWidthSmall, buttonHeightSmall);
+            else if (settingsHover)
+            {
+                if (mea.Button == MouseButtons.Right)
+                {
+                    InstellingenschermOud instellingenschermOud = new InstellingenschermOud(this);
+                    this.Hide();
+                }
+                else
+                {
+                    Instellingenscherm instellingenscherm = new Instellingenscherm(this);
+                    this.Hide();
+                }
+            }
+            else if (exitHover)
+            {
+                Application.Exit();
+            }
         }
     }
 }

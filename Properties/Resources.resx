@@ -307,4 +307,52 @@
   <data name="Back_design_2" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Back design 2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="Gradient" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Gradient.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Help_button" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Help button.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Home_button" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Home button.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Settings_button" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Settings button.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Laatste_kaart" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Laatste kaart.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Exit_button" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Exit button.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Faded_buttons" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Faded buttons.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Settings" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Settings.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Help_achtergrond" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Help achtergrond.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Help_buttons" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Help buttons.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Settings_buttons" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Settings buttons.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="StandSet_button" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\StandSet button.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Terug_button" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Terug button.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="login_select" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\login select.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="maak_account_select" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\maak account select.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="online_menu" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\online menu.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>
