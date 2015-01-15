@@ -15,7 +15,7 @@ namespace CyberPesten
         TextBox regelsUitgeschakeldCon, AIIngeschakeldCon;
         Button mensSpelendCon;
         Menu menu;
-        Bitmap settingsButtons, terugBitmap, standSetBitmap;
+        Bitmap terugBitmap, standSetBitmap;
         bool terugHover, standSetHover;
         Rectangle terugButton, standSetButton;
         float verhouding;
@@ -26,7 +26,7 @@ namespace CyberPesten
             instellingen = menu.instellingen;
 
             Text = "CyberPesten: Help";
-            BackgroundImage = (Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Menu_achtergrond");
+            BackgroundImage = (Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Settings_achtergrond");
             ClientSize = menu.Size;
             FormBorderStyle = FormBorderStyle.None;
             WindowState = FormWindowState.Maximized;
@@ -109,16 +109,14 @@ namespace CyberPesten
             update();
             this.Show();
 
-            settingsButtons = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Settings_buttons"));
             terugBitmap = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Terug_button"));
             standSetBitmap = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("StandSet_button"));
 
-            verhouding = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width / settingsButtons.Width;
+            verhouding = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width / terugBitmap.Width;
 
             terugButton = new Rectangle(0, (int)(verhouding * 53), (int)(verhouding * 234), (int)(verhouding * 74));
             standSetButton = new Rectangle(0, (int)(verhouding * 927), (int)(verhouding * 1230), (int)(verhouding * 74));
 
-            this.Paint += this.buildSettings;
             this.Paint += this.selected;
             this.MouseMove += this.hover;
             this.MouseClick += this.klik;
@@ -208,11 +206,6 @@ namespace CyberPesten
             {
                 mensSpelendCon.Text = "Uit";
             }
-        }
-
-        void buildSettings(object sender, PaintEventArgs pea)
-        {
-            pea.Graphics.DrawImage(settingsButtons, 0, 0, settingsButtons.Width * verhouding, settingsButtons.Height * verhouding);
         }
 
         private void selected(object sender, PaintEventArgs pea)

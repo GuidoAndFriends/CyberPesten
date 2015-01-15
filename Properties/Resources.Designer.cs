@@ -363,16 +363,6 @@ namespace CyberPesten.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Faded_buttons {
-            get {
-                object obj = ResourceManager.GetObject("Faded_buttons", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
         internal static System.Drawing.Bitmap Gradient {
             get {
                 object obj = ResourceManager.GetObject("Gradient", resourceCulture);
@@ -516,16 +506,6 @@ namespace CyberPesten.Properties {
         internal static System.Drawing.Bitmap Help_button {
             get {
                 object obj = ResourceManager.GetObject("Help_button", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap Help_buttons {
-            get {
-                object obj = ResourceManager.GetObject("Help_buttons", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -783,9 +763,9 @@ namespace CyberPesten.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Settings_button {
+        internal static System.Drawing.Bitmap Settings_achtergrond {
             get {
-                object obj = ResourceManager.GetObject("Settings_button", resourceCulture);
+                object obj = ResourceManager.GetObject("Settings_achtergrond", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -793,9 +773,9 @@ namespace CyberPesten.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Settings_buttons {
+        internal static System.Drawing.Bitmap Settings_button {
             get {
-                object obj = ResourceManager.GetObject("Settings_buttons", resourceCulture);
+                object obj = ResourceManager.GetObject("Settings_button", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

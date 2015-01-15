@@ -14,7 +14,7 @@ namespace CyberPesten
         bool onlineHover, lokaalHover, settingsHover, helpHover, exitHover;
         public Instellingen instellingen;
         float verhouding; //De grootte van de plaatjes worden allemaal gebaseerd op de verhoudingen van de achtergrond
-        Bitmap online, lokaal, settings, help, exit, fadedButtons, menuLogo;
+        Bitmap online, lokaal, settings, help, exit, menuLogo;
         Rectangle onlineButton, lokaalButton, settingsButton, helpButton, exitButton;
         
         public Menu()
@@ -43,7 +43,6 @@ namespace CyberPesten
             settings = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Settings"));
             help = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Help"));
             exit = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Exit_button"));
-            fadedButtons = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Faded_buttons"));
             menuLogo = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Menu_logo"));
 
             int rectangleWidth = (int)(85 * verhouding);
@@ -66,11 +65,8 @@ namespace CyberPesten
 
         void teken(object sender, PaintEventArgs pea)
         {
-            //buildMenuGraphics
-            buttonWidth = (int)(fadedButtons.Width * verhouding);
-            buttonHeight = (int)(fadedButtons.Height * verhouding);
-
-            pea.Graphics.DrawImage(fadedButtons, 0, 0, fadedButtons.Width * verhouding, fadedButtons.Height * verhouding);
+            buttonWidth = (int)(online.Width * verhouding);
+            buttonHeight = (int)(online.Height * verhouding);
 
             //selected
             if (onlineHover)
