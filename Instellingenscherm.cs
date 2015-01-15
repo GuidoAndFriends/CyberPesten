@@ -15,22 +15,26 @@ namespace CyberPesten
         TextBox regelsUitgeschakeldCon, AIIngeschakeldCon;
         Button mensSpelendCon;
         Menu menu;
-        Bitmap terugBitmap, standSetBitmap;
+        Bitmap terugBitmap, standSetBitmap, achtergrond;
         bool terugHover, standSetHover;
-        Rectangle terugButton, standSetButton;
+        Rectangle terugButton, standSetButton, maat;
         float verhouding;
 
         public Instellingenscherm(Menu _menu)
         {
             menu = _menu;
             instellingen = menu.instellingen;
+            maat = System.Windows.Forms.Screen.PrimaryScreen.Bounds;
 
             Text = "CyberPesten: Help";
-            BackgroundImage = (Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Settings_achtergrond");
             ClientSize = menu.Size;
             FormBorderStyle = FormBorderStyle.None;
             WindowState = FormWindowState.Maximized;
             DoubleBuffered = true;
+
+            achtergrond = new Bitmap(maat.Width, maat.Height, System.Drawing.Imaging.PixelFormat.Format32bppPArgb);
+            Graphics.FromImage(achtergrond).DrawImage((Bitmap)CyberPesten.Properties.Resources.ResourceManager.GetObject("Settings_achtergrond"), maat);
+            BackgroundImage = achtergrond;
 
             /*Label regelsetLab = new Label();
             regelsetLab.Text = "Regelset";
@@ -117,6 +121,7 @@ namespace CyberPesten
             terugButton = new Rectangle(0, (int)(verhouding * 53), (int)(verhouding * 234), (int)(verhouding * 74));
             standSetButton = new Rectangle(0, (int)(verhouding * 927), (int)(verhouding * 1230), (int)(verhouding * 74));
 
+            this.Paint += this.buildAchtergrond;
             this.Paint += this.selected;
             this.MouseMove += this.hover;
             this.MouseClick += this.klik;
@@ -208,15 +213,22 @@ namespace CyberPesten
             }
         }
 
+        private void buildAchtergrond(object sender, PaintEventArgs pea)
+        {
+            pea.Graphics.CompositingMode = System.Drawing.Drawing2D.CompositingMode.SourceCopy;
+            pea.Graphics.DrawImage(BackgroundImage, 0, 0);
+            pea.Graphics.CompositingMode = System.Drawing.Drawing2D.CompositingMode.SourceOver;
+        }
+
         private void selected(object sender, PaintEventArgs pea)
         {
             if (terugHover)
             {
-                pea.Graphics.DrawImage(terugBitmap, 0, 0, (int)(terugBitmap.Width * verhouding), (int)(terugBitmap.Height * verhouding));
+                pea.Graphics.DrawImage(terugBitmap, maat);
             }
             if (standSetHover)
             {
-                pea.Graphics.DrawImage(standSetBitmap, 0, 0, (int)(standSetBitmap.Width * verhouding), (int)(standSetBitmap.Height * verhouding));
+                pea.Graphics.DrawImage(standSetBitmap, maat);
             }
 
             Invalidate();

@@ -5,45 +5,37 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Drawing;
+using System.Drawing.Imaging;
 
 namespace CyberPesten
 {
     class Menu : Form
     {
-        int buttonWidth, buttonHeight;
         bool onlineHover, lokaalHover, settingsHover, helpHover, exitHover;
         public Instellingen instellingen;
-        float verhouding; //De grootte van de plaatjes worden allemaal gebaseerd op de verhoudingen van de achtergrond
-        Bitmap online, lokaal, settings, help, exit, menuLogo;
-        Rectangle onlineButton, lokaalButton, settingsButton, helpButton, exitButton;
+        float verhouding; //De grootte van de rectangles voor de knoppen worden allemaal gebaseerd op de verhoudingen van de achtergrond
+        Bitmap online, lokaal, settings, help, exit, menuLogo, achtergrond;
+        Rectangle maat, onlineButton, lokaalButton, settingsButton, helpButton, exitButton;
         
         public Menu()
         {
             Text = "CyberPesten: Menu";
-            BackgroundImage = (Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Menu_achtergrond");
-            Rectangle maat = System.Windows.Forms.Screen.PrimaryScreen.Bounds;
+            maat = System.Windows.Forms.Screen.PrimaryScreen.Bounds;
             Size = new Size(maat.X, maat.Y);
             FormBorderStyle = FormBorderStyle.None;
             WindowState = FormWindowState.Maximized;
-            verhouding = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width / BackgroundImage.Width;
 
-            /*nog meer snelheidsverbeteringen: 
-             * - PixelFormat Format32bppPArgb en schaling maar 1 keer
-             * Bitmap achtergrond = new Bitmap(Width, Height, System.Drawing.Imaging.PixelFormat.Format32bppPArgb);
-             * Graphics.FromImage(plaatje).DrawImage((Bitmap)CyberPesten.Properties.Resources.ResourceManager.GetObject("Achtergrond"), 0, 0, breedte, hoogte);
-             * - Zoveel mogelijk op 1 niet transparante bitmap en die tekenen met CompositingMode SourceCopy
-             * gr.CompositingMode = System.Drawing.Drawing2D.CompositingMode.SourceCopy;
-             * gr.DrawImage(plaatje, 0, 0);
-             * gr.CompositingMode = System.Drawing.Drawing2D.CompositingMode.SourceOver;
-             *
-             */
-
+            achtergrond = new Bitmap(maat.Width, maat.Height, System.Drawing.Imaging.PixelFormat.Format32bppPArgb);
+            Graphics.FromImage(achtergrond).DrawImage((Bitmap)CyberPesten.Properties.Resources.ResourceManager.GetObject("Menu_achtergrond"), maat);
+            BackgroundImage = achtergrond;
+            
             online = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Online"));
             lokaal = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Lokaal"));
             settings = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Settings"));
             help = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Help"));
             exit = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Exit_button"));
             menuLogo = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Menu_logo"));
+            verhouding = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width / online.Width;
 
             int rectangleWidth = (int)(85 * verhouding);
             int rectangleHeight = (int)(254 * verhouding);
@@ -65,35 +57,34 @@ namespace CyberPesten
 
         void teken(object sender, PaintEventArgs pea)
         {
-            buttonWidth = (int)(online.Width * verhouding);
-            buttonHeight = (int)(online.Height * verhouding);
+            pea.Graphics.CompositingMode = System.Drawing.Drawing2D.CompositingMode.SourceCopy;
+            pea.Graphics.DrawImage(BackgroundImage, 0, 0);
+            pea.Graphics.CompositingMode = System.Drawing.Drawing2D.CompositingMode.SourceOver;
 
             //selected
             if (onlineHover)
             {
-                pea.Graphics.DrawImage(online, 0, 0, buttonWidth, buttonHeight);
+                pea.Graphics.DrawImage(online, maat);
             }
             if (lokaalHover)
             {
-                pea.Graphics.DrawImage(lokaal, 0, 0, buttonWidth, buttonHeight);
+                pea.Graphics.DrawImage(lokaal, maat);
             }
             if (settingsHover)
             {
-                pea.Graphics.DrawImage(settings, 0, 0, buttonWidth, buttonHeight);
+                pea.Graphics.DrawImage(settings, maat);
             }
             if (helpHover)
             {
-                pea.Graphics.DrawImage(help, 0, 0, buttonWidth, buttonHeight);
+                pea.Graphics.DrawImage(help, maat);
             }
             if (exitHover)
             {
-                pea.Graphics.DrawImage(exit, 0, 0, buttonWidth, buttonHeight);
+                pea.Graphics.DrawImage(exit, maat);
             }
 
             //buildTitle
-            int logoWidth = (int)(menuLogo.Width * verhouding);
-            int logoHeight = (int)(menuLogo.Height * verhouding);
-            pea.Graphics.DrawImage(menuLogo, 0, 0, logoWidth, logoHeight);
+            pea.Graphics.DrawImage(menuLogo, maat);
         }
 
 

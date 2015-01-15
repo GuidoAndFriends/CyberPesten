@@ -10,10 +10,10 @@ namespace CyberPesten
 {
     class Help : Form
     {
-        Bitmap terugBitmap;
+        Bitmap terugBitmap, achtergrond;
         float verhouding;
         bool terugHover;
-        Rectangle terugButton, bounds;
+        Rectangle terugButton, maat, bounds;
         public Spel spel;
         Form menuBack;
         string tekst;
@@ -21,22 +21,34 @@ namespace CyberPesten
         public Help(Form form)
         {
             Text = "CyberPesten: Help";
-            BackgroundImage = (Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Help_achtergrond");
+            maat = System.Windows.Forms.Screen.PrimaryScreen.Bounds;
             FormBorderStyle = FormBorderStyle.None;
             WindowState = FormWindowState.Maximized;
             DoubleBuffered = true;
             this.Show();
             menuBack = form;
 
+            achtergrond = new Bitmap(maat.Width, maat.Height, System.Drawing.Imaging.PixelFormat.Format32bppPArgb);
+            Graphics.FromImage(achtergrond).DrawImage((Bitmap)CyberPesten.Properties.Resources.ResourceManager.GetObject("Help_achtergrond"), maat);
+            BackgroundImage = achtergrond;
+
             terugBitmap = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Terug_button"));
             verhouding = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width / terugBitmap.Width;
             terugButton = new Rectangle(0, (int)(verhouding * 53), (int)(verhouding * 234), (int)(verhouding * 74));
             bounds = new Rectangle((int)(400 * verhouding), (int)(280 * verhouding), (int)(1120 * verhouding), (int)(600 * verhouding));
 
+            this.Paint += this.buildAchtergrond;
             this.Paint += this.selected;
             this.Paint += this.tekenTekst;
             this.MouseMove += this.hover;
             this.MouseClick += this.klik;
+        }
+
+        private void buildAchtergrond(object sender, PaintEventArgs pea)
+        {
+            pea.Graphics.CompositingMode = System.Drawing.Drawing2D.CompositingMode.SourceCopy;
+            pea.Graphics.DrawImage(BackgroundImage, 0, 0);
+            pea.Graphics.CompositingMode = System.Drawing.Drawing2D.CompositingMode.SourceOver;
         }
 
         void tekenTekst(object sender, PaintEventArgs pea)
@@ -61,7 +73,7 @@ namespace CyberPesten
         {
             if (terugHover)
             {
-                pea.Graphics.DrawImage(terugBitmap, 0, 0, (int)(terugBitmap.Width * verhouding), (int)(terugBitmap.Height * verhouding));
+                pea.Graphics.DrawImage(terugBitmap, maat);
             }
 
             Invalidate();

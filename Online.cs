@@ -21,8 +21,8 @@ namespace CyberPesten
         TextBox maakAccountTextbox2 = new TextBox();
         Label maakAccountLabel1 = new Label();
         string CP;
-        Bitmap inlogMenu, login, maakAccount, terug;
-        Rectangle loginButton, maakAccountButton, terugButton;
+        Bitmap inlogMenu, login, maakAccount, terug, achtergrond;
+        Rectangle loginButton, maakAccountButton, terugButton, maat;
         bool loginHover, maakAccountHover, terugHover;
         float verhouding;
         Font arial;
@@ -35,22 +35,26 @@ namespace CyberPesten
             if (!Directory.Exists(GNF)) { Directory.CreateDirectory(GNF); }
             CP = Path.Combine(GNF, "Cyperpesten");
             if (!Directory.Exists(CP)) { Directory.CreateDirectory(CP); }
-            BackgroundImage = (Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Menu_achtergrond");
             FormBorderStyle = FormBorderStyle.None;
             WindowState = FormWindowState.Maximized;
             DoubleBuffered = true;
-            verhouding = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width / BackgroundImage.Width;
-            arial = new Font("Arial", (int)(15 * verhouding));
             menuBack = _menu;
+            maat = System.Windows.Forms.Screen.PrimaryScreen.Bounds;
 
-            inlogMenu = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("online_menu"));
+            achtergrond = new Bitmap(maat.Width, maat.Height, System.Drawing.Imaging.PixelFormat.Format32bppPArgb);
+            Graphics.FromImage(achtergrond).DrawImage((Bitmap)CyberPesten.Properties.Resources.ResourceManager.GetObject("online_menu"), maat);
+            BackgroundImage = achtergrond;
+
             login = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("login_select"));
             maakAccount = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("maak_account_select"));
             terug = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Terug_button"));
+            verhouding = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width / login.Width;
 
             loginButton = new Rectangle((int)(979 * verhouding), (int)(758 * verhouding), (int)(205 * verhouding), (int)(86 * verhouding));
             maakAccountButton = new Rectangle((int)(722 * verhouding), (int)(758 * verhouding), (int)(205 * verhouding), (int)(86 * verhouding));
             terugButton = new Rectangle(0, (int)(verhouding * 53), (int)(verhouding * 234), (int)(verhouding * 74));
+
+            arial = new Font("Arial", (int)(15 * verhouding));
 
             this.Paint += this.buildMenu;
             this.MouseMove += this.hover;
@@ -303,10 +307,15 @@ namespace CyberPesten
             return sBuilder.ToString();
         }
 
+        private void buildAchtergrond(object sender, PaintEventArgs pea)
+        {
+            pea.Graphics.CompositingMode = System.Drawing.Drawing2D.CompositingMode.SourceCopy;
+            pea.Graphics.DrawImage(BackgroundImage, 0, 0);
+            pea.Graphics.CompositingMode = System.Drawing.Drawing2D.CompositingMode.SourceOver;
+        }
+
         private void buildMenu(object sender, PaintEventArgs pea)
         {
-            pea.Graphics.DrawImage(inlogMenu, 0, 0, (int)inlogMenu.Width * verhouding, (int)inlogMenu.Height * verhouding);
-
             if (loginHover)
             {
                 pea.Graphics.DrawImage(login, 0, 0, Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
