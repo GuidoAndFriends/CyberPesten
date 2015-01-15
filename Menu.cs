@@ -118,17 +118,13 @@ namespace CyberPesten
             }
             else
             {
-<<<<<<< HEAD
-                veld = new openSpellenScherm();
-                this.Hide();
-=======
                 lokaalHover = false;
             }
 
             if (settingsButton.Contains(mea.Location))
             {
                 settingsHover = true;
->>>>>>> origin/master
+
             }
             else
             {
@@ -143,25 +139,6 @@ namespace CyberPesten
             {
                 helpHover = false;
             }
-
-<<<<<<< HEAD
-        void veld_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            Online.appendFile("D:\test.txt", e.CloseReason + "\n");
-            veld.Dispose();
-            this.Show();
-=======
-            if (exitButton.Contains(mea.Location))
-            {
-                exitHover = true;
-            }
-            else
-            {
-                exitHover = false;
-            }
->>>>>>> origin/master
-
-            Invalidate();
         }
 
         private void klik(object sender, MouseEventArgs mea)
