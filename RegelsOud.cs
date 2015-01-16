@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace CyberPesten
 {
+    /*
     partial class Spel
     {
-        /*
+        
         public bool speelbaar(Kaart kaart)
         {
             bool speelbaar = false;
@@ -171,6 +172,6 @@ namespace CyberPesten
             pakAantal = 0;
             spelers[spelend].doeZet();
         }
-         */
     }
+    */
 }

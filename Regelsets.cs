@@ -23,7 +23,7 @@ namespace CyberPesten
 
         bool isPakkenMagAltijd(Kaart kaart)
         {
-            if (kaart.Kleur == 4)
+            if (kaart.Kleur == 4 && ((instellingen.regelset == 0 && instellingen.regelsIngeschakeld.Contains(6)) || (instellingen.regelset == 1 && instellingen.regelsIngeschakeld.Contains(5))))
             {
                 return true;
             }
@@ -35,11 +35,11 @@ namespace CyberPesten
         }
         int isPakken(Kaart kaart)
         {
-            if (kaart.Waarde == 2)
+            if (kaart.Waarde == 2 && instellingen.regelsIngeschakeld.Contains(1))
             {
                 return 2;
             }
-            else if (kaart.Kleur == 4)
+            else if (kaart.Kleur == 4 && ((instellingen.regelset == 0 && instellingen.regelsIngeschakeld.Contains(6)) || (instellingen.regelset == 1 && instellingen.regelsIngeschakeld.Contains(5))))
             {
                 return 5;
             }
@@ -51,7 +51,7 @@ namespace CyberPesten
 
         bool isKleurKiezenMagAltijd(Kaart kaart)
         {
-            if (kaart.Waarde == 11)
+            if (kaart.Waarde == 11 && instellingen.regelsIngeschakeld.Contains(0))
             {
                 return true;
             }
@@ -64,7 +64,7 @@ namespace CyberPesten
 
         bool isWacht(Kaart kaart)
         {
-            if (kaart.Waarde == 8)
+            if ((kaart.Waarde == 8 && instellingen.regelset == 0 && instellingen.regelsIngeschakeld.Contains(3)) || (kaart.Waarde == 7 && instellingen.regelset == 1 && instellingen.regelsIngeschakeld.Contains(2)))
             {
                 return true;
             }
@@ -76,7 +76,7 @@ namespace CyberPesten
 
         bool isDraai(Kaart kaart)
         {
-            if (kaart.Waarde == 1)
+            if (kaart.Waarde == 1 && instellingen.regelsIngeschakeld.Contains(0))
             {
                 return true;
             }
@@ -88,7 +88,14 @@ namespace CyberPesten
 
         bool isWas(Kaart kaart)
         {
-            return false;
+            if (kaart.Waarde == 10 && instellingen.regelset == 0 && instellingen.regelsIngeschakeld.Contains(7))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         bool isNogmaals(Kaart kaart)

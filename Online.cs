@@ -21,7 +21,7 @@ namespace CyberPesten
         TextBox maakAccountTextbox2 = new TextBox();
         Label maakAccountLabel1 = new Label();
         string CP;
-        Bitmap inlogMenu, login, maakAccount, terug, achtergrond;
+        Bitmap /*inlogMenu,*/ login, maakAccount, terug, achtergrond;
         Rectangle loginButton, maakAccountButton, terugButton, maat;
         bool loginHover, maakAccountHover, terugHover;
         float verhouding;

@@ -71,7 +71,6 @@ namespace CyberPesten
 
         void regelWacht()
         {
-            status += ". Acht wacht!";
             //Spelend wordt een speler verder gemaakt, maar zonder doeZet() van die speler aan te roepen
             Speler oud = spelers[spelend];
             spelend = (spelend + richting + spelers.Count) % (spelers.Count);

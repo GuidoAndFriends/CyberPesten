@@ -10,8 +10,8 @@ namespace CyberPesten
     class Instellingen
     {
         public int regelset, aantalSpelers;
-        public bool mensSpelend;
-        public List<int> regelsUitgeschakeld, AIIngeschakeld;
+        public bool mensSpelend, muziek;
+        public List<int> regelsIngeschakeld, AIIngeschakeld;
         string instellingenPad;
 
         public Instellingen()
@@ -36,43 +36,55 @@ namespace CyberPesten
             {
                 standaard();
             }
-            System.Diagnostics.Debug.WriteLine("De instellingen zijn: " + regelset + " - " + regelsUitgeschakeld.ToString() + " - " + aantalSpelers + " - " + AIIngeschakeld + " - " + mensSpelend);
+            System.Diagnostics.Debug.WriteLine("De instellingen zijn: " + regelset + " - " + regelsIngeschakeld.ToString() + " - " + aantalSpelers + " - " + AIIngeschakeld + " - " + mensSpelend);
         }
 
         public void lezen()
         {
-            List<string> regels = FileToStringList(instellingenPad);
-
-            //0 regelset
-            regelset = Int32.Parse(regels[0]);
-
-            //1 regels uitgeschakeld
-            string[] delen = regels[1].Split(new char[] { ',' });
-            regelsUitgeschakeld = new List<int>();
-            if (delen[0] != "")
+            try
             {
-                for (int i = 0; i < delen.Length; i++)
+                List<string> regels = FileToStringList(instellingenPad);
+
+                //0 regelset
+                regelset = Int32.Parse(regels[0]);
+
+                //1 regels ingeschakeld
+                string[] delen = regels[1].Split(new char[] { ',' });
+                regelsIngeschakeld = new List<int>();
+                if (delen[0] != "")
                 {
-                    regelsUitgeschakeld.Add(Int32.Parse(delen[i]));
+                    for (int i = 0; i < delen.Length; i++)
+                    {
+                        regelsIngeschakeld.Add(Int32.Parse(delen[i]));
+                    }
                 }
+
+                //2 aantal spelers
+                aantalSpelers = Int32.Parse(regels[2]);
+
+                //3 AI ingeschakeld
+                delen = regels[3].Split(new char[] { ',' });
+                AIIngeschakeld = new List<int>();
+                if (delen[0] != "")
+                {
+                    for (int i = 0; i < delen.Length; i++)
+                    {
+                        AIIngeschakeld.Add(Int32.Parse(delen[i]));
+                    }
+                }
+
+                //4 mens speelt mee
+                mensSpelend = Boolean.Parse(regels[4]);
+
+                //5 muziek
+                mensSpelend = Boolean.Parse(regels[5]);
             }
-
-            //2 aantal spelers
-            aantalSpelers = Int32.Parse(regels[2]);
-
-            //3 AI ingeschakeld
-            delen = regels[3].Split(new char[] {','});
-            AIIngeschakeld = new List<int>();
-            if (delen[0] != "")
+            catch
             {
-                for (int i = 0; i < delen.Length; i++)
-                {
-                    AIIngeschakeld.Add(Int32.Parse(delen[i]));
-                }
+                System.Windows.Forms.MessageBox.Show("Er is iets mis met het instellingenbestand. De instellingen zullen nu gereset worden.");
+                standaard();
             }
-
-            //4 mens speelt mee
-            mensSpelend = Boolean.Parse(regels[4]);
+            
         }
 
         public void schrijven()
@@ -82,16 +94,16 @@ namespace CyberPesten
             //0 regelset
             regels.Add(regelset.ToString());
 
-            //1 regels uitgeschakeld
+            //1 regels ingeschakeld
             string regel = "";
-            if (regelsUitgeschakeld != null)
+            if (regelsIngeschakeld != null)
             {
-                if (regelsUitgeschakeld.Count != 0)
+                if (regelsIngeschakeld.Count != 0)
                 {
-                    regel += regelsUitgeschakeld[0].ToString();
-                    for (int i = 1; i < regelsUitgeschakeld.Count; i++)
+                    regel += regelsIngeschakeld[0].ToString();
+                    for (int i = 1; i < regelsIngeschakeld.Count; i++)
                     {
-                        regel += ',' + regelsUitgeschakeld[i];
+                        regel += "," + regelsIngeschakeld[i].ToString();
                     }
                 }
             }
@@ -118,18 +130,35 @@ namespace CyberPesten
             //4 mens speelt mee
             regels.Add(mensSpelend.ToString());
 
+            //5muziek
+            regels.Add(muziek.ToString());
+
             StringListToFile(regels, instellingenPad);
         }
 
         public void standaard()
         {
             regelset = 0;
-            regelsUitgeschakeld = null;
+
+            regelsIngeschakeld = new List<int>();
+            regelsIngeschakeld.Add(0);
+            regelsIngeschakeld.Add(1);
+            regelsIngeschakeld.Add(2);
+            regelsIngeschakeld.Add(3);
+            regelsIngeschakeld.Add(4);
+            regelsIngeschakeld.Add(5);
+            regelsIngeschakeld.Add(6);
+
             aantalSpelers = 4;
+
             AIIngeschakeld = new List<int>();
             AIIngeschakeld.Add(2);
             AIIngeschakeld.Add(3);
+
             mensSpelend = true;
+
+            muziek = true;
+
             schrijven();
         }
 

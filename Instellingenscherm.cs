@@ -12,7 +12,7 @@ namespace CyberPesten
     {
         Instellingen instellingen;
         NumericUpDown regelsetCon, aantalSpelersCon;
-        TextBox regelsUitgeschakeldCon, AIIngeschakeldCon;
+        TextBox regelsIngeschakeldCon, AIIngeschakeldCon;
         Button mensSpelendCon;
         Menu menu;
         Bitmap terugBitmap, standSetBitmap, achtergrond;
@@ -48,16 +48,16 @@ namespace CyberPesten
             regelsetCon.Location = new Point(220, 50);
             Controls.Add(regelsetCon);
 
-            /*Label regelsUitgeschakeldLab = new Label();
-            regelsUitgeschakeldLab.Text = "Uitgeschakelde regels (1,2,3)";
-            regelsUitgeschakeldLab.BackColor = Color.Transparent;
-            regelsUitgeschakeldLab.Size = new Size(150, 40);
-            regelsUitgeschakeldLab.Location = new Point(50, 150);
-            Controls.Add(regelsUitgeschakeldLab);*/
+            /*Label regelsIngeschakeldLab = new Label();
+            regelsIngeschakeldLab.Text = "Ingeschakelde regels (1,2,3)";
+            regelsIngeschakeldLab.BackColor = Color.Transparent;
+            regelsIngeschakeldLab.Size = new Size(150, 40);
+            regelsIngeschakeldLab.Location = new Point(50, 150);
+            Controls.Add(regelsIngeschakeldLab);*/
 
-            regelsUitgeschakeldCon = new TextBox();
-            regelsUitgeschakeldCon.Location = new Point(220, 150);
-            Controls.Add(regelsUitgeschakeldCon);
+            regelsIngeschakeldCon = new TextBox();
+            regelsIngeschakeldCon.Location = new Point(220, 150);
+            Controls.Add(regelsIngeschakeldCon);
 
             /*Label aantalSpelersLab = new Label();
             aantalSpelersLab.Text = "Aantal spelers";
@@ -73,7 +73,7 @@ namespace CyberPesten
             Controls.Add(aantalSpelersCon);
 
             /*Label AIIngeschakeldLab = new Label();
-            AIIngeschakeldLab.Text = "Uitgeschakelde AI (0,2,3)";
+            AIIngeschakeldLab.Text = "Ingeschakelde AI (0,2,3)";
             AIIngeschakeldLab.BackColor = Color.Transparent;
             AIIngeschakeldLab.Size = new Size(150, 40);
             AIIngeschakeldLab.Location = new Point(50, 350);
@@ -127,15 +127,15 @@ namespace CyberPesten
             this.MouseClick += this.klik;
         }
 
-        void regelsUitgeschakeld(object sender, EventArgs ea)
+        void regelsIngeschakeld(object sender, EventArgs ea)
         {
-            string[] delen = regelsUitgeschakeldCon.Text.Split(new char[] { ',' });
-            instellingen.regelsUitgeschakeld = new List<int>();
+            string[] delen = regelsIngeschakeldCon.Text.Split(new char[] { ',' });
+            instellingen.regelsIngeschakeld = new List<int>();
             if (delen[0] != "")
             {
                 for (int i = 0; i < delen.Length; i++)
                 {
-                    instellingen.regelsUitgeschakeld.Add(Int32.Parse(delen[i]));
+                    instellingen.regelsIngeschakeld.Add(Int32.Parse(delen[i]));
                 }
             }
         }
