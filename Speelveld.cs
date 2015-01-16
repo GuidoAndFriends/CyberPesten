@@ -37,7 +37,9 @@ namespace CyberPesten
         int buttonWidth;
         public Brush laatsteKaartBrush;
 
+        //Tijdelijk
         Button klaver, harten, ruiten, schoppen;
+        Chat chat;
 
         public Speelveld(Menu m, Instellingen instellingen, bool online)
         {
@@ -124,6 +126,12 @@ namespace CyberPesten
             this.Controls.Add(schoppen);
             verbergKleurknoppen();
 
+            chat = new Chat();
+            chat.Size = new Size(300, 100);
+            chat.Location = new Point(Width - 50 - 300, 250);
+            chat.Text = spel.geschiedenis;
+            Controls.Add(chat);
+
             this.Show();
         }
 
@@ -187,6 +195,8 @@ namespace CyberPesten
             gr.DrawImage(homeBitmap, homeButton);
             gr.FillEllipse(laatsteKaartBrush, laatsteKaartButton);
             gr.DrawImage(laatsteKaartBitmap, laatsteKaartButton);
+
+            chat.Text = spel.geschiedenis;
         }
 
         void muisKlik(object sender, MouseEventArgs mea)
@@ -197,10 +207,6 @@ namespace CyberPesten
                 {
                     spel.bezig = false;
                     Help help = new Help(this);
-                    if (Text == "CyberPesten: Lokaal spel")
-                    {
-                        help.spel = spel;
-                    }
                 }
                 else
                 {

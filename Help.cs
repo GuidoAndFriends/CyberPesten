@@ -17,7 +17,7 @@ namespace CyberPesten
         public Spel spel;
         Form menuBack;
 
-        public Help(Form form)
+        public Help(Form form, Spel _spel = null)
         {
             Text = "CyberPesten: Help";
             BackgroundImage = (Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Help_achtergrond");
@@ -30,6 +30,11 @@ namespace CyberPesten
             buttonsBitmap = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Help_buttons"));
             verhouding = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width / buttonsBitmap.Width;
             menuBack = form;
+
+            if (_spel != null)
+            {
+                spel = _spel;
+            }
 
             terugBitmap = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Terug_button"));
             terugButton = new Rectangle(0, (int)(verhouding * 53), (int)(verhouding * 234), (int)(verhouding * 74));

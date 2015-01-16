@@ -38,6 +38,7 @@ namespace CyberPesten
             regelsetCon = new NumericUpDown();
             regelsetCon.Value = instellingen.regelset;
             regelsetCon.Location = new Point(220, 50);
+            regelsetCon.ValueChanged += regelset;
             Controls.Add(regelsetCon);
 
             Label regelsUitgeschakeldLab = new Label();
@@ -45,6 +46,7 @@ namespace CyberPesten
             regelsUitgeschakeldLab.BackColor = Color.Transparent;
             regelsUitgeschakeldLab.Size = new Size(150, 40);
             regelsUitgeschakeldLab.Location = new Point(50, 150);
+            regelsUitgeschakeldLab.TextChanged += regelsUitgeschakeld;
             Controls.Add(regelsUitgeschakeldLab);
 
             regelsUitgeschakeldCon = new TextBox();
@@ -104,6 +106,20 @@ namespace CyberPesten
 
             update();
             this.Show();
+        }
+
+        void regelset(object sender, EventArgs ea)
+        {
+            if (regelsetCon.Value < 0)
+            {
+                regelsetCon.Value = 0;
+            }
+            else if (regelsetCon.Value > 1)
+            {
+                regelsetCon.Value = 1;
+            }
+            instellingen.regelset = (int)regelsetCon.Value;
+            instellingen.schrijven();
         }
 
         void regelsUitgeschakeld(object sender, EventArgs ea)

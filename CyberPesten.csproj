@@ -54,6 +54,9 @@
     </Compile>
     <Compile Include="AI\AI2Pester.cs" />
     <Compile Include="AI\AI3Oke.cs" />
+    <Compile Include="Chat.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Help.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -82,7 +85,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="RegelsOud.cs" />
     <Compile Include="Regels.cs" />
+    <Compile Include="Regelsets.cs" />
     <Compile Include="Speelveld.cs">
       <SubType>Form</SubType>
     </Compile>

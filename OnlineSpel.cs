@@ -28,7 +28,7 @@ namespace CyberPesten
             speciaalTekst = "-1 normaal";
             bezig = true;
             //Online: eigen variant met chat?
-            geschiedenis = new List<string>();
+            geschiedenis = "";
 
             /*
             //Online: niet van toepassing

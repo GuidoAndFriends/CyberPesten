@@ -16,8 +16,7 @@ namespace CyberPesten
         public List<Speler> spelers;
         public Speelveld speelveld;
         public int spelend, richting, speciaal, pakAantal, aantalSpelers;
-        public string status, aantalKaarten, speciaalTekst;
-        public List<string> geschiedenis;
+        public string status, aantalKaarten, speciaalTekst, geschiedenis;
         public System.Timers.Timer timerAI;
         public bool mens;
         public Instellingen instellingen;
@@ -66,7 +65,19 @@ namespace CyberPesten
                         {
                             //laatste kaart en niet gemeld
                             speelKaartNu(hand, index, stapel);
-                            pakKaart(5);
+                            if (instellingen.regelset == 0)
+                            {
+                                pakKaart(5);
+                            }
+                            else if (instellingen.regelset == 1)
+                            {
+                                pakKaart(10);
+                            }
+                            else
+                            {
+                                MessageBox.Show("Deze regelset is nog niet toegepast in de funtie speelKaart in Spel.cs");
+                            }
+                            
                             kaartActie();
                             return true;
                         }
@@ -120,12 +131,12 @@ namespace CyberPesten
 
             if (spelend == 0)
             {
-                status = "Jij speelde " + kaart.tekst;
+                statusNieuw("Jij speelde " + kaart.tekst);
                 spelers[0].updateBlok();
             }
             else
             {
-                status = spelers[spelend].naam + " speelde " + kaart.tekst;
+                statusNieuw(spelers[spelend].naam + " speelde " + kaart.tekst);
             }
             spelers[spelend].updateBlok();
 
@@ -186,12 +197,12 @@ namespace CyberPesten
 
                 if (spelend == 0)
                 {
-                    status = ("Je kon niet en hebt een kaart gepakt");
+                    statusNieuw("Je kon niet en hebt een kaart gepakt");
 
                 }
                 else
                 {
-                    status = (spelers[spelend].naam + " kon niet en heeft een kaart gepakt");
+                    statusNieuw(spelers[spelend].naam + " kon niet en heeft een kaart gepakt");
                 }
                 spelers[spelend].updateBlok();
                 if (speelveld.IsHandleCreated)
@@ -243,6 +254,11 @@ namespace CyberPesten
             {
                 speelveld.Invoke(new Action(() => speelveld.Invalidate()));
                 speelveld.Invoke(new Action(() => speelveld.Update()));
+            }
+
+            if (instellingen.regelset == 1 && speciaal == 4)
+            {
+                pakKaart(pakAantal);
             }
 
             if (spelend != 0)
@@ -311,10 +327,10 @@ namespace CyberPesten
         void statusNieuw(string nieuw)
         {
             status = nieuw;
-            geschiedenis.Add(nieuw);
-            if (geschiedenis.Count > 100)
+            geschiedenis += '\n' + nieuw;
+            if (geschiedenis.Length > 5000)
             {
-                geschiedenis.RemoveAt(0);
+                geschiedenis = geschiedenis.Substring(geschiedenis.Length - 5000);
             }
         }
 
