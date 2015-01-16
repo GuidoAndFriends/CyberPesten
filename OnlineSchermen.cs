@@ -23,7 +23,6 @@ namespace CyberPesten
         string CP;
 
         bool done;
-        Thread helper_thread;
 
         public inlogScherm() { } 
 
@@ -238,7 +237,7 @@ namespace CyberPesten
             }
             else if (maakAccountHover)
             {
-                //Maak account
+                maakAccountKnop_Click();
             }
             else if (terugHover)
             {
@@ -248,7 +247,7 @@ namespace CyberPesten
         }
 
 
-        public void maakAccountKnop_Click(object sender, EventArgs e)
+        public void maakAccountKnop_Click()
         {
             if (maakAccountTextbox1.Text.Length > 3)
             {
@@ -303,31 +302,94 @@ namespace CyberPesten
             }
         }
         public void gaVerder(){
-          /*  if (!done)
-            {
-                helper_thread = new Thread(wachtEven);
-            }
-            else
-            {
-                this.Close();
-                helper_thread.Abort();
-            }*/
-        }
-        public void wachtEven(){
-            Thread.Sleep(500);
-            done = true;
-            gaVerder();
-            
+
+            //deze functie zou het programma (misschien via een splashscreen) naar het openspellenScherm moeten leiden
+
         }
 
     }
 
     class lobbyScherm : Form
     {
+        public string[] deelnemers;
+        public string[] rankings;//nog niet zo relevant
+        public bool begonnen = false;
+        Thread data_thread;
+   
         public lobbyScherm()
         {
-
+            BackgroundImage = (Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("groen");
+            ClientSize = new Size(1000, 800);//moet nog naar fullscreen
+            DoubleBuffered = true;
+            this.Show();
+            data_thread = new Thread(dataThread);
+            data_thread.Start();
+            //volgende dingen zijn nodig: 
+            //gedeelte met huidige deelnemers (en hun ranking)
+            //een plek om de chat te dumpen
+            //een knop voor de host om de game te starten (start_spel)
+            //een knop om de game te leaven/te verwijderen (voor de host alleen) (leave_spel/delete_spel)
+            //die knp moet een bevestiging opleveren
         }
+
+        public void sluitThreads(object sender, EventArgs e)
+        {
+            try
+            {
+                data_thread.Abort();
+            }
+            catch { }
+        }
+
+        public bool start_spel()
+        {
+            string raw = Online.PHPrequest("http://harbingerofme.info/GnF/start_game.php", new string[] { "name", "token" }, new string[] { Online.username, Online.token });
+            begonnen = true;
+            return raw == "Ja";
+        }
+
+        public bool leave_spel()
+        {
+            string raw = Online.PHPrequest("http://harbingerofme.info/GnF/leave_game.php", new string[] { "name", "token" , "spelid"}, new string[] { Online.username, Online.token, Online.game.ToString() });
+            return raw == "ja";
+        }
+
+        public bool delete_spel()
+        {
+            string raw = Online.PHPrequest("http://harbingerofme.info/GnF/delete_game.php", new string[] { "name", "token", "spelid" }, new string[] { Online.username, Online.token, Online.game.ToString() });
+            if (raw == "ja")
+            {
+                raw = Online.PHPrequest("http://harbingerofme.info/GnF/delete_messages.php", new string[] { "name", "token", "spelid" }, new string[] { Online.username, Online.token, Online.game.ToString() });
+            }
+            return raw == "ja";
+        }
+
+        public bool stuur_chat(string bericht)
+        {
+            string raw = Online.PHPrequest("http://harbingerofme.info/GnF/add_message.php", new string[] { "name", "token", "gameid","message" }, new string[] { Online.username, Online.token, Online.game.ToString(),bericht });
+            return raw == "ja";
+        }
+
+        public void dataThread()
+        {
+            string berichten_raw, status_raw, deelnemers_raw;
+            while (begonnen == false)
+            {
+                status_raw = Online.PHPrequest("http://harbingerofme.info/GnF/get_game_status.php", new string[] { "name", "token", "spelid" }, new string[] { Online.username, Online.token, Online.game.ToString() });
+                if (status_raw == "2")
+                {
+                    begonnen = true;
+                }
+                deelnemers_raw = Online.PHPrequest("http://harbingerofme.info/GnF/get_game_deelnemers.php", new string[] { "name", "token", "spelid" }, new string[] { Online.username, Online.token, Online.game.ToString() });
+                //doe er iets mee (manier om deelnemers te laten zien mist nog)
+                berichten_raw = Online.PHPrequest("http://harbingerofme.info/GnF/read_messages.php",new string[] {"name","token","gameid"},new string[] {Online.username,Online.token,Online.game.ToString()});
+                //doe er iets mee (manier om chat te laten zien mist nog)
+
+                Thread.Sleep(1000);//slaap voor een seconde.
+            }
+            //begonnen is veranderd, ga naar het spel
+        }
+
     }
 
 
@@ -341,28 +403,53 @@ namespace CyberPesten
             DoubleBuffered = true;
             this.Show();
 
-
-            Online.username = "Guido";
-            Online.token = "9e6a2c7a42c27b5852d709f162f21332";
             online_openSpel[] list = krijgSpellen();
             if(list.Count()>0){
                 foreach (online_openSpel oo in list) { 
                 //laat het zien
-                
+                    //misschien http://msdn.microsoft.com/en-us/library/system.windows.forms.containercontrol(v=vs.110).aspx
+                    //naast elke entry moet een knop komen met join game, die moet join_spel(int spelid) aan roepen (te vinden met oo.id)
                 }
             }
             else
             {
                 //laat zien: Geen open spellen gevonden.
             }
+            
+            //er is een knop nodig die laat zien create game, met de volgende opties daarin:
+            // spelnaam, aantal max spelers en regelset
+            // stuur ze dan inclusief parameters door naar create_spel(string spelnaam, int spelers,string/int regelset)
+
+            //als één van de knoppen true retourneert, moet er naar het volgende scherm gegaan worden: lobbyScherm
         }
 
-
+        public bool create_spel(string spelnaam, int spelers, string regelset)
+        {
+            int seed = new Random().Next(400000000);
+            string raw = Online.PHPrequest("http://harbingerofme.info/GnF/create_game.php", new string[] { "name", "token", "seed", "naam", "aantal", "metadata" }, new string[] { Online.username, Online.token, seed.ToString(), spelnaam, spelers.ToString(), regelset });
+            if(raw.StartsWith("Error:")){
+                return false;
+            }
+            else{
+                Online.game = int.Parse(raw);
+                Online.onlineRandom = new Random(seed);
+            return true;
+            }
+        } 
 
         public bool join_spel(int spelid)
         {
             string raw = Online.PHPrequest("http://harbingerofme.info/GnF/join_game.php", new string[] { "name", "token","spelid" }, new string[] { Online.username, Online.token,spelid.ToString() });
-            return raw == "ja";//kweenie volgens mij moet er iets meer gebeuren
+            if (raw.StartsWith("Error:"))
+            {
+                return false;
+            }
+            else
+            {
+                Online.onlineRandom = new Random(int.Parse(raw));
+                Online.game = spelid;
+                return true;
+            }
         }
 
 
@@ -379,12 +466,17 @@ namespace CyberPesten
                 {
                     string substr = copy.Substring(1, copy.IndexOf('}') - 1);//misschien hoeft die min 1 niet? Testen nodig.
                     string[] splits = substr.Split('|');
-                    string[] temp = splits[3].Split(',');string temp2 = "";
-                    for(int i = 1; i<temp.Count();i++){
+                    string[] temp = splits[2].Split(',');string temp2 = "";
+                    List<string> temp4 =  new List<string>();
+                    foreach (string dn in temp)
+                    {
+                        temp4.AddRange(dn.Split(';'));
+                    }
+                    for(int i = 2; i<temp4.Count();i+=2){
                         temp2 += temp[i]+" ";
                     }
                     temp2 = temp2.Trim();
-                    returnal.Add(new online_openSpel(int.Parse(splits[0]),"Missend",temp.Count(),int.Parse(splits[2]),splits[5],splits[4].Equals("2"),temp[0],temp2));
+                    returnal.Add(new online_openSpel(int.Parse(splits[0]),"Missend",temp.Count(),int.Parse(splits[1]),splits[4],splits[3].Equals("2"),temp4[0],temp2));
 
                 }
             }
@@ -439,6 +531,8 @@ namespace CyberPesten
         public static string username;
         public static string token;
         public static int game;
+        public static Random onlineRandom;
+        public bool is_host;
 
 
         //onderstaande methoden moeten waarschijnlijk naar een hoger niveua verplaatst worden
