@@ -36,7 +36,7 @@ namespace CyberPesten
             {
                 standaard();
             }
-            
+            System.Diagnostics.Debug.WriteLine("De instellingen zijn: " + regelset + " - " + regelsUitgeschakeld.ToString() + " - " + aantalSpelers + " - " + AIIngeschakeld + " - " + mensSpelend);
         }
 
         public void lezen()
@@ -60,7 +60,7 @@ namespace CyberPesten
             //2 aantal spelers
             aantalSpelers = Int32.Parse(regels[2]);
 
-            //3 AI uitgeschakeld
+            //3 AI ingeschakeld
             delen = regels[3].Split(new char[] {','});
             AIIngeschakeld = new List<int>();
             if (delen[0] != "")
@@ -100,7 +100,7 @@ namespace CyberPesten
             //2 aantal spelers
             regels.Add(aantalSpelers.ToString());
 
-            //3 AI uitgeschakeld
+            //3 AI ingeschakeld
             regel = "";
             if (AIIngeschakeld != null)
             {

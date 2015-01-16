@@ -93,7 +93,7 @@ namespace CyberPesten
 
         bool isNogmaals(Kaart kaart)
         {
-            if (kaart.Waarde == 7 || kaart.Waarde == 13)
+            if (kaart.Waarde == 13 || (instellingen.regelset == 0 && kaart.Waarde == 7) || (instellingen.regelset == 1 && kaart.Waarde == 8))
             {
                 return true;
             }
@@ -105,7 +105,7 @@ namespace CyberPesten
 
         bool isOverslaan(Kaart kaart)
         {
-            if (kaart.Waarde == 8)
+            if ((instellingen.regelset == 0 && kaart.Waarde == 8) || (instellingen.regelset == 1 && kaart.Waarde == 7))
             {
                 return true;
             }
@@ -243,11 +243,11 @@ namespace CyberPesten
          *
          * Regel 2
          * 7
-         * Huidige speler mag nog een keer spelen
+         * Volgende speler wordt overgeslagen!
          *
          * Regel 3
          * 8
-         * Volgende speler wordt overgeslagen
+         * Huidige speler mag nog een keer spelen!
          * 
          * Regel 4
          * Boer (J, waarde 11)

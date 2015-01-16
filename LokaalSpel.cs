@@ -85,6 +85,7 @@ namespace CyberPesten
             s.Invalidate();
             if (instellingen.regelset == 1)
             {
+                spelend = (spelend - richting + spelers.Count) % (spelers.Count);
                 kaartActie();
             }
             if (! mens)

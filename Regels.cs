@@ -51,6 +51,14 @@ namespace CyberPesten
             {
                 kaartActie0();
             }
+            else if (instellingen.regelset == 1)
+            {
+                kaartActie1();
+            }
+            else
+            {
+                System.Windows.Forms.MessageBox.Show("Regelset is nog niet geimplementeerd in kaartActie() in Regels.cs");
+            }
         }
 
         void regelPakken(int aantal)
