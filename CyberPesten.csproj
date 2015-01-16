@@ -101,6 +101,7 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\Settings achtergrond.png" />
     <None Include="Resources\Terug button.png" />
     <None Include="Resources\StandSet button.png" />
     <None Include="Resources\Settings buttons.png" />
