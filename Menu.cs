@@ -146,16 +146,19 @@ namespace CyberPesten
             if (onlineHover)
             {
                 Form veld = new inlogScherm(this);
+                veld.FormClosed += veld_FormClosed;
                 this.Hide();
             }
             else if (lokaalHover)
             {
                 Form veld = new Speelveld(this, instellingen, false);
+                veld.FormClosed += veld_FormClosed;
                 this.Hide();
             }
             else if (helpHover)
             {
                 Help help = new Help(this);
+                help.FormClosed += veld_FormClosed;
                 this.Hide();
             }
             else if (settingsHover)
@@ -163,15 +166,26 @@ namespace CyberPesten
                 if (mea.Button == MouseButtons.Right)
                 {
                     InstellingenschermOud instellingenschermOud = new InstellingenschermOud(this);
+                    instellingenschermOud.FormClosed += veld_FormClosed;
                     this.Hide();
                 }
                 else
                 {
                     Instellingenscherm instellingenscherm = new Instellingenscherm(this);
+                    instellingenscherm.FormClosed += veld_FormClosed;
                     this.Hide();
                 }
             }
             else if (exitHover)
+            {
+                Application.Exit();
+            }
+        }
+
+        public void veld_FormClosed(object o, EventArgs e)
+        {
+            if (this.Visible) { }
+            else
             {
                 Application.Exit();
             }

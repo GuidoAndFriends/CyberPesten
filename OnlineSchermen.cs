@@ -22,10 +22,6 @@ namespace CyberPesten
         Label maakAccountLabel1 = new Label();
         string CP;
 
-        bool done;
-
-        public inlogScherm() { } 
-
         Bitmap inlogMenu, login, maakAccount, terug;
         Rectangle loginButton, maakAccountButton, terugButton;
         bool loginHover, maakAccountHover, terugHover;
@@ -36,16 +32,6 @@ namespace CyberPesten
 
         public inlogScherm(Form _menu)
         {
-            BackgroundImage = (Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("groen");
-            ClientSize = new Size(1000, 800);//moet nog naar fullscreen
-            DoubleBuffered = true;
-
-
-            String bericht;
-            string GNF = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),"Guido&Friends");
-            if (!Directory.Exists(GNF)) { Directory.CreateDirectory(GNF); }
-            CP = Path.Combine(GNF, "Cyperpesten");
-            if (!Directory.Exists(CP)) { Directory.CreateDirectory(CP); }
             BackgroundImage = (Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Menu_achtergrond");
             FormBorderStyle = FormBorderStyle.None;
             WindowState = FormWindowState.Maximized;
@@ -54,6 +40,11 @@ namespace CyberPesten
             arial = new Font("Arial", (int)(15 * verhouding));
             menuBack = _menu;
 
+            String bericht;
+            string GNF = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),"Guido&Friends");
+            if (!Directory.Exists(GNF)) { Directory.CreateDirectory(GNF); }
+            CP = Path.Combine(GNF, "Cyperpesten");
+            if (!Directory.Exists(CP)) { Directory.CreateDirectory(CP); }
             inlogMenu = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("online_menu"));
             login = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("login_select"));
             maakAccount = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("maak_account_select"));
@@ -67,116 +58,62 @@ namespace CyberPesten
             this.MouseMove += this.hover;
             this.MouseClick += this.klik;
 
-            string inlogPath = Path.Combine(CP,"inlogData.cyberpesten");
-            if(File.Exists(inlogPath)){//misschien een knop om van account te wisselen
-                string[] s = Online.FileLines(inlogPath);
-                string[] str2 = {"name","unid"};
-                string[] str3 = {s[0],s[1]};
-                string str1 = Online.PHPrequest("http://harbingerofme.info/GnF/login.php",str2,str3);
-                if(str1 == "ja"){
-                    bericht = s[0]+", je bent succesvol ingelogd. Welkom terug, vriend!";
-                    Online.username = s[0];
-                    Online.token = s[1];
-                    gaVerder();
-                }else{
-                    bericht = "Er is iets misgegaan, kijk op onze site voor hulp!";
-                }
-                               
-            }else{//als er nog geen inlog bestand bestaat.
-                /*bericht = "Welkom!";
-                a = new PictureBox();
-                a.BackColor = Color.Transparent;
-                a.Top = 0;
-                a.Left = 0;
-                a.Width = 4000;
-                a.Height = 4000;
-                a.Visible = true;
+            maakAccountTextbox1.AcceptsReturn = false;
+            maakAccountTextbox1.AcceptsTab = false;
+            maakAccountTextbox1.BackColor = Color.White;
+            maakAccountTextbox1.MaxLength = 20;
+            maakAccountTextbox1.TextAlign = HorizontalAlignment.Left;
+            maakAccountTextbox1.Top = (int)(485 * verhouding);
+            maakAccountTextbox1.Left = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width / 2 - (int)(80 * verhouding);
+            maakAccountTextbox1.Width = (int)(320 * verhouding);
+            maakAccountTextbox1.ShortcutsEnabled = true;//staat de gebruiker toe om te plakken, of om control+a te drukken, etc.
+            maakAccountTextbox1.TabIndex = 0;
+            maakAccountTextbox1.Parent = a;
+            maakAccountTextbox1.Font = arial;
 
-                maakAccountLabel1.Font = new Font("Arial", 15);
-                maakAccountLabel1.Top = 85;
-                maakAccountLabel1.Left = 30;
-                maakAccountLabel1.Text = "Om gebruik te kunnen maken van de online modus, hebben wij je naam nodig.\nJe email is ook handig. Dit adres zal alleen gebruikt worden voor accountmigratie.";
-                maakAccountLabel1.Width = 1000;
-                maakAccountLabel1.Height = 200;
-                maakAccountLabel1.BackColor = Color.Transparent;
-                maakAccountLabel1.Parent = a;
+            maakAccountTextbox2 = new TextBox();
+            maakAccountTextbox2.AcceptsReturn = false;
+            maakAccountTextbox2.AcceptsTab = false;
+            maakAccountTextbox2.ShortcutsEnabled = true;
+            maakAccountTextbox2.BackColor = Color.White;
+            maakAccountTextbox2.TextAlign = HorizontalAlignment.Left;
+            maakAccountTextbox2.Top = (int)(570 * verhouding);
+            maakAccountTextbox2.Left = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width / 2 - (int)(80 * verhouding);
+            maakAccountTextbox2.Width = (int)(320 * verhouding);
+            maakAccountTextbox2.TabIndex = 1;
+            maakAccountTextbox2.Parent = a;
+            maakAccountTextbox2.Font = arial;
 
-                Label maakAccountLabel2 = new Label();
-                maakAccountLabel2.Font = new Font("Arial", 12);
-                maakAccountLabel2.Top = 150;
-                maakAccountLabel2.Left = 30;
-                maakAccountLabel2.Text = "Naam (verplicht):";
-                maakAccountLabel2.Width = 600;
-                maakAccountLabel2.BackColor = Color.Transparent;
-                maakAccountLabel2.Height = 200;
-                maakAccountLabel2.Parent = a;*/
+            Controls.Add(maakAccountTextbox2);
+            Controls.Add(maakAccountTextbox1);
 
-                maakAccountTextbox1.AcceptsReturn = false;
-                maakAccountTextbox1.AcceptsTab = false;
-                maakAccountTextbox1.BackColor = Color.White;
-                maakAccountTextbox1.MaxLength = 20;
-                maakAccountTextbox1.TextAlign = HorizontalAlignment.Left;
-                maakAccountTextbox1.Top = (int)(485 * verhouding);
-                maakAccountTextbox1.Left = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width / 2 - (int)(80 * verhouding);
-                maakAccountTextbox1.Width = (int)(320 * verhouding);
-                maakAccountTextbox1.ShortcutsEnabled = true;//staat de gebruiker toe om te plakken, of om control+a te drukken, etc.
-                maakAccountTextbox1.TabIndex = 0;
-                maakAccountTextbox1.Parent = a;
-                maakAccountTextbox1.Font = arial;
 
-                /*Label maakAccountLabel3 = new Label();
-                maakAccountLabel3.Font = new Font("Arial", 12);
-                maakAccountLabel3.Top = 180;
-                maakAccountLabel3.Left = 30;
-                maakAccountLabel3.Text = "Email (optioneel):";
-                maakAccountLabel3.Width = 600;
-                maakAccountLabel3.BackColor = Color.Transparent;
-                maakAccountLabel3.Height = 200;
-                maakAccountLabel3.Parent = a;*/
-               
-
-                maakAccountTextbox2 = new TextBox();
-                maakAccountTextbox2.AcceptsReturn = false;
-                maakAccountTextbox2.AcceptsTab = false;
-                maakAccountTextbox2.ShortcutsEnabled = true;
-                maakAccountTextbox2.BackColor = Color.White;
-                maakAccountTextbox2.TextAlign = HorizontalAlignment.Left;
-                maakAccountTextbox2.Top = (int)(570 * verhouding);
-                maakAccountTextbox2.Left = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width / 2 - (int)(80 * verhouding);
-                maakAccountTextbox2.Width = (int)(320 * verhouding);
-                maakAccountTextbox2.TabIndex = 1;
-                maakAccountTextbox2.Parent = a;
-                maakAccountTextbox2.Font = arial;
-
-                /*Button maakAccountKnop = new Button();
-                maakAccountKnop.AutoSize = true;
-                maakAccountKnop.Font = new Font("Arial", 20);
-                maakAccountKnop.Text = "Maak Account";
-                maakAccountKnop.Top = 210;
-                maakAccountKnop.Left = 30;
-                maakAccountKnop.Parent = a;
-                maakAccountKnop.Click += maakAccountKnop_Click;*/
-                //int.Parse("assda");
-                //Controls.Add(a);
-                //Controls.Add(maakAccountKnop);
-                Controls.Add(maakAccountTextbox2);
-                //Controls.Add(maakAccountLabel3);
-                Controls.Add(maakAccountTextbox1);
-                //Controls.Add(maakAccountLabel2);
-                //Controls.Add(maakAccountLabel1);
-                maakAccountTextbox1.Select();
-            }
-            /*berichtHouder = new Label();
-            berichtHouder.Text = bericht;
-            berichtHouder.Left = 30;
-            berichtHouder.Top = 30;
-            berichtHouder.Width = 1000;
-            berichtHouder.Height = 200;
+            maakAccountTextbox1.Select();
+            berichtHouder = new Label();
+            berichtHouder.Text = "";
+            berichtHouder.Left = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width / 2 - (int)(300 * verhouding);
+            berichtHouder.Top = (int)(400*verhouding);
+            berichtHouder.TextAlign = ContentAlignment.TopCenter;
+            berichtHouder.Width = (int)(600*verhouding);
+            berichtHouder.Height = (int)(80*verhouding);
             berichtHouder.BackColor = Color.Transparent;
-            berichtHouder.Font = new Font("Arial", 40);
-            Controls.Add(berichtHouder);*/
+            berichtHouder.ForeColor = Color.Red;
+            berichtHouder.Font = new Font("Arial", (int)(20*verhouding));
+            Controls.Add(berichtHouder);
 
             this.Show();
+
+
+            string inlogPath = Path.Combine(CP, "inlogData.cyberpesten");
+            if (File.Exists(inlogPath))
+            {
+                string[] s = Online.FileLines(inlogPath);
+                Online.username = s[0];
+                Online.token = s[1];
+                gaVerder();
+
+            }
+
         }
 
         private void buildMenu(object sender, PaintEventArgs pea)
@@ -268,14 +205,14 @@ namespace CyberPesten
                         string str12 = Online.PHPrequest("http://harbingerofme.info/GnF/login.php", str1, str2);//we sturen wat data meer, maar dat maakt niet uit
                         if (str12 == "ja")
                         {
-                            maakAccountLabel1.Text = str2[0] + ", je account is aangemaakt, en je bent alvast ingelogd";
+                            berichtHouder.Text = str2[0] + ", je account is aangemaakt, en je bent alvast ingelogd";
                             Online.username = str2[0];
                             Online.token = str2[3];
                             gaVerder();
                         }
                         else
                         {
-                            maakAccountLabel1.Text = str2[0] + ", je account is aangemaakt, maar er is iets mis gegaan bij het inloggen. Contacteer ons gelijk.";//Dit zou niet moeten kunnen gebeuren.
+                            berichtHouder.Text = str2[0] + ", je account is aangemaakt, maar er is iets mis gegaan bij het inloggen. Contacteer ons gelijk.";//Dit zou niet moeten kunnen gebeuren.
                         }
                     }
                     else//fout in het opslaan van de gegevens
@@ -288,39 +225,53 @@ namespace CyberPesten
                 {
                     if (ret.Contains("naam"))
                     {
-                        this.maakAccountLabel1.Text = "Er is iets fout gegaan, controleer of je naam geldig is, en probeer het opnieuw.";
+                        this.berichtHouder.Text = "Er is iets fout gegaan, controleer of je naam geldig is, en probeer het opnieuw.";
                     }
                     if (ret.Contains("database"))
                     {
-                        this.maakAccountLabel1.Text = "Er is iets fout gegaan in onze database, probeer het opnieuw.";
+                        this.berichtHouder.Text = "Er is iets fout gegaan in onze database, probeer het opnieuw.";
                     }
                     if (ret.Contains("gegevens"))
                     {
-                        this.maakAccountLabel1.Text = "Er is iets fout gegaan, controleer of je gegevens kloppen";
+                        this.berichtHouder.Text = "Er is iets fout gegaan, controleer of je gegevens kloppen.";
                     }
                 }
             }
         }
         public void gaVerder(){
-
+            Form Veld = new openSpellenScherm(menuBack);
+            Veld.FormClosed += Veld_FormClosed;
+            this.Hide();
             //deze functie zou het programma (misschien via een splashscreen) naar het openspellenScherm moeten leiden
+        }
 
+        public void Veld_FormClosed(object o, EventArgs e){
+            Close();
         }
 
     }
 
     class lobbyScherm : Form
     {
+        float verhouding;
+        Font arial;
+
+
         public string[] deelnemers;
         public string[] rankings;//nog niet zo relevant
         public bool begonnen = false;
         Thread data_thread;
-   
-        public lobbyScherm()
+
+        Form menuBack;
+        public lobbyScherm(Form back)
         {
-            BackgroundImage = (Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("groen");
-            ClientSize = new Size(1000, 800);//moet nog naar fullscreen
+            menuBack = back;
+            BackgroundImage = (Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Menu_achtergrond");
+            FormBorderStyle = FormBorderStyle.None;
+            WindowState = FormWindowState.Maximized;
             DoubleBuffered = true;
+            verhouding = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width / BackgroundImage.Width;
+            arial = new Font("Arial", (int)(15 * verhouding));
             this.Show();
             data_thread = new Thread(dataThread);
             data_thread.Start();
@@ -389,32 +340,29 @@ namespace CyberPesten
             }
             //begonnen is veranderd, ga naar het spel
         }
-
     }
 
-
-    class openSpellenScherm : Form
-    {
-
-        public openSpellenScherm()
+class openSpellenScherm : Form
         {
-            BackgroundImage = (Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("groen");
-            ClientSize = new Size(1000, 800);//moet nog naar fullscreen
-            DoubleBuffered = true;
-            this.Show();
 
-            online_openSpel[] list = krijgSpellen();
-            if(list.Count()>0){
-                foreach (online_openSpel oo in list) { 
-                //laat het zien
-                    //misschien http://msdn.microsoft.com/en-us/library/system.windows.forms.containercontrol(v=vs.110).aspx
-                    //naast elke entry moet een knop komen met join game, die moet join_spel(int spelid) aan roepen (te vinden met oo.id)
-                }
-            }
-            else
-            {
-                //laat zien: Geen open spellen gevonden.
-            }
+    Form menuBack;
+    float verhouding;
+    Font arial;
+    Control container = new Control();
+
+        public openSpellenScherm(Form back)
+        {
+            menuBack = back;
+            BackgroundImage = (Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Menu_achtergrond");
+            FormBorderStyle = FormBorderStyle.None;
+            WindowState = FormWindowState.Maximized;
+            DoubleBuffered = true;
+            verhouding = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width / BackgroundImage.Width;
+            arial = new Font("Arial", (int)(15 * verhouding));
+            this.Show();
+            container.Location = new Point(0,0);
+            Controls.Add(container);
+            laatSpellenzien();
             
             //er is een knop nodig die laat zien create game, met de volgende opties daarin:
             // spelnaam, aantal max spelers en regelset
@@ -423,6 +371,91 @@ namespace CyberPesten
             //als één van de knoppen true retourneert, moet er naar het volgende scherm gegaan worden: lobbyScherm
         }
 
+        public void laatSpellenzien()
+        {
+            online_openSpel[] list = krijgSpellen();
+            if (list.Count() > 0)
+            {
+                int a = 0;
+                foreach (online_openSpel oo in list)
+                {
+                    Label lbl1 = new Label();
+                    lbl1.Top = (int)((100 + a * 15) * verhouding);
+                    lbl1.Left = (int)(10 * verhouding);
+                    lbl1.Text = oo.spelnaam;
+                    lbl1.Font = arial;
+                    lbl1.BackColor = Color.Transparent;
+                    lbl1.ForeColor = Color.White;
+                    lbl1.Size = new Size((int)(200 * verhouding), (int)(20 * verhouding));
+                    lbl1.Parent = container;
+                    Controls.Add(lbl1);
+
+                    Label lbl2 = new Label();
+                    lbl2.Top = (int)((100 + a * 15) * verhouding);
+                    lbl2.Left = (int)(210 * verhouding);
+                    lbl2.Text = oo.host;
+                    lbl2.Font = arial;
+                    lbl2.BackColor = Color.Transparent;
+                    lbl2.ForeColor = Color.White;
+                    lbl2.Size = new Size((int)(150 * verhouding), (int)(20 * verhouding));
+                    lbl2.Parent = container;
+                    Controls.Add(lbl2);
+
+                    Label lbl3 = new Label();
+                    lbl3.Top = (int)((100 + a * 15) * verhouding);
+                    lbl3.Left = (int)(360 * verhouding);
+                    lbl3.Text = oo.spelerAantal + "/" + oo.maxSpelerAantal;
+                    lbl3.Font = arial;
+                    lbl3.BackColor = Color.Transparent;
+                    lbl3.ForeColor = Color.White;
+                    lbl3.Size = new Size((int)(60 * verhouding), (int)(20 * verhouding));
+                    lbl3.Parent = container;
+                    Controls.Add(lbl3);
+
+                    Label lbl4 = new Label();
+                    lbl4.Top = (int)((100 + a * 15) * verhouding);
+                    lbl4.Left = (int)(420 * verhouding);//420 blaze it
+                    lbl4.Text = oo.Spelregel;
+                    lbl4.Font = arial;
+                    lbl4.BackColor = Color.Transparent;
+                    lbl4.ForeColor = Color.White;
+                    lbl4.Size = new Size((int)(100 * verhouding), (int)(20 * verhouding));
+                    lbl4.Parent = container;
+                    Controls.Add(lbl4);
+
+                    PictureBox but5 = new PictureBox();
+                    but5.Name = oo.id.ToString();
+                    //but5.Image = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Join_knop"));
+                    but5.Size =  new Size((int)(152*verhouding),(int)(47*verhouding));
+                    but5.Location = new Point((int)((100 + a * 15) * verhouding), (int)(520 * verhouding));
+                    but5.Parent = container;
+                    but5.Click += join_Click;
+                    Controls.Add(but5);
+
+                    a++;
+                }
+            }
+            else
+            {
+                Label lbl = new Label();
+                lbl.Top = (int)((115) * verhouding);
+                lbl.Left = (int)(10 * verhouding);
+                lbl.Text = "Geen spellen gevonden";
+                lbl.Font = arial;
+                lbl.ForeColor = Color.White;
+                lbl.Size = new Size((int)(200 * verhouding), (int)(20 * verhouding));
+                Controls.Add(lbl);
+            }
+        }
+
+        public void join_Click(object sender, EventArgs e)
+        {
+            PictureBox but = (PictureBox)sender;
+            if(join_spel(int.Parse(but.Name))){
+                ga_verder();
+            }
+        }
+        
         public bool create_spel(string spelnaam, int spelers, string regelset)
         {
             int seed = new Random().Next(400000000);
@@ -452,7 +485,25 @@ namespace CyberPesten
             }
         }
 
+        public void ga_verder()
+        {
+            this.Hide();
+            Form veld = new lobbyScherm(this);
+            veld.FormClosing += veld_FormClosing;
+        }
 
+        public void veld_FormClosing(object o, EventArgs e)
+        {
+            lobbyScherm sender = (lobbyScherm) o;
+            if (!this.Visible)
+            {
+                this.Show();
+                if (!sender.leave_spel())
+                {
+                    sender.delete_spel();
+                }
+            }
+        }
 
 
         public online_openSpel[] krijgSpellen()
@@ -477,6 +528,7 @@ namespace CyberPesten
                     }
                     temp2 = temp2.Trim();
                     returnal.Add(new online_openSpel(int.Parse(splits[0]),"Missend",temp.Count(),int.Parse(splits[1]),splits[4],splits[3].Equals("2"),temp4[0],temp2));
+                    copy =  copy.Substring(copy.IndexOf('}')+1);
 
                 }
             }
@@ -497,19 +549,6 @@ namespace CyberPesten
         public int id;//voor het archief
 
         //wachtwoord?
-
-
-        public online_openSpel(string spelname, int spelers, int maxSpelers,string regels, bool gestart)//goed genoeg voor testen
-        {
-            spelnaam = spelname;
-            spelerAantal = spelers;
-            maxSpelerAantal = maxSpelers;
-            Spelregel = regels;
-            begonnen = gestart;
-            host = "Guido";
-            tags = "naam:"+spelnaam + "regels:"+regels + spelernamen + "host:"+host;
-            
-        }
 
         public online_openSpel(int ID, string spelname, int spelers, int maxSpelers,string regels, bool gestart, string hoster, string spelernames)//wat we echt gaan gebruiken
         {

@@ -41,10 +41,6 @@
   <ItemGroup>
     <None Include=".gitignore" />
     <None Include="App.config" />
-    <None Include="Resources\hart.xcf" />
-    <None Include="Resources\klaver.xcf" />
-    <None Include="Resources\ruit.xcf" />
-    <None Include="Resources\schop.xcf" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AI\AI1NietGek.cs" />
@@ -147,7 +143,6 @@
     <None Include="Resources\Gradient.png" />
     <None Include="Resources\Exit button.png" />
     <None Include="Resources\Faded buttons.png" />
-    <Content Include="Resources\harten.png" />
     <None Include="Resources\Help.png" />
     <None Include="Resources\HJ.png" />
     <None Include="Resources\HK.png" />
@@ -155,9 +150,7 @@
     <None Include="Resources\Joker.png" />
     <None Include="Resources\Help button.png" />
     <None Include="Resources\Home button.png" />
-    <None Include="Resources\Help achtergrond.png" />
     <None Include="Resources\Help buttons.png" />
-    <Content Include="Resources\klavers.png" />
     <None Include="Resources\Menu achtergrond.png" />
     <None Include="Resources\Menu logo.png" />
     <None Include="Resources\Lokaal.png" />
@@ -167,7 +160,6 @@
     <None Include="Resources\online menu.png" />
     <None Include="Resources\login select.png" />
     <None Include="Resources\maak account select.png" />
-    <Content Include="Resources\ruiten.png" />
     <None Include="Resources\S2.png" />
     <None Include="Resources\S3.png" />
     <None Include="Resources\S4.png" />
@@ -178,7 +170,6 @@
     <None Include="Resources\S9.png" />
     <None Include="Resources\S10.png" />
     <None Include="Resources\SA.png" />
-    <Content Include="Resources\schoppen.png" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -186,6 +177,9 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\Join knop.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
