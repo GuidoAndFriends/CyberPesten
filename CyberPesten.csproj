@@ -153,6 +153,7 @@
     <None Include="Resources\Gradient.png" />
     <None Include="Resources\Exit button.png" />
     <None Include="Resources\Faded buttons.png" />
+    <Content Include="Resources\Einde beurt.png" />
     <Content Include="Resources\harten.png" />
     <None Include="Resources\Help.png" />
     <None Include="Resources\HJ.png" />

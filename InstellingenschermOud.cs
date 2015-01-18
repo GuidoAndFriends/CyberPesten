@@ -11,7 +11,7 @@ namespace CyberPesten
     class InstellingenschermOud : Form
     {
         Instellingen instellingen;
-        NumericUpDown regelsetCon, aantalSpelersCon;
+        NumericUpDown regelsetCon, aantalSpelersCon, achterkantCon;
         TextBox regelsIngeschakeldCon, AIIngeschakeldCon;
         Button mensSpelendCon, muziekCon;
         Label regelsIngeschakeldLab2;
@@ -109,17 +109,30 @@ namespace CyberPesten
             muziekCon.Click += muziek;
             Controls.Add(muziekCon);
 
+            Label achterkantLab = new Label();
+            achterkantLab.Text = "Aantal spelers";
+            achterkantLab.BackColor = Color.Transparent;
+            achterkantLab.Size = new Size(150, 40);
+            achterkantLab.Location = new Point(50, 650);
+            Controls.Add(achterkantLab);
+
+            achterkantCon = new NumericUpDown();
+            achterkantCon.Location = new Point(220, 650);
+            achterkantCon.DecimalPlaces = 0;
+            achterkantCon.ValueChanged += achterkant;
+            Controls.Add(achterkantCon);
+
             Button resetCon = new Button();
             resetCon.Text = "Standaard instellingen";
             resetCon.Size = new Size(150, 40);
-            resetCon.Location = new Point(50, 650);
+            resetCon.Location = new Point(50, 750);
             resetCon.Click += reset;
             Controls.Add(resetCon);
 
             Button terugCon = new Button();
             terugCon.Text = "Terug naar menu";
             terugCon.Size = new Size(150, 40);
-            terugCon.Location = new Point(50, 750);
+            terugCon.Location = new Point(50, 850);
             terugCon.Click += terug;
             Controls.Add(terugCon);
 
@@ -153,6 +166,7 @@ namespace CyberPesten
                     instellingen.regelsIngeschakeld.Add(Int32.Parse(delen[i]));
                 }
             }
+            instellingen.schrijven();
         }
 
         void aantalSpelers(object sender, EventArgs ea)
@@ -211,6 +225,20 @@ namespace CyberPesten
                 instellingen.muziek = true;
                 muziekCon.Text = "Aan";
             }
+            instellingen.schrijven();
+        }
+
+        void achterkant(object sender, EventArgs ea)
+        {
+            if (achterkantCon.Value < 0)
+            {
+                achterkantCon.Value = 0;
+            }
+            else if (achterkantCon.Value > 2)
+            {
+                achterkantCon.Value = 2;
+            }
+            instellingen.achterkant = (int)achterkantCon.Value;
             instellingen.schrijven();
         }
 
