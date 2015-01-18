@@ -20,7 +20,7 @@ namespace CyberPesten
         public System.Timers.Timer timerAI;
         public bool mens;
         public Instellingen instellingen;
-        public bool bezig;
+        public bool bezig, magZet;
 
         public Spel()
         {
@@ -154,62 +154,76 @@ namespace CyberPesten
             }
             else
             {
-                //als de pot leeg is, gaan de kaarten die opgelegd zijn op de stapel naar de pot, op de bovenste kaart na
-                if (pot.Count < 2)
+                if (magZet)
                 {
-                    //if (stapel.Count > 3)
-                    {
-                        int boven = stapel.Count - 1;
-                        Kaart bovenste = stapel[boven];
-                        stapel.RemoveAt(boven);
-
-                        pot = stapel;
-                        pot = schud(pot);
-
-                        stapel = new List<Kaart>();
-                        stapel.Add(bovenste);
-                    }
-                    //else
-                    {
-                        //extraPak(pot);
-                    }
-                }
-
-                Point p2;
-                if (spelend == 0)
-                {
-                    p2 = new Point(spelers[0].hand[spelers[0].hand.Count - 1].X + 10 + 110, spelers[0].hand[0].Y);
+                    volgende();
+                    magZet = false;
                 }
                 else
                 {
-                    int breedte = (spelers.Count - 1) * 350;
-                    int tussenruimte = (speelveld.Width - breedte - 20) / (spelers.Count - 2);
-                    p2 = new Point(10 + (350 + tussenruimte) * (spelend - 1) + 120, 10);
+                    pakKaartNu();
+                    magZet = true;
+                    spelers[spelend].doeZet();
                 }
-                speelveld.verplaatsendeKaart = pot[0];
-                pot.RemoveAt(0);
-                speelveld.verplaatsen(speelveld.potPlek, p2, false);
-                spelers[spelend].hand.Add(speelveld.verplaatsendeKaart);
-                speelveld.verplaatsendeKaart = null;
-                checkNullKaart();
-                //verplaatsKaart(pot, 0, spelers[spelend].hand);
+            }
+        }
 
+        void pakKaartNu()
+        {
+            //als de pot leeg is, gaan de kaarten die opgelegd zijn op de stapel naar de pot, op de bovenste kaart na
+            if (pot.Count < 2)
+            {
+                //if (stapel.Count > 3)
+                {
+                    int boven = stapel.Count - 1;
+                    Kaart bovenste = stapel[boven];
+                    stapel.RemoveAt(boven);
 
-                if (spelend == 0)
-                {
-                    statusNieuw("Je kon niet en hebt een kaart gepakt");
+                    pot = stapel;
+                    pot = schud(pot);
 
+                    stapel = new List<Kaart>();
+                    stapel.Add(bovenste);
                 }
-                else
+                //else
                 {
-                    statusNieuw(spelers[spelend].naam + " kon niet en heeft een kaart gepakt");
+                    //extraPak(pot);
                 }
-                spelers[spelend].updateBlok();
-                if (speelveld.IsHandleCreated)
-                {
-                    speelveld.Invoke(new Action(() => speelveld.Invalidate()));
-                    speelveld.Invoke(new Action(() => speelveld.Update()));
-                }
+            }
+
+            Point p2;
+            if (spelend == 0)
+            {
+                p2 = new Point(spelers[0].hand[spelers[0].hand.Count - 1].X + 10 + 110, spelers[0].hand[0].Y);
+            }
+            else
+            {
+                int breedte = (spelers.Count - 1) * 350;
+                int tussenruimte = (speelveld.Width - breedte - 20) / (spelers.Count - 2);
+                p2 = new Point(10 + (350 + tussenruimte) * (spelend - 1) + 120, 10);
+            }
+            speelveld.verplaatsendeKaart = pot[0];
+            pot.RemoveAt(0);
+            speelveld.verplaatsen(speelveld.potPlek, p2, false);
+            spelers[spelend].hand.Add(speelveld.verplaatsendeKaart);
+            speelveld.verplaatsendeKaart = null;
+            checkNullKaart();
+            //verplaatsKaart(pot, 0, spelers[spelend].hand);
+
+            if (spelend == 0)
+            {
+                statusNieuw("Je kon niet en hebt een kaart gepakt");
+
+            }
+            else
+            {
+                statusNieuw(spelers[spelend].naam + " kon niet en heeft een kaart gepakt");
+            }
+            spelers[spelend].updateBlok();
+            if (speelveld.IsHandleCreated)
+            {
+                speelveld.Invoke(new Action(() => speelveld.Invalidate()));
+                speelveld.Invoke(new Action(() => speelveld.Update()));
             }
         }
 
@@ -217,8 +231,9 @@ namespace CyberPesten
         {
             for (int a = 0; a < aantal; a++)
             {
-                pakKaart();
+                pakKaartNu();
             }
+            magZet = true;
         }
 
         protected List<Kaart> schud(List<Kaart> stapel)

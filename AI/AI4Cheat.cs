@@ -9,12 +9,23 @@ namespace CyberPesten
 {
     class AI4Cheat : Speler
     {
-        public AI4Cheat(Spel s, string n)
+        public AI4Cheat(Spel spel, string naam)
         {
-            achterkant = new Bitmap((Bitmap)CyberPesten.Properties.Resources.ResourceManager.GetObject("Back_design_2"), 110, 153);
+            achterkant = new Bitmap(110, 153, System.Drawing.Imaging.PixelFormat.Format32bppPArgb);
+            string achterkantDesign;
+            if (spel.instellingen.achterkant == 0)
+            {
+                achterkantDesign = "Back_design_1";
+            }
+            else
+            {
+                achterkantDesign = "Back_design_2";
+            }
+            Graphics.FromImage(achterkant).DrawImage((Bitmap)CyberPesten.Properties.Resources.ResourceManager.GetObject(achterkantDesign), 0, 0, 110, 153);
+
             hand = new List<Kaart>();
-            spel = s;
-            naam = n;
+            this.spel = spel;
+            this.naam = naam;
             blok = new System.Drawing.Bitmap(10, 10);
         }
 
@@ -37,7 +48,6 @@ namespace CyberPesten
             {
                 spel.pakKaart();
                 //Hier moet een eigen functie voor pakKaart
-                spel.volgende();
             }
             bezig = false;
         }

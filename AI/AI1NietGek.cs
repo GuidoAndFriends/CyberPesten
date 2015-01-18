@@ -9,12 +9,23 @@ namespace CyberPesten
 {
     class AI1NietGek : Speler
     {
-        public AI1NietGek(Spel _spel, string _naam)
+        public AI1NietGek(Spel spel, string naam)
         {
-            achterkant = new Bitmap((Bitmap)CyberPesten.Properties.Resources.ResourceManager.GetObject("Back_design_2"), 110, 153);
+            achterkant = new Bitmap(110, 153, System.Drawing.Imaging.PixelFormat.Format32bppPArgb);
+            string achterkantDesign;
+            if (spel.instellingen.achterkant == 0)
+            {
+                achterkantDesign = "Back_design_1";
+            }
+            else
+            {
+                achterkantDesign = "Back_design_2";
+            }
+            Graphics.FromImage(achterkant).DrawImage((Bitmap)CyberPesten.Properties.Resources.ResourceManager.GetObject(achterkantDesign), 0, 0, 110, 153);
+
             hand = new List<Kaart>();
-            spel = _spel;
-            naam = _naam;
+            this.spel = spel;
+            this.naam = naam;
             blok = new Bitmap(1, 1);
         }
 
@@ -49,7 +60,6 @@ namespace CyberPesten
             else
             {
                 spel.pakKaart();
-                spel.volgende();
             }
             bezig = false;
         }
