@@ -21,7 +21,7 @@ namespace CyberPesten
             }
         }
 
-        bool isPakkenMagAltijd(Kaart kaart)
+        public bool isPakkenMagAltijd(Kaart kaart)
         {
             if (kaart.Kleur == 4 && ((instellingen.regelset == 0 && instellingen.regelsIngeschakeld.Contains(6)) || (instellingen.regelset == 1 && instellingen.regelsIngeschakeld.Contains(5))))
             {
@@ -62,7 +62,7 @@ namespace CyberPesten
             
         }
 
-        bool isWacht(Kaart kaart)
+        public bool isWacht(Kaart kaart)
         {
             if ((kaart.Waarde == 8 && instellingen.regelset == 0 && instellingen.regelsIngeschakeld.Contains(3)) || (kaart.Waarde == 7 && instellingen.regelset == 1 && instellingen.regelsIngeschakeld.Contains(2)))
             {
@@ -74,7 +74,7 @@ namespace CyberPesten
             }
         }
 
-        bool isDraai(Kaart kaart)
+        public bool isDraai(Kaart kaart)
         {
             if (kaart.Waarde == 1 && instellingen.regelsIngeschakeld.Contains(0))
             {
@@ -98,7 +98,7 @@ namespace CyberPesten
             }
         }
 
-        bool isNogmaals(Kaart kaart)
+        public bool isNogmaals(Kaart kaart)
         {
             if (kaart.Waarde == 13 || (instellingen.regelset == 0 && kaart.Waarde == 7) || (instellingen.regelset == 1 && kaart.Waarde == 8))
             {
