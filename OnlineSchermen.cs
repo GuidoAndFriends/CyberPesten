@@ -256,14 +256,14 @@ namespace CyberPesten
     {
         float verhouding;
         Font arial;
-
+        Form menuBack;
 
         public string[] deelnemers;
         public string[] rankings;//nog niet zo relevant
         public bool begonnen = false;
         Thread data_thread;
+        bool closed = false;
 
-        Form menuBack;
         public lobbyScherm(Form back)
         {
             menuBack = back;
@@ -274,6 +274,9 @@ namespace CyberPesten
             verhouding = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width / BackgroundImage.Width;
             arial = new Font("Arial", (int)(15 * verhouding));
             this.Show();
+            this.FormClosing += sluitThreads;
+
+
             data_thread = new Thread(dataThread);
             data_thread.Start();
             //volgende dingen zijn nodig: 
@@ -286,6 +289,7 @@ namespace CyberPesten
 
         public void sluitThreads(object sender, EventArgs e)
         {
+            closed = true;
             try
             {
                 data_thread.Abort();
@@ -325,9 +329,9 @@ namespace CyberPesten
         public void dataThread()
         {
             string berichten_raw, status_raw, deelnemers_raw;
-            while (begonnen == false)
+            while (begonnen == false && closed == false)
             {
-                status_raw = Online.PHPrequest("http://harbingerofme.info/GnF/get_game_status.php", new string[] { "name", "token", "spelid" }, new string[] { Online.username, Online.token, Online.game.ToString() });
+                status_raw = Online.PHPrequest("http://harbingerofme.info/GnF/get_game_status.php", new string[] { "name", "token", "gameid" }, new string[] { Online.username, Online.token, Online.game.ToString() });
                 if (status_raw == "2")
                 {
                     begonnen = true;
@@ -336,8 +340,11 @@ namespace CyberPesten
                 //doe er iets mee (manier om deelnemers te laten zien mist nog)
                 berichten_raw = Online.PHPrequest("http://harbingerofme.info/GnF/read_messages.php",new string[] {"name","token","gameid"},new string[] {Online.username,Online.token,Online.game.ToString()});
                 //doe er iets mee (manier om chat te laten zien mist nog)
-
-                Thread.Sleep(1000);//slaap voor een seconde.
+                
+                if (!begonnen)
+                {
+                    Thread.Sleep(1000);//slaap voor een seconde.
+                }
             }
             //begonnen is veranderd, ga naar het spel
         }
@@ -350,9 +357,10 @@ class openSpellenScherm : Form
     float verhouding;
     Font arial;
     List<Control> lijstcontrol = new List<Control>();
-    bool hostOpen = false;
+    bool closed = false,hostOpen = false;
     Form v;
     Thread data_thread;
+    
 
         public openSpellenScherm(Form back)
         {
@@ -387,83 +395,90 @@ class openSpellenScherm : Form
 
         public void laatSpellenzien()
         {
-            foreach (Control c in lijstcontrol)
+            if (this.InvokeRequired)
             {
-                Controls.Remove(c);
-            }
-            online_openSpel[] list = krijgSpellen();
-            if (list.Count() > 0)
-            {
-                int a = 0;
-                foreach (online_openSpel oo in list)
-                {
-                    Label lbl1 = new Label();
-                    lbl1.Top = (int)((100 + a * 40) * verhouding);
-                    lbl1.Left = (int)(10 * verhouding);
-                    lbl1.Text = oo.spelnaam;
-                    lbl1.Font = arial;
-                    lbl1.BackColor = Color.Transparent;
-                    lbl1.ForeColor = Color.White;
-                    lbl1.Size = new Size((int)(200 * verhouding), (int)(20 * verhouding));
-                    lijstcontrol.Add(lbl1);
-                    Controls.Add(lbl1);
-
-                    Label lbl2 = new Label();
-                    lbl2.Top = (int)((100 + a * 40) * verhouding);
-                    lbl2.Left = (int)(210 * verhouding);
-                    lbl2.Text = oo.host;
-                    lbl2.Font = arial;
-                    lbl2.BackColor = Color.Transparent;
-                    lbl2.ForeColor = Color.White;
-                    lbl2.Size = new Size((int)(150 * verhouding), (int)(20 * verhouding));
-                    lijstcontrol.Add(lbl2);
-                    Controls.Add(lbl2);
-
-                    Label lbl3 = new Label();
-                    lbl3.Top = (int)((100 + a * 40) * verhouding);
-                    lbl3.Left = (int)(360 * verhouding);
-                    lbl3.Text = oo.spelerAantal + "/" + oo.maxSpelerAantal;
-                    lbl3.Font = arial;
-                    lbl3.BackColor = Color.Transparent;
-                    lbl3.ForeColor = Color.White;
-                    lbl3.Size = new Size((int)(60 * verhouding), (int)(20 * verhouding));
-                    lijstcontrol.Add(lbl3);
-                    Controls.Add(lbl3);
-
-                    Label lbl4 = new Label();
-                    lbl4.Top = (int)((100 + a * 40) * verhouding);
-                    lbl4.Left = (int)(420 * verhouding);//420 blaze it
-                    lbl4.Text = oo.Spelregel;
-                    lbl4.Font = arial;
-                    lbl4.BackColor = Color.Transparent;
-                    lbl4.ForeColor = Color.White;
-                    lbl4.Size = new Size((int)(200 * verhouding), (int)(20 * verhouding));
-                    lijstcontrol.Add(lbl4);
-                    Controls.Add(lbl4);
-
-                    PictureBox but5 = new PictureBox();
-                    but5.Name = oo.id.ToString();
-                    //but5.Image = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Join_knop"));
-                    but5.BackColor = Color.Green;
-                    but5.Size =  new Size((int)(192*verhouding),(int)(31*verhouding));
-                    but5.Location = new Point((int)(620 * verhouding), (int)((100 + a * 40) * verhouding));
-                    lijstcontrol.Add(but5);
-                    but5.Click += join_Click;
-                    Controls.Add(but5);
-
-                    a++;
-                }
+                this.Invoke(new MethodInvoker(this.laatSpellenzien));
             }
             else
             {
-                Label lbl = new Label();
-                lbl.Top = (int)((115) * verhouding);
-                lbl.Left = (int)(10 * verhouding);
-                lbl.Text = "Geen spellen gevonden";
-                lbl.Font = arial;
-                lbl.ForeColor = Color.White;
-                lbl.Size = new Size((int)(200 * verhouding), (int)(20 * verhouding));
-                Controls.Add(lbl);
+                foreach (Control c in lijstcontrol)
+                {
+                    Controls.Remove(c);
+                }
+                online_openSpel[] list = krijgSpellen();
+                if (list.Count() > 0)
+                {
+                    int a = 0;
+                    foreach (online_openSpel oo in list)
+                    {
+                        Label lbl1 = new Label();
+                        lbl1.Top = (int)((100 + a * 40) * verhouding);
+                        lbl1.Left = (int)(10 * verhouding);
+                        lbl1.Text = oo.spelnaam;
+                        lbl1.Font = arial;
+                        lbl1.BackColor = Color.Transparent;
+                        lbl1.ForeColor = Color.White;
+                        lbl1.Size = new Size((int)(200 * verhouding), (int)(20 * verhouding));
+                        lijstcontrol.Add(lbl1);
+                        Controls.Add(lbl1);
+
+                        Label lbl2 = new Label();
+                        lbl2.Top = (int)((100 + a * 40) * verhouding);
+                        lbl2.Left = (int)(210 * verhouding);
+                        lbl2.Text = oo.host;
+                        lbl2.Font = arial;
+                        lbl2.BackColor = Color.Transparent;
+                        lbl2.ForeColor = Color.White;
+                        lbl2.Size = new Size((int)(150 * verhouding), (int)(20 * verhouding));
+                        lijstcontrol.Add(lbl2);
+                        Controls.Add(lbl2);
+
+                        Label lbl3 = new Label();
+                        lbl3.Top = (int)((100 + a * 40) * verhouding);
+                        lbl3.Left = (int)(360 * verhouding);
+                        lbl3.Text = oo.spelerAantal + "/" + oo.maxSpelerAantal;
+                        lbl3.Font = arial;
+                        lbl3.BackColor = Color.Transparent;
+                        lbl3.ForeColor = Color.White;
+                        lbl3.Size = new Size((int)(60 * verhouding), (int)(20 * verhouding));
+                        lijstcontrol.Add(lbl3);
+                        Controls.Add(lbl3);
+
+                        Label lbl4 = new Label();
+                        lbl4.Top = (int)((100 + a * 40) * verhouding);
+                        lbl4.Left = (int)(420 * verhouding);//420 blaze it
+                        lbl4.Text = oo.Spelregel;
+                        lbl4.Font = arial;
+                        lbl4.BackColor = Color.Transparent;
+                        lbl4.ForeColor = Color.White;
+                        lbl4.Size = new Size((int)(200 * verhouding), (int)(20 * verhouding));
+                        lijstcontrol.Add(lbl4);
+                        Controls.Add(lbl4);
+
+                        PictureBox but5 = new PictureBox();
+                        but5.Name = oo.id.ToString();
+                        //but5.Image = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Join_knop"));
+                        but5.BackColor = Color.Green;
+                        but5.Size = new Size((int)(192 * verhouding), (int)(31 * verhouding));
+                        but5.Location = new Point((int)(620 * verhouding), (int)((100 + a * 40) * verhouding));
+                        lijstcontrol.Add(but5);
+                        but5.Click += join_Click;
+                        Controls.Add(but5);
+
+                        a++;
+                    }
+                }
+                else
+                {
+                    Label lbl = new Label();
+                    lbl.Top = (int)((115) * verhouding);
+                    lbl.Left = (int)(10 * verhouding);
+                    lbl.Text = "Geen spellen gevonden";
+                    lbl.Font = arial;
+                    lbl.ForeColor = Color.White;
+                    lbl.Size = new Size((int)(200 * verhouding), (int)(20 * verhouding));
+                    Controls.Add(lbl);
+                }
             }
             
         }
@@ -499,16 +514,17 @@ class openSpellenScherm : Form
             {
                 v.Close();
                 data_thread.Abort();
+                closed = true;
             }
             catch { }
         }
 
         public void data()
         {
-            while (true)
+            while (!closed)
             {
-                Thread.Sleep(30000);
                 laatSpellenzien();
+                Thread.Sleep(30000);
             }
         }
 
