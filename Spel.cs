@@ -16,11 +16,12 @@ namespace CyberPesten
         public List<Speler> spelers;
         public Speelveld speelveld;
         public int spelend, richting, speciaal, pakAantal, aantalSpelers;
-        public string status, aantalKaarten, speciaalTekst, geschiedenis;
+        public string status, aantalKaarten, speciaalTekst;
         public System.Timers.Timer timerAI;
         public bool mens;
         public Instellingen instellingen;
         public bool bezig, magZet;
+        public Chat chat;
 
         public Spel()
         {
@@ -131,12 +132,12 @@ namespace CyberPesten
 
             if (spelend == 0)
             {
-                statusNieuw("Jij speelde " + kaart.tekst);
+                chat.nieuw("Jij speelde " + kaart.tekst);
                 spelers[0].updateBlok();
             }
             else
             {
-                statusNieuw(spelers[spelend].naam + " speelde " + kaart.tekst);
+                chat.nieuw(spelers[spelend].naam + " speelde " + kaart.tekst);
             }
             spelers[spelend].updateBlok();
 
@@ -212,12 +213,12 @@ namespace CyberPesten
 
             if (spelend == 0)
             {
-                statusNieuw("Je kon niet en hebt een kaart gepakt");
+                chat.nieuw("Je kon niet en hebt een kaart gepakt");
 
             }
             else
             {
-                statusNieuw(spelers[spelend].naam + " kon niet en heeft een kaart gepakt");
+                chat.nieuw(spelers[spelend].naam + " kon niet en heeft een kaart gepakt");
             }
             spelers[spelend].updateBlok();
             if (speelveld.IsHandleCreated)
@@ -337,16 +338,6 @@ namespace CyberPesten
         public void veranderKleur(int kleur)
         {
 
-        }
-
-        void statusNieuw(string nieuw)
-        {
-            status = nieuw;
-            geschiedenis += '\n' + nieuw;
-            if (geschiedenis.Length > 5000)
-            {
-                geschiedenis = geschiedenis.Substring(geschiedenis.Length - 5000);
-            }
         }
 
         protected Speler willekeurigeAI()

@@ -39,7 +39,6 @@ namespace CyberPesten
 
         //Tijdelijk
         Button klaver, harten, ruiten, schoppen;
-        Chat chat;
 
         public Speelveld(Menu m, Instellingen instellingen, bool online)
         {
@@ -199,9 +198,9 @@ namespace CyberPesten
             }
 
             //status van het spel
-            gr.DrawString(spel.status, new Font(FontFamily.GenericSansSerif, 14), Brushes.Black, new Point(40, Height / 2 - FontHeight / 2));
-            gr.DrawString(spel.aantalKaarten, new Font(FontFamily.GenericSansSerif, 14), Brushes.Black, new Point(40, Height / 2 + 2 * FontHeight));
-            gr.DrawString(spel.speciaalTekst, new Font(FontFamily.GenericSansSerif, 14), Brushes.Black, new Point(40, Height / 2 + 4 * FontHeight));
+            gr.DrawImage(spel.chat.maakBitmap(false), new Point(40, Height / 2 - FontHeight / 2));
+            gr.DrawString(spel.aantalKaarten, new Font(FontFamily.GenericSansSerif, 14), Brushes.Black, new Point(40, Height / 2 - 2 * FontHeight));
+            gr.DrawString(spel.speciaalTekst, new Font(FontFamily.GenericSansSerif, 14), Brushes.Black, new Point(40, Height / 2 - 4 * FontHeight));
 
             //Buttons
             gr.DrawImage(helpBitmap, helpButton);
