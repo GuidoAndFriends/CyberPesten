@@ -10,6 +10,7 @@ using System.Collections.Specialized;
 using System.Net;
 using System.IO;
 using System.Security.Cryptography;
+using System.Text.RegularExpressions;
 
 namespace CyberPesten
 {
@@ -331,7 +332,7 @@ namespace CyberPesten
                 {
                     begonnen = true;
                 }
-                deelnemers_raw = Online.PHPrequest("http://harbingerofme.info/GnF/get_game_deelnemers.php", new string[] { "name", "token", "spelid" }, new string[] { Online.username, Online.token, Online.game.ToString() });
+                deelnemers_raw = Online.PHPrequest("http://harbingerofme.info/GnF/get_names.php", new string[] { "name", "token", "spelid" }, new string[] { Online.username, Online.token, Online.game.ToString() });
                 //doe er iets mee (manier om deelnemers te laten zien mist nog)
                 berichten_raw = Online.PHPrequest("http://harbingerofme.info/GnF/read_messages.php",new string[] {"name","token","gameid"},new string[] {Online.username,Online.token,Online.game.ToString()});
                 //doe er iets mee (manier om chat te laten zien mist nog)
@@ -348,7 +349,10 @@ class openSpellenScherm : Form
     Form menuBack;
     float verhouding;
     Font arial;
-    Control container = new Control();
+    List<Control> lijstcontrol = new List<Control>();
+    bool hostOpen = false;
+    Form v;
+    Thread data_thread;
 
         public openSpellenScherm(Form back)
         {
@@ -360,19 +364,33 @@ class openSpellenScherm : Form
             verhouding = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width / BackgroundImage.Width;
             arial = new Font("Arial", (int)(15 * verhouding));
             this.Show();
-            container.Location = new Point(0,0);
-            Controls.Add(container);
             laatSpellenzien();
+            data_thread = new Thread(data);
+            data_thread.Start();
+
+            PictureBox hostGame = new PictureBox();
+            hostGame.Location = new Point((int)(((1920/2)-(192/2))*verhouding),(int)(800*verhouding));
+            hostGame.Size = new Size((int)(192 * verhouding), (int)(31 * verhouding));
+            //hostGame.image = ...
+            hostGame.BackColor =  Color.Orange;
+            hostGame.Click += hostGame_Click;
+            this.FormClosing += closing;
+
+            Controls.Add(hostGame);
             
             //er is een knop nodig die laat zien create game, met de volgende opties daarin:
             // spelnaam, aantal max spelers en regelset
             // stuur ze dan inclusief parameters door naar create_spel(string spelnaam, int spelers,string/int regelset)
 
-            //als één van de knoppen true retourneert, moet er naar het volgende scherm gegaan worden: lobbyScherm
+            //als één van de knoppen true retourneert, moet er naar het volgende scherm gegaan worden: ga_verder();
         }
 
         public void laatSpellenzien()
         {
+            foreach (Control c in lijstcontrol)
+            {
+                Controls.Remove(c);
+            }
             online_openSpel[] list = krijgSpellen();
             if (list.Count() > 0)
             {
@@ -380,55 +398,56 @@ class openSpellenScherm : Form
                 foreach (online_openSpel oo in list)
                 {
                     Label lbl1 = new Label();
-                    lbl1.Top = (int)((100 + a * 15) * verhouding);
+                    lbl1.Top = (int)((100 + a * 40) * verhouding);
                     lbl1.Left = (int)(10 * verhouding);
                     lbl1.Text = oo.spelnaam;
                     lbl1.Font = arial;
                     lbl1.BackColor = Color.Transparent;
                     lbl1.ForeColor = Color.White;
                     lbl1.Size = new Size((int)(200 * verhouding), (int)(20 * verhouding));
-                    lbl1.Parent = container;
+                    lijstcontrol.Add(lbl1);
                     Controls.Add(lbl1);
 
                     Label lbl2 = new Label();
-                    lbl2.Top = (int)((100 + a * 15) * verhouding);
+                    lbl2.Top = (int)((100 + a * 40) * verhouding);
                     lbl2.Left = (int)(210 * verhouding);
                     lbl2.Text = oo.host;
                     lbl2.Font = arial;
                     lbl2.BackColor = Color.Transparent;
                     lbl2.ForeColor = Color.White;
                     lbl2.Size = new Size((int)(150 * verhouding), (int)(20 * verhouding));
-                    lbl2.Parent = container;
+                    lijstcontrol.Add(lbl2);
                     Controls.Add(lbl2);
 
                     Label lbl3 = new Label();
-                    lbl3.Top = (int)((100 + a * 15) * verhouding);
+                    lbl3.Top = (int)((100 + a * 40) * verhouding);
                     lbl3.Left = (int)(360 * verhouding);
                     lbl3.Text = oo.spelerAantal + "/" + oo.maxSpelerAantal;
                     lbl3.Font = arial;
                     lbl3.BackColor = Color.Transparent;
                     lbl3.ForeColor = Color.White;
                     lbl3.Size = new Size((int)(60 * verhouding), (int)(20 * verhouding));
-                    lbl3.Parent = container;
+                    lijstcontrol.Add(lbl3);
                     Controls.Add(lbl3);
 
                     Label lbl4 = new Label();
-                    lbl4.Top = (int)((100 + a * 15) * verhouding);
+                    lbl4.Top = (int)((100 + a * 40) * verhouding);
                     lbl4.Left = (int)(420 * verhouding);//420 blaze it
                     lbl4.Text = oo.Spelregel;
                     lbl4.Font = arial;
                     lbl4.BackColor = Color.Transparent;
                     lbl4.ForeColor = Color.White;
-                    lbl4.Size = new Size((int)(100 * verhouding), (int)(20 * verhouding));
-                    lbl4.Parent = container;
+                    lbl4.Size = new Size((int)(200 * verhouding), (int)(20 * verhouding));
+                    lijstcontrol.Add(lbl4);
                     Controls.Add(lbl4);
 
                     PictureBox but5 = new PictureBox();
                     but5.Name = oo.id.ToString();
                     //but5.Image = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Join_knop"));
-                    but5.Size =  new Size((int)(152*verhouding),(int)(47*verhouding));
-                    but5.Location = new Point((int)((100 + a * 15) * verhouding), (int)(520 * verhouding));
-                    but5.Parent = container;
+                    but5.BackColor = Color.Green;
+                    but5.Size =  new Size((int)(192*verhouding),(int)(31*verhouding));
+                    but5.Location = new Point((int)(620 * verhouding), (int)((100 + a * 40) * verhouding));
+                    lijstcontrol.Add(but5);
                     but5.Click += join_Click;
                     Controls.Add(but5);
 
@@ -446,6 +465,7 @@ class openSpellenScherm : Form
                 lbl.Size = new Size((int)(200 * verhouding), (int)(20 * verhouding));
                 Controls.Add(lbl);
             }
+            
         }
 
         public void join_Click(object sender, EventArgs e)
@@ -455,7 +475,43 @@ class openSpellenScherm : Form
                 ga_verder();
             }
         }
-        
+
+        public void hostGame_Click(object o, EventArgs e)
+        {
+            if (!hostOpen) {
+                hostOpen = true;
+                v = new hostGameOpties(this);
+                v.FormClosed += hostClosed;
+            }else
+            {
+                v.Focus();
+            }
+        }
+
+        public void hostClosed(object o, EventArgs e)
+        {
+            hostOpen = false;
+        }
+
+        public void closing(object o, EventArgs e)
+        {
+            try
+            {
+                v.Close();
+                data_thread.Abort();
+            }
+            catch { }
+        }
+
+        public void data()
+        {
+            while (true)
+            {
+                Thread.Sleep(30000);
+                laatSpellenzien();
+            }
+        }
+
         public bool create_spel(string spelnaam, int spelers, string regelset)
         {
             int seed = new Random().Next(400000000);
@@ -517,17 +573,21 @@ class openSpellenScherm : Form
                 {
                     string substr = copy.Substring(1, copy.IndexOf('}') - 1);//misschien hoeft die min 1 niet? Testen nodig.
                     string[] splits = substr.Split('|');
-                    string[] temp = splits[2].Split(',');string temp2 = "";
+                    string[] temp = splits[2].Split(','); string temp2 = ""; List<string> temp5 = new List<string>();
                     List<string> temp4 =  new List<string>();
                     foreach (string dn in temp)
                     {
                         temp4.AddRange(dn.Split(';'));
                     }
-                    for(int i = 2; i<temp4.Count();i+=2){
-                        temp2 += temp[i]+" ";
+                    foreach (string dn in temp4)
+                    {
+                        temp5.Add(dn.Split(':')[0]);
+                    }
+                    for(int i = 2; i<temp5.Count();i+=2){
+                        temp2 += temp5[i]+" ";
                     }
                     temp2 = temp2.Trim();
-                    returnal.Add(new online_openSpel(int.Parse(splits[0]),"Missend",temp.Count(),int.Parse(splits[1]),splits[4],splits[3].Equals("2"),temp4[0],temp2));
+                    returnal.Add(new online_openSpel(int.Parse(splits[0]),splits[5],temp.Count(),int.Parse(splits[1]),splits[4],splits[3].Equals("2"),temp4[0],temp2));
                     copy =  copy.Substring(copy.IndexOf('}')+1);
 
                 }
@@ -535,6 +595,86 @@ class openSpellenScherm : Form
             return returnal.ToArray();
         }
     }
+
+    public class hostGameOpties : Form
+    {
+        openSpellenScherm oscherm;
+        TextBox name,spelers,regels;
+
+        public hostGameOpties(Form o)
+        {
+            oscherm = (openSpellenScherm) o;
+            this.BackgroundImage = (Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Menu_achtergrond");
+            this.Size = new Size(300, 300);
+            this.Show();
+
+            Button but1 = new Button();
+            but1.Location = new Point(120, 230);
+            but1.Text = "Start";
+            but1.Size = new Size(50, 30);
+            but1.Click += start;
+            Controls.Add(but1);
+
+            name = new TextBox();
+            name.Location = new Point(120,0);
+            name.Size = new Size(180, 30);
+            name.Font = new Font("Arial", 15);
+            Controls.Add(name);
+
+            Label nameLabel = new Label();
+            nameLabel.Text = "Spel Naam:";
+            nameLabel.Location = new Point(0, 0);
+            nameLabel.Size = new Size(120,30);
+            nameLabel.ForeColor = Color.White;
+            nameLabel.BackColor = Color.Transparent;
+            nameLabel.Font = new Font("Arial", 12);
+            Controls.Add(nameLabel);
+
+            spelers = new TextBox();
+            spelers.Location = new Point(120, 40);
+            spelers.Size = new Size(180, 30);
+            spelers.Font = new Font("Arial", 15);
+            Controls.Add(spelers);
+
+            Label spelersLabel = new Label();
+            spelersLabel.Text = "Max Spelers:";
+            spelersLabel.Location = new Point(0, 40);
+            spelersLabel.Size = new Size(120, 30);
+            spelersLabel.ForeColor = Color.White;
+            spelersLabel.BackColor = Color.Transparent;
+            spelersLabel.Font = new Font("Arial", 12);
+            Controls.Add(spelersLabel);
+
+            regels = new TextBox();
+            regels.Location = new Point(120, 80);
+            regels.Size = new Size(180, 30);
+            regels.Font = new Font("Arial", 15);
+            Controls.Add(regels);
+
+            Label regelsLabel = new Label();
+            regelsLabel.Text = "Regels:";
+            regelsLabel.Location = new Point(0, 80);
+            regelsLabel.Size = new Size(120, 30);
+            regelsLabel.ForeColor = Color.White;
+            regelsLabel.BackColor = Color.Transparent;
+            regelsLabel.Font = new Font("Arial", 12);
+            Controls.Add(regelsLabel);
+        }
+
+        public void start(object o, EventArgs e)
+        {
+            if (Regex.Match(name.Text, @"^[ a-zA-Z0-9]+$").Success && Regex.Match(name.Text, @"^[a-zA-Z0-9]+$").Success && Regex.Match(spelers.Text, @"^[2-8]$").Success && Regex.Match(regels.Text, @"^[a-zA-Z]+$").Success)
+            {
+                if (oscherm.create_spel(name.Text, int.Parse(spelers.Name), regels.Text))
+                {
+                    oscherm.ga_verder();
+                    this.Close();
+                }
+
+            }
+        }
+    }
+
 
     public class online_openSpel//een online spel
     {
