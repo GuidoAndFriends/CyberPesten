@@ -11,7 +11,7 @@ namespace CyberPesten
 {
     class Speelveld : Form
     {
-        public Menu menu;
+        public Form form;
         public Spel spel;
         public int kaartBreedte, kaartHoogte, afstand;
         public Point stapelPlek, potPlek;
@@ -40,16 +40,17 @@ namespace CyberPesten
         //Tijdelijk
         Button klaver, harten, ruiten, schoppen;
 
-        public Speelveld(Menu m, Instellingen instellingen, bool online)
+        public Speelveld(Form form, bool online)
         {
-            menu = m;
+            Instellingen instellingen = new Instellingen();
+            this.form = form;
             kaartBreedte = 110;
             kaartHoogte = 153;
             afstand = 10;
             
             muisLaag = false;
 
-            Size = menu.Size;
+            Size = form.Size;
             FormBorderStyle = FormBorderStyle.None;
             WindowState = FormWindowState.Maximized;
             DoubleBuffered = true;
@@ -234,13 +235,13 @@ namespace CyberPesten
             else if (settingsButton.Contains(mea.Location))
             {
                 //het spel gaat gewoon door, dus niet handig
-                Instellingenscherm instellingenscherm = new Instellingenscherm(menu);
+                //Instellingenscherm instellingenscherm = new Instellingenscherm(form);
             }
             else if (homeButton.Contains(mea.Location))
             {
                 if (mea.Button == MouseButtons.Left)
                 {
-                    menu.Show();
+                    form.Show();
                     this.Dispose();
                     this.Close();
                 }
