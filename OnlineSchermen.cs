@@ -449,7 +449,7 @@ class lobbyScherm : Form
                 {
                     begonnen = true;
                 }
-                deelnemers_raw = Online.PHPrequest("http://harbingerofme.info/GnF/get_names.php", new string[] { "name", "token", "spelid" }, new string[] { Online.username, Online.token, Online.game.ToString() });
+                deelnemers_raw = Online.PHPrequest("http://harbingerofme.info/GnF/get_names.php", new string[] { "name", "token", "gameid" }, new string[] { Online.username, Online.token, Online.game.ToString() });
                 if (!deelnemers_raw.StartsWith("Error:"))
                 {
                     deelnemers = deelnemers_raw.Split(',');
