@@ -14,7 +14,7 @@ using System.Text.RegularExpressions;
 
 namespace CyberPesten
 {
-    class inlogScherm :  Form
+class inlogScherm :  Form
     {
         public PictureBox a = new PictureBox();
         Label berichtHouder = new Label();
@@ -252,7 +252,7 @@ namespace CyberPesten
 
     }
 
-    class lobbyScherm : Form
+class lobbyScherm : Form
     {
         float verhouding;
         Font arial;
@@ -263,6 +263,10 @@ namespace CyberPesten
         public bool begonnen = false;
         Thread data_thread;
         bool closed = false;
+
+        Rectangle delGame, startGame, leaveGame;
+        bool delHover, startHover, leaveHover;
+        List<Control> deelnemerLijst = new List<Control>();
 
         public lobbyScherm(Form back)
         {
@@ -275,9 +279,15 @@ namespace CyberPesten
             arial = new Font("Arial", (int)(15 * verhouding));
             this.Show();
             this.FormClosing += sluitThreads;
+            this.MouseMove += hover;
+            this.Click += klik;
 
+            delGame = new Rectangle((int)(109*verhouding),(int)(956*verhouding),(int)(191*verhouding),(int)(89*verhouding));
+            startGame = new Rectangle((int)(309 * verhouding), (int)(956 * verhouding), (int)(191 * verhouding), (int)(89 * verhouding));
+            leaveGame = new Rectangle((int)(700 * verhouding), (int)(956 * verhouding), (int)(191 * verhouding), (int)(89 * verhouding));
 
             data_thread = new Thread(dataThread);
+            data_thread.IsBackground = true;
             data_thread.Start();
             //volgende dingen zijn nodig: 
             //gedeelte met huidige deelnemers (en hun ranking)
@@ -285,6 +295,95 @@ namespace CyberPesten
             //een knop voor de host om de game te starten (start_spel)
             //een knop om de game te leaven/te verwijderen (voor de host alleen) (leave_spel/delete_spel)
             //die knp moet een bevestiging opleveren
+        }
+        public void laatDNzien()
+        {
+            if (this.InvokeRequired)
+            {
+                this.Invoke(new MethodInvoker(this.laatDNzien));
+            }
+            else
+            {
+                foreach (Control c in deelnemerLijst)
+                {
+                    Controls.Remove(c);
+                }
+
+
+               int a = 0;
+                foreach (string s in deelnemers)
+                {
+                    string naam = s.Split(':')[0];
+                    string rank = s.Split(':')[1];
+
+                    Label lbl1 = new Label();
+                    lbl1.Font = arial;
+                    lbl1.ForeColor = Color.White;
+                    lbl1.BackColor = Color.Transparent;
+                    lbl1.Location = new Point((int)(10*verhouding),(int)(185+30*a));
+                    lbl1.Size = new Size((int)(600 * verhouding), (int)(30 * verhouding));
+                    lbl1.Text = naam;
+                    Controls.Add(lbl1);
+
+                    Label lbl2 = new Label();
+                    lbl2.Font = arial;
+                    lbl2.ForeColor = Color.White;
+                    lbl2.BackColor = Color.Transparent;
+                    lbl2.Location = new Point((int)(617 * verhouding), (int)(185 + 30 * a));
+                    lbl2.Size = new Size((int)(354 * verhouding), (int)(30 * verhouding));
+                    lbl2.TextAlign = ContentAlignment.TopCenter;
+                    lbl2.Text = rank;
+                    Controls.Add(lbl2);
+
+                    a++;
+                }
+            }
+        }
+
+
+        public void hover(object o, MouseEventArgs e)
+        {
+            delHover = false; startHover = false; leaveHover = false;
+            if (delGame.Contains(e.Location))
+            {
+                delHover = true;
+            }
+            if (startGame.Contains(e.Location))
+            {
+                startHover = true;
+            }
+            if (leaveGame.Contains(e.Location))
+            {
+                leaveHover = true;
+            }
+        }
+
+        public void klik(object o, EventArgs e)
+        {
+            if ((delHover||leaveHover) && Online.is_host)
+            {
+                if (delete_spel())
+                {
+                    menuBack.Show();
+                    Close();
+                }
+                
+            }
+            if (leaveHover && !Online.is_host)
+            {
+                if (leave_spel())
+                {
+                    menuBack.Show();
+                    Close();
+                }
+            }
+            if (startHover && Online.is_host)
+            {
+                if (start_spel())
+                {
+                    //do something
+                }
+            }
         }
 
         public void sluitThreads(object sender, EventArgs e)
@@ -300,7 +399,10 @@ namespace CyberPesten
         public bool start_spel()
         {
             string raw = Online.PHPrequest("http://harbingerofme.info/GnF/start_game.php", new string[] { "name", "token" }, new string[] { Online.username, Online.token });
-            begonnen = true;
+            if (raw == "Ja")
+            {
+                begonnen = true;
+            }
             return raw == "Ja";
         }
 
@@ -316,8 +418,9 @@ namespace CyberPesten
             if (raw == "ja")
             {
                 raw = Online.PHPrequest("http://harbingerofme.info/GnF/delete_messages.php", new string[] { "name", "token", "spelid" }, new string[] { Online.username, Online.token, Online.game.ToString() });
+                return true;
             }
-            return raw == "ja";
+            return false;
         }
 
         public bool stuur_chat(string bericht)
@@ -337,10 +440,14 @@ namespace CyberPesten
                     begonnen = true;
                 }
                 deelnemers_raw = Online.PHPrequest("http://harbingerofme.info/GnF/get_names.php", new string[] { "name", "token", "spelid" }, new string[] { Online.username, Online.token, Online.game.ToString() });
-                //doe er iets mee (manier om deelnemers te laten zien mist nog)
-                berichten_raw = Online.PHPrequest("http://harbingerofme.info/GnF/read_messages.php",new string[] {"name","token","gameid"},new string[] {Online.username,Online.token,Online.game.ToString()});
+                if (!deelnemers_raw.StartsWith("Error:"))
+                {
+                    deelnemers = deelnemers_raw.Split(',');
+                    laatDNzien();
+                }
+                berichten_raw = Online.PHPrequest("http://harbingerofme.info/GnF/read_messages.php", new string[] { "name", "token", "gameid" }, new string[] { Online.username, Online.token, Online.game.ToString() });
                 //doe er iets mee (manier om chat te laten zien mist nog)
-                
+
                 if (!begonnen)
                 {
                     Thread.Sleep(1000);//slaap voor een seconde.
@@ -375,6 +482,7 @@ class openSpellenScherm : Form
             this.Show();
             laatSpellenzien();
             data_thread = new Thread(data);
+            data_thread.IsBackground = true;
             data_thread.Start();
 
             hostgame = new Rectangle((int)(1673 * verhouding) ,(int) (693*verhouding),(int) (252*verhouding),(int)(95*verhouding));
@@ -500,6 +608,7 @@ class openSpellenScherm : Form
         {
             PictureBox but = (PictureBox)sender;
             if(join_spel(int.Parse(but.Name))){
+                Online.is_host = false;
                 ga_verder();
             }
         }
@@ -534,11 +643,6 @@ class openSpellenScherm : Form
             }
         }
 
-        public void hostGame_Click()
-        {
-
-        }
-
         public void hostClosed(object o, EventArgs e)
         {
             hostOpen = false;
@@ -567,13 +671,14 @@ class openSpellenScherm : Form
         public bool create_spel(string spelnaam, int spelers, string regelset)
         {
             int seed = new Random().Next(400000000);
-            string raw = Online.PHPrequest("http://harbingerofme.info/GnF/create_game.php", new string[] { "name", "token", "seed", "naam", "aantal", "metadata" }, new string[] { Online.username, Online.token, seed.ToString(), spelnaam, spelers.ToString(), regelset });
+            string raw = Online.PHPrequest("http://harbingerofme.info/GnF/new_game.php", new string[] { "name", "token", "seed", "naam", "aantal", "metadata" }, new string[] { Online.username, Online.token, seed.ToString(), spelnaam, spelers.ToString(), regelset });
             if(raw.StartsWith("Error:")){
                 return false;
             }
             else{
                 Online.game = int.Parse(raw);
                 Online.onlineRandom = new Random(seed);
+                Online.is_host = true;
             return true;
             }
         } 
@@ -648,7 +753,7 @@ class openSpellenScherm : Form
         }
     }
 
-    public class hostGameOpties : Form
+public class hostGameOpties : Form
     {
         openSpellenScherm oscherm;
         TextBox name,spelers,regels;
@@ -671,6 +776,7 @@ class openSpellenScherm : Form
             name.Location = new Point(120,0);
             name.Size = new Size(180, 30);
             name.Font = new Font("Arial", 15);
+            name.MaxLength = 40;
             Controls.Add(name);
 
             Label nameLabel = new Label();
@@ -686,6 +792,7 @@ class openSpellenScherm : Form
             spelers.Location = new Point(120, 40);
             spelers.Size = new Size(180, 30);
             spelers.Font = new Font("Arial", 15);
+            spelers.MaxLength = 1;
             Controls.Add(spelers);
 
             Label spelersLabel = new Label();
@@ -701,6 +808,7 @@ class openSpellenScherm : Form
             regels.Location = new Point(120, 80);
             regels.Size = new Size(180, 30);
             regels.Font = new Font("Arial", 15);
+            regels.MaxLength = 2;
             Controls.Add(regels);
 
             Label regelsLabel = new Label();
@@ -715,9 +823,9 @@ class openSpellenScherm : Form
 
         public void start(object o, EventArgs e)
         {
-            if (Regex.Match(name.Text, @"^[ a-zA-Z0-9]+$").Success && Regex.Match(name.Text, @"^[a-zA-Z0-9]+$").Success && Regex.Match(spelers.Text, @"^[2-8]$").Success && Regex.Match(regels.Text, @"^[a-zA-Z]+$").Success)
+            if (Regex.Match(name.Text, @"^[ a-zA-Z0-9]+$").Success && Regex.Match(name.Text, @"[a-zA-Z0-9]").Success && Regex.Match(spelers.Text, @"^[2-8]$").Success && Regex.Match(regels.Text, @"^(-1)|1|2$").Success && name.Text.Length<40)
             {
-                if (oscherm.create_spel(name.Text, int.Parse(spelers.Name), regels.Text))
+                if (oscherm.create_spel(name.Text, int.Parse(spelers.Text), regels.Text))
                 {
                     oscherm.ga_verder();
                     this.Close();
@@ -728,7 +836,7 @@ class openSpellenScherm : Form
     }
 
 
-    public class online_openSpel//een online spel
+public class online_openSpel//een online spel
     {
         public string spelnaam;
         public int spelerAantal;
@@ -757,14 +865,13 @@ class openSpellenScherm : Form
     }
     
     
-    class Online//bevat al onze hulp methoden
+class Online//bevat al onze hulp methoden
     {
         public static string username;
         public static string token;
         public static int game;
         public static Random onlineRandom;
-        public bool is_host;
-
+        public static bool is_host;
 
         //onderstaande methoden moeten waarschijnlijk naar een hoger niveua verplaatst worden
         public static string PHPrequest(string URL, string[] argument_names, string[] argument_values)
