@@ -50,6 +50,9 @@
     </Compile>
     <Compile Include="AI\AI2Pester.cs" />
     <Compile Include="AI\AI3Oke.cs" />
+    <Compile Include="Chat.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Help.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -78,7 +81,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="RegelsOud.cs" />
     <Compile Include="Regels.cs" />
+    <Compile Include="Regelsets.cs" />
     <Compile Include="Speelveld.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -92,6 +97,7 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\Settings achtergrond.png" />
     <None Include="Resources\Terug button.png" />
     <None Include="Resources\StandSet button.png" />
     <None Include="Resources\Settings buttons.png" />
@@ -143,6 +149,8 @@
     <None Include="Resources\Gradient.png" />
     <None Include="Resources\Exit button.png" />
     <None Include="Resources\Faded buttons.png" />
+    <Content Include="Resources\Einde beurt.png" />
+    <Content Include="Resources\harten.png" />
     <None Include="Resources\Help.png" />
     <None Include="Resources\HJ.png" />
     <None Include="Resources\HK.png" />
