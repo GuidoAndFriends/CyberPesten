@@ -17,9 +17,9 @@ namespace CyberPesten
         Label regelsIngeschakeldLab2;
         Menu menu;
 
-        public InstellingenschermOud(Menu _menu)
+        public InstellingenschermOud(Menu menu)
         {
-            menu = _menu;
+            this.menu = menu;
             instellingen = menu.instellingen;
 
             Text = "CyberPesten: Help";

@@ -15,7 +15,7 @@ namespace CyberPesten
         bool terugHover;
         Rectangle terugButton, maat, bounds;
         public Spel spel;
-        Form menuBack;
+        Form vorige;
         string tekst;
 
         public Help(Form form, Spel _spel = null)
@@ -26,13 +26,13 @@ namespace CyberPesten
             WindowState = FormWindowState.Maximized;
             DoubleBuffered = true;
             this.Show();
-            menuBack = form;
+            vorige = form;
 
             if (_spel != null)
             {
                 spel = _spel;
             }
-  	    achtergrond = new Bitmap(maat.Width, maat.Height, System.Drawing.Imaging.PixelFormat.Format32bppPArgb);
+  	        achtergrond = new Bitmap(maat.Width, maat.Height, System.Drawing.Imaging.PixelFormat.Format32bppPArgb);
             Graphics.FromImage(achtergrond).DrawImage((Bitmap)CyberPesten.Properties.Resources.ResourceManager.GetObject("Help_achtergrond"), maat);
             BackgroundImage = achtergrond;
 
@@ -100,7 +100,7 @@ namespace CyberPesten
         {
             if (terugHover)
             {
-                menuBack.Show();
+                vorige.Show();
                 this.Close();
                 if (spel != null)
                 {

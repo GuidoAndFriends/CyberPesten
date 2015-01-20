@@ -242,7 +242,6 @@ namespace CyberPesten
                 if (mea.Button == MouseButtons.Left)
                 {
                     form.Show();
-                    this.Dispose();
                     this.Close();
                 }
                 else
