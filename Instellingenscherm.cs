@@ -12,25 +12,29 @@ namespace CyberPesten
     {
         Instellingen instellingen;
         NumericUpDown regelsetCon, aantalSpelersCon;
-        TextBox regelsUitgeschakeldCon, AIIngeschakeldCon;
+        TextBox regelsIngeschakeldCon, AIIngeschakeldCon;
         Button mensSpelendCon;
         Menu menu;
-        Bitmap settingsButtons, terugBitmap, standSetBitmap;
+        Bitmap terugBitmap, standSetBitmap, achtergrond;
         bool terugHover, standSetHover;
-        Rectangle terugButton, standSetButton;
+        Rectangle terugButton, standSetButton, maat;
         float verhouding;
 
         public Instellingenscherm(Menu _menu)
         {
             menu = _menu;
             instellingen = menu.instellingen;
+            maat = System.Windows.Forms.Screen.PrimaryScreen.Bounds;
 
             Text = "CyberPesten: Help";
-            BackgroundImage = (Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Menu_achtergrond");
             ClientSize = menu.Size;
             FormBorderStyle = FormBorderStyle.None;
             WindowState = FormWindowState.Maximized;
             DoubleBuffered = true;
+
+            achtergrond = new Bitmap(maat.Width, maat.Height, System.Drawing.Imaging.PixelFormat.Format32bppPArgb);
+            Graphics.FromImage(achtergrond).DrawImage((Bitmap)CyberPesten.Properties.Resources.ResourceManager.GetObject("Settings_achtergrond"), maat);
+            BackgroundImage = achtergrond;
 
             /*Label regelsetLab = new Label();
             regelsetLab.Text = "Regelset";
@@ -44,16 +48,16 @@ namespace CyberPesten
             regelsetCon.Location = new Point(220, 50);
             Controls.Add(regelsetCon);
 
-            /*Label regelsUitgeschakeldLab = new Label();
-            regelsUitgeschakeldLab.Text = "Uitgeschakelde regels (1,2,3)";
-            regelsUitgeschakeldLab.BackColor = Color.Transparent;
-            regelsUitgeschakeldLab.Size = new Size(150, 40);
-            regelsUitgeschakeldLab.Location = new Point(50, 150);
-            Controls.Add(regelsUitgeschakeldLab);*/
+            /*Label regelsIngeschakeldLab = new Label();
+            regelsIngeschakeldLab.Text = "Ingeschakelde regels (1,2,3)";
+            regelsIngeschakeldLab.BackColor = Color.Transparent;
+            regelsIngeschakeldLab.Size = new Size(150, 40);
+            regelsIngeschakeldLab.Location = new Point(50, 150);
+            Controls.Add(regelsIngeschakeldLab);*/
 
-            regelsUitgeschakeldCon = new TextBox();
-            regelsUitgeschakeldCon.Location = new Point(220, 150);
-            Controls.Add(regelsUitgeschakeldCon);
+            regelsIngeschakeldCon = new TextBox();
+            regelsIngeschakeldCon.Location = new Point(220, 150);
+            Controls.Add(regelsIngeschakeldCon);
 
             /*Label aantalSpelersLab = new Label();
             aantalSpelersLab.Text = "Aantal spelers";
@@ -69,7 +73,7 @@ namespace CyberPesten
             Controls.Add(aantalSpelersCon);
 
             /*Label AIIngeschakeldLab = new Label();
-            AIIngeschakeldLab.Text = "Uitgeschakelde AI (0,2,3)";
+            AIIngeschakeldLab.Text = "Ingeschakelde AI (0,2,3)";
             AIIngeschakeldLab.BackColor = Color.Transparent;
             AIIngeschakeldLab.Size = new Size(150, 40);
             AIIngeschakeldLab.Location = new Point(50, 350);
@@ -109,30 +113,29 @@ namespace CyberPesten
             update();
             this.Show();
 
-            settingsButtons = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Settings_buttons"));
             terugBitmap = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Terug_button"));
             standSetBitmap = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("StandSet_button"));
 
-            verhouding = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width / settingsButtons.Width;
+            verhouding = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width / terugBitmap.Width;
 
             terugButton = new Rectangle(0, (int)(verhouding * 53), (int)(verhouding * 234), (int)(verhouding * 74));
             standSetButton = new Rectangle(0, (int)(verhouding * 927), (int)(verhouding * 1230), (int)(verhouding * 74));
 
-            this.Paint += this.buildSettings;
+            this.Paint += this.buildAchtergrond;
             this.Paint += this.selected;
             this.MouseMove += this.hover;
             this.MouseClick += this.klik;
         }
 
-        void regelsUitgeschakeld(object sender, EventArgs ea)
+        void regelsIngeschakeld(object sender, EventArgs ea)
         {
-            string[] delen = regelsUitgeschakeldCon.Text.Split(new char[] { ',' });
-            instellingen.regelsUitgeschakeld = new List<int>();
+            string[] delen = regelsIngeschakeldCon.Text.Split(new char[] { ',' });
+            instellingen.regelsIngeschakeld = new List<int>();
             if (delen[0] != "")
             {
                 for (int i = 0; i < delen.Length; i++)
                 {
-                    instellingen.regelsUitgeschakeld.Add(Int32.Parse(delen[i]));
+                    instellingen.regelsIngeschakeld.Add(Int32.Parse(delen[i]));
                 }
             }
         }
@@ -210,20 +213,22 @@ namespace CyberPesten
             }
         }
 
-        void buildSettings(object sender, PaintEventArgs pea)
+        private void buildAchtergrond(object sender, PaintEventArgs pea)
         {
-            pea.Graphics.DrawImage(settingsButtons, 0, 0, settingsButtons.Width * verhouding, settingsButtons.Height * verhouding);
+            pea.Graphics.CompositingMode = System.Drawing.Drawing2D.CompositingMode.SourceCopy;
+            pea.Graphics.DrawImage(BackgroundImage, 0, 0);
+            pea.Graphics.CompositingMode = System.Drawing.Drawing2D.CompositingMode.SourceOver;
         }
 
         private void selected(object sender, PaintEventArgs pea)
         {
             if (terugHover)
             {
-                pea.Graphics.DrawImage(terugBitmap, 0, 0, (int)(terugBitmap.Width * verhouding), (int)(terugBitmap.Height * verhouding));
+                pea.Graphics.DrawImage(terugBitmap, maat);
             }
             if (standSetHover)
             {
-                pea.Graphics.DrawImage(standSetBitmap, 0, 0, (int)(standSetBitmap.Width * verhouding), (int)(standSetBitmap.Height * verhouding));
+                pea.Graphics.DrawImage(standSetBitmap, maat);
             }
 
             Invalidate();

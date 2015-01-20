@@ -15,12 +15,23 @@ namespace CyberPesten
         int spelend, richting;
         bool mens;
 
-        public AI3Oke(Spel s, string n)
+        public AI3Oke(Spel spel, string naam)
         {
-            achterkant = new Bitmap((Bitmap)CyberPesten.Properties.Resources.ResourceManager.GetObject("Back_design_2"), 110, 153);
+            achterkant = new Bitmap(110, 153, System.Drawing.Imaging.PixelFormat.Format32bppPArgb);
+            string achterkantDesign;
+            if (spel.instellingen.achterkant == 0)
+            {
+                achterkantDesign = "Back_design_1";
+            }
+            else
+            {
+                achterkantDesign = "Back_design_2";
+            }
+            Graphics.FromImage(achterkant).DrawImage((Bitmap)CyberPesten.Properties.Resources.ResourceManager.GetObject(achterkantDesign), 0, 0, 110, 153);
+
             hand = new List<Kaart>();
-            spel = s;
-            naam = n;
+            this.spel = spel;
+            this.naam = naam;
             blok = new System.Drawing.Bitmap(10, 10);
             spelers = spel.spelers;
             spelend = spel.spelend;
@@ -35,6 +46,7 @@ namespace CyberPesten
             spelend = spel.spelend;
             richting = spel.richting;
             mens = spel.mens;
+            
 
             List<Kaart> mogelijk = new List<Kaart>();
             List<Kaart> pester = new List<Kaart>();
@@ -59,7 +71,22 @@ namespace CyberPesten
 
             foreach (Kaart kaart in mogelijk)
             {
-                if (kaart.Waarde == 2 || kaart.Waarde == 0 || kaart.Waarde == 8 || kaart.Waarde == 1)
+                if (kaart.Waarde == 2) 
+                {
+                    pester.Add(kaart);
+                }
+
+                if (spel.isDraai(kaart))
+                {
+                    pester.Add(kaart);
+                }
+
+                if (spel.isWacht(kaart))
+                {
+                    pester.Add(kaart);
+                }
+
+                if (spel.isPakkenMagAltijd(kaart))
                 {
                     pester.Add(kaart);
                 }
@@ -67,7 +94,7 @@ namespace CyberPesten
 
             foreach (Kaart kaart in mogelijk)
             {
-                if (kaart.Waarde == 7 || kaart.Waarde == 13)
+                if (spel.isNogmaals(kaart))
                 {
                     bonus.Add(kaart);
                 }
@@ -113,7 +140,6 @@ namespace CyberPesten
             else
             {
                 spel.pakKaart();
-                spel.volgende();
             }
             bezig = false;
         }

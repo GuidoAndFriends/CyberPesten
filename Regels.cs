@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace CyberPesten
 {
     partial class Spel
-    {    
+    {
         public bool speelbaar(Kaart kaart)
         {
             bool speelbaar = false;
@@ -17,16 +17,14 @@ namespace CyberPesten
                 case -1:
                     if (kaart.Kleur == stapel[stapel.Count - 1].Kleur || //zelfde kleur
                         kaart.Waarde == stapel[stapel.Count - 1].Waarde || //zelfde waarde
-                        kaart.Kleur == 4 || //joker
-                        kaart.Waarde == 11) //boer
+                        isMagAltijd(kaart))
                     {
                         speelbaar = true;
                     }
                     break;
-                //2 of joker
+                //kaart waarbij gepakt moet worden
                 case 4:
-                    if (kaart.Waarde == 2 || //2
-                        kaart.Kleur == 4) //joker
+                    if (isPakken(kaart) > 0)
                     {
                         speelbaar = true;
                     }
@@ -38,48 +36,28 @@ namespace CyberPesten
                 //veranderde kleur (0, 1, 2 of 3)
                 default:
                     if (kaart.Kleur == speciaal || //de gekozen kleur
-                        kaart.Kleur == 4 || //joker
-                        kaart.Waarde == 11) //boer
+                        isMagAltijd(kaart))
                     {
                         speelbaar = true;
                     }
                     break;
-             }
-             return speelbaar;
+            }
+            return speelbaar;
         }
 
         void kaartActie()
         {
-            Kaart kaart = stapel[stapel.Count - 1];
-            //speciaal wordt op -1 gezet en daarna als dat nodig is (bij joker of 2) weer veranderd
-            speciaal = -1;
-            speciaalTekst = "-1 normaal";
-
-            switch (kaart.Waarde)
+            if (instellingen.regelset == 0)
             {
-                case 0: regelPakken(5); break; //joker
-                case 2: regelPakken(2); break;
-                case 8: regelWacht(); break;
-                case 1: regelDraai(); break;
-                //case 10: regelWas(); break;
+                kaartActie0();
             }
-            
-            if (kaart.Waarde == 7 || kaart.Waarde == 13)
+            else if (instellingen.regelset == 1)
             {
-                //7 kleven, heer nog een keer
-                spelers[spelend].doeZet();
+                kaartActie1();
             }
-            else if (kaart.Waarde == 11)
+            else
             {
-                //boer
-                regelKleur();
-            }
-            else if (kaart.Waarde != 8)
-            {
-                //geen 7 of heer
-                //geen boer, want daarbij wordt volgende al afgehandeld
-                //geen 8 wacht, want daarbij wordt volgende al afgehandeld
-                volgende();
+                System.Windows.Forms.MessageBox.Show("Regelset is nog niet geimplementeerd in kaartActie() in Regels.cs");
             }
         }
 
@@ -93,7 +71,6 @@ namespace CyberPesten
 
         void regelWacht()
         {
-            status += ". Acht wacht!";
             //Spelend wordt een speler verder gemaakt, maar zonder doeZet() van die speler aan te roepen
             Speler oud = spelers[spelend];
             spelend = (spelend + richting + spelers.Count) % (spelers.Count);

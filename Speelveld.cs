@@ -32,11 +32,12 @@ namespace CyberPesten
         public bool zichtbaar;
 
         //Voor de buttons
-        Rectangle helpButton, settingsButton, homeButton, laatsteKaartButton;
-        Bitmap helpBitmap, settingsBitmap, homeBitmap, laatsteKaartBitmap;
+        Rectangle helpButton, settingsButton, homeButton, laatsteKaartButton, eindeBeurtButton;
+        Bitmap helpBitmap, settingsBitmap, homeBitmap, laatsteKaartBitmap, eindeBeurtBitmap;
         int buttonWidth;
         public Brush laatsteKaartBrush;
 
+        //Tijdelijk
         Button klaver, harten, ruiten, schoppen;
 
         public Speelveld(Menu m, Instellingen instellingen, bool online)
@@ -57,7 +58,17 @@ namespace CyberPesten
             Graphics.FromImage(achtergrond).DrawImage((Bitmap)CyberPesten.Properties.Resources.ResourceManager.GetObject("Achtergrond"), 0, 0);
             BackgroundImage = achtergrond;
 
-            achterkant = new Bitmap((Bitmap)CyberPesten.Properties.Resources.ResourceManager.GetObject("Back_design_2"), kaartBreedte, kaartHoogte);
+            achterkant = new Bitmap(110, 153, System.Drawing.Imaging.PixelFormat.Format32bppPArgb);
+            string achterkantDesign;
+            if (instellingen.achterkant == 0)
+            {
+                achterkantDesign = "Back_design_1";
+            }
+            else
+            {
+                achterkantDesign = "Back_design_2";
+            }
+            Graphics.FromImage(achterkant).DrawImage((Bitmap)CyberPesten.Properties.Resources.ResourceManager.GetObject(achterkantDesign), 0, 0, kaartBreedte, kaartHoogte);
 
             stapelPlek = new Point(Width / 2 - 50 - kaartBreedte, Height / 2 - kaartHoogte / 2);
             potPlek = new Point(Width / 2 + 50, Height / 2 - kaartHoogte / 2);
@@ -86,10 +97,12 @@ namespace CyberPesten
             settingsBitmap = (Bitmap)CyberPesten.Properties.Resources.ResourceManager.GetObject("Settings_button");
             homeBitmap = (Bitmap)CyberPesten.Properties.Resources.ResourceManager.GetObject("Home_button");
             laatsteKaartBitmap = (Bitmap)CyberPesten.Properties.Resources.ResourceManager.GetObject("Laatste_kaart");
+            eindeBeurtBitmap = (Bitmap)CyberPesten.Properties.Resources.ResourceManager.GetObject("Einde_beurt");
 
             buttonWidth = helpBitmap.Width;
 
             laatsteKaartButton = new Rectangle(Width / 2 + 100 + laatsteKaartBitmap.Width, this.Height / 2 - laatsteKaartBitmap.Width / 2 + 5, laatsteKaartBitmap.Width, laatsteKaartBitmap.Width);
+            eindeBeurtButton = new Rectangle(Width / 2 + 125 + 2 * laatsteKaartBitmap.Width, this.Height / 2 - laatsteKaartBitmap.Width / 2 + 5, laatsteKaartBitmap.Width, laatsteKaartBitmap.Width);
             helpButton = new Rectangle(Width - 75 - 3 * buttonWidth, this.Height / 2 - buttonWidth / 2, buttonWidth, buttonWidth);
             settingsButton = new Rectangle(Width - 50 - 2 * buttonWidth, this.Height / 2 - buttonWidth / 2, buttonWidth, buttonWidth);
             homeButton = new Rectangle(Width - 25 - buttonWidth, this.Height / 2 - buttonWidth / 2, buttonWidth, buttonWidth);
@@ -123,6 +136,14 @@ namespace CyberPesten
             this.Controls.Add(ruiten);
             this.Controls.Add(schoppen);
             verbergKleurknoppen();
+
+            /*
+            chat = new Chat();
+            chat.Size = new Size(300, 100);
+            chat.Location = new Point(Width - 50 - 300, 250);
+            chat.Text = spel.geschiedenis;
+            Controls.Add(chat);
+            */
 
             this.Show();
         }
@@ -177,9 +198,9 @@ namespace CyberPesten
             }
 
             //status van het spel
-            gr.DrawString(spel.status, new Font(FontFamily.GenericSansSerif, 14), Brushes.Black, new Point(40, Height / 2 - FontHeight / 2));
-            gr.DrawString(spel.aantalKaarten, new Font(FontFamily.GenericSansSerif, 14), Brushes.Black, new Point(40, Height / 2 + 2 * FontHeight));
-            gr.DrawString(spel.speciaalTekst, new Font(FontFamily.GenericSansSerif, 14), Brushes.Black, new Point(40, Height / 2 + 4 * FontHeight));
+            gr.DrawImage(spel.chat.maakBitmap(false), new Point(40, Height / 2 - FontHeight / 2));
+            gr.DrawString(spel.aantalKaarten, new Font(FontFamily.GenericSansSerif, 14), Brushes.Black, new Point(40, Height / 2 - 2 * FontHeight));
+            gr.DrawString(spel.speciaalTekst, new Font(FontFamily.GenericSansSerif, 14), Brushes.Black, new Point(40, Height / 2 - 4 * FontHeight));
 
             //Buttons
             gr.DrawImage(helpBitmap, helpButton);
@@ -187,6 +208,11 @@ namespace CyberPesten
             gr.DrawImage(homeBitmap, homeButton);
             gr.FillEllipse(laatsteKaartBrush, laatsteKaartButton);
             gr.DrawImage(laatsteKaartBitmap, laatsteKaartButton);
+            if (spel.spelend == 0 && spel.magZet)
+            {
+                gr.DrawImage(eindeBeurtBitmap, eindeBeurtButton);
+            }
+            //chat.Text = spel.geschiedenis;
         }
 
         void muisKlik(object sender, MouseEventArgs mea)
@@ -197,10 +223,6 @@ namespace CyberPesten
                 {
                     spel.bezig = false;
                     Help help = new Help(this);
-                    if (Text == "CyberPesten: Lokaal spel")
-                    {
-                        help.spel = spel;
-                    }
                 }
                 else
                 {
@@ -233,6 +255,10 @@ namespace CyberPesten
                 Invalidate();
                 Update();
             }
+            else if (eindeBeurtButton.Contains(mea.Location))
+            {
+                spel.pakKaart();
+            }
             else if (spel.spelend == 0)
             {
                 if (mea.X >= potPlek.X && mea.X <= potPlek.X + kaartBreedte && mea.Y >= potPlek.Y && mea.Y <= potPlek.Y + kaartHoogte)
@@ -246,7 +272,6 @@ namespace CyberPesten
                     else
                     {
                         spel.pakKaart();
-                        spel.volgende();
                         Invalidate();
                         return;
                     }
