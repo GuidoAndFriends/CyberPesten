@@ -126,6 +126,16 @@ namespace CyberPesten
             {
                 helpHover = false;
             }
+            if (exitButton.Contains(mea.Location))
+            {
+                exitHover = true;
+            }
+            else
+            {
+                exitHover = false;
+            }
+
+            Invalidate();
         }
 
         private void klik(object sender, MouseEventArgs mea)
