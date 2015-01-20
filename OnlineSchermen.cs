@@ -267,7 +267,7 @@ namespace CyberPesten
         public lobbyScherm(Form back)
         {
             menuBack = back;
-            BackgroundImage = (Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Menu_achtergrond");
+            BackgroundImage = (Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Lobby_menu");
             FormBorderStyle = FormBorderStyle.None;
             WindowState = FormWindowState.Maximized;
             DoubleBuffered = true;
@@ -360,12 +360,13 @@ class openSpellenScherm : Form
     bool closed = false,hostOpen = false;
     Form v;
     Thread data_thread;
-    
+    Rectangle hostgame, exit;
+    bool hostHover,exitHover;
 
         public openSpellenScherm(Form back)
         {
             menuBack = back;
-            BackgroundImage = (Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Menu_achtergrond");
+            BackgroundImage = (Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Spellenscherm");
             FormBorderStyle = FormBorderStyle.None;
             WindowState = FormWindowState.Maximized;
             DoubleBuffered = true;
@@ -376,15 +377,14 @@ class openSpellenScherm : Form
             data_thread = new Thread(data);
             data_thread.Start();
 
-            PictureBox hostGame = new PictureBox();
-            hostGame.Location = new Point((int)(((1920/2)-(192/2))*verhouding),(int)(800*verhouding));
-            hostGame.Size = new Size((int)(192 * verhouding), (int)(31 * verhouding));
-            //hostGame.image = ...
-            hostGame.BackColor =  Color.Orange;
-            hostGame.Click += hostGame_Click;
-            this.FormClosing += closing;
+            hostgame = new Rectangle((int)(1673 * verhouding) ,(int) (693*verhouding),(int) (252*verhouding),(int)(95*verhouding));
+            exit = new Rectangle((int)(1673 * verhouding), (int)(809 * verhouding), (int)(252 * verhouding), (int)(95 * verhouding));
 
-            Controls.Add(hostGame);
+            this.FormClosing += closing;
+            this.FormClosed += closing;
+
+            this.MouseMove += this.hover;
+            this.MouseClick += this.klik;
             
             //er is een knop nodig die laat zien create game, met de volgende opties daarin:
             // spelnaam, aantal max spelers en regelset
@@ -412,55 +412,66 @@ class openSpellenScherm : Form
                     foreach (online_openSpel oo in list)
                     {
                         Label lbl1 = new Label();
-                        lbl1.Top = (int)((100 + a * 40) * verhouding);
+                        lbl1.Top = (int)((198 + a * 30) * verhouding);
                         lbl1.Left = (int)(10 * verhouding);
                         lbl1.Text = oo.spelnaam;
                         lbl1.Font = arial;
                         lbl1.BackColor = Color.Transparent;
                         lbl1.ForeColor = Color.White;
-                        lbl1.Size = new Size((int)(200 * verhouding), (int)(20 * verhouding));
+                        lbl1.Size = new Size((int)(500 * verhouding), (int)(30 * verhouding));
                         lijstcontrol.Add(lbl1);
                         Controls.Add(lbl1);
 
                         Label lbl2 = new Label();
-                        lbl2.Top = (int)((100 + a * 40) * verhouding);
-                        lbl2.Left = (int)(210 * verhouding);
+                        lbl2.Top = (int)((198 + a * 30) * verhouding);
+                        lbl2.Left = (int)(532 * verhouding);
                         lbl2.Text = oo.host;
                         lbl2.Font = arial;
+                        lbl2.TextAlign = ContentAlignment.TopCenter;
                         lbl2.BackColor = Color.Transparent;
                         lbl2.ForeColor = Color.White;
-                        lbl2.Size = new Size((int)(150 * verhouding), (int)(20 * verhouding));
+                        lbl2.Size = new Size((int)(350 * verhouding), (int)(30 * verhouding));
                         lijstcontrol.Add(lbl2);
                         Controls.Add(lbl2);
 
                         Label lbl3 = new Label();
-                        lbl3.Top = (int)((100 + a * 40) * verhouding);
-                        lbl3.Left = (int)(360 * verhouding);
+                        lbl3.Top = (int)((198 + a * 30) * verhouding);
+                        lbl3.Left = (int)(881 * verhouding);
                         lbl3.Text = oo.spelerAantal + "/" + oo.maxSpelerAantal;
                         lbl3.Font = arial;
+                        lbl3.TextAlign = ContentAlignment.TopCenter;
                         lbl3.BackColor = Color.Transparent;
                         lbl3.ForeColor = Color.White;
-                        lbl3.Size = new Size((int)(60 * verhouding), (int)(20 * verhouding));
+                        lbl3.Size = new Size((int)(270 * verhouding), (int)(30 * verhouding));
                         lijstcontrol.Add(lbl3);
                         Controls.Add(lbl3);
 
+
+                        string text;
+                        switch (oo.Spelregel)
+                        {
+                            case "1": text = "Standaard"; break;
+                            case "2": text = "Familie"; break;
+                            default: text = "Aangepast"; break;
+                        }
+
                         Label lbl4 = new Label();
-                        lbl4.Top = (int)((100 + a * 40) * verhouding);
-                        lbl4.Left = (int)(420 * verhouding);//420 blaze it
-                        lbl4.Text = oo.Spelregel;
+                        lbl4.Top = (int)((198 + a * 30) * verhouding);
+                        lbl4.Left = (int)(1147 * verhouding);
+                        lbl4.Text = text;
                         lbl4.Font = arial;
+                        lbl4.TextAlign = ContentAlignment.TopCenter;
                         lbl4.BackColor = Color.Transparent;
                         lbl4.ForeColor = Color.White;
-                        lbl4.Size = new Size((int)(200 * verhouding), (int)(20 * verhouding));
+                        lbl4.Size = new Size((int)(276 * verhouding), (int)(30 * verhouding));
                         lijstcontrol.Add(lbl4);
                         Controls.Add(lbl4);
 
                         PictureBox but5 = new PictureBox();
                         but5.Name = oo.id.ToString();
-                        //but5.Image = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Join_knop"));
-                        but5.BackColor = Color.Green;
+                        but5.Image = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Join_knop"));
                         but5.Size = new Size((int)(192 * verhouding), (int)(31 * verhouding));
-                        but5.Location = new Point((int)(620 * verhouding), (int)((100 + a * 40) * verhouding));
+                        but5.Location = new Point((int)(1422 * verhouding), (int)((195 + a * 30) * verhouding));
                         lijstcontrol.Add(but5);
                         but5.Click += join_Click;
                         Controls.Add(but5);
@@ -470,14 +481,16 @@ class openSpellenScherm : Form
                 }
                 else
                 {
-                    Label lbl = new Label();
-                    lbl.Top = (int)((115) * verhouding);
-                    lbl.Left = (int)(10 * verhouding);
-                    lbl.Text = "Geen spellen gevonden";
-                    lbl.Font = arial;
-                    lbl.ForeColor = Color.White;
-                    lbl.Size = new Size((int)(200 * verhouding), (int)(20 * verhouding));
-                    Controls.Add(lbl);
+                    Label lbl1 = new Label();
+                    lbl1.Top = (int)((198) * verhouding);
+                    lbl1.Left = (int)(10 * verhouding);
+                    lbl1.Text = "Geen Spellen Gevonden";
+                    lbl1.Font = arial;
+                    lbl1.BackColor = Color.Transparent;
+                    lbl1.ForeColor = Color.White;
+                    lbl1.Size = new Size((int)(500 * verhouding), (int)(30 * verhouding));
+                    lijstcontrol.Add(lbl1);
+                    Controls.Add(lbl1);
                 }
             }
             
@@ -491,16 +504,39 @@ class openSpellenScherm : Form
             }
         }
 
-        public void hostGame_Click(object o, EventArgs e)
+        public void hover(object o, MouseEventArgs e)
         {
-            if (!hostOpen) {
-                hostOpen = true;
-                v = new hostGameOpties(this);
-                v.FormClosed += hostClosed;
-            }else
+            hostHover = false; exitHover = false;
+            if (hostgame.Contains(e.Location)) { hostHover = true; }
+            if (exit.Contains(e.Location)) { exitHover = true; }
+        }
+
+        public void klik(object o, MouseEventArgs e)
+        {
+            if (hostHover)
             {
-                v.Focus();
+                if (!hostOpen)
+                {
+                    hostOpen = true;
+                    v = new hostGameOpties(this);
+                    v.FormClosed += hostClosed;
+                }
+                else
+                {
+                    v.Focus();
+                }
             }
+
+            if (exitHover)
+            {
+                menuBack.Show();
+                this.Close();
+            }
+        }
+
+        public void hostGame_Click()
+        {
+
         }
 
         public void hostClosed(object o, EventArgs e)
