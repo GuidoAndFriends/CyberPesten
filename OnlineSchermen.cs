@@ -257,6 +257,7 @@ class lobbyScherm : Form
         float verhouding;
         Font arial;
         Form menuBack;
+        Form spel;
 
         public string[] deelnemers;
         public string[] rankings;//nog niet zo relevant
@@ -338,6 +339,15 @@ class lobbyScherm : Form
                     a++;
                 }
             }
+        }
+
+        public void gaVerder()
+        {   
+            /*
+            spel = new Speelveld()//spul 
+            spel.Show();
+            this.Hide();
+             */
         }
 
 
@@ -453,6 +463,7 @@ class lobbyScherm : Form
                     Thread.Sleep(1000);//slaap voor een seconde.
                 }
             }
+            gaVerder();
             //begonnen is veranderd, ga naar het spel
         }
     }
