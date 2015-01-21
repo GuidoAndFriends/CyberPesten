@@ -62,14 +62,15 @@ namespace CyberPesten
             }
 
             spel.speciaal = kleur;
-            spel.status += " en koos voor ";
+            string tekst = spel.spelers[spel.spelend].naam + " koos voor ";
             switch (kleur)
             {
-                case 0: spel.status += "Harten "; break;
-                case 1: spel.status += "Klaver "; break;
-                case 2: spel.status += "Ruiten "; break;
-                case 3: spel.status += "Schoppen "; break;
+                case 0: tekst += "Harten "; break;
+                case 1: tekst += "Klaver "; break;
+                case 2: tekst += "Ruiten "; break;
+                case 3: tekst += "Schoppen "; break;
             }
+            spel.chat.nieuw(tekst);
         }
         
         public int laatsteKaart

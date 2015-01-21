@@ -113,6 +113,7 @@ namespace CyberPesten
         {
             checkNullKaart();
 
+            magZet = false;
             Kaart kaart = van[index];
             Point p1;
             if (spelend == 0)
@@ -157,13 +158,13 @@ namespace CyberPesten
             {
                 if (magZet)
                 {
-                    volgende();
                     magZet = false;
+                    volgende();
                 }
                 else
                 {
-                    pakKaartNu();
                     magZet = true;
+                    pakKaartNu();
                     spelers[spelend].doeZet();
                 }
             }
@@ -235,6 +236,7 @@ namespace CyberPesten
                 pakKaartNu();
             }
             magZet = true;
+            spelers[spelend].doeZet();
         }
 
         protected List<Kaart> schud(List<Kaart> stapel)

@@ -110,7 +110,7 @@ namespace CyberPesten
             Controls.Add(muziekCon);
 
             Label achterkantLab = new Label();
-            achterkantLab.Text = "Aantal spelers";
+            achterkantLab.Text = "Achterkant design";
             achterkantLab.BackColor = Color.Transparent;
             achterkantLab.Size = new Size(150, 40);
             achterkantLab.Location = new Point(50, 650);
@@ -313,6 +313,8 @@ namespace CyberPesten
             {
                 muziekCon.Text = "Uit";
             }
+
+            achterkantCon.Value = instellingen.achterkant;
         }
 
         void terug(object sender, EventArgs ea)
