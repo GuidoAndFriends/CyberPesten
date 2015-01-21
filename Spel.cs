@@ -16,7 +16,7 @@ namespace CyberPesten
         public List<Speler> spelers;
         public Speelveld speelveld;
         public int spelend, richting, speciaal, pakAantal, aantalSpelers;
-        public string status, aantalKaarten, speciaalTekst;
+        public string aantalKaarten, speciaalTekst;
         public System.Timers.Timer timerAI;
         public bool mens;
         public Instellingen instellingen;
@@ -79,7 +79,7 @@ namespace CyberPesten
                                 MessageBox.Show("Deze regelset is nog niet toegepast in de funtie speelKaart in Spel.cs");
                             }
                             
-                            kaartActie();
+                            kaartActie(false);
                             return true;
                         }
                     }
@@ -124,6 +124,15 @@ namespace CyberPesten
             {
                 int breedte = (spelers.Count - 1) * 350;
                 int tussenruimte = (speelveld.Width - breedte - 20) / (spelers.Count - 2);
+                int kaartafstand = 110 + 10;
+                if (spelers[spelend].hand.Count < 4)
+                {
+                    kaartafstand = (spelers[spelend].hand.Count - 1) * 120 - 10;
+                    if (kaartafstand == -10)
+                    {
+                        kaartafstand = 0;
+                    }
+                }
                 p1 = new Point(10 + (350 + tussenruimte) * (spelend - 1) + 120, 10);
             }
             speelveld.verplaatsendeKaart = kaart;
@@ -237,6 +246,11 @@ namespace CyberPesten
             }
             magZet = true;
             spelers[spelend].doeZet();
+            if (speelveld.IsHandleCreated)
+            {
+                speelveld.Invoke(new Action(() => speelveld.Invalidate()));
+                speelveld.Invoke(new Action(() => speelveld.Update()));
+            }
         }
 
         protected List<Kaart> schud(List<Kaart> stapel)

@@ -54,7 +54,7 @@ namespace CyberPesten
         void schoppen_Click(object sender, EventArgs e)
         {
             spel.speciaal = 3;
-            spel.status += " en koos voor schoppen";
+            spel.chat.nieuw("Je koos voor schoppen");
             spel.volgende();
             this.Close();
         }
@@ -62,7 +62,7 @@ namespace CyberPesten
         void ruiten_Click(object sender, EventArgs e)
         {
             spel.speciaal = 2;
-            spel.status += " en koos voor ruiten";
+            spel.chat.nieuw("Je en koos voor ruiten");
             spel.volgende();
             this.Close();
         }
@@ -70,7 +70,7 @@ namespace CyberPesten
         void harten_Click(object sender, EventArgs e)
         {
             spel.speciaal = 0;
-            spel.status += " en koos voor harten";
+            spel.chat.nieuw("Je en koos voor harten");
             spel.volgende();
             this.Close();
         }
@@ -78,7 +78,7 @@ namespace CyberPesten
         void klaver_Click(object sender, EventArgs e)
         {
             spel.speciaal = 1;
-            spel.status += " en koos voor klaver";
+            spel.chat.nieuw("Je en koos voor klaver");
             spel.volgende();
             this.Close();
         }

@@ -45,15 +45,15 @@ namespace CyberPesten
             return speelbaar;
         }
 
-        void kaartActie()
+        void kaartActie(bool volgendeAan = true)
         {
             if (instellingen.regelset == 0)
             {
-                kaartActie0();
+                kaartActie0(volgendeAan);
             }
             else if (instellingen.regelset == 1)
             {
-                kaartActie1();
+                kaartActie1(volgendeAan);
             }
             else
             {
@@ -64,7 +64,7 @@ namespace CyberPesten
         void regelPakken(int aantal)
         {
             pakAantal += aantal;
-            status += " en het totaal is nu " + pakAantal;
+            chat.nieuw("Het aantal kaarten dat gepakt moet worden is nu " + pakAantal);
             speciaal = 4;
             speciaalTekst = "4 alleen joker of 2";
         }

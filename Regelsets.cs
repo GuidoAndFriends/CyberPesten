@@ -122,7 +122,7 @@ namespace CyberPesten
             }
         }
 
-        void kaartActie0()
+        void kaartActie0(bool volgendeAan)
         {
             Kaart kaart = stapel[stapel.Count - 1];
             //speciaal wordt op -1 gezet en daarna als dat nodig is (bij joker of 2) weer veranderd
@@ -156,11 +156,14 @@ namespace CyberPesten
             }
             else if (!isOverslaan(kaart))
             {
-                volgende();
+                if (volgendeAan)
+                {
+                    volgende();
+                }
             }
         }
 
-        void kaartActie1()
+        void kaartActie1(bool volgendeAan)
         {
             Kaart kaart = stapel[stapel.Count - 1];
             //speciaal wordt op -1 gezet en daarna als dat nodig is (bij joker of 2) weer veranderd
@@ -194,7 +197,10 @@ namespace CyberPesten
             }
             else if (!isOverslaan(kaart))
             {
-                volgende();
+                if (volgendeAan)
+                {
+                    volgende();
+                }
             }
         }
 
