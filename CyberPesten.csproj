@@ -95,6 +95,7 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\Settings switches.png" />
     <None Include="Resources\Spellenscherm.png" />
     <None Include="Resources\Lobby menu.png" />
     <None Include="Resources\Settings achtergrond.png" />
@@ -149,6 +150,9 @@
     <None Include="Resources\Gradient.png" />
     <None Include="Resources\Exit button.png" />
     <None Include="Resources\Faded buttons.png" />
+    <None Include="Resources\Back design 3.png" />
+    <None Include="Resources\Achterkant regenboog.png" />
+    <None Include="Resources\Achterkant rood.png" />
     <Content Include="Resources\Einde beurt.png" />
     <None Include="Resources\Help.png" />
     <None Include="Resources\HJ.png" />

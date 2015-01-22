@@ -361,4 +361,16 @@
   <data name="Spellenscherm" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Spellenscherm.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="Achterkant_regenboog" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Achterkant regenboog.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Achterkant_rood" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Achterkant rood.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Back_design_3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Back design 3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Settings_switches" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Settings switches.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>

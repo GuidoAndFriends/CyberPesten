@@ -73,6 +73,26 @@ namespace CyberPesten.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Achterkant_regenboog {
+            get {
+                object obj = ResourceManager.GetObject("Achterkant_regenboog", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Achterkant_rood {
+            get {
+                object obj = ResourceManager.GetObject("Achterkant_rood", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Back_design_1 {
             get {
                 object obj = ResourceManager.GetObject("Back_design_1", resourceCulture);
@@ -86,6 +106,16 @@ namespace CyberPesten.Properties {
         internal static System.Drawing.Bitmap Back_design_2 {
             get {
                 object obj = ResourceManager.GetObject("Back_design_2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Back_design_3 {
+            get {
+                object obj = ResourceManager.GetObject("Back_design_3", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -806,6 +836,16 @@ namespace CyberPesten.Properties {
         internal static System.Drawing.Bitmap Settings_button {
             get {
                 object obj = ResourceManager.GetObject("Settings_button", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Settings_switches {
+            get {
+                object obj = ResourceManager.GetObject("Settings_switches", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
