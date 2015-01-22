@@ -833,6 +833,16 @@ namespace CyberPesten.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Spel_instellingen {
+            get {
+                object obj = ResourceManager.GetObject("Spel_instellingen", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Spellenscherm {
             get {
                 object obj = ResourceManager.GetObject("Spellenscherm", resourceCulture);
@@ -856,6 +866,16 @@ namespace CyberPesten.Properties {
         internal static System.Drawing.Bitmap StandSet_button {
             get {
                 object obj = ResourceManager.GetObject("StandSet_button", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Start {
+            get {
+                object obj = ResourceManager.GetObject("Start", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

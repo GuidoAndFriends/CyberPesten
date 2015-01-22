@@ -97,6 +97,8 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\Start.png" />
+    <None Include="Resources\Spel instellingen.png" />
     <None Include="Resources\Speelveld buttons.png" />
     <None Include="Resources\Settings switches.png" />
     <None Include="Resources\Spellenscherm.png" />

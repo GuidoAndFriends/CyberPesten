@@ -751,69 +751,92 @@ class openSpellenScherm : Form
 public class hostGameOpties : Form
     {
         openSpellenScherm oscherm;
-        TextBox name,spelers,regels;
+        Bitmap achtergrond, startButton;
+        Rectangle maat;
+        TextBox name, spelers, regels;
+        Rectangle startRect;
+        bool startBool;
 
         public hostGameOpties(Form o)
         {
-            oscherm = (openSpellenScherm) o;
-            this.BackgroundImage = (Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Menu_achtergrond");
-            this.Size = new Size(300, 300);
+            DoubleBuffered = true;
+            maat = new Rectangle(0, 0, 798, 528);
+
+            oscherm = (openSpellenScherm)o;
+            this.ClientSize = maat.Size;
+
+            achtergrond = new Bitmap(maat.Width, maat.Height, System.Drawing.Imaging.PixelFormat.Format32bppPArgb);
+            Graphics.FromImage(achtergrond).DrawImage((Bitmap)CyberPesten.Properties.Resources.ResourceManager.GetObject("Spel_instellingen"), maat);
+            BackgroundImage = achtergrond;
+
+            this.Text = "Spel Instellingen";
+            this.FormBorderStyle = FormBorderStyle.FixedDialog;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
+            this.StartPosition = FormStartPosition.CenterScreen;
             this.Show();
 
-            Button but1 = new Button();
-            but1.Location = new Point(120, 230);
-            but1.Text = "Start";
-            but1.Size = new Size(50, 30);
-            but1.Click += start;
-            Controls.Add(but1);
+            startButton = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Start"));
+            startRect = new Rectangle(435, 425, 263, 75);
+
+            this.MouseMove += this.hover;
+            this.Paint += this.teken;
+            this.MouseClick += this.klik;
 
             name = new TextBox();
-            name.Location = new Point(120,0);
-            name.Size = new Size(180, 30);
+            name.Location = new Point(468, 115);
+            name.Size = new Size(180, 300);
+            name.Width = 280;
             name.Font = new Font("Arial", 15);
             name.MaxLength = 40;
             Controls.Add(name);
 
-            Label nameLabel = new Label();
-            nameLabel.Text = "Spel Naam:";
-            nameLabel.Location = new Point(0, 0);
-            nameLabel.Size = new Size(120,30);
-            nameLabel.ForeColor = Color.White;
-            nameLabel.BackColor = Color.Transparent;
-            nameLabel.Font = new Font("Arial", 12);
-            Controls.Add(nameLabel);
-
             spelers = new TextBox();
-            spelers.Location = new Point(120, 40);
-            spelers.Size = new Size(180, 30);
+            spelers.Location = new Point(468, 215);
+            spelers.Size = new Size(180, 300);
+            spelers.Width = 280;
             spelers.Font = new Font("Arial", 15);
             spelers.MaxLength = 1;
             Controls.Add(spelers);
 
-            Label spelersLabel = new Label();
-            spelersLabel.Text = "Max Spelers:";
-            spelersLabel.Location = new Point(0, 40);
-            spelersLabel.Size = new Size(120, 30);
-            spelersLabel.ForeColor = Color.White;
-            spelersLabel.BackColor = Color.Transparent;
-            spelersLabel.Font = new Font("Arial", 12);
-            Controls.Add(spelersLabel);
-
             regels = new TextBox();
-            regels.Location = new Point(120, 80);
-            regels.Size = new Size(180, 30);
+            regels.Location = new Point(468, 315);
+            regels.Size = new Size(180, 300);
+            regels.Width = 280;
             regels.Font = new Font("Arial", 15);
             regels.MaxLength = 2;
             Controls.Add(regels);
+        }
 
-            Label regelsLabel = new Label();
-            regelsLabel.Text = "Regels:";
-            regelsLabel.Location = new Point(0, 80);
-            regelsLabel.Size = new Size(120, 30);
-            regelsLabel.ForeColor = Color.White;
-            regelsLabel.BackColor = Color.Transparent;
-            regelsLabel.Font = new Font("Arial", 12);
-            Controls.Add(regelsLabel);
+        public void hover(object sender, MouseEventArgs mea)
+        {
+            if (startRect.Contains(mea.Location))
+            {
+                startBool = true;
+            }
+            else { startBool = false; }
+
+            Invalidate();
+        }
+
+        public void teken(object sender, PaintEventArgs pea)
+        {
+            pea.Graphics.CompositingMode = System.Drawing.Drawing2D.CompositingMode.SourceCopy;
+            pea.Graphics.DrawImage(BackgroundImage, 0, 0);
+            pea.Graphics.CompositingMode = System.Drawing.Drawing2D.CompositingMode.SourceOver;
+
+            if (startBool)
+            {
+                pea.Graphics.DrawImage(startButton, maat);
+            }
+        }
+
+        public void klik(object sender, MouseEventArgs mea)
+        {
+            if (startBool)
+            {
+                start(this, mea);
+            }
         }
 
         public void start(object o, EventArgs e)
