@@ -96,5 +96,10 @@ namespace CyberPesten
                 }
             }
         }
+
+        public override void doeZet()
+        {
+            System.Windows.Forms.MessageBox.Show("doeZet in OnlineSpeler.cs is nog leeg!");
+        }
     }
 }

@@ -253,7 +253,7 @@ namespace CyberPesten
             }
         }
 
-        protected List<Kaart> schud(List<Kaart> stapel)
+        protected virtual List<Kaart> schud(List<Kaart> stapel)
         {
             int i;
             Random r = new Random();
