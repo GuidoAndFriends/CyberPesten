@@ -351,29 +351,22 @@ class lobbyScherm : Form
 
         public void klik(object o, EventArgs e)
         {
-            if ((delHover||leaveHover) && Online.is_host)
+            if ((delHover || leaveHover) && Online.is_host)
             {
-                if (delete_spel())
-                {
-                    menuBack.Show();
-                    Close();
-                }
-                
+                delete_spel();
+                menuBack.Show();
+                Close();
+
             }
             if (leaveHover && !Online.is_host)
             {
-                if (leave_spel())
-                {
-                    menuBack.Show();
-                    Close();
-                }
+                leave_spel();
+                menuBack.Show();
+                Close();
             }
-            if (startHover && Online.is_host)
+            if (startHover && Online.is_host && deelnemers.Count() > 1)
             {
-                if (start_spel())
-                {
-                    //do something
-                }
+                start_spel();
             }
         }
 
@@ -864,6 +857,7 @@ class Online//bevat al onze hulp methoden
         public static int game;
         public static Random onlineRandom;
         public static bool is_host;
+        public static string[] deelnemers;
 
         //onderstaande methoden moeten waarschijnlijk naar een hoger niveua verplaatst worden
         public static string PHPrequest(string URL, string[] argument_names, string[] argument_values)
