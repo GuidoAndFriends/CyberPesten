@@ -19,7 +19,9 @@ namespace CyberPesten
         }
 
 
-
+        /*
+        Identiek aan die in superklasse
+         * 
         public virtual void updateBlok()
         {
             //Maakt een plaatje met maximaal drie kaarten en de naam, het aantal kaarten en een pijltje als de speler aan de beurt is
@@ -41,7 +43,11 @@ namespace CyberPesten
 
             blok =  b;
         }
+        */
 
+        /*
+        Moet niet in online speler, alleen bij AI
+         * 
         public virtual void kiesKleur()
         {
             //er wordt gekeken welke kleur het vaakst voor komt in de hand
@@ -73,7 +79,11 @@ namespace CyberPesten
             }
             spel.chat.nieuw(tekst);
         }
+        */
         
+        /*
+        Moet niet in online speler, alleen bij AI
+         * 
         public int laatsteKaart
         {
             get
@@ -96,6 +106,7 @@ namespace CyberPesten
                 }
             }
         }
+        */
 
         public override void doeZet()
         {

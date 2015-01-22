@@ -36,9 +36,9 @@ namespace CyberPesten
         public bool zichtbaar;
 
         //Voor de buttons
-        Rectangle helpButton, settingsButton, homeButton, laatsteKaartButton, eindeBeurtButton;
+        //Rectangle helpButton, settingsButton, homeButton, laatsteKaartButton, eindeBeurtButton;
         Bitmap buttonsBitmap;
-        int buttonWidth;
+        //int buttonWidth;
         public Brush laatsteKaartBrush;
 
         //Tijdelijk
