@@ -3,12 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Threading;
 
 namespace CyberPesten
 {
     class OnlineSpel : Spel 
     {
         Random rnd = Online.onlineRandom;
+        Thread data_thread;
+        bool spel_loopt;
+        List<string> chatregels;
+
         public OnlineSpel(Speelveld s)
         {
             speelveld = s;
@@ -17,6 +22,11 @@ namespace CyberPesten
             pot = new List<Kaart>();
             mens = true;
             aantalSpelers = Online.deelnemers.Count();
+            spel_loopt = true;
+            data_thread = new Thread(data);
+            data_thread.IsBackground = true;
+            data_thread.Name = "Data";
+            data_thread.Start();
 
             int kaartspellen = (aantalSpelers) / 4 + 1; //hoeveel kaartspellen gebruikt worden
             int startkaarten = 7; //hoeveel kaarten de spelers in het begin krijgen
@@ -101,6 +111,24 @@ namespace CyberPesten
                 verplaatsKaart(stapel,i,geschud);
             }
             return geschud;
+        }
+
+        public void data()
+        {
+            while (spel_loopt)
+            {
+                //pull data
+                string raw = Online.PHPrequest("http://harbingerofme.info/GnF/read_messages.php", new string[] { "name", "token", "gameid" }, new string[] { Online.username, Online.token, Online.game.ToString() });
+                string[] lines = raw.Split('|');
+                for (int a = chatregels.Count() - 1; a < lines.Count() - 1; a++)
+                {
+                    chatregels.Add(lines[a]);
+                    chat.nieuw("<"+lines[a].Split(':')[0]+">: "+lines[a].Split(new string[] {":"},2,StringSplitOptions.None)[1]);
+                }//dat was de chat, nu waar het om draait.
+
+
+
+            }
         }
     }
 }
