@@ -23,9 +23,9 @@ class inlogScherm :  Form
         Label maakAccountLabel1 = new Label();
         string CP;
 
-        Bitmap inlogMenu, login, maakAccount, terug;
-        Rectangle loginButton, maakAccountButton, terugButton;
-        bool loginHover, maakAccountHover, terugHover;
+        Bitmap maakAccountMenu, maakAccount, terug;
+        Rectangle maakAccountButton, terugButton;
+        bool maakAccountHover, terugHover;
         float verhouding;
         Font arial;
         Form menuBack;
@@ -46,13 +46,11 @@ class inlogScherm :  Form
             if (!Directory.Exists(GNF)) { Directory.CreateDirectory(GNF); }
             CP = Path.Combine(GNF, "Cyperpesten");
             if (!Directory.Exists(CP)) { Directory.CreateDirectory(CP); }
-            inlogMenu = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("online_menu"));
-            login = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("login_select"));
+            maakAccountMenu = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("online_menu"));
             maakAccount = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("maak_account_select"));
             terug = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Terug_button"));
 
-            loginButton = new Rectangle((int)(979 * verhouding), (int)(758 * verhouding), (int)(205 * verhouding), (int)(86 * verhouding));
-            maakAccountButton = new Rectangle((int)(722 * verhouding), (int)(758 * verhouding), (int)(205 * verhouding), (int)(86 * verhouding));
+            maakAccountButton = new Rectangle((int)(857 * verhouding), (int)(758 * verhouding), (int)(205 * verhouding), (int)(86 * verhouding));
             terugButton = new Rectangle(0, (int)(verhouding * 53), (int)(verhouding * 234), (int)(verhouding * 74));
 
             this.Paint += this.buildMenu;
@@ -119,12 +117,8 @@ class inlogScherm :  Form
 
         private void buildMenu(object sender, PaintEventArgs pea)
         {
-            pea.Graphics.DrawImage(inlogMenu, 0, 0, (int)inlogMenu.Width * verhouding, (int)inlogMenu.Height * verhouding);
+            pea.Graphics.DrawImage(maakAccountMenu, 0, 0, (int)maakAccountMenu.Width * verhouding, (int)maakAccountMenu.Height * verhouding);
 
-            if (loginHover)
-            {
-                pea.Graphics.DrawImage(login, 0, 0, Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
-            }
             if (maakAccountHover)
             {
                 pea.Graphics.DrawImage(maakAccount, 0, 0, Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
@@ -137,15 +131,6 @@ class inlogScherm :  Form
 
         public void hover(object sender, MouseEventArgs mea)
         {
-            if (loginButton.Contains(mea.Location))
-            {
-                loginHover = true;
-            }
-            else
-            {
-                loginHover = false;
-            }
-
             if (maakAccountButton.Contains(mea.Location))
             {
                 maakAccountHover = true;
@@ -169,11 +154,7 @@ class inlogScherm :  Form
 
         private void klik(object sender, MouseEventArgs mea)
         {
-            if (loginHover)
-            {
-                //Login
-            }
-            else if (maakAccountHover)
+            if (maakAccountHover)
             {
                 maakAccountKnop_Click();
             }

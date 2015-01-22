@@ -74,7 +74,7 @@ namespace CyberPesten
             Controls.Add(aantalSpelersLab);*/
 
             aantalSpelersCon = new NumericUpDown();
-            aantalSpelersCon.Location = new Point(9220, 250);
+            aantalSpelersCon.Location = new Point(220, 250);
             aantalSpelersCon.DecimalPlaces = 0;
             aantalSpelersCon.ValueChanged += aantalSpelers;
             Controls.Add(aantalSpelersCon);
