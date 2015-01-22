@@ -102,7 +102,7 @@ namespace CyberPesten
 
             foreach (Kaart kaart in mogelijk)
             {
-                if (kaart.Waarde == 3 || kaart.Waarde == 4 || kaart.Waarde == 5 || kaart.Waarde == 6 || kaart.Waarde == 9 || kaart.Waarde == 10 || kaart.Waarde == 12)
+                if ((!(spel.isNogmaals(kaart))) && (!(spel.isPakkenMagAltijd(kaart))) && (!(spel.isDraai(kaart))) && (!(spel.isWacht(kaart))))
                 {
                     saai.Add(kaart);
                 }
