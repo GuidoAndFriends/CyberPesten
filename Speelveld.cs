@@ -92,7 +92,7 @@ namespace CyberPesten
             if (online)
             {
                 Text = "CyberPesten: Online spel";
-                spel = new OnlineSpel(this, instellingen, new string[] {"Dit", "is", "een", "voorbeeld"});
+                spel = new OnlineSpel(this);
             }
             else
             {

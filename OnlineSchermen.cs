@@ -323,12 +323,22 @@ class lobbyScherm : Form
         }
 
         public void gaVerder()
-        {   
-            /*
-            spel = new Speelveld()//spul 
+        {
+
+            spel = new Speelveld(menuBack, true);
             spel.Show();
+            spel.FormClosed += spel_FormClosed;
             this.Hide();
-             */
+             
+        }
+
+        void spel_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            delete_spel();
+            leave_spel();
+            begonnen = false;
+            Online.game = -1;
+
         }
 
 

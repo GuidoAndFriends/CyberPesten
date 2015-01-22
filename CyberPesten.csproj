@@ -65,6 +65,7 @@
     <Compile Include="KleurKiezen.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="OnlineMens.cs" />
     <Compile Include="Mens.cs" />
     <Compile Include="Menu.cs">
       <SubType>Form</SubType>
@@ -87,6 +88,7 @@
     </Compile>
     <Compile Include="LokaalSpel.cs" />
     <Compile Include="Spel.cs" />
+    <Compile Include="OnlineSpeler.cs" />
     <Compile Include="Speler.cs" />
   </ItemGroup>
   <ItemGroup>

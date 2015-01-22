@@ -8,15 +8,15 @@ namespace CyberPesten
 {
     class OnlineSpel : Spel 
     {
-        public OnlineSpel(Speelveld s, Instellingen _instellingen, string[] voorbeeldExtraParameter)
+        Random rnd = Online.onlineRandom;
+        public OnlineSpel(Speelveld s)
         {
             speelveld = s;
             spelers = new List<Speler>();
             stapel = new List<Kaart>();
             pot = new List<Kaart>();
-            instellingen = _instellingen;
-            mens = instellingen.mensSpelend;
-            aantalSpelers = instellingen.aantalSpelers;
+            mens = true;
+            aantalSpelers = Online.deelnemers.Count();
 
             int kaartspellen = (aantalSpelers) / 4 + 1; //hoeveel kaartspellen gebruikt worden
             int startkaarten = 7; //hoeveel kaarten de spelers in het begin krijgen
@@ -30,35 +30,29 @@ namespace CyberPesten
             //Online: eigen variant met chat?
             chat = new Chat();
 
-            /*
-            //Online: niet van toepassing
-            timerAI = new System.Timers.Timer();
-            timerAI.Elapsed += tijd;
-
-            //Online: niet op deze manier van toepassing
-            //Spelers toevoegen
-            namen = new List<string>();
-            namen.Add("Guido");
-            namen.Add("Ayco");
-            namen.Add("Kaj");
-            namen.Add("Mehul");
-            namen.Add("Noah");
-            namen.Add("Norico");
-            namen.Add("Rik");
-            namen.Add("Sjaak");
-
-            spelers.Add(new Mens(this));
-            for (int i = 1; i < aantalSpelers; i++)
+            int einde = aantalSpelers * 2;
+            for (int i = 0; i < einde; i++)
             {
-                spelers.Add(willekeurigeAI());
+                if (Online.deelnemers[i % aantalSpelers].Split(':')[0] == Online.username)
+                {
+                    spelers.Add(new OnlineMens(this, i));
+                    einde = i + aantalSpelers - 1;
+                }
+                else
+                {
+                    if (einde != aantalSpelers * 2)
+                    {
+                        spelers.Add(new OnlineSpeler(this, Online.deelnemers[i%aantalSpelers].Split(':')[0], i % aantalSpelers));
+                    }
+                }   
             }
-            */
-            
-            //Kaarten toevoegen
-            for (int i = 0; i < kaartspellen; i++)
-            {
-                extraPak(pot);
-            }
+
+
+                //Kaarten toevoegen
+                for (int i = 0; i < kaartspellen; i++)
+                {
+                    extraPak(pot);
+                }
             pot = schud(pot);
             aantalKaarten = pot.Count.ToString();
 
@@ -92,12 +86,21 @@ namespace CyberPesten
             if (!mens)
             {
                 spelend++;
-                //Even wachten en daarna de eerste AI laten spelen
-                timerAI.Interval = 1000;
-                timerAI.Start();
             }
             */
             checkNullKaart();
+        }
+
+        protected override List<Kaart> schud(List<Kaart> stapel)
+        {
+            int i;
+            List<Kaart> geschud = new List<Kaart>();
+            while (stapel.Count > 0)
+            {
+                i = rnd.Next(stapel.Count());//omdat iedereen dezelfde seed heeft, levert dit dezelde stapel op.
+                verplaatsKaart(stapel,i,geschud);
+            }
+            return geschud;
         }
     }
 }
