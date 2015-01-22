@@ -543,16 +543,6 @@ namespace CyberPesten.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Help_button {
-            get {
-                object obj = ResourceManager.GetObject("Help_button", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
         internal static System.Drawing.Bitmap HJ {
             get {
                 object obj = ResourceManager.GetObject("HJ", resourceCulture);
@@ -566,16 +556,6 @@ namespace CyberPesten.Properties {
         internal static System.Drawing.Bitmap HK {
             get {
                 object obj = ResourceManager.GetObject("HK", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap Home_button {
-            get {
-                object obj = ResourceManager.GetObject("Home_button", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -606,16 +586,6 @@ namespace CyberPesten.Properties {
         internal static System.Drawing.Bitmap Joker {
             get {
                 object obj = ResourceManager.GetObject("Joker", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap Laatste_kaart {
-            get {
-                object obj = ResourceManager.GetObject("Laatste_kaart", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -823,16 +793,6 @@ namespace CyberPesten.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Settings_button {
-            get {
-                object obj = ResourceManager.GetObject("Settings_button", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
         internal static System.Drawing.Bitmap Settings_switches {
             get {
                 object obj = ResourceManager.GetObject("Settings_switches", resourceCulture);
@@ -856,6 +816,16 @@ namespace CyberPesten.Properties {
         internal static System.Drawing.Bitmap SK {
             get {
                 object obj = ResourceManager.GetObject("SK", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Speelveld_buttons {
+            get {
+                object obj = ResourceManager.GetObject("Speelveld_buttons", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

@@ -15,6 +15,10 @@ namespace CyberPesten
         public Spel spel;
         public int kaartBreedte, kaartHoogte, afstand;
         public Point stapelPlek, potPlek;
+        Rectangle maat, helpRect, settingsRect, homeRect, laatsteKaartRect, eindeBeurtRect;
+        bool helpBool, settingsBool, homeBool, laatsteKaartBool, eindeBeurtBool;
+        float verhouding;
+        GraphicsUnit units = GraphicsUnit.Pixel;
 
         public Bitmap achterkant;
 
@@ -33,7 +37,7 @@ namespace CyberPesten
 
         //Voor de buttons
         Rectangle helpButton, settingsButton, homeButton, laatsteKaartButton, eindeBeurtButton;
-        Bitmap helpBitmap, settingsBitmap, homeBitmap, laatsteKaartBitmap, eindeBeurtBitmap;
+        Bitmap buttonsBitmap;
         int buttonWidth;
         public Brush laatsteKaartBrush;
 
@@ -47,6 +51,7 @@ namespace CyberPesten
             kaartBreedte = 110;
             kaartHoogte = 153;
             afstand = 10;
+            maat = System.Windows.Forms.Screen.PrimaryScreen.Bounds;
             
             muisLaag = false;
 
@@ -56,7 +61,7 @@ namespace CyberPesten
             DoubleBuffered = true;
 
             Bitmap achtergrond = new Bitmap(Width, Height, System.Drawing.Imaging.PixelFormat.Format32bppPArgb);
-            Graphics.FromImage(achtergrond).DrawImage((Bitmap)CyberPesten.Properties.Resources.ResourceManager.GetObject("Achtergrond"), 0, 0);
+            Graphics.FromImage(achtergrond).DrawImage((Bitmap)CyberPesten.Properties.Resources.ResourceManager.GetObject("Achtergrond"), maat);
             BackgroundImage = achtergrond;
 
             achterkant = new Bitmap(110, 153, System.Drawing.Imaging.PixelFormat.Format32bppPArgb);
@@ -81,6 +86,7 @@ namespace CyberPesten
             MouseDown += muisOmlaag;
             MouseUp += muisOmhoog;
             MouseWheel += muisWiel;
+            MouseMove += hover;
             //Scroll += scroll;
 
             if (online)
@@ -93,20 +99,36 @@ namespace CyberPesten
                 Text = "CyberPesten: Lokaal spel";
                 spel = new Spel(this, instellingen);
             }
-
+            
+            /*
             helpBitmap = (Bitmap)CyberPesten.Properties.Resources.ResourceManager.GetObject("Help_button");
             settingsBitmap = (Bitmap)CyberPesten.Properties.Resources.ResourceManager.GetObject("Settings_button");
             homeBitmap = (Bitmap)CyberPesten.Properties.Resources.ResourceManager.GetObject("Home_button");
             laatsteKaartBitmap = (Bitmap)CyberPesten.Properties.Resources.ResourceManager.GetObject("Laatste_kaart");
-            eindeBeurtBitmap = (Bitmap)CyberPesten.Properties.Resources.ResourceManager.GetObject("Einde_beurt");
+            eindeBeurtBitmap = (Bitmap)CyberPesten.Properties.Resources.ResourceManager.GetObject("Einde_beurt");*/
 
+            buttonsBitmap =((Bitmap)CyberPesten.Properties.Resources.ResourceManager.GetObject("Speelveld_buttons"));
+            verhouding = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width / buttonsBitmap.Width;
+
+            //Buttons
+            int bigButtonWidth = (int)(verhouding * 84);
+            int smallButtonWidth = (int)(verhouding * 52);
+            int buttonRij = (int)(verhouding * 1835);
+
+            homeRect = new Rectangle(buttonRij, (int)(verhouding * 453), smallButtonWidth, smallButtonWidth);
+            settingsRect = new Rectangle(buttonRij, (int)(verhouding * 514), smallButtonWidth, smallButtonWidth);
+            helpRect = new Rectangle(buttonRij, (int)(verhouding * 575), smallButtonWidth, smallButtonWidth);
+            laatsteKaartRect = new Rectangle((int)(verhouding * 1309), (int)(verhouding * 498), bigButtonWidth, bigButtonWidth);
+            eindeBeurtRect = new Rectangle((int)(verhouding * 1187), (int)(verhouding * 498), bigButtonWidth, bigButtonWidth);
+
+            /*
             buttonWidth = helpBitmap.Width;
 
             laatsteKaartButton = new Rectangle(Width / 2 + 100 + laatsteKaartBitmap.Width, this.Height / 2 - laatsteKaartBitmap.Width / 2 + 5, laatsteKaartBitmap.Width, laatsteKaartBitmap.Width);
             eindeBeurtButton = new Rectangle(Width / 2 + 125 + 2 * laatsteKaartBitmap.Width, this.Height / 2 - laatsteKaartBitmap.Width / 2 + 5, laatsteKaartBitmap.Width, laatsteKaartBitmap.Width);
             helpButton = new Rectangle(Width - 75 - 3 * buttonWidth, this.Height / 2 - buttonWidth / 2, buttonWidth, buttonWidth);
             settingsButton = new Rectangle(Width - 50 - 2 * buttonWidth, this.Height / 2 - buttonWidth / 2, buttonWidth, buttonWidth);
-            homeButton = new Rectangle(Width - 25 - buttonWidth, this.Height / 2 - buttonWidth / 2, buttonWidth, buttonWidth);
+            homeButton = new Rectangle(Width - 25 - buttonWidth, this.Height / 2 - buttonWidth / 2, buttonWidth, buttonWidth);*/
 
             klaver = new Button();
             klaver.Click += klaver_Click;
@@ -204,6 +226,7 @@ namespace CyberPesten
             gr.DrawString(spel.speciaalTekst, new Font(FontFamily.GenericSansSerif, 14), Brushes.Black, new Point(40, Height / 2 - 4 * FontHeight));
 
             //Buttons
+            /*
             gr.DrawImage(helpBitmap, helpButton);
             gr.DrawImage(settingsBitmap, settingsButton);
             gr.DrawImage(homeBitmap, homeButton);
@@ -213,12 +236,34 @@ namespace CyberPesten
             {
                 gr.DrawImage(eindeBeurtBitmap, eindeBeurtButton);
             }
+            */
             //chat.Text = spel.geschiedenis;
+
+            if (homeBool)
+            {
+                pea.Graphics.DrawImage(buttonsBitmap, homeRect, homeRect, units);
+            }
+            if (settingsBool)
+            {
+                pea.Graphics.DrawImage(buttonsBitmap, settingsRect, settingsRect, units);
+            }
+            if (helpBool)
+            {
+                pea.Graphics.DrawImage(buttonsBitmap, helpRect, helpRect, units);
+            }
+            if (laatsteKaartBool)
+            {
+                pea.Graphics.DrawImage(buttonsBitmap, laatsteKaartRect, laatsteKaartRect, units);
+            }
+            if (eindeBeurtBool)
+            {
+                pea.Graphics.DrawImage(buttonsBitmap, eindeBeurtRect, eindeBeurtRect, units);
+            }
         }
 
         void muisKlik(object sender, MouseEventArgs mea)
         {
-            if (helpButton.Contains(mea.Location))
+            if (helpRect.Contains(mea.Location))
             {
                 if (mea.Button == MouseButtons.Left)
                 {
@@ -232,12 +277,12 @@ namespace CyberPesten
                     MessageBox.Show(krt.tekst);
                 }
             }
-            else if (settingsButton.Contains(mea.Location))
+            else if (settingsRect.Contains(mea.Location))
             {
                 //het spel gaat gewoon door, dus niet handig
                 //Instellingenscherm instellingenscherm = new Instellingenscherm(form);
             }
-            else if (homeButton.Contains(mea.Location))
+            else if (homeRect.Contains(mea.Location))
             {
                 if (mea.Button == MouseButtons.Left)
                 {
@@ -249,13 +294,13 @@ namespace CyberPesten
                     Application.Exit();
                 }
             }
-            else if (laatsteKaartButton.Contains(mea.Location))
+            else if (laatsteKaartRect.Contains(mea.Location))
             {
                 spel.laatsteKaart(true);
                 Invalidate();
                 Update();
             }
-            else if (eindeBeurtButton.Contains(mea.Location))
+            else if (eindeBeurtRect.Contains(mea.Location))
             {
                 spel.pakKaart();
             }
@@ -535,6 +580,37 @@ namespace CyberPesten
             spel.chat.nieuw("Je en koos voor klaver");
             spel.volgende();
             verbergKleurknoppen();
+        }
+
+        private void hover(object sender, MouseEventArgs mea)
+        {
+            if (homeRect.Contains(mea.Location))
+            {
+                homeBool = true;
+            }
+            else { homeBool = false; }
+            if (settingsRect.Contains(mea.Location))
+            {
+                settingsBool = true;
+            }
+            else { settingsBool = false; }
+            if (helpRect.Contains(mea.Location))
+            {
+                helpBool = true;
+            }
+            else { helpBool = false; }
+            if (laatsteKaartRect.Contains(mea.Location))
+            {
+                laatsteKaartBool = true;
+            }
+            else { laatsteKaartBool = false; }
+            if (eindeBeurtRect.Contains(mea.Location))
+            {
+                eindeBeurtBool = true;
+            }
+            else { eindeBeurtBool = false; }
+
+            Invalidate();
         }
     }
 }
