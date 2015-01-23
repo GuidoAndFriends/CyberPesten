@@ -341,9 +341,13 @@ class lobbyScherm : Form
             else
             {
                 string text = "";
-                foreach (string str in raw_chat)
+                if (raw_chat.Count > 0)
                 {
-                    text = "\n" + str + text;
+                    for (int a = 0; a < (int)((890 * verhouding)/(25*verhouding)) && a < raw_chat.Count; a++)
+                    {
+                        string str = raw_chat[a];
+                        text = "\n" + str + text;
+                    }
                 }
                 uitvoer.Text = text;
             }
@@ -539,7 +543,6 @@ class lobbyScherm : Form
                     {
                         
                         raw_chat.Add("<" + str.Split(':')[0] + ">: " + str.Split(new string[] { ":" }, 2, StringSplitOptions.None)[1]);
-                        if (raw_chat.Count() > 1000) { raw_chat.RemoveAt(0); }
                     }
                     schrijfUitvoer();
                 }
