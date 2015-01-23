@@ -24,12 +24,10 @@ namespace CyberPesten
             {
                 achterkantDesign = "Back_design_1";
             }
-            else if (spel.instellingen.achterkant == 1)
+            else
             {
                 achterkantDesign = "Back_design_2";
             }
-            else
-                achterkantDesign = "Back_design_3";
             Graphics.FromImage(achterkant).DrawImage((Bitmap)CyberPesten.Properties.Resources.ResourceManager.GetObject(achterkantDesign), 0, 0, 110, 153);
 
             hand = new List<Kaart>();
