@@ -62,9 +62,10 @@ namespace CyberPesten
                     }
                 }   
             }
-            onlineSpelers = spelers;//spelers gesorteerd op online index (feitelijke volgorde)
+            onlineSpelers = new List<Speler>();//spelers gesorteerd op online index (feitelijke volgorde)
             foreach (Speler r in spelers)
             {
+                onlineSpelers.Add(new Speler());
                 if(r.GetType() == typeof(OnlineSpeler)){
                     OnlineSpeler b = (OnlineSpeler) r;
                     onlineSpelers[b.OnlineIndex] = b;

@@ -17,6 +17,8 @@ namespace CyberPesten
         protected Bitmap achterkant;
         public bool bezig;
 
+        public abstract Speler() { }
+
         public abstract void doeZet();
 
         public virtual void updateBlok()
