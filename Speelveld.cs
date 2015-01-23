@@ -218,7 +218,8 @@ namespace CyberPesten
             Invalidate();
         }
 
-        public virtual void startSpel(Instellingen instellingen){
+        public virtual void startSpel(Instellingen instellingen)
+        {
                 Text = "CyberPesten: Lokaal spel";
                 spel = new Spel(this, instellingen);
         }
@@ -362,7 +363,10 @@ namespace CyberPesten
             }
             else if (eindeBeurtRect.Contains(mea.Location))
             {
-                spel.pakKaart();
+                if (spel.spelend == 0)
+                {
+                    spel.pakKaart();
+                }
             }
             else if (spel.spelend == 0)
             {
