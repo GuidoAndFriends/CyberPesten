@@ -177,8 +177,12 @@ namespace CyberPesten
 
         void send_Click(object sender, KeyEventArgs e)
         {
+            //e.Handled = true;
+            
             if (e.KeyCode == Keys.Enter)
             {
+                e.SuppressKeyPress = true;
+                //e.Handled = true;
                 spel.send(textbox.Text);
                 textbox.Clear();
                 Invalidate();
