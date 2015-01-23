@@ -39,12 +39,12 @@ namespace CyberPesten
 
         //Voor de buttons
         //Rectangle helpButton, settingsButton, homeButton, laatsteKaartButton, eindeBeurtButton;
-        Bitmap buttonsBitmap;
+        public Bitmap buttonsBitmap;
         //int buttonWidth;
         public Brush laatsteKaartBrush;
 
         //Tijdelijk
-        Button klaver, harten, ruiten, schoppen;
+        public Button klaver, harten, ruiten, schoppen;
 
         public Speelveld() { }
 
@@ -653,7 +653,7 @@ namespace CyberPesten
             verbergKleurknoppen();
         }
 
-        private void hover(object sender, MouseEventArgs mea)
+        protected void hover(object sender, MouseEventArgs mea)
         {
             if (homeRect.Contains(mea.Location))
             {
