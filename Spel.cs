@@ -527,7 +527,7 @@ namespace CyberPesten
                 }
                 else
                 {
-                    timerAI.Interval = 2000; 
+                    timerAI.Interval = 600; 
                 }
                 timerAI.Start();
             }

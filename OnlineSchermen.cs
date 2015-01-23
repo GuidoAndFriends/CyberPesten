@@ -497,6 +497,7 @@ class lobbyScherm : Form
                 if (!deelnemers_raw.StartsWith("Error:"))
                 {
                     deelnemers = deelnemers_raw.Split(',');
+                    Online.deelnemers = deelnemers;
                     laatDNzien();
                 }
                 if (deelnemers_raw == "Error: Game bestaat niet!")
@@ -514,7 +515,7 @@ class lobbyScherm : Form
                     {
                         
                         raw_chat.Add("<" + str.Split(':')[0] + ">: " + str.Split(new string[] { ":" }, 2, StringSplitOptions.None)[1]);
-                        if (raw_chat.Count() > 1000) { raw_chat.RemoveAt(0); }
+                        if (raw_chat.Count() > 30) { raw_chat.RemoveAt(0); }
                     }
                     schrijfUitvoer();
                 }
@@ -537,7 +538,6 @@ class lobbyScherm : Form
                     Thread.Sleep(1000);//slaap voor een seconde.
                 }
             }
-            Online.deelnemers = deelnemers;
             gaVerder();
             //begonnen is veranderd, ga naar het spel
         }

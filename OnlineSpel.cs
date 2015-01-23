@@ -52,7 +52,7 @@ namespace CyberPesten
                 if (Online.deelnemers[i % aantalSpelers].Split(':')[0] == Online.username)
                 {
                     spelers.Add(new OnlineMens(this, i));
-                    einde = i + aantalSpelers - 1;
+                    einde = i + aantalSpelers;
                 }
                 else
                 {
