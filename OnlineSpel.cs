@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
 using System.Windows.Forms;
+using System.Media;
+using System.IO;
 
 namespace CyberPesten
 {
@@ -115,7 +117,15 @@ namespace CyberPesten
                 i = rnd.Next(stapel.Count());//omdat iedereen dezelfde seed heeft, levert dit dezelde stapel op.
                 verplaatsKaart(stapel,i,geschud);
             }
+            schudSound();
             return geschud;
+        }
+
+        private void schudSound()
+        {
+            Stream s = CyberPesten.Properties.Resources.schudden;
+            SoundPlayer sound = new SoundPlayer(s);
+            sound.Play();
         }
 
         void onlineLaatsteKaart(bool melden, int speler)

@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.Media;
+using System.IO;
 
 namespace CyberPesten
 {
@@ -138,28 +140,39 @@ namespace CyberPesten
             Invalidate();
         }
 
+        private void buttonSound()
+        {
+            Stream s = CyberPesten.Properties.Resources.button;
+            SoundPlayer sound = new SoundPlayer(s);
+            sound.Play();
+        }
+
         private void klik(object sender, MouseEventArgs mea)
         {
             if (onlineHover)
             {
+                buttonSound();
                 Form veld = new inlogScherm(this);
                 veld.FormClosed += veld_FormClosed;
                 this.Hide();
             }
             else if (lokaalHover)
             {
+                buttonSound();
                 Form veld = new Speelveld(this);
                 veld.FormClosed += veld_FormClosed;
                 this.Hide();
             }
             else if (helpHover)
             {
+                buttonSound();
                 Help help = new Help(this);
                 help.FormClosed += veld_FormClosed;
                 this.Hide();
             }
             else if (settingsHover)
             {
+                buttonSound();
                 if (mea.Button == MouseButtons.Right)
                 {
                     InstellingenschermOud instellingenschermOud = new InstellingenschermOud(this);
