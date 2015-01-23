@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Drawing;
 using System.Threading;
+using System.Media;
+using System.IO;
 
 namespace CyberPesten
 {
@@ -258,12 +260,20 @@ namespace CyberPesten
             }
         }
 
+        private void buttonSound()
+        {
+            Stream s = CyberPesten.Properties.Resources.button;
+            SoundPlayer sound = new SoundPlayer(s);
+            sound.Play();
+        }
+
         protected void muisKlik(object sender, MouseEventArgs mea)
         {
             if (helpRect.Contains(mea.Location))
             {
                 if (mea.Button == MouseButtons.Left)
                 {
+                    buttonSound();
                     spel.bezig = false;
                     Help help = new Help(this);
                 }
@@ -547,8 +557,16 @@ namespace CyberPesten
             schoppen.Show();
         }
 
+        private void kaartSound()
+        {
+            Stream s = CyberPesten.Properties.Resources.playcard;
+            SoundPlayer sound = new SoundPlayer(s);
+            sound.Play();
+        }
+
         protected void schoppen_Click(object sender, EventArgs e)
         {
+            kaartSound();
             spel.speciaal = 3;
             spel.chat.nieuw(" en koos voor schoppen");
             spel.volgende();
@@ -557,6 +575,7 @@ namespace CyberPesten
 
         protected void ruiten_Click(object sender, EventArgs e)
         {
+            kaartSound();
             spel.speciaal = 2;
             spel.chat.nieuw(" en koos voor ruiten");
             spel.volgende();
@@ -565,6 +584,7 @@ namespace CyberPesten
 
         protected void harten_Click(object sender, EventArgs e)
         {
+            kaartSound();
             spel.speciaal = 0;
             spel.chat.nieuw(" en koos voor harten");
             spel.volgende();
@@ -573,6 +593,7 @@ namespace CyberPesten
 
         protected void klaver_Click(object sender, EventArgs e)
         {
+            kaartSound();
             spel.speciaal = 1;
             spel.chat.nieuw(" en koos voor klaver");
             spel.volgende();

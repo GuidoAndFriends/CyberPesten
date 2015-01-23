@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Drawing;
 using System.Threading;
+using System.Media;
+using System.IO;
 
 namespace CyberPesten
 {
@@ -43,6 +45,34 @@ namespace CyberPesten
             verplaatsKaart(van, van.Count - 1, naar);
         }
 
+        private void kaartSound()
+        {
+            Stream s = CyberPesten.Properties.Resources.playcard;
+            SoundPlayer sound = new SoundPlayer(s);
+            sound.Play();
+        }
+
+        private void errorSound()
+        {
+            Stream s = CyberPesten.Properties.Resources.fout;
+            SoundPlayer sound = new SoundPlayer(s);
+            sound.Play();
+        }
+
+        private void pechSound()
+        {
+            Stream s = CyberPesten.Properties.Resources.helaas;
+            SoundPlayer sound = new SoundPlayer(s);
+            sound.Play();
+        }
+
+        private void winSound()
+        {
+            Stream s = CyberPesten.Properties.Resources.win;
+            SoundPlayer sound = new SoundPlayer(s);
+            sound.Play();
+        }
+
         public bool speelKaart(int index)
         //Legt een kaart met de gegeven index van degene die aan de beurt is op de stapel. Geeft true bij een geldige kaart, anders false
         {
@@ -58,6 +88,7 @@ namespace CyberPesten
                         if (spelers[spelend].gemeld)
                         {
                             //laatste kaart en gemeld
+                            winSound();
                             speelKaartNu(hand, index, stapel);
                             eindeSpel();
                             return true;
@@ -69,10 +100,13 @@ namespace CyberPesten
                             if (instellingen.regelset == 0)
                             {
                                 pakKaart(5);
+                                pechSound();
+
                             }
                             else if (instellingen.regelset == 1)
                             {
                                 pakKaart(10);
+                                pechSound();
                             }
                             else
                             {
@@ -86,6 +120,7 @@ namespace CyberPesten
                     else
                     {
                         //niet de laatste kaart
+                        kaartSound();
                         speelKaartNu(hand, index, stapel);
                         kaartActie();
                         return true;
@@ -94,6 +129,7 @@ namespace CyberPesten
                 else
                 {
                     //kaart mag niet opgelegd worden
+                    errorSound();
                     return false;
                 }
             }
@@ -264,7 +300,15 @@ namespace CyberPesten
                 i = r.Next(stapel.Count);
                 verplaatsKaart(stapel, i, geschud);
             }
+            schudSound();
             return geschud;
+        }
+
+        private void schudSound()
+        {
+            Stream s = CyberPesten.Properties.Resources.schudden;
+            SoundPlayer sound = new SoundPlayer(s);
+            sound.Play();
         }
 
         public virtual void volgende()
