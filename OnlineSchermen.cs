@@ -351,7 +351,7 @@ class lobbyScherm : Form
                     lbl1.Font = arial;
                     lbl1.ForeColor = Color.White;
                     lbl1.BackColor = Color.Transparent;
-                    lbl1.Location = new Point((int)(10*verhouding),(int)(187+30*a));
+                    lbl1.Location = new Point((int)(10*verhouding),(int)(190+30*a));
                     lbl1.Size = new Size((int)(600 * verhouding), (int)(30 * verhouding));
                     lbl1.Text = naam;
                     Controls.Add(lbl1);
@@ -360,7 +360,7 @@ class lobbyScherm : Form
                     lbl2.Font = arial;
                     lbl2.ForeColor = Color.White;
                     lbl2.BackColor = Color.Transparent;
-                    lbl2.Location = new Point((int)(617 * verhouding), (int)(187 + 30 * a));
+                    lbl2.Location = new Point((int)(617 * verhouding), (int)(190 + 30 * a));
                     lbl2.Size = new Size((int)(354 * verhouding), (int)(30 * verhouding));
                     lbl2.TextAlign = ContentAlignment.TopCenter;
                     lbl2.Text = rank;
@@ -491,12 +491,15 @@ class lobbyScherm : Form
                 berichten_raw = Online.PHPrequest("http://harbingerofme.info/GnF/read_messages.php", new string[] { "name", "token", "gameid" }, new string[] { Online.username, Online.token, Online.game.ToString() });
                 if (berichten_raw != "" && !berichten_raw.StartsWith("Error"))
                 {
-                    string[] temp = berichten_raw.Split('|');
+                    string[] temp = berichten_raw.Split(new string[] {"|"},StringSplitOptions.RemoveEmptyEntries);
+                    raw_chat = new List<string>();
                     foreach (string str in temp)
                     {
+                        
                         raw_chat.Add("<" + str.Split(':')[0] + ">: " + str.Split(new string[] { ":" }, 2, StringSplitOptions.None)[1]);
                         if (raw_chat.Count() > 1000) { raw_chat.RemoveAt(0); }
                     }
+                    schrijfUitvoer();
                 }
                 else
                 {

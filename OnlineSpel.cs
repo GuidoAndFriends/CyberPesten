@@ -119,7 +119,7 @@ namespace CyberPesten
             {
                 //pull data
                 string raw = Online.PHPrequest("http://harbingerofme.info/GnF/read_messages.php", new string[] { "name", "token", "gameid" }, new string[] { Online.username, Online.token, Online.game.ToString() });
-                string[] lines = raw.Split('|');
+                string[] lines = raw.Split(new string[] {"|"},StringSplitOptions.RemoveEmptyEntries);
                 for (int a = chatregels.Count() - 1; a < lines.Count() - 1; a++)
                 {
                     chatregels.Add(lines[a]);
