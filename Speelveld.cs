@@ -45,6 +45,7 @@ namespace CyberPesten
 
         //Tijdelijk
         Button klaver, harten, ruiten, schoppen;
+
         public Speelveld() { }
 
         public Speelveld(Form form)
@@ -153,14 +154,6 @@ namespace CyberPesten
             this.Controls.Add(ruiten);
             this.Controls.Add(schoppen);
             verbergKleurknoppen();
-
-            /*
-            chat = new Chat();
-            chat.Size = new Size(300, 100);
-            chat.Location = new Point(Width - 50 - 300, 250);
-            chat.Text = spel.geschiedenis;
-            Controls.Add(chat);
-            */
 
             this.Show();
         }

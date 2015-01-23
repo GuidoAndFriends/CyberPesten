@@ -13,9 +13,6 @@ namespace CyberPesten
     class Instellingenscherm : Form
     {
         Instellingen instellingen;
-        //NumericUpDown regelsetCon, aantalSpelersCon;
-        //TextBox regelsIngeschakeldCon, AIIngeschakeldCon;
-        //Button mensSpelendCon;
         Menu menu;
         Bitmap terugBitmap, standSetBitmap, achtergrond, switches, roodKnop, regenboogKnop;
         bool terugHover, standSetHover;
@@ -24,7 +21,6 @@ namespace CyberPesten
         Rectangle willekeurigSwitch, slimSwitch, slimmerSwitch, cheaterSwitch, aiModus, geluidSwitch, rood, blauw, regenboog;
         float verhouding;
         GraphicsUnit units = GraphicsUnit.Pixel;
-        //int achterkantKleur = 2;
 
         public Instellingenscherm(Menu _menu)
         {
