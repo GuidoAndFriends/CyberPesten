@@ -42,7 +42,6 @@ class inlogScherm :  Form
             arial = new Font("Arial", (int)(15 * verhouding));
             menuBack = _menu;
 
-            String bericht;
             string GNF = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),"Guido&Friends");
             if (!Directory.Exists(GNF)) { Directory.CreateDirectory(GNF); }
             CP = Path.Combine(GNF, "Cyperpesten");
@@ -538,6 +537,7 @@ class lobbyScherm : Form
                     Thread.Sleep(1000);//slaap voor een seconde.
                 }
             }
+            Online.deelnemers = deelnemers;
             gaVerder();
             //begonnen is veranderd, ga naar het spel
         }

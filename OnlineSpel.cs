@@ -31,6 +31,8 @@ namespace CyberPesten
             data_thread.IsBackground = true;
             data_thread.Name = "Data";
             data_thread.Start();
+            chatregels = new List<string>();
+            actieregels = new List<string>();
 
             int kaartspellen = (aantalSpelers) / 4 + 1; //hoeveel kaartspellen gebruikt worden
             int startkaarten = 7; //hoeveel kaarten de spelers in het begin krijgen
