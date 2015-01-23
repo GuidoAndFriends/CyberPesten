@@ -11,10 +11,13 @@ namespace CyberPesten
     class Chat
     {
         List<string> regels = new List<string>();
+        Font font;
+        int fontHeight;
 
         public Chat()
         {
-            
+            font = new Font(FontFamily.GenericSansSerif, 14);
+            fontHeight = 45;
         }
 
         public void nieuw(string regel)
@@ -31,12 +34,12 @@ namespace CyberPesten
             Bitmap bitmap;
             if (groot)
             {
-                bitmap = new Bitmap(500, 500, System.Drawing.Imaging.PixelFormat.Format32bppPArgb);
+                bitmap = new Bitmap(500, 595, System.Drawing.Imaging.PixelFormat.Format32bppPArgb);
                 int i = 0;
                 foreach (String regel in regels)
                 {
                     i++;
-                    Graphics.FromImage(bitmap).DrawString(regels[regels.Count - i], new Font(FontFamily.GenericSansSerif, 14), Brushes.Black, 0, 0 + i*20);
+                    Graphics.FromImage(bitmap).DrawString(regels[regels.Count - i], font, Brushes.White, 0, 595 - fontHeight - i*25);
                 }
 
             }
@@ -45,13 +48,13 @@ namespace CyberPesten
                 bitmap = new Bitmap(500, 100, System.Drawing.Imaging.PixelFormat.Format32bppPArgb);
                 if (regels.Count > 0)
                 {
-                    Graphics.FromImage(bitmap).DrawString(regels[regels.Count - 1], new Font(FontFamily.GenericSansSerif, 14), Brushes.Black, 0, 0);
+                    Graphics.FromImage(bitmap).DrawString(regels[regels.Count - 1], new Font(FontFamily.GenericSansSerif, 14), Brushes.White, 0, 90 - fontHeight);
                     if (regels.Count > 1)
                     {
-                        Graphics.FromImage(bitmap).DrawString(regels[regels.Count - 2], new Font(FontFamily.GenericSansSerif, 14), Brushes.Black, 0, 20);
+                        Graphics.FromImage(bitmap).DrawString(regels[regels.Count - 2], new Font(FontFamily.GenericSansSerif, 14), Brushes.White, 0, 65 - fontHeight);
                         if (regels.Count > 2)
                         {
-                            Graphics.FromImage(bitmap).DrawString(regels[regels.Count - 3], new Font(FontFamily.GenericSansSerif, 14), Brushes.Black, 0, 40);
+                            Graphics.FromImage(bitmap).DrawString(regels[regels.Count - 3], new Font(FontFamily.GenericSansSerif, 14), Brushes.White, 0, 40 - fontHeight);
                         }
                     }
                 }

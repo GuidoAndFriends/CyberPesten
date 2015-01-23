@@ -21,6 +21,8 @@ namespace CyberPesten
         protected bool helpBool, settingsBool, homeBool, laatsteKaartBool, eindeBeurtBool;
         protected float verhouding;
         protected GraphicsUnit units = GraphicsUnit.Pixel;
+        int chatHoogte;
+
 
         public Bitmap achterkant;
 
@@ -61,7 +63,7 @@ namespace CyberPesten
             kaartHoogte = 153;
             afstand = 10;
             maat = System.Windows.Forms.Screen.PrimaryScreen.Bounds;
-            
+
             muisLaag = false;
 
             Size = form.Size;
@@ -154,25 +156,13 @@ namespace CyberPesten
             schoppen.Size = new Size(200, 50);
             schoppen.Text = "Maak er Schoppen van";
 
+            chatHoogte = Height / 2;
             textbox = new TextBox();
             textbox.Size = new Size(300, 50);
-            textbox.Location = new Point(40, Height / 2 - FontHeight / 2 + 75);
+            textbox.Location = new Point(40, chatHoogte - FontHeight / 2 + 75);
+            textbox.Click += vouwen_Click;
+            textbox.KeyDown += new KeyEventHandler(send_Click);
 
-            vouwen = new Button();
-            vouwen.Size = new Size(90, 24);
-            vouwen.Location = new Point(350, Height / 2 - FontHeight / 2 + 75);
-            vouwen.Text = "uitvouwen";
-            vouwen.Click += vouwen_Click;
-
-            send = new Button();
-            send.Size = new Size(90, 24);
-            send.Text = "send";
-            send.Location = new Point(450, Height / 2 - FontHeight / 2 + 75);
-            send.Click += send_Click;
-            send.KeyPress += send_KeyPress;
-
-            this.Controls.Add(send);
-            this.Controls.Add(vouwen);
             this.Controls.Add(textbox);
             this.Controls.Add(klaver);
             this.Controls.Add(harten);
@@ -183,35 +173,31 @@ namespace CyberPesten
             this.Show();
         }
 
-        private void send_KeyPress(object sender, KeyPressEventArgs e)
+        void send_Click(object sender, KeyEventArgs e)
         {
-
-        }
-
-        void send_Click(object sender, EventArgs e)
-        {
-            spel.send(textbox.Text);
-            textbox.Clear();
-            Invalidate();
+            if (e.KeyCode == Keys.Enter)
+            {
+                spel.send(textbox.Text);
+                textbox.Clear();
+                Invalidate();
+            }
         }
 
         void vouwen_Click(object sender, EventArgs e)
         {
+            Rectangle r = new Rectangle(textbox.Location, textbox.Size);
+
             if(spel.groot)
             {
+                chatHoogte = Height / 2 + 5;
                 spel.groot = false;
-                vouwen.Text = "uitvouwen";
-                textbox.Location = new Point(40, Height / 2 - FontHeight / 2 + 75);
-                vouwen.Location = new Point(350, Height / 2 - FontHeight / 2 + 75);
-                send.Location = new Point(450, Height / 2 - FontHeight / 2 + 75);
+                textbox.Location = new Point(40, chatHoogte - FontHeight / 2 + 75);
             }
             else
             {
+                chatHoogte = Height / 4;
                 spel.groot = true;
-                vouwen.Text = "invouwen";
-                textbox.Location = new Point(40, Height - 40);
-                vouwen.Location = new Point(350, Height - 40);
-                send.Location = new Point(450, Height - 40);
+                textbox.Location = new Point(40, Height - 250);
             }
             Invalidate();
         }
@@ -271,9 +257,9 @@ namespace CyberPesten
             }
 
             //status van het spel
-            gr.DrawImage(spel.chat.maakBitmap(spel.groot), new Point(40, Height / 2 - FontHeight / 2));
-            gr.DrawString(spel.aantalKaarten, new Font(FontFamily.GenericSansSerif, 14), Brushes.Black, new Point(40, Height / 2 - 2 * FontHeight));
-            gr.DrawString(spel.speciaalTekst, new Font(FontFamily.GenericSansSerif, 14), Brushes.Black, new Point(40, Height / 2 - 4 * FontHeight));
+            gr.DrawImage(spel.chat.maakBitmap(spel.groot), new Point(40, chatHoogte - FontHeight / 2));
+            //gr.DrawString(spel.aantalKaarten, new Font(FontFamily.GenericSansSerif, 14), Brushes.White, new Point(40, Height / 2 - 2 * FontHeight));
+            //gr.DrawString(spel.speciaalTekst, new Font(FontFamily.GenericSansSerif, 14), Brushes.White, new Point(40, Height / 2 - 4 * FontHeight));
 
             //Buttons
             /*
