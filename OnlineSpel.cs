@@ -152,11 +152,12 @@ namespace CyberPesten
                 string[] lines = raw.Split(new string[] {"|"},StringSplitOptions.RemoveEmptyEntries);
                 if (raw == "Error: Game bestaat niet!")
                 {
-                    this.speelveld.Close();
+                    OnlineSpeelveld a = (OnlineSpeelveld)speelveld;
+                    a.stop();
                 }
                 if (!raw.StartsWith("Error:"))
                 {
-                    for (int a = chatregels.Count() - 1; a < lines.Count() - 1; a++)
+                    for (int a = chatregels.Count(); a < lines.Count(); a++)
                     {
                         chatregels.Add(lines[a]);
                         chat.nieuw("<" + lines[a].Split(':')[0] + ">: " + lines[a].Split(new string[] { ":" }, 2, StringSplitOptions.None)[1]);
@@ -172,7 +173,8 @@ namespace CyberPesten
                 }
                 if (raw == "Error: Game bestaat niet!")
                 {
-                    this.speelveld.Close();
+                    OnlineSpeelveld a = (OnlineSpeelveld)speelveld;
+                    a.stop();
                 }
                 Thread.Sleep(1000);
             }
@@ -211,7 +213,8 @@ namespace CyberPesten
             {
             MessageBox.Show("Kritieke fout, spel is afgesloten, er is niks van je rating afgetrokken");
             string raw = Online.PHPrequest("http://harbingerofme.info/GnF/leave_game.php", new string[] { "name", "token" , "spelid","spelerror"}, new string[] { Online.username, Online.token, Online.game.ToString(), "waarde"});
-            this.speelveld.Close();
+            OnlineSpeelveld a = (OnlineSpeelveld)speelveld;
+            a.stop();
             }
         }
     }

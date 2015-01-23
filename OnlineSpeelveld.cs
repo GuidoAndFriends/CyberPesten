@@ -112,6 +112,18 @@ namespace CyberPesten
             spel = new OnlineSpel(this);
         }
 
+        public void stop()
+        {
+            if (InvokeRequired)
+            {
+                Invoke(new MethodInvoker(stop));
+            }
+            else
+            {
+                this.Close();
+            }
+        }
+
         new void muisKlik(object sender, MouseEventArgs mea)
         {
             bool actie = false;
