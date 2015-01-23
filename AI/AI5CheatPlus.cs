@@ -7,9 +7,9 @@ using System.Drawing;
 
 namespace CyberPesten
 {
-    class AI4Cheat : Speler
+    class AI5Cheat : Speler
     {
-        public AI4Cheat(Spel spel, string naam)
+        public AI5Cheat(Spel spel, string naam)
         {
             achterkant = new Bitmap(110, 153, System.Drawing.Imaging.PixelFormat.Format32bppPArgb);
             string achterkantDesign;
@@ -29,14 +29,43 @@ namespace CyberPesten
             blok = new System.Drawing.Bitmap(10, 10);
         }
 
-        public void welkePakken() //pakt alleen normale kaarten
+        public void welkePakken() //pakt 8 en azen
         {
-            int teller = 0;
+            int acht = 0;
+            int aas = 0;
+            int tellerAas = 0;
+            int tellerAcht = 0;
+            foreach (Kaart kaart in hand)
+            {
+                if (spel.isWacht(kaart))
+                    acht++;
+                if (spel.isDraai(kaart))
+                    aas++;
+            }
+
             foreach (Kaart kaart in spel.pot)
-                if (kaart.Waarde == 3 || kaart.Waarde == 4 || kaart.Waarde == 5 || kaart.Waarde == 6 || kaart.Waarde == 9 || kaart.Waarde == 12)
-                    teller++;
-            if (teller > 0)
-                spel.pakKaartAI(3);
+            {
+                if (spel.isDraai(kaart))
+                    tellerAas++;
+                if (spel.isWacht(kaart))
+                    tellerAcht++;
+            }
+
+            if (tellerAas > 0 && tellerAcht > 0)
+            {
+                if (aas > acht)
+                    spel.pakKaartAI(8);
+                else
+                    spel.pakKaartAI(1);
+            }
+            else if (tellerAas > 0 && tellerAcht == 0)
+            {
+                spel.pakKaartAI(1);
+            }
+            else if (tellerAas == 0 && tellerAcht > 0)
+            {
+                spel.pakKaartAI(8);
+            }
             else
                 spel.pakKaartAI(99);
         }

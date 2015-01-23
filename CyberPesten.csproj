@@ -65,6 +65,8 @@
     </Compile>
     <Compile Include="AI\AI2Pester.cs" />
     <Compile Include="AI\AI3Oke.cs" />
+    <Compile Include="AI\AI5CheatPlus.cs" />
+    <Compile Include="AI\AI6CheatPlusPlus.cs" />
     <Compile Include="Chat.cs" />
     <Compile Include="Help.cs">
       <SubType>Form</SubType>
