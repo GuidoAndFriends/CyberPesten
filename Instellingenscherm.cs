@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Drawing;
+using System.Media;
+using System.IO;
 
 namespace CyberPesten
 {
@@ -273,17 +275,26 @@ namespace CyberPesten
             Invalidate();
         }
 
+        private void buttonSound()
+        {
+            Stream s = CyberPesten.Properties.Resources.button;
+            SoundPlayer sound = new SoundPlayer(s);
+            sound.Play();
+        }
+
         private void klik(object sender, MouseEventArgs mea)
         {
             if (terugHover)
             {
                 instellingen.schrijven();
+                buttonSound();
                 menu.Show();
                 this.Close();
             }
 
             if (standSetHover)
             {
+                buttonSound();
                 instellingen.standaard();
                 update();
                 instellingen.schrijven();
