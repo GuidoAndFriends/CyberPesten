@@ -127,7 +127,8 @@ namespace CyberPesten
                 }//dat was de chat, nu waar het om draait.
 
 
-
+                //dingen
+                //dingen
             }
         }
     }

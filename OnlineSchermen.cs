@@ -11,6 +11,7 @@ using System.Net;
 using System.IO;
 using System.Security.Cryptography;
 using System.Text.RegularExpressions;
+//using System.Windows.m
 
 namespace CyberPesten
 {
@@ -241,7 +242,7 @@ class lobbyScherm : Form
         Form spel;
 
         public string[] deelnemers;
-        public string[] rankings;//nog niet zo relevant
+        List<String> raw_chat;
         public bool begonnen = false;
         Thread data_thread;
         bool closed = false;
@@ -249,9 +250,13 @@ class lobbyScherm : Form
         Rectangle delGame, startGame, leaveGame;
         bool delHover, startHover, leaveHover;
         List<Control> deelnemerLijst = new List<Control>();
+        TextBox invoer;
+        Label uitvoer;//ha!
+
 
         public lobbyScherm(Form back)
         {
+            raw_chat = new List<string>();
             menuBack = back;
             BackgroundImage = (Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Lobby_menu");
             FormBorderStyle = FormBorderStyle.None;
@@ -268,15 +273,59 @@ class lobbyScherm : Form
             startGame = new Rectangle((int)(309 * verhouding), (int)(956 * verhouding), (int)(191 * verhouding), (int)(89 * verhouding));
             leaveGame = new Rectangle((int)(700 * verhouding), (int)(956 * verhouding), (int)(191 * verhouding), (int)(89 * verhouding));
 
+            invoer = new TextBox();
+            invoer.Location = new Point((int)(verhouding * 1155), (int)(verhouding * 1040));
+            invoer.Size = new Size((int)(765 * verhouding), (int)(44 * verhouding));
+            invoer.Font = arial;
+            invoer.BackColor = System.Drawing.ColorTranslator.FromHtml("#121212");
+            invoer.KeyPress += invoer_KeyPress;
+            invoer.ShortcutsEnabled = false;//we willen niet dat mensen kunnen control+v'en in chat, omdat spam.
+            invoer.TextAlign = HorizontalAlignment.Left;
+            invoer.MaxLength = 1024;
+            invoer.ForeColor = Color.White;
+            Controls.Add(invoer);
+            invoer.Focus();
+
+            uitvoer = new Label();
+            uitvoer.Location = new Point((int)(verhouding * 1155), (int)(verhouding * 147));//iets van de randen af.
+            uitvoer.Size = new Size((int)(765 * verhouding),(int)(890 * verhouding));
+            uitvoer.TextAlign = ContentAlignment.BottomLeft;
+            uitvoer.Font = arial;
+            uitvoer.BackColor = Color.Transparent;
+            uitvoer.ForeColor = Color.White;
+            Controls.Add(uitvoer);
+
             data_thread = new Thread(dataThread);
             data_thread.IsBackground = true;
             data_thread.Start();
-            //volgende dingen zijn nodig: 
-            //gedeelte met huidige deelnemers (en hun ranking)
-            //een plek om de chat te dumpen
-            //een knop voor de host om de game te starten (start_spel)
-            //een knop om de game te leaven/te verwijderen (voor de host alleen) (leave_spel/delete_spel)
-            //die knp moet een bevestiging opleveren
+        }
+
+        void invoer_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            TextBox a = (TextBox) sender;
+            if (e.KeyChar == (char)Keys.Return)
+            {
+                stuur_chat(a.Text);
+                a.Text = "";
+            }
+        }
+
+        void schrijfUitvoer()
+        {
+            if (uitvoer.InvokeRequired)
+            {
+                uitvoer.Invoke(new MethodInvoker(schrijfUitvoer));
+            }
+            else
+            {
+                string text = "";
+                foreach (string str in raw_chat)
+                {
+                    text = "\n" + str + text;
+                }
+                uitvoer.Text = text;
+            }
+
         }
         public void laatDNzien()
         {
@@ -302,7 +351,7 @@ class lobbyScherm : Form
                     lbl1.Font = arial;
                     lbl1.ForeColor = Color.White;
                     lbl1.BackColor = Color.Transparent;
-                    lbl1.Location = new Point((int)(10*verhouding),(int)(185+30*a));
+                    lbl1.Location = new Point((int)(10*verhouding),(int)(187+30*a));
                     lbl1.Size = new Size((int)(600 * verhouding), (int)(30 * verhouding));
                     lbl1.Text = naam;
                     Controls.Add(lbl1);
@@ -311,7 +360,7 @@ class lobbyScherm : Form
                     lbl2.Font = arial;
                     lbl2.ForeColor = Color.White;
                     lbl2.BackColor = Color.Transparent;
-                    lbl2.Location = new Point((int)(617 * verhouding), (int)(185 + 30 * a));
+                    lbl2.Location = new Point((int)(617 * verhouding), (int)(187 + 30 * a));
                     lbl2.Size = new Size((int)(354 * verhouding), (int)(30 * verhouding));
                     lbl2.TextAlign = ContentAlignment.TopCenter;
                     lbl2.Text = rank;
@@ -440,7 +489,22 @@ class lobbyScherm : Form
                     laatDNzien();
                 }
                 berichten_raw = Online.PHPrequest("http://harbingerofme.info/GnF/read_messages.php", new string[] { "name", "token", "gameid" }, new string[] { Online.username, Online.token, Online.game.ToString() });
-                //doe er iets mee (manier om chat te laten zien mist nog)
+                if (berichten_raw != "" && !berichten_raw.StartsWith("Error"))
+                {
+                    string[] temp = berichten_raw.Split('|');
+                    foreach (string str in temp)
+                    {
+                        raw_chat.Add("<" + str.Split(':')[0] + ">: " + str.Split(new string[] { ":" }, 2, StringSplitOptions.None)[1]);
+                        if (raw_chat.Count() > 1000) { raw_chat.RemoveAt(0); }
+                    }
+                }
+                else
+                {
+                    if (berichten_raw == "")
+                    {
+                        raw_chat.Clear();
+                    }
+                }
 
                 if (!begonnen)
                 {
@@ -753,7 +817,8 @@ public class hostGameOpties : Form
         openSpellenScherm oscherm;
         Bitmap achtergrond, startButton;
         Rectangle maat;
-        TextBox name, spelers, regels;
+        TextBox name, spelers;
+        ComboBox regels;
         Rectangle startRect;
         bool startBool;
 
@@ -799,13 +864,16 @@ public class hostGameOpties : Form
             spelers.MaxLength = 1;
             Controls.Add(spelers);
 
-            regels = new TextBox();
+            regels = new ComboBox();
+            regels.Items.Add("Standaard");
+            regels.Items.Add("Familie");
             regels.Location = new Point(468, 315);
             regels.Size = new Size(180, 300);
             regels.Width = 280;
             regels.Font = new Font("Arial", 15);
             regels.MaxLength = 2;
             Controls.Add(regels);
+            regels.SelectedIndex = 0;
         }
 
         public void hover(object sender, MouseEventArgs mea)
@@ -841,9 +909,9 @@ public class hostGameOpties : Form
 
         public void start(object o, EventArgs e)
         {
-            if (Regex.Match(name.Text, @"^[ a-zA-Z0-9]+$").Success && Regex.Match(name.Text, @"[a-zA-Z0-9]").Success && Regex.Match(spelers.Text, @"^[2-8]$").Success && Regex.Match(regels.Text, @"^(-1)|1|2$").Success && name.Text.Length<40)
+            if (Regex.Match(name.Text, @"^[ a-zA-Z0-9]+$").Success && Regex.Match(name.Text, @"[a-zA-Z0-9]").Success && Regex.Match(spelers.Text, @"^[2-8]$").Success && name.Text.Length<40)
             {
-                if (oscherm.create_spel(name.Text, int.Parse(spelers.Text), regels.Text))
+                if (oscherm.create_spel(name.Text, int.Parse(spelers.Text), (regels.SelectedIndex+1).ToString()))
                 {
                     oscherm.ga_verder();
                     this.Close();
