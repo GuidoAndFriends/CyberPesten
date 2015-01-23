@@ -182,48 +182,48 @@ namespace CyberPesten
                 pea.Graphics.DrawImage(standSetBitmap, maat);
             }
 
-            if (aasDraaiBool == false)
+            if (!instellingen.regelsIngeschakeld.Contains(0))
             {
                 pea.Graphics.DrawImage(switches, aasDraai, aasDraai, units);
             }
-            if (tweePakkenBool == false)
+            if (!instellingen.regelsIngeschakeld.Contains(1))
             {
                 pea.Graphics.DrawImage(switches, tweePakken, tweePakken, units);
             }
-            if (zevenKlevenBool == false)
+            if (!instellingen.regelsIngeschakeld.Contains(2))
             {
                 pea.Graphics.DrawImage(switches, zevenKleven, zevenKleven, units);
             }
-            if (achtWachtBool == false)
+            if (!instellingen.regelsIngeschakeld.Contains(3))
             {
                 pea.Graphics.DrawImage(switches, achtWacht, achtWacht, units);
             }
-            if (tienWasmachineBool == true)
+            if (instellingen.regelsIngeschakeld.Contains(7))
             {
                 pea.Graphics.DrawImage(switches, tienWasmachine, tienWasmachine, units);
             }
-            if (boerSwitchBool == false)
+            if (!instellingen.regelsIngeschakeld.Contains(4))
             {
                 pea.Graphics.DrawImage(switches, boerSwitch, boerSwitch, units);
             }
-            if (heerNogEenKeerBool == true)
+            if (instellingen.regelsIngeschakeld.Contains(6))
             {
                 pea.Graphics.DrawImage(switches, heerNogEenKeer, heerNogEenKeer, units);
             }
-            if (jokerSwitchBool == false)
+            if (!instellingen.regelsIngeschakeld.Contains(5))
             {
                 pea.Graphics.DrawImage(switches, jokerSwitch, jokerSwitch, units);
             }
 
-            if (instellingen.AIIngeschakeld.Contains(0))
+            if (!instellingen.AIIngeschakeld.Contains(0))
             {
                 pea.Graphics.DrawImage(switches, willekeurigSwitch, willekeurigSwitch, units);
             }
-            if (instellingen.AIIngeschakeld.Contains(1))
+            if (!instellingen.AIIngeschakeld.Contains(1))
             {
                 pea.Graphics.DrawImage(switches, slimSwitch, slimSwitch, units);
             }
-            if (instellingen.AIIngeschakeld.Contains(2))
+            if (!instellingen.AIIngeschakeld.Contains(2))
             {
                 pea.Graphics.DrawImage(switches, slimmerSwitch, slimmerSwitch, units);
             }
@@ -303,35 +303,35 @@ namespace CyberPesten
             //Switches
             if (aasDraai.Contains(mea.Location))
             {
-                aasDraaiBool = !aasDraaiBool;
+                regelSchakel(0);
             }
             if (tweePakken.Contains(mea.Location))
             {
-                tweePakkenBool = !tweePakkenBool;
+                regelSchakel(1);
             }
             if (zevenKleven.Contains(mea.Location))
             {
-                zevenKlevenBool = !zevenKlevenBool;
+                regelSchakel(2);
             }
             if (achtWacht.Contains(mea.Location))
             {
-                achtWachtBool = !achtWachtBool;
+                regelSchakel(3);
             }
             if (tienWasmachine.Contains(mea.Location))
             {
-                tienWasmachineBool = !tienWasmachineBool;
+                regelSchakel(7);
             }
             if (boerSwitch.Contains(mea.Location))
             {
-                boerSwitchBool = !boerSwitchBool;
+                regelSchakel(4);
             }
             if (heerNogEenKeer.Contains(mea.Location))
             {
-                heerNogEenKeerBool = !heerNogEenKeerBool;
+                regelSchakel(6);
             }
             if (jokerSwitch.Contains(mea.Location))
             {
-                jokerSwitchBool = !jokerSwitchBool;
+                regelSchakel(5);
             }
 
             if (willekeurigSwitch.Contains(mea.Location))
@@ -372,6 +372,18 @@ namespace CyberPesten
             if (regenboog.Contains(mea.Location))
             {
                 instellingen.achterkant = 2;
+            }
+        }
+
+        void regelSchakel(int index)
+        {
+            if (instellingen.regelsIngeschakeld.Contains(index))
+            {
+                instellingen.regelsIngeschakeld.Remove(index);
+            }
+            else
+            {
+                instellingen.regelsIngeschakeld.Add(index);
             }
         }
 
