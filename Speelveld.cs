@@ -75,16 +75,14 @@ namespace CyberPesten
 
             achterkant = new Bitmap(110, 153, System.Drawing.Imaging.PixelFormat.Format32bppPArgb);
             string achterkantDesign;
-            if (spel.instellingen.achterkant == 0)
+            if (instellingen.achterkant == 0)
             {
                 achterkantDesign = "Back_design_1";
             }
-            else if (spel.instellingen.achterkant == 1)
+            else
             {
                 achterkantDesign = "Back_design_2";
             }
-            else
-                achterkantDesign = "Back_design_3";
             Graphics.FromImage(achterkant).DrawImage((Bitmap)CyberPesten.Properties.Resources.ResourceManager.GetObject(achterkantDesign), 0, 0, kaartBreedte, kaartHoogte);
 
             stapelPlek = new Point(Width / 2 - 50 - kaartBreedte, Height / 2 - kaartHoogte / 2);
