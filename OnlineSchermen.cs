@@ -619,7 +619,7 @@ class openSpellenScherm : Form
                         Label lbl2 = new Label();
                         lbl2.Top = (int)((198 + a * 30) * verhouding);
                         lbl2.Left = (int)(532 * verhouding);
-                        lbl2.Text = oo.host;
+                        lbl2.Text = oo.host.Split(':')[0];
                         lbl2.Font = arial;
                         lbl2.TextAlign = ContentAlignment.TopCenter;
                         lbl2.BackColor = Color.Transparent;
@@ -794,6 +794,7 @@ class openSpellenScherm : Form
         public void veld_FormClosing(object o, EventArgs e)
         {
             lobbyScherm sender = (lobbyScherm) o;
+            laatSpellenzien();
             if (!this.Visible)
             {
                 this.Show();
