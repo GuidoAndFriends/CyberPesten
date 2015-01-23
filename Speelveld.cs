@@ -15,10 +15,10 @@ namespace CyberPesten
         public Spel spel;
         public int kaartBreedte, kaartHoogte, afstand;
         public Point stapelPlek, potPlek;
-        Rectangle maat, helpRect, settingsRect, homeRect, laatsteKaartRect, eindeBeurtRect;
-        bool helpBool, settingsBool, homeBool, laatsteKaartBool, eindeBeurtBool;
-        float verhouding;
-        GraphicsUnit units = GraphicsUnit.Pixel;
+        protected Rectangle maat, helpRect, settingsRect, homeRect, laatsteKaartRect, eindeBeurtRect;
+        protected bool helpBool, settingsBool, homeBool, laatsteKaartBool, eindeBeurtBool;
+        protected float verhouding;
+        protected GraphicsUnit units = GraphicsUnit.Pixel;
 
         public Bitmap achterkant;
 
@@ -43,8 +43,9 @@ namespace CyberPesten
 
         //Tijdelijk
         Button klaver, harten, ruiten, schoppen;
+        public Speelveld() { }
 
-        public Speelveld(Form form, bool online)
+        public Speelveld(Form form)
         {
             Instellingen instellingen = new Instellingen();
             this.form = form;
@@ -89,16 +90,7 @@ namespace CyberPesten
             MouseMove += hover;
             //Scroll += scroll;
 
-            if (online)
-            {
-                Text = "CyberPesten: Online spel";
-                spel = new OnlineSpel(this);
-            }
-            else
-            {
-                Text = "CyberPesten: Lokaal spel";
-                spel = new Spel(this, instellingen);
-            }
+            startSpel(instellingen);
             
             /*
             helpBitmap = (Bitmap)CyberPesten.Properties.Resources.ResourceManager.GetObject("Help_button");
@@ -171,7 +163,12 @@ namespace CyberPesten
             this.Show();
         }
 
-        void teken(object sender, PaintEventArgs pea)
+        protected void startSpel(Instellingen instellingen){
+                Text = "CyberPesten: Lokaal spel";
+                spel = new Spel(this, instellingen);
+        }
+
+        protected void teken(object sender, PaintEventArgs pea)
         {
             Graphics gr = pea.Graphics;
             //achtergrond
@@ -261,7 +258,7 @@ namespace CyberPesten
             }
         }
 
-        void muisKlik(object sender, MouseEventArgs mea)
+        protected void muisKlik(object sender, MouseEventArgs mea)
         {
             if (helpRect.Contains(mea.Location))
             {
@@ -336,7 +333,7 @@ namespace CyberPesten
             } 
         }
 
-        void muisWiel(object sender, MouseEventArgs mea)
+        protected void muisWiel(object sender, MouseEventArgs mea)
         {
             if (spel.spelend == 0)
             {
@@ -356,7 +353,7 @@ namespace CyberPesten
             }
         }
 
-        void muisBeweeg(object sender, MouseEventArgs mea)
+        protected void muisBeweeg(object sender, MouseEventArgs mea)
         {
             if (muisLaag)
             {
@@ -400,7 +397,7 @@ namespace CyberPesten
             }
         }
 
-        void muisOmlaag(object sender, MouseEventArgs mea)
+        protected void muisOmlaag(object sender, MouseEventArgs mea)
         {
             spel.checkNullKaart();
             int index = 0;
@@ -430,7 +427,7 @@ namespace CyberPesten
             spel.checkNullKaart();
         }
 
-        void muisOmhoog(object sender, MouseEventArgs mea)
+        protected void muisOmhoog(object sender, MouseEventArgs mea)
         {
             spel.checkNullKaart();
             muisLaag = false;
@@ -453,7 +450,7 @@ namespace CyberPesten
             spel.checkNullKaart();
         }
 
-        void schuiven()
+        protected void schuiven()
         {
             while (delta != 0)
             {
@@ -550,7 +547,7 @@ namespace CyberPesten
             schoppen.Show();
         }
 
-        void schoppen_Click(object sender, EventArgs e)
+        protected void schoppen_Click(object sender, EventArgs e)
         {
             spel.speciaal = 3;
             spel.chat.nieuw(" en koos voor schoppen");
@@ -558,7 +555,7 @@ namespace CyberPesten
             verbergKleurknoppen();
         }
 
-        void ruiten_Click(object sender, EventArgs e)
+        protected void ruiten_Click(object sender, EventArgs e)
         {
             spel.speciaal = 2;
             spel.chat.nieuw(" en koos voor ruiten");
@@ -566,7 +563,7 @@ namespace CyberPesten
             verbergKleurknoppen();
         }
 
-        void harten_Click(object sender, EventArgs e)
+        protected void harten_Click(object sender, EventArgs e)
         {
             spel.speciaal = 0;
             spel.chat.nieuw(" en koos voor harten");
@@ -574,10 +571,10 @@ namespace CyberPesten
             verbergKleurknoppen();
         }
 
-        void klaver_Click(object sender, EventArgs e)
+        protected void klaver_Click(object sender, EventArgs e)
         {
             spel.speciaal = 1;
-            spel.chat.nieuw("Je en koos voor klaver");
+            spel.chat.nieuw(" en koos voor klaver");
             spel.volgende();
             verbergKleurknoppen();
         }

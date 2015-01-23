@@ -73,6 +73,9 @@
     <Compile Include="OnlineSchermen.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="OnlineSpeelveld.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="OnlineSpel.cs" />
     <Compile Include="Programma.cs" />
     <Compile Include="Properties\Resources.Designer.cs">

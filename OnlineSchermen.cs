@@ -373,11 +373,10 @@ class lobbyScherm : Form
 
         public void gaVerder()
         {
-
-            spel = new Speelveld(menuBack, true);
-            spel.Show();
-            spel.FormClosed += spel_FormClosed;
-            this.Hide();
+                spel = new OnlineSpeelveld(menuBack);
+                spel.Show();
+                spel.FormClosed += spel_FormClosed;
+                this.Hide();
              
         }
 
@@ -482,11 +481,23 @@ class lobbyScherm : Form
                 {
                     begonnen = true;
                 }
+                if (status_raw == "Error: Game bestaat niet!")
+                {
+                    MessageBox.Show("Host heeft het spel verlaten.");
+                    menuBack.Show();
+                    Close();
+                }
                 deelnemers_raw = Online.PHPrequest("http://harbingerofme.info/GnF/get_names.php", new string[] { "name", "token", "gameid" }, new string[] { Online.username, Online.token, Online.game.ToString() });
                 if (!deelnemers_raw.StartsWith("Error:"))
                 {
                     deelnemers = deelnemers_raw.Split(',');
                     laatDNzien();
+                }
+                if (deelnemers_raw == "Error: Game bestaat niet!")
+                {
+                    MessageBox.Show("Host heeft het spel verlaten.");
+                    menuBack.Show();
+                    Close();
                 }
                 berichten_raw = Online.PHPrequest("http://harbingerofme.info/GnF/read_messages.php", new string[] { "name", "token", "gameid" }, new string[] { Online.username, Online.token, Online.game.ToString() });
                 if (berichten_raw != "" && !berichten_raw.StartsWith("Error"))
@@ -506,6 +517,12 @@ class lobbyScherm : Form
                     if (berichten_raw == "")
                     {
                         raw_chat.Clear();
+                    }
+                    if (berichten_raw == "Error: Game bestaat niet!")
+                    {
+                        MessageBox.Show("Host heeft het spel verlaten.");
+                        menuBack.Show();
+                        Close();
                     }
                 }
 
@@ -784,6 +801,7 @@ class openSpellenScherm : Form
         public online_openSpel[] krijgSpellen()
         {
             List<online_openSpel> returnal = new List<online_openSpel>();
+            Online.PHPrequest("http://harbingerofme.info/GnF/last_action.php", new string[] { "name", "token" }, new string[] { Online.username, Online.token });//we caren niet echt om de result hiervan, dat is voor de server
             string raw = Online.PHPrequest("http://harbingerofme.info/GnF/get_games.php", new string[] { "name", "token" }, new string[] { Online.username, Online.token });
             if (!raw.StartsWith("Error:"))
             {

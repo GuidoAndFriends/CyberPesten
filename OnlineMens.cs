@@ -8,12 +8,12 @@ namespace CyberPesten
 {
     class OnlineMens : Speler
     {
-        public int onlineIndex;
+        public int OnlineIndex;
         public OnlineMens(Spel s, int index)
         {
             hand = new List<Kaart>();
             naam = Online.username;
-            onlineIndex = index;
+            OnlineIndex = index;
             spel = s;
         }
 

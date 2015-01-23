@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
+using System.Windows.Forms;
 
 namespace CyberPesten
 {
@@ -12,10 +13,13 @@ namespace CyberPesten
         Random rnd = Online.onlineRandom;
         Thread data_thread;
         bool spel_loopt;
-        List<string> chatregels;
+        List<string> chatregels,actieregels;
+        List<Speler> onlineSpelers;
+        public int actieCount;
 
         public OnlineSpel(Speelveld s)
         {
+            actieCount = 0;
             speelveld = s;
             spelers = new List<Speler>();
             stapel = new List<Kaart>();
@@ -30,14 +34,12 @@ namespace CyberPesten
 
             int kaartspellen = (aantalSpelers) / 4 + 1; //hoeveel kaartspellen gebruikt worden
             int startkaarten = 7; //hoeveel kaarten de spelers in het begin krijgen
-            //Online: is de beginnende speler altijd 0?
-            spelend = 0; //welke speler aan de beurt is (zonder mens wordt aan het einde van de constructormethode afgehandeld)
             richting = 1; //welke kant er op gespeeld word
             speciaal = -1; //of er een speciale kaart gespeeld is
             pakAantal = 0; //hoeveel kaarten er gepakt moeten worden (voor 2 en joker)
             speciaalTekst = "-1 normaal";
             bezig = true;
-            //Online: eigen variant met chat?
+            //Online: eigen variant met chat?//nee, we kunnen prima dingen hierin doen.
             chat = new Chat();
 
             int einde = aantalSpelers * 2;
@@ -56,6 +58,20 @@ namespace CyberPesten
                     }
                 }   
             }
+            onlineSpelers = spelers;//spelers gesorteerd op online index (feitelijke volgorde)
+            foreach (Speler r in spelers)
+            {
+                if(r.GetType() == typeof(OnlineSpeler)){
+                    OnlineSpeler b = (OnlineSpeler) r;
+                    onlineSpelers[b.OnlineIndex] = b;
+                }
+                if (r.GetType() == typeof(OnlineMens))
+                {
+                    OnlineMens b = (OnlineMens)r;
+                    onlineSpelers[b.OnlineIndex] = b;
+                }
+            }
+            spelend = Online.onlineRandom.Next(aantalSpelers);//iedereen heeft dezelfde seed, dus dit gaat goed.
 
 
                 //Kaarten toevoegen
@@ -69,14 +85,9 @@ namespace CyberPesten
             //Kaarten delen
             for (int i = 0; i < startkaarten; i++)
             {
-                int j = 0;
-                if (!mens)
+                for (int j = 0; j < spelers.Count; j++)
                 {
-                    j++;
-                }
-                for (; j < spelers.Count; j++)
-                {
-                    verplaatsKaart(pot, spelers[j].hand);
+                    verplaatsKaart(pot, onlineSpelers[j].hand);//onlineSpelers is voor iedereen hetzelfde, dus iedeen krijgt de juiste kaarten.
                 }
             }
 
@@ -85,19 +96,11 @@ namespace CyberPesten
                 speler.updateBlok();
             }
             verplaatsKaart(pot, 0, stapel);
-            //stapel.Add(new Kaart()); als je wilt testen hoe het gaat als de eerste kaart een joker is
             if (stapel[0].Kleur == 4)
             {
                 speciaal = 5;
             }
             s.Invalidate();
-            /*
-            //Online: niet van toepassing
-            if (!mens)
-            {
-                spelend++;
-            }
-            */
             checkNullKaart();
         }
 
@@ -113,6 +116,20 @@ namespace CyberPesten
             return geschud;
         }
 
+        void onlineLaatsteKaart(bool melden, int speler)
+        {
+            if (melden) { 
+                Speler r = onlineSpelers[speler];
+                if (r.hand.Count == 1) {
+                    r.gemeld = true;
+                }else
+                {
+                    r.gemeld = false;
+                }
+
+                }
+            }
+
         public void data()
         {
             while (spel_loopt)
@@ -120,15 +137,68 @@ namespace CyberPesten
                 //pull data
                 string raw = Online.PHPrequest("http://harbingerofme.info/GnF/read_messages.php", new string[] { "name", "token", "gameid" }, new string[] { Online.username, Online.token, Online.game.ToString() });
                 string[] lines = raw.Split(new string[] {"|"},StringSplitOptions.RemoveEmptyEntries);
-                for (int a = chatregels.Count() - 1; a < lines.Count() - 1; a++)
+                if (raw == "Error: Game bestaat niet!")
                 {
-                    chatregels.Add(lines[a]);
-                    chat.nieuw("<"+lines[a].Split(':')[0]+">: "+lines[a].Split(new string[] {":"},2,StringSplitOptions.None)[1]);
-                }//dat was de chat, nu waar het om draait.
+                    this.speelveld.Close();
+                }
+                if (!raw.StartsWith("Error:"))
+                {
+                    for (int a = chatregels.Count() - 1; a < lines.Count() - 1; a++)
+                    {
+                        chatregels.Add(lines[a]);
+                        chat.nieuw("<" + lines[a].Split(':')[0] + ">: " + lines[a].Split(new string[] { ":" }, 2, StringSplitOptions.None)[1]);
+                    }
+                }
 
+                raw = Online.PHPrequest("http://harbingerofme.info/GnF/read_action.php", new string[] { "name", "token", "gameid" }, new string[] { Online.username, Online.token, Online.game.ToString() });
+                if (raw != "" && !raw.StartsWith("Error:"))
+                {
+                    raw = raw.Substring(1);//het start met een "|"
+                    actieregels = raw.Split('|').ToList();
+                    doe_acties();
+                }
+                if (raw == "Error: Game bestaat niet!")
+                {
+                    this.speelveld.Close();
+                }
+                Thread.Sleep(1000);
+            }
+        }
 
-                //dingen
-                //dingen
+        public void doe_acties()
+        {
+            try
+            {
+                for (int a = actieCount; a < actieregels.Count; a++)
+                {
+                    string[] splits = actieregels[a].Split(':');
+                    Speler s = onlineSpelers[int.Parse(splits[0])];
+                    switch (splits[1])
+                    {
+                        case "lK": s.gemeld = true; break;
+                        case "eV": pakKaart(); break;
+                        case "rPN": regelPakkenNu(); break;
+                        case "pK": pakKaart(); break;
+                        case "sK": speelKaart(int.Parse(splits[2])); break;
+                        case "bK": Kaart k = s.hand[int.Parse(splits[2])]; s.hand.Remove(k); s.hand.Add(k); break;
+                        case "kV": speciaal = int.Parse(splits[2]); string tekst = s.naam + "koos voor ";
+                            switch (speciaal)
+                            {
+                                case 0: tekst += "Harten."; break;
+                                case 1: tekst += "Klaver."; break;
+                                case 2: tekst += "Ruiten."; break;
+                                case 3: tekst += "Schoppen."; break;
+                            }
+                            chat.nieuw(tekst);
+                            break;
+                    }
+                }
+            }
+            catch
+            {
+            MessageBox.Show("Kritieke fout, spel is afgesloten, er is niks van je rating afgetrokken");
+            string raw = Online.PHPrequest("http://harbingerofme.info/GnF/leave_game.php", new string[] { "name", "token" , "spelid","spelerror"}, new string[] { Online.username, Online.token, Online.game.ToString(), "waarde"});
+            this.speelveld.Close();
             }
         }
     }

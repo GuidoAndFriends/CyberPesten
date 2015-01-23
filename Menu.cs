@@ -148,7 +148,7 @@ namespace CyberPesten
             }
             else if (lokaalHover)
             {
-                Form veld = new Speelveld(this, false);
+                Form veld = new Speelveld(this);
                 veld.FormClosed += veld_FormClosed;
                 this.Hide();
             }
