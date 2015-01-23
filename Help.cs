@@ -78,6 +78,7 @@ namespace CyberPesten
             tekst += "\n- Twee: De volgende speler moet twee kaarten trekken, of ook een 2 of een joker opleggen. De kaarten die moeten worden getrokken worden bij elkaar opgeteld.";
             tekst += "\n- Zeven: De huidige speler mag nog een kaart spelen";
             tekst += "\n- Acht: De eerstvolgende speler moet een beurt overslaan";
+            tekst += "\n- Tien: De kaarten van de spelers worden doorgegeven in de zelfde richting als het spel.";
             tekst += "\n- Boer: De speler mag kleur van speelstapel veranderen. De eerstvolgende speler moet een kaart van de gekozen kleur opleggen. Deze kaart mag altijd gespeeld worden.";
             tekst += "\n- Heer: De huidige speler mag nog een kaart spelen";
             tekst += "\n- Joker: De volgende speler moet vijf kaarten pakken, of ook een 2 of een joker opleggen. De kaarten die moeten worden getrokken worden bij elkaar opgeteld. De speler die moest pakken mag hierna een willekeurige kaart naar keuze opleggen om de kleur van het verdere spel te bepalen";
