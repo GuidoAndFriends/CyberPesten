@@ -373,11 +373,18 @@ class lobbyScherm : Form
 
         public void gaVerder()
         {
+            if (InvokeRequired)
+            {
+                Invoke(new MethodInvoker(gaVerder));
+            }
+            else
+            {
                 spel = new OnlineSpeelveld(menuBack);
                 spel.Show();
                 spel.FormClosed += spel_FormClosed;
+
                 this.Hide();
-             
+            }             
         }
 
         void spel_FormClosed(object sender, FormClosedEventArgs e)
@@ -808,7 +815,7 @@ class openSpellenScherm : Form
                 string copy = raw.Substring(1, raw.Length - 2);//strip begin en einde
                 while(copy.Length>0)
                 {
-                    string substr = copy.Substring(1, copy.IndexOf('}') - 1);//misschien hoeft die min 1 niet? Testen nodig.
+                    string substr = copy.Substring(1, copy.IndexOf('}') - 1);
                     string[] splits = substr.Split('|');
                     string[] temp = splits[2].Split(','); string temp2 = ""; List<string> temp5 = new List<string>();
                     List<string> temp4 =  new List<string>();
