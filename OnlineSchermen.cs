@@ -251,6 +251,9 @@ class lobbyScherm : Form
         List<Control> deelnemerLijst = new List<Control>();
         TextBox invoer;
         Label uitvoer;//ha!
+        Bitmap buttons;
+
+        GraphicsUnit units = GraphicsUnit.Pixel;
 
 
         public lobbyScherm(Form back)
@@ -267,10 +270,13 @@ class lobbyScherm : Form
             this.FormClosing += sluitThreads;
             this.MouseMove += hover;
             this.Click += klik;
+            this.Paint += this.teken;
 
             delGame = new Rectangle((int)(109*verhouding),(int)(956*verhouding),(int)(191*verhouding),(int)(89*verhouding));
             startGame = new Rectangle((int)(309 * verhouding), (int)(956 * verhouding), (int)(191 * verhouding), (int)(89 * verhouding));
             leaveGame = new Rectangle((int)(700 * verhouding), (int)(956 * verhouding), (int)(191 * verhouding), (int)(89 * verhouding));
+
+            buttons = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Lobby_buttons"));
 
             invoer = new TextBox();
             invoer.Location = new Point((int)(verhouding * 1155), (int)(verhouding * 1040));
@@ -298,6 +304,23 @@ class lobbyScherm : Form
             data_thread.IsBackground = true;
             data_thread.Start();
         }
+
+        public void teken(object sender, PaintEventArgs pea)
+        {
+            if (delHover)
+            {
+                pea.Graphics.DrawImage(buttons, delGame, delGame, units);
+            }
+            if (startHover)
+            {
+                pea.Graphics.DrawImage(buttons, startGame, startGame, units);
+            }
+            if (leaveHover)
+            {
+                pea.Graphics.DrawImage(buttons, leaveGame, leaveGame, units);
+            }
+        }
+
 
         void invoer_KeyPress(object sender, KeyPressEventArgs e)
         {
@@ -411,6 +434,8 @@ class lobbyScherm : Form
             {
                 leaveHover = true;
             }
+
+            Invalidate();
         }
 
         public void klik(object o, EventArgs e)
@@ -555,6 +580,8 @@ class openSpellenScherm : Form
     Thread data_thread;
     Rectangle hostgame, exit;
     bool hostHover,exitHover;
+    Bitmap buttons;
+    GraphicsUnit units = GraphicsUnit.Pixel;
 
         public openSpellenScherm(Form back)
         {
@@ -574,17 +601,33 @@ class openSpellenScherm : Form
             hostgame = new Rectangle((int)(1673 * verhouding) ,(int) (693*verhouding),(int) (252*verhouding),(int)(95*verhouding));
             exit = new Rectangle((int)(1673 * verhouding), (int)(809 * verhouding), (int)(252 * verhouding), (int)(95 * verhouding));
 
+            buttons = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Spellenscherm_buttons"));
+
             this.FormClosing += closing;
             this.FormClosed += closing;
 
             this.MouseMove += this.hover;
             this.MouseClick += this.klik;
+
+            this.Paint += this.teken;
             
             //er is een knop nodig die laat zien create game, met de volgende opties daarin:
             // spelnaam, aantal max spelers en regelset
             // stuur ze dan inclusief parameters door naar create_spel(string spelnaam, int spelers,string/int regelset)
 
             //als één van de knoppen true retourneert, moet er naar het volgende scherm gegaan worden: ga_verder();
+        }
+
+        public void teken(object sender, PaintEventArgs pea)
+        {
+            if (hostHover)
+            {
+                pea.Graphics.DrawImage(buttons, hostgame, hostgame, units);
+            }
+            if (exitHover)
+            {
+                pea.Graphics.DrawImage(buttons, exit, exit, units);
+            }
         }
 
         public void laatSpellenzien()
@@ -715,6 +758,8 @@ class openSpellenScherm : Form
             hostHover = false; exitHover = false;
             if (hostgame.Contains(e.Location)) { hostHover = true; }
             if (exit.Contains(e.Location)) { exitHover = true; }
+
+            Invalidate();
         }
 
         public void klik(object o, MouseEventArgs e)

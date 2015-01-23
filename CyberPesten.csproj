@@ -117,6 +117,8 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\Spellenscherm buttons.png" />
+    <None Include="Resources\Lobby buttons.png" />
     <None Include="Resources\win.wav" />
     <None Include="Resources\schudden.wav" />
     <None Include="Resources\playcard.wav" />
