@@ -569,7 +569,10 @@ namespace CyberPesten
             }
             else
             {
-                tekst = "Helaas, " + spelers[spelend].naam + " heeft gewonnen.";
+                if (mens)
+                    tekst = "Helaas, " + spelers[spelend].naam + " heeft gewonnen.";
+                else
+                    tekst = spelers[spelend].naam + " heeft gewonnen.";
             }
             MessageBox.Show(tekst);
             //Terugkeren naar het menu?
