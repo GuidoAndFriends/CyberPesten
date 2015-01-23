@@ -22,8 +22,6 @@ namespace CyberPesten
         Rectangle terugButton, standSetButton, maat;
         Rectangle aasDraai, tweePakken, zevenKleven, achtWacht, tienWasmachine, boerSwitch, heerNogEenKeer, jokerSwitch;
         Rectangle willekeurigSwitch, slimSwitch, slimmerSwitch, cheaterSwitch, aiModus, geluidSwitch, rood, blauw, regenboog;
-        bool aasDraaiBool, tweePakkenBool, zevenKlevenBool, achtWachtBool, tienWasmachineBool, boerSwitchBool, heerNogEenKeerBool, jokerSwitchBool;
-        //bool willekeurigSwitchBool, slimSwitchBool, slimmerSwitchBool, cheaterSwitchBool, aiModusBool, geluidSwitchBool;
         float verhouding;
         GraphicsUnit units = GraphicsUnit.Pixel;
         //int achterkantKleur = 2;
@@ -85,78 +83,11 @@ namespace CyberPesten
             blauw = new Rectangle((int)(verhouding * 779), (int)(verhouding * 853), (int)(verhouding * 105), (int)(verhouding * 65));
             regenboog = new Rectangle((int)(verhouding * 884), (int)(verhouding * 853), (int)(verhouding * 209), (int)(verhouding * 65));
 
-            
-            //Switch booleans
-            aasDraaiBool = true; tweePakkenBool = true; zevenKlevenBool = true; achtWachtBool = true;
-            tienWasmachineBool = false; boerSwitchBool = true; heerNogEenKeerBool = false; jokerSwitchBool = true;
-            //willekeurigSwitchBool = true; slimSwitchBool = true; slimmerSwitchBool= true; cheaterSwitchBool = false;
-            //aiModusBool = false; geluidSwitchBool = true;
-            
-
             this.Paint += this.buildAchtergrond;
             this.Paint += this.selected;
             this.MouseMove += this.hover;
             this.MouseClick += this.klik;
         }
-
-        /*
-        void regelsIngeschakeld(object sender, EventArgs ea)
-        {
-            string[] delen = regelsIngeschakeldCon.Text.Split(new char[] { ',' });
-            instellingen.regelsIngeschakeld = new List<int>();
-            if (delen[0] != "")
-            {
-                for (int i = 0; i < delen.Length; i++)
-                {
-                    instellingen.regelsIngeschakeld.Add(Int32.Parse(delen[i]));
-                }
-            }
-        }
-
-        void aantalSpelers(object sender, EventArgs ea)
-        {
-            if (aantalSpelersCon.Value < 2)
-            {
-                aantalSpelersCon.Value = 2;
-            }
-            else if (aantalSpelersCon.Value > 7)
-            {
-                aantalSpelersCon.Value = 7;
-            }
-            instellingen.aantalSpelers = (int)aantalSpelersCon.Value;
-            instellingen.schrijven();
-        }
-
-        void AIIngeschakeld(object sender, EventArgs ea)
-        {
-            string[] delen = AIIngeschakeldCon.Text.Split(new char[] { ',' });
-            instellingen.AIIngeschakeld = new List<int>();
-
-            for (int i = 0; i < delen.Length; i++)
-            {
-                if (delen[i] != "")
-                {
-                    instellingen.AIIngeschakeld.Add(Int32.Parse(delen[i]));
-                }
-            }
-            instellingen.schrijven();
-        }
-
-        void mensSpelend(object sender, EventArgs ea)
-        {
-            if (instellingen.mensSpelend)
-            {
-                instellingen.mensSpelend = false;
-                mensSpelendCon.Text = "Uit";
-            }
-            else
-            {
-                instellingen.mensSpelend = true;
-                mensSpelendCon.Text = "Aan";
-            }
-            instellingen.schrijven();
-        }
-         */
 
         void update()
         {
