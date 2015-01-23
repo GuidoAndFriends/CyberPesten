@@ -65,7 +65,7 @@ namespace CyberPesten
             onlineSpelers = new List<Speler>();//spelers gesorteerd op online index (feitelijke volgorde)
             foreach (Speler r in spelers)
             {
-                onlineSpelers.Add(new Speler());
+                onlineSpelers.Add(new Mens(this));
                 if(r.GetType() == typeof(OnlineSpeler)){
                     OnlineSpeler b = (OnlineSpeler) r;
                     onlineSpelers[b.OnlineIndex] = b;
