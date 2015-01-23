@@ -11,9 +11,9 @@ namespace CyberPesten
     class Instellingenscherm : Form
     {
         Instellingen instellingen;
-        NumericUpDown regelsetCon, aantalSpelersCon;
-        TextBox regelsIngeschakeldCon, AIIngeschakeldCon;
-        Button mensSpelendCon;
+        //NumericUpDown regelsetCon, aantalSpelersCon;
+        //TextBox regelsIngeschakeldCon, AIIngeschakeldCon;
+        //Button mensSpelendCon;
         Menu menu;
         Bitmap terugBitmap, standSetBitmap, achtergrond, switches, roodKnop, regenboogKnop;
         bool terugHover, standSetHover;
@@ -21,10 +21,10 @@ namespace CyberPesten
         Rectangle aasDraai, tweePakken, zevenKleven, achtWacht, tienWasmachine, boerSwitch, heerNogEenKeer, jokerSwitch;
         Rectangle willekeurigSwitch, slimSwitch, slimmerSwitch, cheaterSwitch, aiModus, geluidSwitch, rood, blauw, regenboog;
         bool aasDraaiBool, tweePakkenBool, zevenKlevenBool, achtWachtBool, tienWasmachineBool, boerSwitchBool, heerNogEenKeerBool, jokerSwitchBool;
-        bool willekeurigSwitchBool, slimSwitchBool, slimmerSwitchBool, cheaterSwitchBool, aiModusBool, geluidSwitchBool;
+        //bool willekeurigSwitchBool, slimSwitchBool, slimmerSwitchBool, cheaterSwitchBool, aiModusBool, geluidSwitchBool;
         float verhouding;
         GraphicsUnit units = GraphicsUnit.Pixel;
-        int achterkantKleur = 2;
+        //int achterkantKleur = 2;
 
         public Instellingenscherm(Menu _menu)
         {
@@ -41,82 +41,6 @@ namespace CyberPesten
             achtergrond = new Bitmap(maat.Width, maat.Height, System.Drawing.Imaging.PixelFormat.Format32bppPArgb);
             Graphics.FromImage(achtergrond).DrawImage((Bitmap)CyberPesten.Properties.Resources.ResourceManager.GetObject("Settings_achtergrond"), maat);
             BackgroundImage = achtergrond;
-
-            
-            /*Label regelsetLab = new Label();
-            regelsetLab.Text = "Regelset";
-            regelsetLab.BackColor = Color.Transparent;
-            regelsetLab.Size = new Size(150, 40);
-            regelsetLab.Location = new Point(50, 50);
-            Controls.Add(regelsetLab);*/
-
-            regelsetCon = new NumericUpDown();
-            regelsetCon.Value = instellingen.regelset;
-            regelsetCon.Location = new Point(9220, 50);
-            Controls.Add(regelsetCon);
-
-            /*Label regelsIngeschakeldLab = new Label();
-            regelsIngeschakeldLab.Text = "Ingeschakelde regels (1,2,3)";
-            regelsIngeschakeldLab.BackColor = Color.Transparent;
-            regelsIngeschakeldLab.Size = new Size(150, 40);
-            regelsIngeschakeldLab.Location = new Point(50, 150);
-            Controls.Add(regelsIngeschakeldLab);*/
-
-            regelsIngeschakeldCon = new TextBox();
-            regelsIngeschakeldCon.Location = new Point(9220, 150);
-            Controls.Add(regelsIngeschakeldCon);
-
-            /*Label aantalSpelersLab = new Label();
-            aantalSpelersLab.Text = "Aantal spelers";
-            aantalSpelersLab.BackColor = Color.Transparent;
-            aantalSpelersLab.Size = new Size(150, 40);
-            aantalSpelersLab.Location = new Point(50, 250);
-            Controls.Add(aantalSpelersLab);*/
-
-            aantalSpelersCon = new NumericUpDown();
-            aantalSpelersCon.Location = new Point(220, 250);
-            aantalSpelersCon.DecimalPlaces = 0;
-            aantalSpelersCon.ValueChanged += aantalSpelers;
-            Controls.Add(aantalSpelersCon);
-
-            /*Label AIIngeschakeldLab = new Label();
-            AIIngeschakeldLab.Text = "Ingeschakelde AI (0,2,3)";
-            AIIngeschakeldLab.BackColor = Color.Transparent;
-            AIIngeschakeldLab.Size = new Size(150, 40);
-            AIIngeschakeldLab.Location = new Point(50, 350);
-            Controls.Add(AIIngeschakeldLab);*/
-
-            AIIngeschakeldCon = new TextBox();
-            AIIngeschakeldCon.Location = new Point(9220, 350);
-            AIIngeschakeldCon.TextChanged += AIIngeschakeld;
-            Controls.Add(AIIngeschakeldCon);
-
-            /*Label mensSpelendLab = new Label();
-            mensSpelendLab.Text = "Menselijke speler";
-            mensSpelendLab.BackColor = Color.Transparent;
-            mensSpelendLab.Size = new Size(150, 40);
-            mensSpelendLab.Location = new Point(50, 450);
-            Controls.Add(mensSpelendLab);*/
-
-            mensSpelendCon = new Button();
-            mensSpelendCon.Location = new Point(9220, 450);
-            mensSpelendCon.Click += mensSpelend;
-            Controls.Add(mensSpelendCon);
-
-            /*Button resetCon = new Button();
-            resetCon.Text = "Standaard instellingen";
-            resetCon.Size = new Size(150, 40);
-            resetCon.Location = new Point(50, 550);
-            resetCon.Click += reset;
-            Controls.Add(resetCon);*/
-
-            /*Button terugCon = new Button();
-            terugCon.Text = "Terug naar menu";
-            terugCon.Size = new Size(150, 40);
-            terugCon.Location = new Point(50, 650);
-            terugCon.Click += terug;
-            Controls.Add(terugCon);*/
-
 
             update();
             this.Show();
@@ -159,12 +83,13 @@ namespace CyberPesten
             blauw = new Rectangle((int)(verhouding * 779), (int)(verhouding * 853), (int)(verhouding * 105), (int)(verhouding * 65));
             regenboog = new Rectangle((int)(verhouding * 884), (int)(verhouding * 853), (int)(verhouding * 209), (int)(verhouding * 65));
 
+            
             //Switch booleans
             aasDraaiBool = true; tweePakkenBool = true; zevenKlevenBool = true; achtWachtBool = true;
             tienWasmachineBool = false; boerSwitchBool = true; heerNogEenKeerBool = false; jokerSwitchBool = true;
-            willekeurigSwitchBool = true; slimSwitchBool = true; slimmerSwitchBool= true; cheaterSwitchBool = false;
-            aiModusBool = false; geluidSwitchBool = true;
-
+            //willekeurigSwitchBool = true; slimSwitchBool = true; slimmerSwitchBool= true; cheaterSwitchBool = false;
+            //aiModusBool = false; geluidSwitchBool = true;
+            
 
             this.Paint += this.buildAchtergrond;
             this.Paint += this.selected;
@@ -172,6 +97,7 @@ namespace CyberPesten
             this.MouseClick += this.klik;
         }
 
+        /*
         void regelsIngeschakeld(object sender, EventArgs ea)
         {
             string[] delen = regelsIngeschakeldCon.Text.Split(new char[] { ',' });
@@ -228,34 +154,12 @@ namespace CyberPesten
             }
             instellingen.schrijven();
         }
+         */
 
         void update()
         {
-            regelsetCon.Value = instellingen.regelset;
-            aantalSpelersCon.Value = instellingen.aantalSpelers;
-
-            string regel = "";
-            if (instellingen.AIIngeschakeld != null)
-            {
-                if (instellingen.AIIngeschakeld.Count != 0)
-                {
-                    regel += instellingen.AIIngeschakeld[0].ToString();
-                    for (int i = 1; i < instellingen.AIIngeschakeld.Count; i++)
-                    {
-                        regel += "," + instellingen.AIIngeschakeld[i].ToString();
-                    }
-                }
-            }
-            AIIngeschakeldCon.Text = regel;
-
-            if (instellingen.mensSpelend)
-            {
-                mensSpelendCon.Text = "Aan";
-            }
-            else
-            {
-                mensSpelendCon.Text = "Uit";
-            }
+            Invalidate();
+            Update();
         }
 
         private void buildAchtergrond(object sender, PaintEventArgs pea)
@@ -309,37 +213,37 @@ namespace CyberPesten
                 pea.Graphics.DrawImage(switches, jokerSwitch, jokerSwitch, units);
             }
 
-            if (willekeurigSwitchBool == false)
+            if (instellingen.AIIngeschakeld.Contains(0))
             {
                 pea.Graphics.DrawImage(switches, willekeurigSwitch, willekeurigSwitch, units);
             }
-            if (slimSwitchBool == false)
+            if (instellingen.AIIngeschakeld.Contains(1))
             {
                 pea.Graphics.DrawImage(switches, slimSwitch, slimSwitch, units);
             }
-            if (slimmerSwitchBool == false)
+            if (instellingen.AIIngeschakeld.Contains(2))
             {
                 pea.Graphics.DrawImage(switches, slimmerSwitch, slimmerSwitch, units);
             }
-            if (cheaterSwitchBool == true)
+            if (instellingen.AIIngeschakeld.Contains(3))
             {
                 pea.Graphics.DrawImage(switches, cheaterSwitch, cheaterSwitch, units);
             }
 
-            if (aiModusBool == false)
+            if (instellingen.mensSpelend == true)
             {
                 pea.Graphics.DrawImage(switches, aiModus, aiModus, units);
             }
-            if (geluidSwitchBool == false)
+            if (instellingen.geluid == false)
             {
                 pea.Graphics.DrawImage(switches, geluidSwitch, geluidSwitch, units);
             }
 
-            if (achterkantKleur == 1)
+            if (instellingen.achterkant == 0)
             {
                 pea.Graphics.DrawImage(roodKnop, maat);
             }
-            if (achterkantKleur == 3)
+            if (instellingen.achterkant == 2)
             {
                 pea.Graphics.DrawImage(regenboogKnop, maat);
             }
@@ -373,6 +277,7 @@ namespace CyberPesten
         {
             if (terugHover)
             {
+                instellingen.schrijven();
                 menu.Show();
                 this.Close();
             }
@@ -420,42 +325,54 @@ namespace CyberPesten
 
             if (willekeurigSwitch.Contains(mea.Location))
             {
-                willekeurigSwitchBool = !willekeurigSwitchBool;
+                AIschakel(0);
             } 
             if (slimSwitch.Contains(mea.Location))
             {
-                slimSwitchBool = !slimSwitchBool;
+                AIschakel(1);
             }
             if (slimmerSwitch.Contains(mea.Location))
             {
-                slimmerSwitchBool = !slimmerSwitchBool;
+                AIschakel(2);
             }
             if (cheaterSwitch.Contains(mea.Location))
             {
-                cheaterSwitchBool = !cheaterSwitchBool;
+                AIschakel(3);
             }
 
             if (aiModus.Contains(mea.Location))
             {
-                aiModusBool = !aiModusBool;
+                instellingen.mensSpelend = !instellingen.mensSpelend;
             }
             if (geluidSwitch.Contains(mea.Location))
             {
-                geluidSwitchBool = !geluidSwitchBool;
+                instellingen.geluid = !instellingen.geluid;
             }
 
             //Kaart achterkant kleur
             if (rood.Contains(mea.Location))
             {
-                achterkantKleur = 1;
+                instellingen.achterkant = 0;
             }
             if (blauw.Contains(mea.Location))
             {
-                achterkantKleur = 2;
+                instellingen.achterkant = 1;
             }
             if (regenboog.Contains(mea.Location))
             {
-                achterkantKleur = 3;
+                instellingen.achterkant = 2;
+            }
+        }
+
+        void AIschakel(int index)
+        {
+            if (instellingen.AIIngeschakeld.Contains(index))
+            {
+                instellingen.AIIngeschakeld.Remove(index);
+            }
+            else
+            {
+                instellingen.AIIngeschakeld.Add(index);
             }
         }
     }

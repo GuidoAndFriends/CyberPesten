@@ -23,7 +23,7 @@ namespace CyberPesten
 
         public bool isPakkenMagAltijd(Kaart kaart)
         {
-            if (kaart.Kleur == 4 && ((instellingen.regelset == 0 && instellingen.regelsIngeschakeld.Contains(6)) || (instellingen.regelset == 1 && instellingen.regelsIngeschakeld.Contains(5))))
+            if (kaart.Kleur == 4 && instellingen.regelsIngeschakeld.Contains(5))
             {
                 return true;
             }
@@ -51,7 +51,7 @@ namespace CyberPesten
 
         bool isKleurKiezenMagAltijd(Kaart kaart)
         {
-            if (kaart.Waarde == 11 && instellingen.regelsIngeschakeld.Contains(0))
+            if (kaart.Waarde == 11 && instellingen.regelsIngeschakeld.Contains(4))
             {
                 return true;
             }
@@ -64,7 +64,7 @@ namespace CyberPesten
 
         public bool isWacht(Kaart kaart)
         {
-            if ((kaart.Waarde == 8 && instellingen.regelset == 0 && instellingen.regelsIngeschakeld.Contains(3)) || (kaart.Waarde == 7 && instellingen.regelset == 1 && instellingen.regelsIngeschakeld.Contains(2)))
+            if ((kaart.Waarde == 8 && instellingen.regelsIngeschakeld.Contains(3)))
             {
                 return true;
             }
@@ -88,7 +88,7 @@ namespace CyberPesten
 
         bool isWas(Kaart kaart)
         {
-            if (kaart.Waarde == 10 && instellingen.regelset == 0 && instellingen.regelsIngeschakeld.Contains(7))
+            if (kaart.Waarde == 10 && instellingen.regelsIngeschakeld.Contains(7))
             {
                 return true;
             }
@@ -100,7 +100,7 @@ namespace CyberPesten
 
         public bool isNogmaals(Kaart kaart)
         {
-            if (kaart.Waarde == 13 || (instellingen.regelset == 0 && kaart.Waarde == 7) || (instellingen.regelset == 1 && kaart.Waarde == 8))
+            if ((kaart.Waarde == 13 && instellingen.regelsIngeschakeld.Contains(6)) || (kaart.Waarde == 7 && instellingen.regelsIngeschakeld.Contains(2)))
             {
                 return true;
             }
@@ -112,7 +112,7 @@ namespace CyberPesten
 
         bool isOverslaan(Kaart kaart)
         {
-            if ((instellingen.regelset == 0 && kaart.Waarde == 8) || (instellingen.regelset == 1 && kaart.Waarde == 7))
+            if (kaart.Waarde == 8 && instellingen.regelsIngeschakeld.Contains(3))
             {
                 return true;
             }
@@ -225,11 +225,11 @@ namespace CyberPesten
          * Boer (J, waarde 11)
          * Huidige speler mag kiezen welke kleur bovenop deze kaart mag worden gelegd
          * 
-         * Regel 5
+         * Regel 6!
          * Heer
          * Huidige speler mag nog een keer spelen
          * 
-         * Regel 6
+         * Regel 5!
          * Joker (waarde 0, kleur 4)
          * Aantal te pakken kaarten wordt verhoogd met 5, volgende speler moet een pakkenkaart spelen of het aantal pakken waarna gespeeld mag worden
          * 
@@ -254,13 +254,13 @@ namespace CyberPesten
          * 2
          * Aantal te pakken kaarten wordt verhoogd met 2, volgende speler moet het aantal pakken en mag een pakkenkaart spelen
          *
-         * Regel 2
+          * Regel 2
          * 7
-         * Volgende speler wordt overgeslagen!
+         * Huidige speler mag nog een keer spelen
          *
          * Regel 3
          * 8
-         * Huidige speler mag nog een keer spelen!
+         * Volgende speler wordt overgeslagen
          * 
          * Regel 4
          * Boer (J, waarde 11)
@@ -269,6 +269,14 @@ namespace CyberPesten
          * Regel 5
          * Joker (waarde 0, kleur 4)
          * Aantal te pakken kaarten wordt verhoogd met 5, volgende speler moet het aantal pakken en mag een pakkenkaart spelen
+         * 
+         * Regel 6 (standaard uitgeschakeld)
+         * Heer
+         * Huidige speler mag nog een keer spelen
+         * 
+         * Regel 7 (standaard uitgeschakeld)
+         * 10
+         * Alle handen worden doorgegeven tegen de speelrichting in
          * 
          * Overig
          * Speler kan niet

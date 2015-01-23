@@ -13,7 +13,7 @@ namespace CyberPesten
         Instellingen instellingen;
         NumericUpDown regelsetCon, aantalSpelersCon, achterkantCon;
         TextBox regelsIngeschakeldCon, AIIngeschakeldCon;
-        Button mensSpelendCon, muziekCon;
+        Button mensSpelendCon, geluidCon;
         Label regelsIngeschakeldLab2;
         Menu menu;
 
@@ -97,17 +97,17 @@ namespace CyberPesten
             mensSpelendCon.Click += mensSpelend;
             Controls.Add(mensSpelendCon);
 
-            Label muziekLab = new Label();
-            muziekLab.Text = "Muziek";
-            muziekLab.BackColor = Color.Transparent;
-            muziekLab.Size = new Size(150, 40);
-            muziekLab.Location = new Point(50, 550);
-            Controls.Add(muziekLab);
+            Label geluidLab = new Label();
+            geluidLab.Text = "Geluid";
+            geluidLab.BackColor = Color.Transparent;
+            geluidLab.Size = new Size(150, 40);
+            geluidLab.Location = new Point(50, 550);
+            Controls.Add(geluidLab);
 
-            muziekCon = new Button();
-            muziekCon.Location = new Point(220, 550);
-            muziekCon.Click += muziek;
-            Controls.Add(muziekCon);
+            geluidCon = new Button();
+            geluidCon.Location = new Point(220, 550);
+            geluidCon.Click += geluid;
+            Controls.Add(geluidCon);
 
             Label achterkantLab = new Label();
             achterkantLab.Text = "Achterkant design";
@@ -213,17 +213,17 @@ namespace CyberPesten
             instellingen.schrijven();
         }
 
-        void muziek(object sender, EventArgs ea)
+        void geluid(object sender, EventArgs ea)
         {
-            if (instellingen.muziek)
+            if (instellingen.geluid)
             {
-                instellingen.muziek = false;
-                muziekCon.Text = "Uit";
+                instellingen.geluid = false;
+                geluidCon.Text = "Uit";
             }
             else
             {
-                instellingen.muziek = true;
-                muziekCon.Text = "Aan";
+                instellingen.geluid = true;
+                geluidCon.Text = "Aan";
             }
             instellingen.schrijven();
         }
@@ -305,13 +305,13 @@ namespace CyberPesten
                 mensSpelendCon.Text = "Uit";
             }
 
-            if (instellingen.muziek)
+            if (instellingen.geluid)
             {
-                muziekCon.Text = "Aan";
+                geluidCon.Text = "Aan";
             }
             else
             {
-                muziekCon.Text = "Uit";
+                geluidCon.Text = "Uit";
             }
 
             achterkantCon.Value = instellingen.achterkant;

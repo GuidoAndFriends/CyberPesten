@@ -10,7 +10,7 @@ namespace CyberPesten
     class Instellingen
     {
         public int regelset, aantalSpelers, achterkant;
-        public bool mensSpelend, muziek;
+        public bool mensSpelend, geluid;
         public List<int> regelsIngeschakeld, AIIngeschakeld;
         string instellingenPad;
 
@@ -76,8 +76,8 @@ namespace CyberPesten
                 //4 mens speelt mee
                 mensSpelend = Boolean.Parse(regels[4]);
 
-                //5 muziek
-                muziek = Boolean.Parse(regels[5]);
+                //5 geluid
+                geluid = Boolean.Parse(regels[5]);
 
                 //6 achterkant
                 achterkant = Int32.Parse(regels[6]);
@@ -134,8 +134,8 @@ namespace CyberPesten
             //4 mens speelt mee
             regels.Add(mensSpelend.ToString());
 
-            //5 muziek
-            regels.Add(muziek.ToString());
+            //5 geluid
+            regels.Add(geluid.ToString());
 
             //6 achterkant
             regels.Add(achterkant.ToString());
@@ -159,12 +159,13 @@ namespace CyberPesten
             aantalSpelers = 4;
 
             AIIngeschakeld = new List<int>();
+            AIIngeschakeld.Add(0);
+            AIIngeschakeld.Add(1);
             AIIngeschakeld.Add(2);
-            AIIngeschakeld.Add(3);
 
             mensSpelend = true;
 
-            muziek = true;
+            geluid = true;
 
             achterkant = 1;
 
