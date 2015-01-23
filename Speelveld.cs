@@ -163,7 +163,7 @@ namespace CyberPesten
             this.Show();
         }
 
-        protected void startSpel(Instellingen instellingen){
+        public virtual void startSpel(Instellingen instellingen){
                 Text = "CyberPesten: Lokaal spel";
                 spel = new Spel(this, instellingen);
         }

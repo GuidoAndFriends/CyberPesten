@@ -11,9 +11,129 @@ namespace CyberPesten
 {
     class OnlineSpeelveld : Speelveld
     {
-        public OnlineSpeelveld(Form form) { }
+        public OnlineSpeelveld(Form form)
+        {
+            Instellingen instellingen = new Instellingen();
+            this.form = form;
+            kaartBreedte = 110;
+            kaartHoogte = 153;
+            afstand = 10;
+            maat = System.Windows.Forms.Screen.PrimaryScreen.Bounds;
 
-        new void startSpel(Instellingen instellingen)
+            muisLaag = false;
+
+            Size = form.Size;
+            FormBorderStyle = FormBorderStyle.None;
+            WindowState = FormWindowState.Maximized;
+            DoubleBuffered = true;
+
+            Bitmap achtergrond = new Bitmap(Width, Height, System.Drawing.Imaging.PixelFormat.Format32bppPArgb);
+            Graphics.FromImage(achtergrond).DrawImage((Bitmap)CyberPesten.Properties.Resources.ResourceManager.GetObject("Achtergrond"), maat);
+            BackgroundImage = achtergrond;
+
+            achterkant = new Bitmap(110, 153, System.Drawing.Imaging.PixelFormat.Format32bppPArgb);
+            string achterkantDesign;
+            if (instellingen.achterkant == 0)
+            {
+                achterkantDesign = "Back_design_1";
+            }
+            else
+            {
+                achterkantDesign = "Back_design_2";
+            }
+            Graphics.FromImage(achterkant).DrawImage((Bitmap)CyberPesten.Properties.Resources.ResourceManager.GetObject(achterkantDesign), 0, 0, kaartBreedte, kaartHoogte);
+
+            stapelPlek = new Point(Width / 2 - 50 - kaartBreedte, Height / 2 - kaartHoogte / 2);
+            potPlek = new Point(Width / 2 + 50, Height / 2 - kaartHoogte / 2);
+            laatsteKaartBrush = Brushes.Red;
+
+            Paint += teken;
+            MouseClick += muisKlik;
+            MouseMove += muisBeweeg;
+            MouseDown += muisOmlaag;
+            MouseUp += muisOmhoog;
+            MouseWheel += muisWiel;
+            //STOND AAN MouseMove += hover;
+            //Scroll += scroll;
+
+            startSpel(instellingen);
+
+            /*
+            helpBitmap = (Bitmap)CyberPesten.Properties.Resources.ResourceManager.GetObject("Help_button");
+            settingsBitmap = (Bitmap)CyberPesten.Properties.Resources.ResourceManager.GetObject("Settings_button");
+            homeBitmap = (Bitmap)CyberPesten.Properties.Resources.ResourceManager.GetObject("Home_button");
+            laatsteKaartBitmap = (Bitmap)CyberPesten.Properties.Resources.ResourceManager.GetObject("Laatste_kaart");
+            eindeBeurtBitmap = (Bitmap)CyberPesten.Properties.Resources.ResourceManager.GetObject("Einde_beurt");*/
+
+            //ORIGINEEL: buttonsBitmap = ((Bitmap)CyberPesten.Properties.Resources.ResourceManager.GetObject("Speelveld_buttons"));
+            Bitmap buttonsBitmap = ((Bitmap)CyberPesten.Properties.Resources.ResourceManager.GetObject("Speelveld_buttons"));
+            verhouding = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width / buttonsBitmap.Width;
+
+            //Buttons
+            int bigButtonWidth = (int)(verhouding * 84);
+            int smallButtonWidth = (int)(verhouding * 52);
+            int buttonRij = (int)(verhouding * 1835);
+
+            homeRect = new Rectangle(buttonRij, (int)(verhouding * 453), smallButtonWidth, smallButtonWidth);
+            settingsRect = new Rectangle(buttonRij, (int)(verhouding * 514), smallButtonWidth, smallButtonWidth);
+            helpRect = new Rectangle(buttonRij, (int)(verhouding * 575), smallButtonWidth, smallButtonWidth);
+            laatsteKaartRect = new Rectangle((int)(verhouding * 1309), (int)(verhouding * 498), bigButtonWidth, bigButtonWidth);
+            eindeBeurtRect = new Rectangle((int)(verhouding * 1187), (int)(verhouding * 498), bigButtonWidth, bigButtonWidth);
+
+            /*
+            buttonWidth = helpBitmap.Width;
+
+            laatsteKaartButton = new Rectangle(Width / 2 + 100 + laatsteKaartBitmap.Width, this.Height / 2 - laatsteKaartBitmap.Width / 2 + 5, laatsteKaartBitmap.Width, laatsteKaartBitmap.Width);
+            eindeBeurtButton = new Rectangle(Width / 2 + 125 + 2 * laatsteKaartBitmap.Width, this.Height / 2 - laatsteKaartBitmap.Width / 2 + 5, laatsteKaartBitmap.Width, laatsteKaartBitmap.Width);
+            helpButton = new Rectangle(Width - 75 - 3 * buttonWidth, this.Height / 2 - buttonWidth / 2, buttonWidth, buttonWidth);
+            settingsButton = new Rectangle(Width - 50 - 2 * buttonWidth, this.Height / 2 - buttonWidth / 2, buttonWidth, buttonWidth);
+            homeButton = new Rectangle(Width - 25 - buttonWidth, this.Height / 2 - buttonWidth / 2, buttonWidth, buttonWidth);*/
+
+            /*
+             * NIET TOEGANKELIJK!!
+            klaver = new Button();
+            klaver.Click += klaver_Click;
+            klaver.Location = new Point(50, 250);
+            klaver.Size = new Size(200, 50);
+            klaver.Text = "Maak er Klaver van";
+
+            harten = new Button();
+            harten.Click += harten_Click;
+            harten.Location = new Point(300, 250);
+            harten.Size = new Size(200, 50);
+            harten.Text = "Maak er Harten van";
+
+            ruiten = new Button();
+            ruiten.Click += ruiten_Click;
+            ruiten.Location = new Point(50, 350);
+            ruiten.Size = new Size(200, 50);
+            ruiten.Text = "Maak er Ruiten van";
+
+            schoppen = new Button();
+            schoppen.Click += schoppen_Click;
+            schoppen.Location = new Point(300, 350);
+            schoppen.Size = new Size(200, 50);
+            schoppen.Text = "Maak er Schoppen van";
+
+            this.Controls.Add(klaver);
+            this.Controls.Add(harten);
+            this.Controls.Add(ruiten);
+            this.Controls.Add(schoppen);
+            verbergKleurknoppen();
+             */
+
+            /*
+            chat = new Chat();
+            chat.Size = new Size(300, 100);
+            chat.Location = new Point(Width - 50 - 300, 250);
+            chat.Text = spel.geschiedenis;
+            Controls.Add(chat);
+            */
+
+            this.Show();
+        }
+
+        public override void startSpel(Instellingen instellingen)
         {
             Text = "CyberPesten: Online spel";
             spel = new OnlineSpel(this);
