@@ -53,19 +53,10 @@ namespace CyberPesten
             MouseDown += muisOmlaag;
             MouseUp += muisOmhoog;
             MouseWheel += muisWiel;
-            //STOND AAN MouseMove += hover;
-            //Scroll += scroll;
+            MouseMove += hover;
 
             startSpel(instellingen);
 
-            /*
-            helpBitmap = (Bitmap)CyberPesten.Properties.Resources.ResourceManager.GetObject("Help_button");
-            settingsBitmap = (Bitmap)CyberPesten.Properties.Resources.ResourceManager.GetObject("Settings_button");
-            homeBitmap = (Bitmap)CyberPesten.Properties.Resources.ResourceManager.GetObject("Home_button");
-            laatsteKaartBitmap = (Bitmap)CyberPesten.Properties.Resources.ResourceManager.GetObject("Laatste_kaart");
-            eindeBeurtBitmap = (Bitmap)CyberPesten.Properties.Resources.ResourceManager.GetObject("Einde_beurt");*/
-
-            //ORIGINEEL: buttonsBitmap = ((Bitmap)CyberPesten.Properties.Resources.ResourceManager.GetObject("Speelveld_buttons"));
             Bitmap buttonsBitmap = ((Bitmap)CyberPesten.Properties.Resources.ResourceManager.GetObject("Speelveld_buttons"));
             verhouding = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width / buttonsBitmap.Width;
 
@@ -80,17 +71,6 @@ namespace CyberPesten
             laatsteKaartRect = new Rectangle((int)(verhouding * 1309), (int)(verhouding * 498), bigButtonWidth, bigButtonWidth);
             eindeBeurtRect = new Rectangle((int)(verhouding * 1187), (int)(verhouding * 498), bigButtonWidth, bigButtonWidth);
 
-            /*
-            buttonWidth = helpBitmap.Width;
-
-            laatsteKaartButton = new Rectangle(Width / 2 + 100 + laatsteKaartBitmap.Width, this.Height / 2 - laatsteKaartBitmap.Width / 2 + 5, laatsteKaartBitmap.Width, laatsteKaartBitmap.Width);
-            eindeBeurtButton = new Rectangle(Width / 2 + 125 + 2 * laatsteKaartBitmap.Width, this.Height / 2 - laatsteKaartBitmap.Width / 2 + 5, laatsteKaartBitmap.Width, laatsteKaartBitmap.Width);
-            helpButton = new Rectangle(Width - 75 - 3 * buttonWidth, this.Height / 2 - buttonWidth / 2, buttonWidth, buttonWidth);
-            settingsButton = new Rectangle(Width - 50 - 2 * buttonWidth, this.Height / 2 - buttonWidth / 2, buttonWidth, buttonWidth);
-            homeButton = new Rectangle(Width - 25 - buttonWidth, this.Height / 2 - buttonWidth / 2, buttonWidth, buttonWidth);*/
-
-            /*
-             * NIET TOEGANKELIJK!!
             klaver = new Button();
             klaver.Click += klaver_Click;
             klaver.Location = new Point(50, 250);
@@ -120,15 +100,8 @@ namespace CyberPesten
             this.Controls.Add(ruiten);
             this.Controls.Add(schoppen);
             verbergKleurknoppen();
-             */
-
-            /*
-            chat = new Chat();
-            chat.Size = new Size(300, 100);
-            chat.Location = new Point(Width - 50 - 300, 250);
-            chat.Text = spel.geschiedenis;
-            Controls.Add(chat);
-            */
+            
+            //HIER CHAT
 
             this.Show();
         }

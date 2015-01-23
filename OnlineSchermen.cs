@@ -695,6 +695,17 @@ class openSpellenScherm : Form
             PictureBox but = (PictureBox)sender;
             if(join_spel(int.Parse(but.Name))){
                 Online.is_host = false;
+                foreach (online_openSpel oo in krijgSpellen())
+                {
+                    if (oo.id.ToString() == but.Name)
+                    {
+                        if (Online.username == oo.host.Split(':')[0])
+                        {
+                            Online.is_host = true;
+                        }
+                        break;
+                    }
+                }
                 ga_verder();
             }
         }

@@ -41,12 +41,12 @@ namespace CyberPesten
 
         //Voor de buttons
         //Rectangle helpButton, settingsButton, homeButton, laatsteKaartButton, eindeBeurtButton;
-        Bitmap buttonsBitmap;
+        public Bitmap buttonsBitmap;
         //int buttonWidth;
         public Brush laatsteKaartBrush;
 
         //Tijdelijk
-        Button klaver, harten, ruiten, schoppen;
+        public Button klaver, harten, ruiten, schoppen;
 
         public Speelveld() { }
 
@@ -81,10 +81,12 @@ namespace CyberPesten
             {
                 achterkantDesign = "Back_design_1";
             }
-            else
+            else if (instellingen.achterkant == 1)
             {
                 achterkantDesign = "Back_design_2";
             }
+            else
+                achterkantDesign = "Back_design_3";
             Graphics.FromImage(achterkant).DrawImage((Bitmap)CyberPesten.Properties.Resources.ResourceManager.GetObject(achterkantDesign), 0, 0, kaartBreedte, kaartHoogte);
 
             stapelPlek = new Point(Width / 2 - 50 - kaartBreedte, Height / 2 - kaartHoogte / 2);
@@ -202,7 +204,8 @@ namespace CyberPesten
             Invalidate();
         }
 
-        public virtual void startSpel(Instellingen instellingen){
+        public virtual void startSpel(Instellingen instellingen)
+        {
                 Text = "CyberPesten: Lokaal spel";
                 spel = new Spel(this, instellingen);
         }
@@ -346,7 +349,10 @@ namespace CyberPesten
             }
             else if (eindeBeurtRect.Contains(mea.Location))
             {
-                spel.pakKaart();
+                if (spel.spelend == 0)
+                {
+                    spel.pakKaart();
+                }
             }
             else if (spel.spelend == 0)
             {
@@ -637,7 +643,7 @@ namespace CyberPesten
             verbergKleurknoppen();
         }
 
-        private void hover(object sender, MouseEventArgs mea)
+        protected void hover(object sender, MouseEventArgs mea)
         {
             if (homeRect.Contains(mea.Location))
             {
