@@ -36,11 +36,16 @@ namespace CyberPesten
             int teller = 0;
             foreach (Kaart kaart in spel.pot)
                 if (kaart.Waarde == 3 || kaart.Waarde == 4 || kaart.Waarde == 5 || kaart.Waarde == 6 || kaart.Waarde == 9 || kaart.Waarde == 12)
+                {
                     teller++;
-            if (teller > 0)
-                spel.pakKaartAI(3);
-            else
-                spel.pakKaartAI(99);
+                    if (teller > 1)
+                    {
+                        spel.pakKaartAI(3);
+                        break;
+                    }
+                    else
+                        spel.pakKaartAI(99);
+                }
         }
 
         public override void doeZet()
