@@ -24,6 +24,7 @@ namespace CyberPesten
         public Instellingen instellingen;
         public bool bezig, magZet;
         public Chat chat;
+        public bool groot = false;
 
         public Spel()
         {
@@ -190,6 +191,185 @@ namespace CyberPesten
             checkNullKaart();
         }
 
+        public void pakKaartAI(int welke)
+        {
+            checkNullKaart();
+
+            if (speciaal == 4)
+            {
+                regelPakkenNu();
+            }
+            else
+            {
+                if (magZet)
+                {
+                    volgende();
+                    magZet = false;
+                }
+                else
+                {
+                    pakKaartAINu(welke);
+                    magZet = true;
+                    spelers[spelend].doeZet();
+                }
+            }
+        }
+
+        void pakKaartAINu(int welke)
+        {
+            if (pot.Count < 2)
+            {
+                //if (stapel.Count > 3)
+                {
+                    int boven = stapel.Count - 1;
+                    Kaart bovenste = stapel[boven];
+                    stapel.RemoveAt(boven);
+
+                    pot = stapel;
+                    pot = schud(pot);
+
+                    stapel = new List<Kaart>();
+                    stapel.Add(bovenste);
+                }
+                //else
+                {
+                    //extraPak(pot);
+                }
+            }
+
+            Point p2;
+            if (spelend == 0)
+            {
+                p2 = new Point(spelers[0].hand[spelers[0].hand.Count - 1].X + 10 + 110, spelers[0].hand[0].Y);
+            }
+            else
+            {
+                int breedte = (spelers.Count - 1) * 350;
+                int tussenruimte = (speelveld.Width - breedte - 20) / (spelers.Count - 2);
+                p2 = new Point(10 + (350 + tussenruimte) * (spelend - 1) + 120, 10);
+            }
+
+            switch (welke)
+            {
+                case 0: //joker
+                    for (int i = 0; i < pot.Count; i++)
+                    {
+                        if (pot[i].Kleur == 4)
+                        {
+                            speelveld.verplaatsendeKaart = pot[i];
+                            pot.RemoveAt(i);
+                            break;
+                        }
+                    }
+                    break;
+                case 1: //aas
+                    for (int i = 0; i < pot.Count; i++)
+                    {
+                        if (isDraai(pot[i]))
+                        {
+                            speelveld.verplaatsendeKaart = pot[i];
+                            pot.RemoveAt(i);
+                            break;
+                        }
+                    }
+                    break;
+                case 2: //2
+                    for (int i = 0; i < pot.Count; i++)
+                    {
+                        if (pot[i].Waarde == 2)
+                        {
+                            speelveld.verplaatsendeKaart = pot[i];
+                            pot.RemoveAt(i);
+                            break;
+                        }
+                    }
+                    break;
+                case 3: //normale kaart
+                    for (int i = 0; i < pot.Count; i++)
+                    {
+                        if (pot[i].Waarde == 3 || pot[i].Waarde == 4 || pot[i].Waarde == 5 || pot[i].Waarde == 6 || pot[i].Waarde == 9 || pot[i].Waarde == 12)
+                        {
+                            speelveld.verplaatsendeKaart = pot[i];
+                            pot.RemoveAt(i);
+                            break;
+                        }
+                    }
+                    break;
+                case 7: //7 en heer
+                    for (int i = 0; i < pot.Count; i++)
+                    {
+                        if (isNogmaals(pot[i]))
+                        {
+                            speelveld.verplaatsendeKaart = pot[i];
+                            pot.RemoveAt(i);
+                            break;
+                        }
+                    }
+                    break;
+                case 8: //8
+                    for (int i = 0; i < pot.Count; i++)
+                    {
+                        if (isWacht(pot[i]) || isOverslaan(pot[i]))
+                        {
+                            speelveld.verplaatsendeKaart = pot[i];
+                            pot.RemoveAt(i);
+                            break;
+                        }
+                    }
+                    break;
+                case 10: //10
+                    for (int i = 0; i < pot.Count; i++)
+                    {
+                        if (isWas(pot[i]))
+                        {
+                            speelveld.verplaatsendeKaart = pot[i];
+                            pot.RemoveAt(i);
+                            break;
+                        }
+                    }
+                    break;
+                case 11: //boer
+                    for (int i = 0; i < pot.Count; i++)
+                    {
+                        if (isKleurKiezenMagAltijd(pot[i]))
+                        {
+                            speelveld.verplaatsendeKaart = pot[i];
+                            pot.RemoveAt(i);
+                            break;
+                        }
+                    }
+                    break;
+                default: //pak bovenste kaart
+                    speelveld.verplaatsendeKaart = pot[0];
+                    pot.RemoveAt(0);
+                    break;
+
+            }
+
+            speelveld.verplaatsen(speelveld.potPlek, p2, false);
+            spelers[spelend].hand.Add(speelveld.verplaatsendeKaart);
+            speelveld.verplaatsendeKaart = null;
+            checkNullKaart();
+
+
+
+            if (spelend == 0)
+            {
+                chat.nieuw("Je kon niet en hebt een kaart gepakt");
+
+            }
+            else
+            {
+                chat.nieuw(spelers[spelend].naam + " kon niet en heeft een kaart gepakt");
+            }
+            spelers[spelend].updateBlok();
+            if (speelveld.IsHandleCreated)
+            {
+                speelveld.Invoke(new Action(() => speelveld.Invalidate()));
+                speelveld.Invoke(new Action(() => speelveld.Update()));
+            }
+        }
+
         public void pakKaart()
         //geeft de bovenste kaart van de pot aan degene die aan de beurt is.
         {
@@ -347,7 +527,7 @@ namespace CyberPesten
                 }
                 else
                 {
-                    timerAI.Interval = 600; 
+                    timerAI.Interval = 2000; 
                 }
                 timerAI.Start();
             }
@@ -400,6 +580,11 @@ namespace CyberPesten
 
         }
 
+        public void send(string s)
+        {
+            chat.nieuw(s);
+        }
+
         protected Speler willekeurigeAI()
         {
             Random random = new Random();
@@ -427,6 +612,12 @@ namespace CyberPesten
                     break;
                 case 4:
                     gekozen = new AI4Cheat(this, "4 " + naam);
+                    break;
+                case 5:
+                    gekozen = new AI5Cheat(this, "5 " + naam);
+                    break;
+                case 6:
+                    gekozen = new AI6Cheat(this, "6 " + naam);
                     break;
                 default:
                     MessageBox.Show("Er is iets mis in de functie willekeurigeAI");
