@@ -19,7 +19,7 @@ namespace CyberPesten
         public Point stapelPlek, potPlek;
         protected Rectangle maat, helpRect, settingsRect, homeRect, laatsteKaartRect, eindeBeurtRect;
         protected bool helpBool, settingsBool, homeBool, laatsteKaartBool, eindeBeurtBool;
-        protected float verhouding;
+        protected double verhoudingW, verhoudingH;
         protected GraphicsUnit units = GraphicsUnit.Pixel;
         int chatHoogte;
 
@@ -112,18 +112,19 @@ namespace CyberPesten
             eindeBeurtBitmap = (Bitmap)CyberPesten.Properties.Resources.ResourceManager.GetObject("Einde_beurt");*/
 
             buttonsBitmap =((Bitmap)CyberPesten.Properties.Resources.ResourceManager.GetObject("Speelveld_buttons"));
-            verhouding = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width / buttonsBitmap.Width;
+            verhoudingW = (double)System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width / (double)1920;
+            verhoudingH = (double)System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height / (double)1080;
 
             //Buttons
-            int bigButtonWidth = (int)(verhouding * 84);
-            int smallButtonWidth = (int)(verhouding * 52);
-            int buttonRij = (int)(verhouding * 1835);
+            int bigButtonWidth = (int)(verhoudingW * 84);
+            int smallButtonWidth = (int)(verhoudingW * 52);
+            int buttonRij = (int)(verhoudingW * 1835);
 
-            homeRect = new Rectangle(buttonRij, (int)(verhouding * 453), smallButtonWidth, smallButtonWidth);
-            settingsRect = new Rectangle(buttonRij, (int)(verhouding * 514), smallButtonWidth, smallButtonWidth);
-            helpRect = new Rectangle(buttonRij, (int)(verhouding * 575), smallButtonWidth, smallButtonWidth);
-            laatsteKaartRect = new Rectangle((int)(verhouding * 1309), (int)(verhouding * 498), bigButtonWidth, bigButtonWidth);
-            eindeBeurtRect = new Rectangle((int)(verhouding * 1187), (int)(verhouding * 498), bigButtonWidth, bigButtonWidth);
+            homeRect = new Rectangle(buttonRij, (int)(verhoudingH * 453), smallButtonWidth, smallButtonWidth);
+            settingsRect = new Rectangle(buttonRij, (int)(verhoudingH * 514), smallButtonWidth, smallButtonWidth);
+            helpRect = new Rectangle(buttonRij, (int)(verhoudingH * 575), smallButtonWidth, smallButtonWidth);
+            laatsteKaartRect = new Rectangle((int)(verhoudingW * 1309), (int)(verhoudingH * 498), bigButtonWidth, bigButtonWidth);
+            eindeBeurtRect = new Rectangle((int)(verhoudingW * 1187), (int)(verhoudingH * 498), bigButtonWidth, bigButtonWidth);
 
             /*
             buttonWidth = helpBitmap.Width;
