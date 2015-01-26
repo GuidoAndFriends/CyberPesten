@@ -270,7 +270,7 @@ namespace CyberPesten
             }
 
             //status van het spel
-            gr.DrawImage(spel.chat.maakBitmap(spel.groot), new Point(40, chatHoogte - FontHeight / 2));
+            gr.DrawImage(spel.chat.maakBitmap(spel.groot), new Point(10, chatHoogte - FontHeight / 2));
             //gr.DrawString(spel.aantalKaarten, new Font(FontFamily.GenericSansSerif, 14), Brushes.White, new Point(40, Height / 2 - 2 * FontHeight));
             //gr.DrawString(spel.speciaalTekst, new Font(FontFamily.GenericSansSerif, 14), Brushes.White, new Point(40, Height / 2 - 4 * FontHeight));
 
@@ -463,7 +463,6 @@ namespace CyberPesten
 
         protected void muisOmlaag(object sender, MouseEventArgs mea)
         {
-            spel.checkNullKaart();
             int index = 0;
             foreach (Kaart kaart in spel.spelers[0].hand)
             {
@@ -476,7 +475,6 @@ namespace CyberPesten
                     {
                         muisLaag = true;
                         bewegendeKaart = spel.spelers[0].hand[index];
-                        spel.checkNullKaart();
                         spel.spelers[0].hand.RemoveAt(index);
                         //laagIndex = index;
                         laagX = deltaX;
@@ -488,12 +486,10 @@ namespace CyberPesten
                     index++;
                 }
             }
-            spel.checkNullKaart();
         }
 
         protected void muisOmhoog(object sender, MouseEventArgs mea)
         {
-            spel.checkNullKaart();
             muisLaag = false;
             if (bewegendeKaart != null)
             {
@@ -511,7 +507,6 @@ namespace CyberPesten
                     Invoke(new Action(() => Update()));
                 }
             }
-            spel.checkNullKaart();
         }
 
         protected void schuiven()

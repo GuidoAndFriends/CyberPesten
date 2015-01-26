@@ -42,7 +42,7 @@ namespace CyberPesten
             speciaalTekst = "-1 normaal";
             bezig = true;
             //Online: eigen variant met chat?//nee, we kunnen prima dingen hierin doen.
-            chat = new Chat();
+            chat = new Chat(speelveld);
 
             //moeten we toevoegen, omdat spel.cs referenties hiernaar bevat. :|
             //timerAI = new System.Timers.Timer();
@@ -115,7 +115,6 @@ namespace CyberPesten
                 speciaal = 5;
             }
             s.Invalidate();
-            checkNullKaart();
 
             data_thread.IsBackground = true;
             data_thread.Name = "Data";
