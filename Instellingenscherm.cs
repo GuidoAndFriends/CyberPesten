@@ -41,11 +41,11 @@ namespace CyberPesten
             update();
             this.Show();
 
-            terugBitmap = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Terug_button"));
-            standSetBitmap = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("StandSet_button"));
-            switches = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Settings_switches"));
-            roodKnop = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Achterkant_rood"));
-            regenboogKnop = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Achterkant_regenboog"));
+            terugBitmap = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Terug_button"), new Size(maat.Width, maat.Height));
+            standSetBitmap = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("StandSet_button"), new Size(maat.Width, maat.Height));
+            switches = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Settings_switches"), new Size(maat.Width, maat.Height));
+            roodKnop = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Achterkant_rood"), new Size(maat.Width, maat.Height));
+            regenboogKnop = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Achterkant_regenboog"));//, new Size(maat.Width, maat.Height));
 
             verhoudingW = (double)System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width / (double)1920;
             verhoudingH = (double)System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height / (double)1080;
