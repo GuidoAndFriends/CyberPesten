@@ -49,6 +49,8 @@ namespace CyberPesten
             timerAI.Elapsed += tijd;
             //ja echt.
 
+            spelend = Online.onlineRandom.Next(aantalSpelers);//iedereen heeft dezelfde seed, dus dit gaat goed.
+
             int einde = aantalSpelers * 2;
             for (int i = 0; i < einde; i++)
             {
@@ -83,8 +85,8 @@ namespace CyberPesten
                     onlineSpelers[b.OnlineIndex] = b;
                 }
             }
-            spelend = Online.onlineRandom.Next(aantalSpelers);//iedereen heeft dezelfde seed, dus dit gaat goed.
 
+            spelend = spelers.IndexOf(onlineSpelers[spelend]);
 
                 //Kaarten toevoegen
                 for (int i = 0; i < kaartspellen; i++)
