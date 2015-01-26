@@ -24,8 +24,8 @@ class inlogScherm :  Form
         Label maakAccountLabel1 = new Label();
         string CP;
 
-        Bitmap maakAccountMenu, maakAccount, terug;
-        Rectangle maakAccountButton, terugButton;
+        Bitmap maakAccountMenu, maakAccount, terug, achtergrond;
+        Rectangle maakAccountButton, terugButton, maat;
         bool maakAccountHover, terugHover;
         double verhoudingW,verhoudingH;
         Font arial;
@@ -34,7 +34,6 @@ class inlogScherm :  Form
 
         public inlogScherm(Form _menu)
         {
-            BackgroundImage = (Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Menu_achtergrond");
             FormBorderStyle = FormBorderStyle.None;
             WindowState = FormWindowState.Maximized;
             DoubleBuffered = true;
@@ -42,12 +41,16 @@ class inlogScherm :  Form
             verhoudingH = (double)System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height / (double)1080;
             arial = new Font("Arial", (int)(15 * verhoudingH));
             menuBack = _menu;
+            maat = System.Windows.Forms.Screen.PrimaryScreen.Bounds;
+
+            achtergrond = new Bitmap(maat.Width, maat.Height, System.Drawing.Imaging.PixelFormat.Format32bppPArgb);
+            Graphics.FromImage(achtergrond).DrawImage((Bitmap)CyberPesten.Properties.Resources.ResourceManager.GetObject("online_menu"), maat);
+            BackgroundImage = achtergrond;
 
             string GNF = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),"Guido&Friends");
             if (!Directory.Exists(GNF)) { Directory.CreateDirectory(GNF); }
             CP = Path.Combine(GNF, "Cyperpesten");
             if (!Directory.Exists(CP)) { Directory.CreateDirectory(CP); }
-            maakAccountMenu = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("online_menu"));
             maakAccount = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("maak_account_select"));
             terug = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Terug_button"));
 
@@ -118,7 +121,11 @@ class inlogScherm :  Form
 
         private void buildMenu(object sender, PaintEventArgs pea)
         {
-            pea.Graphics.DrawImage(maakAccountMenu, 0, 0, (float)(maakAccountMenu.Width * verhoudingW), (float)(maakAccountMenu.Height * verhoudingH));
+            pea.Graphics.CompositingMode = System.Drawing.Drawing2D.CompositingMode.SourceCopy;
+            pea.Graphics.DrawImage(BackgroundImage, 0, 0);
+            pea.Graphics.CompositingMode = System.Drawing.Drawing2D.CompositingMode.SourceOver;
+
+            //pea.Graphics.DrawImage(maakAccountMenu, 0, 0, (float)(maakAccountMenu.Width * verhoudingW), (float)(maakAccountMenu.Height * verhoudingH));
 
             if (maakAccountHover)
             {
@@ -247,12 +254,12 @@ class lobbyScherm : Form
         Thread data_thread;
         bool closed = false;
 
-        Rectangle delGame, startGame, leaveGame;
+        Rectangle delGame, startGame, leaveGame, maat;
         bool delHover, startHover, leaveHover;
         List<Control> deelnemerLijst = new List<Control>();
         TextBox invoer;
         Label uitvoer;//ha!
-        Bitmap buttons;
+        Bitmap buttons, achtergrond;
 
         GraphicsUnit units = GraphicsUnit.Pixel;
 
@@ -261,7 +268,6 @@ class lobbyScherm : Form
         {
             raw_chat = new List<string>();
             menuBack = back;
-            BackgroundImage = (Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Lobby_menu");
             FormBorderStyle = FormBorderStyle.None;
             WindowState = FormWindowState.Maximized;
             DoubleBuffered = true;
@@ -273,12 +279,17 @@ class lobbyScherm : Form
             this.MouseMove += hover;
             this.Click += klik;
             this.Paint += this.teken;
+            maat = System.Windows.Forms.Screen.PrimaryScreen.Bounds;
+
+            achtergrond = new Bitmap(maat.Width, maat.Height, System.Drawing.Imaging.PixelFormat.Format32bppPArgb);
+            Graphics.FromImage(achtergrond).DrawImage((Bitmap)CyberPesten.Properties.Resources.ResourceManager.GetObject("Lobby_menu"), maat);
+            BackgroundImage = achtergrond;
 
             delGame = new Rectangle((int)(109*verhoudingW),(int)(956*verhoudingH),(int)(191*verhoudingW),(int)(89*verhoudingH));
             startGame = new Rectangle((int)(309 * verhoudingW), (int)(956 * verhoudingH), (int)(191 * verhoudingW), (int)(89 * verhoudingH));
             leaveGame = new Rectangle((int)(700 * verhoudingW), (int)(956 * verhoudingH), (int)(191 * verhoudingW), (int)(89 * verhoudingH));
 
-            buttons = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Lobby_buttons"));
+            buttons = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Lobby_buttons"), new Size(maat.Width, maat.Height));
 
             invoer = new TextBox();
             invoer.Location = new Point((int)(verhoudingW * 1155), (int)(verhoudingH * 1040));
@@ -309,6 +320,10 @@ class lobbyScherm : Form
 
         public void teken(object sender, PaintEventArgs pea)
         {
+            pea.Graphics.CompositingMode = System.Drawing.Drawing2D.CompositingMode.SourceCopy;
+            pea.Graphics.DrawImage(BackgroundImage, 0, 0);
+            pea.Graphics.CompositingMode = System.Drawing.Drawing2D.CompositingMode.SourceOver;
+
             if (delHover)
             {
                 pea.Graphics.DrawImage(buttons, delGame, delGame, units);
@@ -583,15 +598,15 @@ class openSpellenScherm : Form
     bool closed = false,hostOpen = false;
     Form v;
     Thread data_thread;
-    Rectangle hostgame, exit;
+    Rectangle hostgame, exit, maat;
     bool hostHover,exitHover;
-    Bitmap buttons;
+    Bitmap buttons, achtergrond;
     GraphicsUnit units = GraphicsUnit.Pixel;
 
         public openSpellenScherm(Form back)
         {
             menuBack = back;
-            BackgroundImage = (Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Spellenscherm");
+            //BackgroundImage = (Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Spellenscherm");
             FormBorderStyle = FormBorderStyle.None;
             WindowState = FormWindowState.Maximized;
             DoubleBuffered = true;
@@ -603,11 +618,16 @@ class openSpellenScherm : Form
             data_thread = new Thread(data);
             data_thread.IsBackground = true;
             data_thread.Start();
+            maat = System.Windows.Forms.Screen.PrimaryScreen.Bounds;
+
+            achtergrond = new Bitmap(maat.Width, maat.Height, System.Drawing.Imaging.PixelFormat.Format32bppPArgb);
+            Graphics.FromImage(achtergrond).DrawImage((Bitmap)CyberPesten.Properties.Resources.ResourceManager.GetObject("Spellenscherm"), maat);
+            BackgroundImage = achtergrond;
 
             hostgame = new Rectangle((int)(1673 * verhoudingW) ,(int) (693*verhoudingH),(int) (252*verhoudingW),(int)(95*verhoudingH));
             exit = new Rectangle((int)(1673 * verhoudingW), (int)(809 * verhoudingH), (int)(252 * verhoudingH), (int)(95 * verhoudingW));
 
-            buttons = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Spellenscherm_buttons"));
+            buttons = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Spellenscherm_buttons"), new Size(maat.Width, maat.Height));
 
             this.FormClosing += closing;
             this.FormClosed += closing;
@@ -626,6 +646,10 @@ class openSpellenScherm : Form
 
         public void teken(object sender, PaintEventArgs pea)
         {
+            pea.Graphics.CompositingMode = System.Drawing.Drawing2D.CompositingMode.SourceCopy;
+            pea.Graphics.DrawImage(BackgroundImage, 0, 0);
+            pea.Graphics.CompositingMode = System.Drawing.Drawing2D.CompositingMode.SourceOver;
+
             if (hostHover)
             {
                 pea.Graphics.DrawImage(buttons, hostgame, hostgame, units);
@@ -912,11 +936,14 @@ public class hostGameOpties : Form
         ComboBox regels;
         Rectangle startRect;
         bool startBool;
+        double verhoudingW, verhoudingH;
 
         public hostGameOpties(Form o)
         {
             DoubleBuffered = true;
-            maat = new Rectangle(0, 0, 798, 528);
+            verhoudingW = (double)System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width / (double)1920;
+            verhoudingH = (double)System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height / (double)1080;
+            maat = new Rectangle(0, 0, (int)(798 * verhoudingW), (int)(verhoudingH * 528));
 
             oscherm = (openSpellenScherm)o;
             this.ClientSize = maat.Size;
@@ -932,36 +959,36 @@ public class hostGameOpties : Form
             this.StartPosition = FormStartPosition.CenterScreen;
             this.Show();
 
-            startButton = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Start"));
-            startRect = new Rectangle(435, 425, 263, 75);
+            startButton = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Start"), new Size(maat.Width, maat.Height));
+            startRect = new Rectangle((int)(435 * verhoudingW), (int)(425 * verhoudingH), (int)(263 * verhoudingW), (int)(75 * verhoudingW));
 
             this.MouseMove += this.hover;
             this.Paint += this.teken;
             this.MouseClick += this.klik;
 
             name = new TextBox();
-            name.Location = new Point(468, 115);
-            name.Size = new Size(180, 300);
-            name.Width = 280;
-            name.Font = new Font("Arial", 15);
+            name.Location = new Point((int)(468 * verhoudingW), (int)(115 * verhoudingH));
+            name.Size = new Size((int)(180 * verhoudingW), (int)(300 * verhoudingH));
+            name.Width = (int)(280 * verhoudingW);
+            name.Font = new Font("Arial", (int)(15 * verhoudingW));
             name.MaxLength = 40;
             Controls.Add(name);
 
             spelers = new TextBox();
-            spelers.Location = new Point(468, 215);
-            spelers.Size = new Size(180, 300);
-            spelers.Width = 280;
-            spelers.Font = new Font("Arial", 15);
+            spelers.Location = new Point((int)(468 * verhoudingW), (int)(215 * verhoudingH));
+            spelers.Size = new Size((int)(180 * verhoudingW), (int)(300 * verhoudingH));
+            spelers.Width = (int)(280 * verhoudingW);
+            spelers.Font = new Font("Arial", (int)(15 * verhoudingW));
             spelers.MaxLength = 1;
             Controls.Add(spelers);
 
             regels = new ComboBox();
             regels.Items.Add("Standaard");
             regels.Items.Add("Familie");
-            regels.Location = new Point(468, 315);
-            regels.Size = new Size(180, 300);
-            regels.Width = 280;
-            regels.Font = new Font("Arial", 15);
+            regels.Location = new Point((int)(468 * verhoudingW), (int)(315 * verhoudingH));
+            regels.Size = new Size((int)(180 * verhoudingW), (int)(300 * verhoudingH));
+            regels.Width = (int)(280 * verhoudingW);
+            regels.Font = new Font("Arial", (int)(15 * verhoudingW));
             regels.MaxLength = 2;
             Controls.Add(regels);
             regels.SelectedIndex = 0;
