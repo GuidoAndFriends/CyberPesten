@@ -12,18 +12,20 @@ namespace CyberPesten
     {
         List<string> regels = new List<string>();
         Font font;
-        int fontHeight;
+        int fontHeight, breedte;
 
-        public Chat()
+        public Chat(Speelveld speelveld)
         {
             font = new Font(FontFamily.GenericSansSerif, 14);
             fontHeight = 45;
+            Point stapelPlek = speelveld.stapelPlek;
+            this.breedte = stapelPlek.X - 20;
         }
 
         public void nieuw(string regel)
         {
             regels.Add(regel);
-            if (regels.Count > 1000)
+            if (regels.Count > 100)
             {
                 regels.RemoveAt(0);
             }
@@ -34,7 +36,7 @@ namespace CyberPesten
             Bitmap bitmap;
             if (groot)
             {
-                bitmap = new Bitmap(500, 595, System.Drawing.Imaging.PixelFormat.Format32bppPArgb);
+                bitmap = new Bitmap(breedte, 595, System.Drawing.Imaging.PixelFormat.Format32bppPArgb);
                 int i = 0;
                 foreach (String regel in regels)
                 {
@@ -45,7 +47,7 @@ namespace CyberPesten
             }
             else
             {
-                bitmap = new Bitmap(500, 100, System.Drawing.Imaging.PixelFormat.Format32bppPArgb);
+                bitmap = new Bitmap(breedte, 100, System.Drawing.Imaging.PixelFormat.Format32bppPArgb);
                 if (regels.Count > 0)
                 {
                     Graphics.FromImage(bitmap).DrawString(regels[regels.Count - 1], new Font(FontFamily.GenericSansSerif, 14), Brushes.White, 0, 90 - fontHeight);

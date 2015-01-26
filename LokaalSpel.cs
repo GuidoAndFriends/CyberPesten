@@ -28,7 +28,7 @@ namespace CyberPesten
             pakAantal = 0; //hoeveel kaarten er gepakt moeten worden (voor 2 en joker)
             speciaalTekst = "-1 normaal";
             bezig = true;
-            chat = new Chat();
+            chat = new Chat(speelveld);
 
             timerAI = new System.Timers.Timer();
             timerAI.Elapsed += tijd;
@@ -95,7 +95,6 @@ namespace CyberPesten
                 timerAI.Interval = 1000;
                 timerAI.Start();
             }
-            checkNullKaart();
         }
     }
 }
