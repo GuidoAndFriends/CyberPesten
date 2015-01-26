@@ -66,6 +66,10 @@ namespace CyberPesten
             foreach (Speler r in spelers)
             {
                 onlineSpelers.Add(new Mens(this));
+            }
+            foreach (Speler r in spelers)
+            {
+                
                 if(r.GetType() == typeof(OnlineSpeler)){
                     OnlineSpeler b = (OnlineSpeler) r;
                     onlineSpelers[b.OnlineIndex] = b;
