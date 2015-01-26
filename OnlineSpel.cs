@@ -21,6 +21,7 @@ namespace CyberPesten
 
         public OnlineSpel(Speelveld s)
         {
+            instellingen = new Instellingen();
             actieCount = 0;
             speelveld = s;
             spelers = new List<Speler>();
