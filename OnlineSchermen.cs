@@ -477,7 +477,7 @@ class lobbyScherm : Form
 
         public bool start_spel()
         {
-            string raw = Online.PHPrequest("http://harbingerofme.info/GnF/start_game.php", new string[] { "name", "token" }, new string[] { Online.username, Online.token });
+            string raw = Online.PHPrequest("http://harbingerofme.info/GnF/start_game.php", new string[] { "name", "token","spelid" }, new string[] { Online.username, Online.token,Online.game.ToString() });
             if (raw == "Ja")
             {
                 begonnen = true;
