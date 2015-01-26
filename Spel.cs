@@ -142,7 +142,22 @@ namespace CyberPesten
 
         public bool speelKaart(Kaart kaart)
         {
-            return speelKaart(spelers[spelend].hand.IndexOf(kaart));
+            System.Diagnostics.Debug.WriteLine("Speler " + spelend);
+            System.Diagnostics.Debug.WriteLine(kaart.tekst);
+            int index = spelers[spelend].hand.IndexOf(kaart);
+            System.Diagnostics.Debug.WriteLine(index.ToString());
+            return speelKaart(index);
+            /*
+            if (index != -1)
+            {
+                return speelKaart(index);
+            }
+            else
+            {
+                MessageBox.Show("Jammer");
+                return false;
+            }
+             */
         }
 
 
@@ -623,25 +638,25 @@ namespace CyberPesten
             switch (nummer)
             {
                 case 0:
-                    gekozen = new AI0Random(this, "0 " + naam);
+                    gekozen = new AI0Random(this, naam);
                     break;
                 case 1:
-                    gekozen = new AI1NietGek(this, "1 " + naam);
+                    gekozen = new AI1NietGek(this, naam);
                     break;
                 case 2:
-                    gekozen = new AI2Pester(this, "2 " + naam);
+                    gekozen = new AI2Pester(this, naam);
                     break;
                 case 3:
-                    gekozen = new AI3Oke(this, "3 " + naam);
+                    gekozen = new AI3Oke(this, naam);
                     break;
                 case 4:
-                    gekozen = new AI4Cheat(this, "4 " + naam);
+                    gekozen = new AI4Cheat(this, naam);
                     break;
                 case 5:
-                    gekozen = new AI5Cheat(this, "5 " + naam);
+                    gekozen = new AI5Cheat(this, naam);
                     break;
                 case 6:
-                    gekozen = new AI6Cheat(this, "6 " + naam);
+                    gekozen = new AI6Cheat(this, naam);
                     break;
                 default:
                     MessageBox.Show("Er is iets mis in de functie willekeurigeAI");

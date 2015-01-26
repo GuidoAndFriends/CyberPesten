@@ -48,7 +48,6 @@ namespace CyberPesten
             spelend = spel.spelend;
             richting = spel.richting;
             mens = spel.mens;
-            
 
             List<Kaart> mogelijk = new List<Kaart>();
             List<Kaart> pester = new List<Kaart>();
@@ -73,7 +72,7 @@ namespace CyberPesten
 
             foreach (Kaart kaart in mogelijk)
             {
-                if (kaart.Waarde == 2) 
+                if (spel.isPakkenMagAltijd(kaart)) 
                 {
                     pester.Add(kaart);
                 }
@@ -115,7 +114,9 @@ namespace CyberPesten
                 if (pester.Count > 0)
                 {
                     if (volgende.hand.Count < 3)
+                    {
                         spel.speelKaart(pester[0]);
+                    }
                 }
                 else
                 {
@@ -130,11 +131,10 @@ namespace CyberPesten
                         {
                             spel.speelKaart(saai[0]);
                         }
-
                         else
                         {
                             spel.speelKaart(mogelijk[0]);
-                        } 
+                        }
                     }                   
                 }
             }

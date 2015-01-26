@@ -46,7 +46,7 @@ namespace CyberPesten
             if (mogelijk.Count > 0)
             {
                 int index = 0;
-                while (mogelijk[index].Kleur == 7 || mogelijk[index].Kleur == 13)
+                while (spel.isNogmaals(mogelijk[index]))
                 {
                     if (straksGeenMogelijkeZet(mogelijk[index]) && index < mogelijk.Count - 1)
                     {
@@ -75,8 +75,7 @@ namespace CyberPesten
                 {
                     if (kaart.Kleur == gepland.Kleur ||
                         kaart.Waarde == gepland.Waarde ||
-                        kaart.Kleur == 4 || //joker
-                        kaart.Waarde == 11) //boer
+                        spel.isMagAltijd(kaart))
                     {
                         mogelijk.Add(kaart);
                     }

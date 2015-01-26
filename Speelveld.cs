@@ -51,8 +51,8 @@ namespace CyberPesten
         public Speelveld() { }
 
         //chat
-        public Chat chat;
-        public Button vouwen, send;
+        //public Chat chat;
+        //public Button vouwen, send;
         public TextBox textbox;
 
         public Speelveld(Form form)
@@ -353,6 +353,7 @@ namespace CyberPesten
             }
             else if (laatsteKaartRect.Contains(mea.Location))
             {
+                spel.chat.nieuw("Je hebt aangegeven dat je nog maar één kaart hebt");
                 spel.laatsteKaart(true);
                 Invalidate();
                 Update();

@@ -8,7 +8,7 @@ namespace CyberPesten
 {
     partial class Spel
     {
-        bool isMagAltijd(Kaart kaart)
+        public bool isMagAltijd(Kaart kaart)
         {
             if (isPakkenMagAltijd(kaart) ||
                 isKleurKiezenMagAltijd(kaart))
@@ -33,7 +33,7 @@ namespace CyberPesten
             }
             
         }
-        int isPakken(Kaart kaart)
+        public int isPakken(Kaart kaart)
         {
             if (kaart.Waarde == 2 && instellingen.regelsIngeschakeld.Contains(1))
             {
@@ -49,7 +49,7 @@ namespace CyberPesten
             }
         }
 
-        bool isKleurKiezenMagAltijd(Kaart kaart)
+        public bool isKleurKiezenMagAltijd(Kaart kaart)
         {
             if (kaart.Waarde == 11 && instellingen.regelsIngeschakeld.Contains(4))
             {
@@ -86,7 +86,7 @@ namespace CyberPesten
             }
         }
 
-        bool isWas(Kaart kaart)
+        public bool isWas(Kaart kaart)
         {
             if (kaart.Waarde == 10 && instellingen.regelsIngeschakeld.Contains(7))
             {
@@ -110,7 +110,7 @@ namespace CyberPesten
             }
         }
 
-        bool isOverslaan(Kaart kaart)
+        public bool isOverslaan(Kaart kaart)
         {
             if (kaart.Waarde == 8 && instellingen.regelsIngeschakeld.Contains(3))
             {

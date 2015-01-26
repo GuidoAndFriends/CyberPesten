@@ -42,10 +42,6 @@ namespace CyberPesten
             mens = spel.mens;
         }
 
-        List<Kaart> mogelijk = new List<Kaart>();
-        List<Kaart> pester = new List<Kaart>();
-        List<Kaart> bonus = new List<Kaart>();
-
         public override void doeZet()
         {
             bezig = true;
@@ -53,6 +49,10 @@ namespace CyberPesten
             spelend = spel.spelend;
             richting = spel.richting;
             mens = spel.mens;
+
+            List<Kaart> mogelijk = new List<Kaart>();
+            List<Kaart> pester = new List<Kaart>();
+            List<Kaart> bonus = new List<Kaart>();
 
             foreach (Kaart kaart in hand)
             {
@@ -64,7 +64,7 @@ namespace CyberPesten
 
             foreach (Kaart kaart in mogelijk)
             {
-                if (kaart.Waarde == 2 || kaart.Waarde == 0 || kaart.Waarde == 8 || kaart.Waarde == 1)
+                if (spel.isPakken(kaart) > 0 || spel.isWacht(kaart) || spel.isDraai(kaart))
                 {
                     pester.Add(kaart);
                 }
@@ -72,7 +72,7 @@ namespace CyberPesten
 
             foreach (Kaart kaart in mogelijk)
             {
-                if (kaart.Waarde == 7 || kaart.Waarde == 13)
+                if (spel.isNogmaals(kaart))
                 {
                     bonus.Add(kaart);
                     //Controleren of het nut heeft?
@@ -99,7 +99,6 @@ namespace CyberPesten
                     }                    
                 }
             }
-
             else
             {
                 spel.pakKaart();
