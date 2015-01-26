@@ -45,8 +45,8 @@ namespace CyberPesten
             chat = new Chat();
 
             //moeten we toevoegen, omdat spel.cs referenties hiernaar bevat. :|
-            timerAI = new System.Timers.Timer();
-            timerAI.Elapsed += tijd;
+            //timerAI = new System.Timers.Timer();
+            //timerAI.Elapsed += tijd;
             //ja echt.
 
             spelend = Online.onlineRandom.Next(aantalSpelers);//iedereen heeft dezelfde seed, dus dit gaat goed.
@@ -228,6 +228,49 @@ namespace CyberPesten
             string raw = Online.PHPrequest("http://harbingerofme.info/GnF/leave_game.php", new string[] { "name", "token" , "spelid","spelerror"}, new string[] { Online.username, Online.token, Online.game.ToString(), "waarde"});
             OnlineSpeelveld a = (OnlineSpeelveld)speelveld;
             a.stop();
+            }
+        }
+
+        public override void volgende()
+        {
+            Speler oud = spelers[spelend];
+
+            spelend = (spelend + richting + spelers.Count) % (spelers.Count);
+            if (!(mens) & spelend == 0)
+            {
+                spelend = (spelend + richting + spelers.Count) % (spelers.Count);
+            }
+
+            //vanaf hier is de volgende speler spelend
+
+            oud.updateBlok();
+            spelers[spelend].updateBlok();
+
+            if (speelveld.IsHandleCreated)
+            {
+                speelveld.Invoke(new Action(() => speelveld.Invalidate()));
+                speelveld.Invoke(new Action(() => speelveld.Update()));
+            }
+
+            if (instellingen.regelset == 1 && speciaal == 4)
+            {
+                pakKaart(pakAantal);
+            }
+
+            //IETS ANDERS DOEN DAN TIMER
+            if (spelend != 0)
+            {
+                spelers[spelend].updateBlok();
+                if (mens)
+                {
+                    //timerAI.Interval = 1000;
+                    //Eventueel nog random
+                }
+                else
+                {
+                    //timerAI.Interval = 600;
+                }
+                //timerAI.Start();
             }
         }
     }
