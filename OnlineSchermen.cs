@@ -27,7 +27,7 @@ class inlogScherm :  Form
         Bitmap maakAccountMenu, maakAccount, terug;
         Rectangle maakAccountButton, terugButton;
         bool maakAccountHover, terugHover;
-        float verhouding;
+        double verhoudingW,verhoudingH;
         Font arial;
         Form menuBack;
             
@@ -38,8 +38,9 @@ class inlogScherm :  Form
             FormBorderStyle = FormBorderStyle.None;
             WindowState = FormWindowState.Maximized;
             DoubleBuffered = true;
-            verhouding = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width / BackgroundImage.Width;
-            arial = new Font("Arial", (int)(15 * verhouding));
+            verhoudingW = (double)System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width / (double)1920;
+            verhoudingH = (double)System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height / (double)1080;
+            arial = new Font("Arial", (int)(15 * verhoudingH));
             menuBack = _menu;
 
             string GNF = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),"Guido&Friends");
@@ -50,8 +51,8 @@ class inlogScherm :  Form
             maakAccount = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("maak_account_select"));
             terug = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Terug_button"));
 
-            maakAccountButton = new Rectangle((int)(857 * verhouding), (int)(758 * verhouding), (int)(205 * verhouding), (int)(86 * verhouding));
-            terugButton = new Rectangle(0, (int)(verhouding * 53), (int)(verhouding * 234), (int)(verhouding * 74));
+            maakAccountButton = new Rectangle((int)(857 * verhoudingW), (int)(758 * verhoudingH), (int)(205 * verhoudingW), (int)(86 * verhoudingH));
+            terugButton = new Rectangle(0, (int)(verhoudingH * 53), (int)(verhoudingW * 234), (int)(verhoudingH * 74));
 
             this.Paint += this.buildMenu;
             this.MouseMove += this.hover;
@@ -62,9 +63,9 @@ class inlogScherm :  Form
             maakAccountTextbox1.BackColor = Color.White;
             maakAccountTextbox1.MaxLength = 20;
             maakAccountTextbox1.TextAlign = HorizontalAlignment.Left;
-            maakAccountTextbox1.Top = (int)(485 * verhouding);
-            maakAccountTextbox1.Left = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width / 2 - (int)(80 * verhouding);
-            maakAccountTextbox1.Width = (int)(320 * verhouding);
+            maakAccountTextbox1.Top = (int)(485 * verhoudingH);
+            maakAccountTextbox1.Left = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width / 2 - (int)(80 * verhoudingW);
+            maakAccountTextbox1.Width = (int)(320 * verhoudingW);
             maakAccountTextbox1.ShortcutsEnabled = true;//staat de gebruiker toe om te plakken, of om control+a te drukken, etc.
             maakAccountTextbox1.TabIndex = 0;
             maakAccountTextbox1.Parent = a;
@@ -76,9 +77,9 @@ class inlogScherm :  Form
             maakAccountTextbox2.ShortcutsEnabled = true;
             maakAccountTextbox2.BackColor = Color.White;
             maakAccountTextbox2.TextAlign = HorizontalAlignment.Left;
-            maakAccountTextbox2.Top = (int)(570 * verhouding);
-            maakAccountTextbox2.Left = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width / 2 - (int)(80 * verhouding);
-            maakAccountTextbox2.Width = (int)(320 * verhouding);
+            maakAccountTextbox2.Top = (int)(570 * verhoudingH);
+            maakAccountTextbox2.Left = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width / 2 - (int)(80 * verhoudingW);
+            maakAccountTextbox2.Width = (int)(320 * verhoudingW);
             maakAccountTextbox2.TabIndex = 1;
             maakAccountTextbox2.Parent = a;
             maakAccountTextbox2.Font = arial;
@@ -90,14 +91,14 @@ class inlogScherm :  Form
             maakAccountTextbox1.Select();
             berichtHouder = new Label();
             berichtHouder.Text = "";
-            berichtHouder.Left = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width / 2 - (int)(300 * verhouding);
-            berichtHouder.Top = (int)(400*verhouding);
+            berichtHouder.Left = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width / 2 - (int)(300 * verhoudingW);
+            berichtHouder.Top = (int)(400*verhoudingH);
             berichtHouder.TextAlign = ContentAlignment.TopCenter;
-            berichtHouder.Width = (int)(600*verhouding);
-            berichtHouder.Height = (int)(80*verhouding);
+            berichtHouder.Width = (int)(600*verhoudingW);
+            berichtHouder.Height = (int)(80*verhoudingH);
             berichtHouder.BackColor = Color.Transparent;
             berichtHouder.ForeColor = Color.Red;
-            berichtHouder.Font = new Font("Arial", (int)(20*verhouding));
+            berichtHouder.Font = new Font("Arial", (int)(20*verhoudingH));
             Controls.Add(berichtHouder);
 
             this.Show();
@@ -117,7 +118,7 @@ class inlogScherm :  Form
 
         private void buildMenu(object sender, PaintEventArgs pea)
         {
-            pea.Graphics.DrawImage(maakAccountMenu, 0, 0, (int)maakAccountMenu.Width * verhouding, (int)maakAccountMenu.Height * verhouding);
+            pea.Graphics.DrawImage(maakAccountMenu, 0, 0, (float)(maakAccountMenu.Width * verhoudingW), (float)(maakAccountMenu.Height * verhoudingH));
 
             if (maakAccountHover)
             {
@@ -235,7 +236,7 @@ class inlogScherm :  Form
 
 class lobbyScherm : Form
     {
-        float verhouding;
+        double verhoudingW,verhoudingH;
         Font arial;
         Form menuBack;
         Form spel;
@@ -264,23 +265,24 @@ class lobbyScherm : Form
             FormBorderStyle = FormBorderStyle.None;
             WindowState = FormWindowState.Maximized;
             DoubleBuffered = true;
-            verhouding = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width / BackgroundImage.Width;
-            arial = new Font("Arial", (int)(15 * verhouding));
+            verhoudingW = (double)System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width / (double)1920;
+            verhoudingH = (double)System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height / (double)1080;
+            arial = new Font("Arial", (int)(15 * verhoudingH));
             this.Show();
             this.FormClosing += sluitThreads;
             this.MouseMove += hover;
             this.Click += klik;
             this.Paint += this.teken;
 
-            delGame = new Rectangle((int)(109*verhouding),(int)(956*verhouding),(int)(191*verhouding),(int)(89*verhouding));
-            startGame = new Rectangle((int)(309 * verhouding), (int)(956 * verhouding), (int)(191 * verhouding), (int)(89 * verhouding));
-            leaveGame = new Rectangle((int)(700 * verhouding), (int)(956 * verhouding), (int)(191 * verhouding), (int)(89 * verhouding));
+            delGame = new Rectangle((int)(109*verhoudingW),(int)(956*verhoudingH),(int)(191*verhoudingW),(int)(89*verhoudingH));
+            startGame = new Rectangle((int)(309 * verhoudingW), (int)(956 * verhoudingH), (int)(191 * verhoudingW), (int)(89 * verhoudingH));
+            leaveGame = new Rectangle((int)(700 * verhoudingW), (int)(956 * verhoudingH), (int)(191 * verhoudingW), (int)(89 * verhoudingH));
 
             buttons = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Lobby_buttons"));
 
             invoer = new TextBox();
-            invoer.Location = new Point((int)(verhouding * 1155), (int)(verhouding * 1040));
-            invoer.Size = new Size((int)(765 * verhouding), (int)(44 * verhouding));
+            invoer.Location = new Point((int)(verhoudingW * 1155), (int)(verhoudingH * 1040));
+            invoer.Size = new Size((int)(765 * verhoudingW), (int)(44 * verhoudingH));
             invoer.Font = arial;
             invoer.BackColor = System.Drawing.ColorTranslator.FromHtml("#121212");
             invoer.KeyPress += invoer_KeyPress;
@@ -292,8 +294,8 @@ class lobbyScherm : Form
             invoer.Focus();
 
             uitvoer = new Label();
-            uitvoer.Location = new Point((int)(verhouding * 1155), (int)(verhouding * 147));//iets van de randen af.
-            uitvoer.Size = new Size((int)(765 * verhouding),(int)(890 * verhouding));
+            uitvoer.Location = new Point((int)(verhoudingW * 1155), (int)(verhoudingH * 147));//iets van de randen af.
+            uitvoer.Size = new Size((int)(765 * verhoudingW),(int)(890 * verhoudingH));
             uitvoer.TextAlign = ContentAlignment.BottomLeft;
             uitvoer.Font = arial;
             uitvoer.BackColor = Color.Transparent;
@@ -343,7 +345,7 @@ class lobbyScherm : Form
                 string text = "";
                 if (raw_chat.Count > 0)
                 {
-                    for (int a = 0; a < (int)((890 * verhouding)/(25*verhouding)) && a < raw_chat.Count; a++)
+                    for (int a = 0; a < (int)((890 * verhoudingH)/(25*verhoudingH)) && a < raw_chat.Count; a++)
                     {
                         string str = raw_chat[a];
                         text = "\n" + str + text;
@@ -377,8 +379,8 @@ class lobbyScherm : Form
                     lbl1.Font = arial;
                     lbl1.ForeColor = Color.White;
                     lbl1.BackColor = Color.Transparent;
-                    lbl1.Location = new Point((int)(10*verhouding),(int)(190+30*a));
-                    lbl1.Size = new Size((int)(600 * verhouding), (int)(30 * verhouding));
+                    lbl1.Location = new Point((int)(10*verhoudingW),(int)((190+30*a)*verhoudingH));
+                    lbl1.Size = new Size((int)(600 * verhoudingW), (int)(30 * verhoudingH));
                     lbl1.Text = naam;
                     Controls.Add(lbl1);
 
@@ -386,8 +388,8 @@ class lobbyScherm : Form
                     lbl2.Font = arial;
                     lbl2.ForeColor = Color.White;
                     lbl2.BackColor = Color.Transparent;
-                    lbl2.Location = new Point((int)(617 * verhouding), (int)(190 + 30 * a));
-                    lbl2.Size = new Size((int)(354 * verhouding), (int)(30 * verhouding));
+                    lbl2.Location = new Point((int)(617 * verhoudingW), (int)((190 + 30 * a)*verhoudingH));
+                    lbl2.Size = new Size((int)(354 * verhoudingW), (int)(30 * verhoudingH));
                     lbl2.TextAlign = ContentAlignment.TopCenter;
                     lbl2.Text = rank;
                     Controls.Add(lbl2);
@@ -575,7 +577,7 @@ class openSpellenScherm : Form
         {
 
     Form menuBack;
-    float verhouding;
+    double verhoudingW,verhoudingH;
     Font arial;
     List<Control> lijstcontrol = new List<Control>();
     bool closed = false,hostOpen = false;
@@ -593,16 +595,17 @@ class openSpellenScherm : Form
             FormBorderStyle = FormBorderStyle.None;
             WindowState = FormWindowState.Maximized;
             DoubleBuffered = true;
-            verhouding = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width / BackgroundImage.Width;
-            arial = new Font("Arial", (int)(15 * verhouding));
+            verhoudingW = (double)System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width / (double)1920;
+            verhoudingH = (double)System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height / (double)1080;
+            arial = new Font("Arial", (int)(15 * verhoudingH));
             this.Show();
             laatSpellenzien();
             data_thread = new Thread(data);
             data_thread.IsBackground = true;
             data_thread.Start();
 
-            hostgame = new Rectangle((int)(1673 * verhouding) ,(int) (693*verhouding),(int) (252*verhouding),(int)(95*verhouding));
-            exit = new Rectangle((int)(1673 * verhouding), (int)(809 * verhouding), (int)(252 * verhouding), (int)(95 * verhouding));
+            hostgame = new Rectangle((int)(1673 * verhoudingW) ,(int) (693*verhoudingH),(int) (252*verhoudingW),(int)(95*verhoudingH));
+            exit = new Rectangle((int)(1673 * verhoudingW), (int)(809 * verhoudingH), (int)(252 * verhoudingH), (int)(95 * verhoudingW));
 
             buttons = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Spellenscherm_buttons"));
 
@@ -652,37 +655,37 @@ class openSpellenScherm : Form
                     foreach (online_openSpel oo in list)
                     {
                         Label lbl1 = new Label();
-                        lbl1.Top = (int)((198 + a * 30) * verhouding);
-                        lbl1.Left = (int)(10 * verhouding);
+                        lbl1.Top = (int)((198 + a * 30) * verhoudingH);
+                        lbl1.Left = (int)(10 * verhoudingW);
                         lbl1.Text = oo.spelnaam;
                         lbl1.Font = arial;
                         lbl1.BackColor = Color.Transparent;
                         lbl1.ForeColor = Color.White;
-                        lbl1.Size = new Size((int)(500 * verhouding), (int)(30 * verhouding));
+                        lbl1.Size = new Size((int)(500 * verhoudingW), (int)(30 * verhoudingH));
                         lijstcontrol.Add(lbl1);
                         Controls.Add(lbl1);
 
                         Label lbl2 = new Label();
-                        lbl2.Top = (int)((198 + a * 30) * verhouding);
-                        lbl2.Left = (int)(532 * verhouding);
+                        lbl2.Top = (int)((198 + a * 30) * verhoudingH);
+                        lbl2.Left = (int)(532 * verhoudingW);
                         lbl2.Text = oo.host.Split(':')[0];
                         lbl2.Font = arial;
                         lbl2.TextAlign = ContentAlignment.TopCenter;
                         lbl2.BackColor = Color.Transparent;
                         lbl2.ForeColor = Color.White;
-                        lbl2.Size = new Size((int)(350 * verhouding), (int)(30 * verhouding));
+                        lbl2.Size = new Size((int)(350 * verhoudingW), (int)(30 * verhoudingH));
                         lijstcontrol.Add(lbl2);
                         Controls.Add(lbl2);
 
                         Label lbl3 = new Label();
-                        lbl3.Top = (int)((198 + a * 30) * verhouding);
-                        lbl3.Left = (int)(881 * verhouding);
+                        lbl3.Top = (int)((198 + a * 30) * verhoudingH);
+                        lbl3.Left = (int)(881 * verhoudingW);
                         lbl3.Text = oo.spelerAantal + "/" + oo.maxSpelerAantal;
                         lbl3.Font = arial;
                         lbl3.TextAlign = ContentAlignment.TopCenter;
                         lbl3.BackColor = Color.Transparent;
                         lbl3.ForeColor = Color.White;
-                        lbl3.Size = new Size((int)(270 * verhouding), (int)(30 * verhouding));
+                        lbl3.Size = new Size((int)(270 * verhoudingW), (int)(30 * verhoudingH));
                         lijstcontrol.Add(lbl3);
                         Controls.Add(lbl3);
 
@@ -696,22 +699,22 @@ class openSpellenScherm : Form
                         }
 
                         Label lbl4 = new Label();
-                        lbl4.Top = (int)((198 + a * 30) * verhouding);
-                        lbl4.Left = (int)(1147 * verhouding);
+                        lbl4.Top = (int)((198 + a * 30) * verhoudingH);
+                        lbl4.Left = (int)(1147 * verhoudingW);
                         lbl4.Text = text;
                         lbl4.Font = arial;
                         lbl4.TextAlign = ContentAlignment.TopCenter;
                         lbl4.BackColor = Color.Transparent;
                         lbl4.ForeColor = Color.White;
-                        lbl4.Size = new Size((int)(276 * verhouding), (int)(30 * verhouding));
+                        lbl4.Size = new Size((int)(276 * verhoudingW), (int)(30 * verhoudingH));
                         lijstcontrol.Add(lbl4);
                         Controls.Add(lbl4);
 
                         PictureBox but5 = new PictureBox();
                         but5.Name = oo.id.ToString();
                         but5.Image = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Join_knop"));
-                        but5.Size = new Size((int)(192 * verhouding), (int)(31 * verhouding));
-                        but5.Location = new Point((int)(1422 * verhouding), (int)((195 + a * 30) * verhouding));
+                        but5.Size = new Size((int)(192 * verhoudingW), (int)(31 * verhoudingH));
+                        but5.Location = new Point((int)(1422 * verhoudingW), (int)((195 + a * 30) * verhoudingH));
                         lijstcontrol.Add(but5);
                         but5.Click += join_Click;
                         Controls.Add(but5);
@@ -722,13 +725,13 @@ class openSpellenScherm : Form
                 else
                 {
                     Label lbl1 = new Label();
-                    lbl1.Top = (int)((198) * verhouding);
-                    lbl1.Left = (int)(10 * verhouding);
+                    lbl1.Top = (int)((198) * verhoudingH);
+                    lbl1.Left = (int)(10 * verhoudingW);
                     lbl1.Text = "Geen Spellen Gevonden";
                     lbl1.Font = arial;
                     lbl1.BackColor = Color.Transparent;
                     lbl1.ForeColor = Color.White;
-                    lbl1.Size = new Size((int)(500 * verhouding), (int)(30 * verhouding));
+                    lbl1.Size = new Size((int)(500 * verhoudingW), (int)(30 * verhoudingH));
                     lijstcontrol.Add(lbl1);
                     Controls.Add(lbl1);
                 }

@@ -39,7 +39,6 @@ namespace CyberPesten
             menuLogo = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Menu_logo"));
             verhoudingW = (double)System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width / (double)1920;
             verhoudingH = (double)System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height / (double)1080;
-            System.Diagnostics.Debug.WriteLine("Size van het scherm is: " + System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width + "x" + System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height);
 
             int rectangleWidth = (int)(85 * verhoudingW);
             int rectangleHeight = (int)(254 * verhoudingH);
@@ -48,13 +47,6 @@ namespace CyberPesten
             settingsButton = new Rectangle((int)(1007 * verhoudingW), (int)(648 * verhoudingH), rectangleWidth, rectangleHeight);
             helpButton = new Rectangle((int)(1189 * verhoudingW), (int)(648 * verhoudingH), rectangleWidth, rectangleHeight);
             exitButton = new Rectangle((int)(1862 * verhoudingW), (int)(1022 * verhoudingH), (int)(42 * verhoudingW), (int)(42 * verhoudingH));
-
-            //debug
-            PictureBox a = new PictureBox();
-            a.BackColor = Color.Red;
-            a.Size = onlineButton.Size;
-            a.Location = onlineButton.Location;
-            Controls.Add(a);
 
 
             this.MouseMove += this.hover;

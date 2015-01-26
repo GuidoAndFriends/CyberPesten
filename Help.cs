@@ -13,7 +13,7 @@ namespace CyberPesten
     class Help : Form
     {
         Bitmap terugBitmap, achtergrond;
-        float verhouding;
+        double verhoudingH,verhoudingW;
         bool terugHover;
         Rectangle terugButton, maat, bounds;
         public Spel spel;
@@ -39,9 +39,10 @@ namespace CyberPesten
             BackgroundImage = achtergrond;
 
             terugBitmap = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Terug_button"));
-            verhouding = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width / terugBitmap.Width;
-            terugButton = new Rectangle(0, (int)(verhouding * 53), (int)(verhouding * 234), (int)(verhouding * 74));
-            bounds = new Rectangle((int)(400 * verhouding), (int)(280 * verhouding), (int)(1120 * verhouding), (int)(600 * verhouding));
+            verhoudingW = (double)System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width / (double)1920;
+            verhoudingH = (double)System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height / (double)1080;
+            terugButton = new Rectangle(0, (int)(verhoudingH * 53), (int)(verhoudingW * 234), (int)(verhoudingH * 74));
+            bounds = new Rectangle((int)(400 * verhoudingW), (int)(280 * verhoudingH), (int)(1120 * verhoudingW), (int)(600 * verhoudingH));
 
             this.Paint += this.buildAchtergrond;
             this.Paint += this.selected;

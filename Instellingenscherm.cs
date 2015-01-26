@@ -19,7 +19,7 @@ namespace CyberPesten
         Rectangle terugButton, standSetButton, maat;
         Rectangle aasDraai, tweePakken, zevenKleven, achtWacht, tienWasmachine, boerSwitch, heerNogEenKeer, jokerSwitch;
         Rectangle willekeurigSwitch, slimSwitch, slimmerSwitch, cheaterSwitch, aiModus, geluidSwitch, rood, blauw, regenboog;
-        float verhouding;
+        double verhoudingH,verhoudingW;
         GraphicsUnit units = GraphicsUnit.Pixel;
 
         public Instellingenscherm(Menu _menu)
@@ -47,37 +47,38 @@ namespace CyberPesten
             roodKnop = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Achterkant_rood"));
             regenboogKnop = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Achterkant_regenboog"));
 
-            verhouding = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width / terugBitmap.Width;
+            verhoudingW = (double)System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width / (double)1920;
+            verhoudingH = (double)System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height / (double)1080;
 
-            terugButton = new Rectangle(0, (int)(verhouding * 53), (int)(verhouding * 234), (int)(verhouding * 74));
-            standSetButton = new Rectangle(0, (int)(verhouding * 927), (int)(verhouding * 1230), (int)(verhouding * 74));
+            terugButton = new Rectangle(0, (int)(verhoudingH * 53), (int)(verhoudingW * 234), (int)(verhoudingH * 74));
+            standSetButton = new Rectangle(0, (int)(verhoudingH * 927), (int)(verhoudingW * 1230), (int)(verhoudingH * 74));
 
-            int switchWidth = (int)(verhouding * 211);
-            int switchHeight = (int)(verhouding * 65);
-            int swithKolom1 = (int)(verhouding* 176);
-            int swithKolom2 = (int)(verhouding* 620);
-            int swithKolom3 = (int)(verhouding* 1206);
-            int swithKolom4 = (int)(verhouding* 1113);
+            int switchWidth = (int)(verhoudingW * 211);
+            int switchHeight = (int)(verhoudingH * 65);
+            int swithKolom1 = (int)(verhoudingW* 176);
+            int swithKolom2 = (int)(verhoudingW* 620);
+            int swithKolom3 = (int)(verhoudingW* 1206);
+            int swithKolom4 = (int)(verhoudingW* 1113);
 
             //Switches
-            aasDraai = new Rectangle(swithKolom1, (int)(verhouding * 431), switchWidth, switchHeight);
-            tweePakken = new Rectangle(swithKolom1, (int)(verhouding * 505), switchWidth, switchHeight);
-            zevenKleven = new Rectangle(swithKolom1, (int)(verhouding * 578), switchWidth, switchHeight);
-            achtWacht = new Rectangle(swithKolom1, (int)(verhouding * 651), switchWidth, switchHeight);
-            tienWasmachine = new Rectangle(swithKolom2, (int)(verhouding * 431), switchWidth, switchHeight);
-            boerSwitch = new Rectangle(swithKolom2, (int)(verhouding * 505), switchWidth, switchHeight);
-            heerNogEenKeer = new Rectangle(swithKolom2, (int)(verhouding * 578), switchWidth, switchHeight);
-            jokerSwitch = new Rectangle(swithKolom2, (int)(verhouding * 651), switchWidth, switchHeight);
-            willekeurigSwitch = new Rectangle(swithKolom3, (int)(verhouding * 439), switchWidth, switchHeight);
-            slimSwitch = new Rectangle(swithKolom3, (int)(verhouding * 512), switchWidth, switchHeight);
-            slimmerSwitch = new Rectangle(swithKolom3, (int)(verhouding * 585), switchWidth, switchHeight);
-            cheaterSwitch = new Rectangle(swithKolom3, (int)(verhouding * 658), switchWidth, switchHeight);
-            aiModus = new Rectangle(swithKolom4, (int)(verhouding * 249), switchWidth, switchHeight);
-            geluidSwitch = new Rectangle(swithKolom4, (int)(verhouding * 779), switchWidth, switchHeight);
+            aasDraai = new Rectangle(swithKolom1, (int)(verhoudingH * 431), switchWidth, switchHeight);
+            tweePakken = new Rectangle(swithKolom1, (int)(verhoudingH * 505), switchWidth, switchHeight);
+            zevenKleven = new Rectangle(swithKolom1, (int)(verhoudingH * 578), switchWidth, switchHeight);
+            achtWacht = new Rectangle(swithKolom1, (int)(verhoudingH * 651), switchWidth, switchHeight);
+            tienWasmachine = new Rectangle(swithKolom2, (int)(verhoudingH * 431), switchWidth, switchHeight);
+            boerSwitch = new Rectangle(swithKolom2, (int)(verhoudingH * 505), switchWidth, switchHeight);
+            heerNogEenKeer = new Rectangle(swithKolom2, (int)(verhoudingH * 578), switchWidth, switchHeight);
+            jokerSwitch = new Rectangle(swithKolom2, (int)(verhoudingH * 651), switchWidth, switchHeight);
+            willekeurigSwitch = new Rectangle(swithKolom3, (int)(verhoudingH * 439), switchWidth, switchHeight);
+            slimSwitch = new Rectangle(swithKolom3, (int)(verhoudingH * 512), switchWidth, switchHeight);
+            slimmerSwitch = new Rectangle(swithKolom3, (int)(verhoudingH * 585), switchWidth, switchHeight);
+            cheaterSwitch = new Rectangle(swithKolom3, (int)(verhoudingH * 658), switchWidth, switchHeight);
+            aiModus = new Rectangle(swithKolom4, (int)(verhoudingH * 249), switchWidth, switchHeight);
+            geluidSwitch = new Rectangle(swithKolom4, (int)(verhoudingH * 779), switchWidth, switchHeight);
 
-            rood = new Rectangle((int)(verhouding * 624), (int)(verhouding * 853), (int)(verhouding * 155), (int)(verhouding * 65));
-            blauw = new Rectangle((int)(verhouding * 779), (int)(verhouding * 853), (int)(verhouding * 105), (int)(verhouding * 65));
-            regenboog = new Rectangle((int)(verhouding * 884), (int)(verhouding * 853), (int)(verhouding * 209), (int)(verhouding * 65));
+            rood = new Rectangle((int)(verhoudingW * 624), (int)(verhoudingH * 853), (int)(verhoudingW * 155), (int)(verhoudingH * 65));
+            blauw = new Rectangle((int)(verhoudingW * 779), (int)(verhoudingH * 853), (int)(verhoudingW * 105), (int)(verhoudingH * 65));
+            regenboog = new Rectangle((int)(verhoudingW * 884), (int)(verhoudingH * 853), (int)(verhoudingW * 209), (int)(verhoudingH * 65));
 
             this.Paint += this.buildAchtergrond;
             this.Paint += this.selected;
