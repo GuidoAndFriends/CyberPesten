@@ -44,6 +44,11 @@ namespace CyberPesten
             //Online: eigen variant met chat?//nee, we kunnen prima dingen hierin doen.
             chat = new Chat();
 
+            //moeten we toevoegen, omdat spel.cs referenties hiernaar bevat. :|
+            timerAI = new System.Timers.Timer();
+            timerAI.Elapsed += tijd;
+            //ja echt.
+
             int einde = aantalSpelers * 2;
             for (int i = 0; i < einde; i++)
             {
