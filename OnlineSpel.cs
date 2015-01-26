@@ -30,9 +30,6 @@ namespace CyberPesten
             aantalSpelers = Online.deelnemers.Count();
             spel_loopt = true;
             data_thread = new Thread(data);
-            data_thread.IsBackground = true;
-            data_thread.Name = "Data";
-            data_thread.Start();
             chatregels = new List<string>();
             actieregels = new List<string>();
 
@@ -52,7 +49,7 @@ namespace CyberPesten
                 if (Online.deelnemers[i % aantalSpelers].Split(':')[0] == Online.username)
                 {
                     spelers.Add(new OnlineMens(this, i));
-                    einde = i + aantalSpelers - 1;
+                    einde = i + aantalSpelers;
                 }
                 else
                 {
@@ -111,6 +108,10 @@ namespace CyberPesten
             }
             s.Invalidate();
             checkNullKaart();
+
+            data_thread.IsBackground = true;
+            data_thread.Name = "Data";
+            data_thread.Start();
         }
 
         protected override List<Kaart> schud(List<Kaart> stapel)
