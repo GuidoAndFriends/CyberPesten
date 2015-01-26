@@ -141,22 +141,7 @@ namespace CyberPesten
 
         public bool speelKaart(Kaart kaart)
         {
-            System.Diagnostics.Debug.WriteLine("Speler " + spelend);
-            System.Diagnostics.Debug.WriteLine(kaart.tekst);
-            int index = spelers[spelend].hand.IndexOf(kaart);
-            System.Diagnostics.Debug.WriteLine(index.ToString());
-            return speelKaart(index);
-            /*
-            if (index != -1)
-            {
-                return speelKaart(index);
-            }
-            else
-            {
-                MessageBox.Show("Jammer");
-                return false;
-            }
-             */
+            return speelKaart(spelers[spelend].hand.IndexOf(kaart));
         }
 
 
@@ -440,7 +425,15 @@ namespace CyberPesten
             Point p2;
             if (spelend == 0)
             {
-                p2 = new Point(spelers[0].hand[spelers[0].hand.Count - 1].X + 10 + 110, spelers[0].hand[0].Y);
+                if (spelers[0].hand.Count > 0)
+                {
+                    p2 = new Point(spelers[0].hand[spelers[0].hand.Count - 1].X + 10 + 110, spelers[0].hand[0].Y);
+                }
+                else
+                {
+                    p2 = new Point(speelveld.Width - 55, spelers[0].hand[0].Y);
+                }
+                
             }
             else
             {
