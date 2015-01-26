@@ -15,7 +15,7 @@ namespace CyberPesten
     {
         bool onlineHover, lokaalHover, settingsHover, helpHover, exitHover;
         public Instellingen instellingen;
-        float verhouding; //De grootte van de rectangles voor de knoppen worden allemaal gebaseerd op de verhoudingen van de achtergrond
+        double verhoudingW,verhoudingH; //De grootte van de rectangles voor de knoppen worden allemaal gebaseerd op de verhoudingWen van de achtergrond
         Bitmap online, lokaal, settings, help, exit, menuLogo, achtergrond;
         Rectangle maat, onlineButton, lokaalButton, settingsButton, helpButton, exitButton;
         
@@ -37,15 +37,25 @@ namespace CyberPesten
             help = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Help"));
             exit = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Exit_button"));
             menuLogo = new Bitmap((Image)CyberPesten.Properties.Resources.ResourceManager.GetObject("Menu_logo"));
-            verhouding = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width / online.Width;
+            verhoudingW = (double)System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width / (double)1920;
+            verhoudingH = (double)System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height / (double)1080;
+            System.Diagnostics.Debug.WriteLine("Size van het scherm is: " + System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width + "x" + System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height);
 
-            int rectangleWidth = (int)(85 * verhouding);
-            int rectangleHeight = (int)(254 * verhouding);
-            onlineButton = new Rectangle((int)(650 * verhouding), (int)(648 * verhouding), rectangleWidth, rectangleHeight);
-            lokaalButton = new Rectangle((int)(830 * verhouding), (int)(648 * verhouding), rectangleWidth, rectangleHeight);
-            settingsButton = new Rectangle((int)(1007 * verhouding), (int)(648 * verhouding), rectangleWidth, rectangleHeight);
-            helpButton = new Rectangle((int)(1189 * verhouding), (int)(648 * verhouding), rectangleWidth, rectangleHeight);
-            exitButton = new Rectangle((int)(1862 * verhouding), (int)(1022 * verhouding), (int)(42 * verhouding), (int)(42 * verhouding));
+            int rectangleWidth = (int)(85 * verhoudingW);
+            int rectangleHeight = (int)(254 * verhoudingH);
+            onlineButton = new Rectangle((int)(650 * verhoudingW), (int)(648 * verhoudingH), rectangleWidth, rectangleHeight);
+            lokaalButton = new Rectangle((int)(830 * verhoudingW), (int)(648 * verhoudingH), rectangleWidth, rectangleHeight);
+            settingsButton = new Rectangle((int)(1007 * verhoudingW), (int)(648 * verhoudingH), rectangleWidth, rectangleHeight);
+            helpButton = new Rectangle((int)(1189 * verhoudingW), (int)(648 * verhoudingH), rectangleWidth, rectangleHeight);
+            exitButton = new Rectangle((int)(1862 * verhoudingW), (int)(1022 * verhoudingH), (int)(42 * verhoudingW), (int)(42 * verhoudingH));
+
+            //debug
+            PictureBox a = new PictureBox();
+            a.BackColor = Color.Red;
+            a.Size = onlineButton.Size;
+            a.Location = onlineButton.Location;
+            Controls.Add(a);
+
 
             this.MouseMove += this.hover;
             this.MouseClick += this.klik;
