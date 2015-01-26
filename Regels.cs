@@ -147,5 +147,6 @@ namespace CyberPesten
             pakAantal = 0;
             spelers[spelend].doeZet();
         }
+
     }
 }

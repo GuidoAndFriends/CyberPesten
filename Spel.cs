@@ -52,6 +52,13 @@ namespace CyberPesten
             sound.Play();
         }
 
+        private void klikSound()
+        {
+            Stream s = CyberPesten.Properties.Resources.button;
+            SoundPlayer sound = new SoundPlayer(s);
+            sound.Play();
+        }
+
         private void errorSound()
         {
             Stream s = CyberPesten.Properties.Resources.fout;
@@ -88,7 +95,6 @@ namespace CyberPesten
                         if (spelers[spelend].gemeld)
                         {
                             //laatste kaart en gemeld
-                            winSound();
                             speelKaartNu(hand, index, stapel);
                             eindeSpel();
                             return true;
@@ -99,14 +105,13 @@ namespace CyberPesten
                             speelKaartNu(hand, index, stapel);
                             if (instellingen.regelset == 0)
                             {
-                                pakKaart(5);
                                 pechSound();
-
+                                pakKaart(5);
                             }
                             else if (instellingen.regelset == 1)
                             {
-                                pakKaart(10);
                                 pechSound();
+                                pakKaart(10);
                             }
                             else
                             {
@@ -379,6 +384,8 @@ namespace CyberPesten
         public void pakKaart()
         //geeft de bovenste kaart van de pot aan degene die aan de beurt is.
         {
+
+
             if (speciaal == 4)
             {
                 regelPakkenNu();
@@ -387,11 +394,13 @@ namespace CyberPesten
             {
                 if (magZet)
                 {
+                    klikSound();
                     magZet = false;
                     volgende();
                 }
                 else
                 {
+                    kaartSound();
                     magZet = true;
                     pakKaartNu();
                     spelers[spelend].doeZet();
@@ -477,6 +486,7 @@ namespace CyberPesten
         {
             for (int a = 0; a < aantal; a++)
             {
+                kaartSound();
                 pakKaartNu();
             }
             magZet = true;
@@ -584,11 +594,13 @@ namespace CyberPesten
             string tekst;
             if (spelend == 0)
             {
+                winSound();
                 tekst = "Gefeliciteerd, je hebt gewonnen!";
             }
             else
             {
                 tekst = "Helaas, " + spelers[spelend].naam + " heeft gewonnen.";
+                pechSound();
             }
             MessageBox.Show(tekst);
             //Terugkeren naar het menu?

@@ -317,6 +317,13 @@ namespace CyberPesten
             sound.Play();
         }
 
+        private void laatsteKaartSound()
+        {
+            Stream s = CyberPesten.Properties.Resources.laatstekaart;
+            SoundPlayer sound = new SoundPlayer(s);
+            sound.Play();
+        }
+
         protected void muisKlik(object sender, MouseEventArgs mea)
         {
             if (helpRect.Contains(mea.Location))
@@ -343,6 +350,7 @@ namespace CyberPesten
             {
                 if (mea.Button == MouseButtons.Left)
                 {
+                    buttonSound();
                     form.Show();
                     this.Close();
                 }
@@ -353,6 +361,7 @@ namespace CyberPesten
             }
             else if (laatsteKaartRect.Contains(mea.Location))
             {
+                laatsteKaartSound();
                 spel.chat.nieuw("Je hebt aangegeven dat je nog maar één kaart hebt");
                 spel.laatsteKaart(true);
                 Invalidate();
@@ -364,6 +373,7 @@ namespace CyberPesten
                 {
                     spel.pakKaart();
                 }
+                    
             }
             else if (spel.spelend == 0)
             {
