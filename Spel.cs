@@ -160,7 +160,15 @@ namespace CyberPesten
             else
             {
                 int breedte = (spelers.Count - 1) * 350;
-                int tussenruimte = (speelveld.Width - breedte - 20) / (spelers.Count - 2);
+                int tussenruimte;
+                if (spelers.Count > 2)
+                {
+                    tussenruimte = (speelveld.Width - breedte - 20) / (spelers.Count - 2);
+                }
+                else
+                {
+                    tussenruimte = 0;
+                }
                 int kaartafstand = 110 + 10;
                 if (spelers[spelend].hand.Count < 4)
                 {
@@ -245,7 +253,15 @@ namespace CyberPesten
             else
             {
                 int breedte = (spelers.Count - 1) * 350;
-                int tussenruimte = (speelveld.Width - breedte - 20) / (spelers.Count - 2);
+                int tussenruimte;
+                if (spelers.Count > 2)
+                {
+                    tussenruimte = (speelveld.Width - breedte - 20) / (spelers.Count - 2);
+                }
+                else
+                {
+                    tussenruimte = 0;
+                }
                 p2 = new Point(10 + (350 + tussenruimte) * (spelend - 1) + 120, 10);
             }
 
@@ -426,7 +442,15 @@ namespace CyberPesten
             else
             {
                 int breedte = (spelers.Count - 1) * 350;
-                int tussenruimte = (speelveld.Width - breedte - 20) / (spelers.Count - 2);
+                int tussenruimte;
+                if (spelers.Count > 2)
+                {
+                    tussenruimte = (speelveld.Width - breedte - 20) / (spelers.Count - 2);
+                }
+                else
+                {
+                    tussenruimte = 0;
+                }
                 p2 = new Point(10 + (350 + tussenruimte) * (spelend - 1) + 120, 10);
             }
             speelveld.verplaatsendeKaart = pot[0];
