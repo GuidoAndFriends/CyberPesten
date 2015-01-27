@@ -196,9 +196,9 @@ namespace CyberPesten
         {
             try
             {
-                for (int a = actieCount; a < actieregels.Count; a++)
+                for (; actieCount < actieregels.Count; actieCount++)
                 {
-                    string[] splits = actieregels[a].Split(':');
+                    string[] splits = actieregels[actieCount].Split(':');
                     Speler s = onlineSpelers[int.Parse(splits[0])];
                     switch (splits[1])
                     {
