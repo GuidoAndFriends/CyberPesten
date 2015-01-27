@@ -263,7 +263,7 @@ namespace CyberPesten
         {
             OnlineSpel os = (OnlineSpel)spel;
             os.actieCount++;
-            string raw = Online.PHPrequest("http://harbingerofme.info/GnF/new_action.php", new string[] { "name", "token", "gameid","actie"}, new string[] { Online.username, Online.token, Online.game.ToString(), actie});
+            string raw = Online.PHPrequest("http://harbingerofme.info/GnF/new_action.php", new string[] { "name", "token", "gameid","laatsteactie"}, new string[] { Online.username, Online.token, Online.game.ToString(), actie});
             return raw == "ja";
         }
     }

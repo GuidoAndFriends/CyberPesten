@@ -178,7 +178,7 @@ namespace CyberPesten
                 }
 
                 raw = Online.PHPrequest("http://harbingerofme.info/GnF/read_action.php", new string[] { "name", "token", "gameid" }, new string[] { Online.username, Online.token, Online.game.ToString() });
-                if (raw != "geen actie" && !raw.StartsWith("Error:"))
+                if (raw != "geen actie" && !raw.StartsWith("Error:") && raw != "")
                 {
                     raw = raw.Substring(1);//het start met een "|"
                     actieregels = raw.Split('|').ToList();
@@ -197,9 +197,9 @@ namespace CyberPesten
         {
             try
             {
-                for (int a = actieCount; a < actieregels.Count; a++)
+                for (; actieCount < actieregels.Count; actieCount++)
                 {
-                    string[] splits = actieregels[a].Split(':');
+                    string[] splits = actieregels[actieCount].Split(':');
                     Speler s = onlineSpelers[int.Parse(splits[0])];
                     switch (splits[1])
                     {
