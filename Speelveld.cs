@@ -51,8 +51,6 @@ namespace CyberPesten
         public Speelveld() { }
 
         //chat
-        public Chat chat;
-        public Button vouwen, send;
         public TextBox textbox;
 
         public Speelveld(Form form)
