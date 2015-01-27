@@ -33,7 +33,6 @@ namespace CyberPesten
         
         public void verplaatsKaart(List<Kaart> van, int index, List<Kaart> naar)
         {
-            checkNullKaart();
             if (van.Count > 0)
             {
                 naar.Add(van[index]);
@@ -49,6 +48,13 @@ namespace CyberPesten
         private void kaartSound()
         {
             Stream s = CyberPesten.Properties.Resources.playcard;
+            SoundPlayer sound = new SoundPlayer(s);
+            sound.Play();
+        }
+
+        private void klikSound()
+        {
+            Stream s = CyberPesten.Properties.Resources.button;
             SoundPlayer sound = new SoundPlayer(s);
             sound.Play();
         }
@@ -89,7 +95,6 @@ namespace CyberPesten
                         if (spelers[spelend].gemeld)
                         {
                             //laatste kaart en gemeld
-                            winSound();
                             speelKaartNu(hand, index, stapel);
                             eindeSpel();
                             return true;
@@ -100,14 +105,13 @@ namespace CyberPesten
                             speelKaartNu(hand, index, stapel);
                             if (instellingen.regelset == 0)
                             {
-                                pakKaart(5);
                                 pechSound();
-
+                                pakKaart(5);
                             }
                             else if (instellingen.regelset == 1)
                             {
-                                pakKaart(10);
                                 pechSound();
+                                pakKaart(10);
                             }
                             else
                             {
@@ -148,8 +152,6 @@ namespace CyberPesten
 
         public void speelKaartNu(List<Kaart> van, int index, List<Kaart> naar)
         {
-            checkNullKaart();
-
             magZet = false;
             Kaart kaart = van[index];
             Point p1;
@@ -195,14 +197,10 @@ namespace CyberPesten
                 chat.nieuw(spelers[spelend].naam + " speelde " + kaart.tekst);
             }
             spelers[spelend].updateBlok();
-
-            checkNullKaart();
         }
 
         public void pakKaartAI(int welke)
         {
-            checkNullKaart();
-
             if (speciaal == 4)
             {
                 regelPakkenNu();
@@ -365,9 +363,6 @@ namespace CyberPesten
             speelveld.verplaatsen(speelveld.potPlek, p2, false);
             spelers[spelend].hand.Add(speelveld.verplaatsendeKaart);
             speelveld.verplaatsendeKaart = null;
-            checkNullKaart();
-
-
 
             if (spelend == 0)
             {
@@ -389,7 +384,7 @@ namespace CyberPesten
         public void pakKaart()
         //geeft de bovenste kaart van de pot aan degene die aan de beurt is.
         {
-            checkNullKaart();
+
 
             if (speciaal == 4)
             {
@@ -399,11 +394,13 @@ namespace CyberPesten
             {
                 if (magZet)
                 {
+                    klikSound();
                     magZet = false;
                     volgende();
                 }
                 else
                 {
+                    kaartSound();
                     magZet = true;
                     pakKaartNu();
                     spelers[spelend].doeZet();
@@ -437,7 +434,15 @@ namespace CyberPesten
             Point p2;
             if (spelend == 0)
             {
-                p2 = new Point(spelers[0].hand[spelers[0].hand.Count - 1].X + 10 + 110, spelers[0].hand[0].Y);
+                if (spelers[0].hand.Count > 0)
+                {
+                    p2 = new Point(spelers[0].hand[spelers[0].hand.Count - 1].X + 10 + 110, spelers[0].hand[0].Y);
+                }
+                else
+                {
+                    p2 = new Point(speelveld.Width - 55, spelers[0].hand[0].Y);
+                }
+                
             }
             else
             {
@@ -458,7 +463,6 @@ namespace CyberPesten
             speelveld.verplaatsen(speelveld.potPlek, p2, false);
             spelers[spelend].hand.Add(speelveld.verplaatsendeKaart);
             speelveld.verplaatsendeKaart = null;
-            checkNullKaart();
             //verplaatsKaart(pot, 0, spelers[spelend].hand);
 
             if (spelend == 0)
@@ -482,6 +486,7 @@ namespace CyberPesten
         {
             for (int a = 0; a < aantal; a++)
             {
+                kaartSound();
                 pakKaartNu();
             }
             magZet = true;
@@ -589,11 +594,13 @@ namespace CyberPesten
             string tekst;
             if (spelend == 0)
             {
+                winSound();
                 tekst = "Gefeliciteerd, je hebt gewonnen!";
             }
             else
             {
                 tekst = "Helaas, " + spelers[spelend].naam + " heeft gewonnen.";
+                pechSound();
             }
             MessageBox.Show(tekst);
             //Terugkeren naar het menu?
@@ -623,25 +630,25 @@ namespace CyberPesten
             switch (nummer)
             {
                 case 0:
-                    gekozen = new AI0Random(this, "0 " + naam);
+                    gekozen = new AI0Random(this, naam);
                     break;
                 case 1:
-                    gekozen = new AI1NietGek(this, "1 " + naam);
+                    gekozen = new AI1NietGek(this, naam);
                     break;
                 case 2:
-                    gekozen = new AI2Pester(this, "2 " + naam);
+                    gekozen = new AI2Pester(this, naam);
                     break;
                 case 3:
-                    gekozen = new AI3Oke(this, "3 " + naam);
+                    gekozen = new AI3Oke(this, naam);
                     break;
                 case 4:
-                    gekozen = new AI4Cheat(this, "4 " + naam);
+                    gekozen = new AI4Cheat(this, naam);
                     break;
                 case 5:
-                    gekozen = new AI5Cheat(this, "5 " + naam);
+                    gekozen = new AI5Cheat(this, naam);
                     break;
                 case 6:
-                    gekozen = new AI6Cheat(this, "6 " + naam);
+                    gekozen = new AI6Cheat(this, naam);
                     break;
                 default:
                     MessageBox.Show("Er is iets mis in de functie willekeurigeAI");
@@ -662,39 +669,6 @@ namespace CyberPesten
                 }
             }
             lijst.Add(new Kaart());
-        }
-
-        public void checkNullKaart()
-        {
-            int aantal = 0;
-            foreach (Speler speler in spelers)
-            {
-                foreach (Kaart kaart in speler.hand)
-                {
-                    aantal++;
-                    if (kaart == null)
-                    {
-                        MessageBox.Show("null kaart gevonden in hand van speler " + speler.naam);
-                    }
-                }
-            }
-            foreach (Kaart kaart in stapel)
-            {
-                aantal++;
-                if (kaart == null)
-                {
-                    MessageBox.Show("null kaart gevonden in stapel");
-                }
-            }
-            foreach (Kaart kaart in pot)
-            {
-                aantal++;
-                if (kaart == null)
-                {
-                    MessageBox.Show("null kaart gevonden in pot");
-                }
-            }
-            aantalKaarten = aantal.ToString();
         }
     }
 }
