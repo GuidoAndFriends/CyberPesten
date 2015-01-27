@@ -95,7 +95,6 @@ namespace CyberPesten
                 timerAI.Interval = 1000;
                 timerAI.Start();
             }
-            checkNullKaart();
         }
     }
 }

@@ -44,7 +44,10 @@ namespace CyberPesten
                         break;
                     }
                     else
+                    {
                         spel.pakKaartAI(99);
+                        break;
+                    }
                 }
         }
 

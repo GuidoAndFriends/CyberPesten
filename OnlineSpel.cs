@@ -115,7 +115,6 @@ namespace CyberPesten
                 speciaal = 5;
             }
             s.Invalidate();
-            checkNullKaart();
 
             data_thread.IsBackground = true;
             data_thread.Name = "Data";
