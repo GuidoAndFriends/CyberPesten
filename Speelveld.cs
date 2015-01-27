@@ -51,8 +51,6 @@ namespace CyberPesten
         public Speelveld() { }
 
         //chat
-        public Chat chat;
-        public Button vouwen, send;
         public TextBox textbox;
 
         public Speelveld(Form form)
@@ -627,7 +625,7 @@ namespace CyberPesten
         {
             kaartSound();
             spel.speciaal = 3;
-            spel.chat.nieuw(" en koos voor schoppen");
+            spel.chat.nieuw("Je koos voor schoppen");
             spel.volgende();
             verbergKleurknoppen();
         }
@@ -636,7 +634,7 @@ namespace CyberPesten
         {
             kaartSound();
             spel.speciaal = 2;
-            spel.chat.nieuw(" en koos voor ruiten");
+            spel.chat.nieuw("Je koos voor ruiten");
             spel.volgende();
             verbergKleurknoppen();
         }
@@ -645,7 +643,7 @@ namespace CyberPesten
         {
             kaartSound();
             spel.speciaal = 0;
-            spel.chat.nieuw(" en koos voor harten");
+            spel.chat.nieuw("Je koos voor harten");
             spel.volgende();
             verbergKleurknoppen();
         }
@@ -654,7 +652,7 @@ namespace CyberPesten
         {
             kaartSound();
             spel.speciaal = 1;
-            spel.chat.nieuw(" en koos voor klaver");
+            spel.chat.nieuw("Je koos voor klaver");
             spel.volgende();
             verbergKleurknoppen();
         }

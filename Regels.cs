@@ -115,14 +115,14 @@ namespace CyberPesten
                 }
                 else
                 {
-                    spelers[1].hand = tijdelijk;
+                    spelers[aantalSpelers - 1].hand = tijdelijk;
                 }
             }
             else
             {
                 //spelen tegen klok in, draaien met klok mee
                 List<Kaart> tijdelijk = spelers[aantalSpelers - 1].hand;
-                for (int i = aantalSpelers - 1; i > 0; i--)
+                for (int i = aantalSpelers - 1; i > 1; i--)
                 {
                     spelers[i].hand = spelers[i - 1].hand;
                 }

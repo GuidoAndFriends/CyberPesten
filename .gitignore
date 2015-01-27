@@ -25,3 +25,5 @@ obj/Debug/CyberPesten.Properties.Resources.resources
 obj/Debug/TempPE/Properties.Resources.Designer.cs.dll
 CyberPesten.v12.suo
 Resources/Niet toegevoegd/Thumbs.db
+*.nlp
+*.dll
