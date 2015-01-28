@@ -20,6 +20,8 @@ namespace CyberPesten
             afstand = 10;
             maat = System.Windows.Forms.Screen.PrimaryScreen.Bounds;
 
+            int speelIndex;
+
             muisLaag = false;
 
             Size = form.Size;
@@ -247,40 +249,17 @@ namespace CyberPesten
             }
         }
 
-        new void muisOmlaag(object sender, MouseEventArgs mea)
-        {
-            int index = 0;
-            foreach (Kaart kaart in spel.spelers[0].hand)
-            {
-                if (kaart != null)
-                {
-                    //kijkt of er op een kaart is geklikt
-                    int deltaX = mea.X - kaart.X;
-                    int deltaY = mea.Y - kaart.Y;
-                    if (deltaX >= 0 && deltaX <= kaartBreedte && deltaY >= 0 && deltaY <= kaartHoogte)
-                    {
-                        //stuurActie("bK:" + index);
-                        return;
-                    }
-                    index++;
-                }
-            }
-            base.muisOmlaag(sender, mea);
-        }
-
-
         new void muisOmHoog(object sender, MouseEventArgs mea)
         {
             muisLaag = false;
             if (bewegendeKaart != null)
             {
                 spel.spelers[0].hand.Add(bewegendeKaart);
-
+                
                 if (spel.spelend == 0 && spel.speelbaar(bewegendeKaart))
                 {
-                    int i = spel.spelers[0].hand.Count - 1;
-                    spel.speelKaart(i);
-                    stuurActie("sK:" + i);
+                    spel.speelKaart(spel.spelers[0].hand.Count - 1);
+                    stuurActie("sK:" + laagIndex);
                 }
 
                 bewegendeKaart = null;

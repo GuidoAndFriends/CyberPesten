@@ -15,7 +15,7 @@ namespace CyberPesten
     {
         public Form form;
         public Spel spel;
-        public int kaartBreedte, kaartHoogte, afstand;
+        public int kaartBreedte, kaartHoogte, afstand, laagIndex;
         public Point stapelPlek, potPlek;
         protected Rectangle maat, helpRect, settingsRect, homeRect, laatsteKaartRect, eindeBeurtRect;
         protected bool helpBool, settingsBool, homeBool, laatsteKaartBool, eindeBeurtBool;
@@ -484,7 +484,7 @@ namespace CyberPesten
                         muisLaag = true;
                         bewegendeKaart = spel.spelers[0].hand[index];
                         spel.spelers[0].hand.RemoveAt(index);
-                        //laagIndex = index;
+                        laagIndex = index;
                         laagX = deltaX;
                         laagY = deltaY;
                         zichtbaar = true;
