@@ -11,7 +11,6 @@ namespace CyberPesten
 {
     class OnlineSpeelveld : Speelveld
     {
-        public int kaart_index;public Kaart ka;
         public OnlineSpeelveld(Form form)
         {
             Instellingen instellingen = new Instellingen();
@@ -128,6 +127,7 @@ namespace CyberPesten
 
         new void muisKlik(object sender, MouseEventArgs mea)
         {
+            bool actie = false;
             if (laatsteKaartRect.Contains(mea.Location))
             {
                 stuurActie("lK");
@@ -139,6 +139,7 @@ namespace CyberPesten
                 {
                     stuurActie("eV");
                 }
+                bool success = false;
                 if (mea.X >= potPlek.X && mea.X <= potPlek.X + kaartBreedte && mea.Y >= potPlek.Y && mea.Y <= potPlek.Y + kaartHoogte)
                 //pot
                 {
@@ -151,10 +152,28 @@ namespace CyberPesten
                         stuurActie("pK");
                         
                     }
+                    success = true;
+                }
+                if (!success)
+                {
+                    foreach (Kaart kaart in spel.spelers[0].hand)
+                    {
+                        if (mea.X >= kaart.X && mea.X <= kaart.X + kaartBreedte && mea.Y >= kaart.Y && mea.Y <= kaart.Y + kaartHoogte)
+                        {
+                            //kaart in hand van speler
+                            actie = true;
+                            base.muisKlik(sender, mea);
+                            if (kaart == spel.stapel[spel.stapel.Count - 1])
+                            {
+                                stuurActie("sK:" + spel.spelers[0].hand.IndexOf(kaart));
+                                return;
+                            }
+                        }
+                    }
                 }
             }
 
-            base.muisKlik(sender, mea);
+            if (!actie) { base.muisKlik(sender, mea); }
 
             
         }
@@ -195,8 +214,7 @@ namespace CyberPesten
                     int deltaY = mea.Y - kaart.Y;
                     if (deltaX >= 0 && deltaX <= kaartBreedte && deltaY >= 0 && deltaY <= kaartHoogte)
                     {
-                        kaart_index = index;
-                        ka = kaart;
+                        //stuurActie("bK:" + index);
                         return;
                     }
                     index++;
@@ -208,10 +226,24 @@ namespace CyberPesten
 
         new void muisOmHoog(object sender, MouseEventArgs mea)
         {
-            base.muisOmhoog(sender, mea);
-            if (spel.stapel[spel.stapel.Count - 1] == ka)
+            muisLaag = false;
+            if (bewegendeKaart != null)
             {
-                stuurActie("sk:" + kaart_index);
+                spel.spelers[0].hand.Add(bewegendeKaart);
+
+                if (spel.spelend == 0 && spel.speelbaar(bewegendeKaart))
+                {
+                    int i = spel.spelers[0].hand.Count - 1;
+                    spel.speelKaart(i);
+                    stuurActie("sK:" + i);
+                }
+
+                bewegendeKaart = null;
+                if (this.IsHandleCreated)
+                {
+                    Invoke(new Action(() => Invalidate()));
+                    Invoke(new Action(() => Update()));
+                }
             }
         }
 
