@@ -231,74 +231,91 @@ namespace CyberPesten
             //Switches
             if (aasDraai.Contains(mea.Location))
             {
+                buttonSound();
                 regelSchakel(0);
             }
             if (tweePakken.Contains(mea.Location))
             {
+                buttonSound();
                 regelSchakel(1);
             }
             if (zevenKleven.Contains(mea.Location))
             {
+                buttonSound();
                 regelSchakel(2);
             }
             if (achtWacht.Contains(mea.Location))
             {
+                buttonSound();
                 regelSchakel(3);
             }
             if (tienWasmachine.Contains(mea.Location))
             {
+                buttonSound();
                 regelSchakel(7);
             }
             if (boerSwitch.Contains(mea.Location))
             {
+                buttonSound();
                 regelSchakel(4);
             }
             if (heerNogEenKeer.Contains(mea.Location))
             {
+                buttonSound();
                 regelSchakel(6);
             }
             if (jokerSwitch.Contains(mea.Location))
             {
+                buttonSound();
                 regelSchakel(5);
             }
 
             if (willekeurigSwitch.Contains(mea.Location))
             {
+                buttonSound();
                 AIschakel(0);
-            } 
+            }
             if (slimSwitch.Contains(mea.Location))
             {
+                buttonSound();
                 AIschakel(1);
             }
             if (slimmerSwitch.Contains(mea.Location))
             {
+                buttonSound();
                 AIschakel(2);
             }
             if (cheaterSwitch.Contains(mea.Location))
             {
+                buttonSound();
                 AIschakel(3);
             }
 
             if (aiModus.Contains(mea.Location))
             {
+                buttonSound();
                 instellingen.mensSpelend = !instellingen.mensSpelend;
             }
             if (geluidSwitch.Contains(mea.Location))
             {
+                buttonSound();
                 instellingen.geluid = !instellingen.geluid;
             }
 
             //Kaart achterkant kleur
             if (rood.Contains(mea.Location))
             {
+                buttonSound();
                 instellingen.achterkant = 0;
             }
             if (blauw.Contains(mea.Location))
             {
+                buttonSound();
                 instellingen.achterkant = 1;
             }
             if (regenboog.Contains(mea.Location))
             {
+                buttonSound();
                 instellingen.achterkant = 2;
             }
         }
@@ -319,10 +336,12 @@ namespace CyberPesten
         {
             if (instellingen.AIIngeschakeld.Contains(index))
             {
+                buttonSound();
                 instellingen.AIIngeschakeld.Remove(index);
             }
             else
             {
+                buttonSound();
                 instellingen.AIIngeschakeld.Add(index);
             }
         }
