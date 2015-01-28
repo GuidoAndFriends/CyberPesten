@@ -21,7 +21,7 @@ namespace CyberPesten
         protected bool helpBool, settingsBool, homeBool, laatsteKaartBool, eindeBeurtBool;
         protected double verhoudingW, verhoudingH;
         protected GraphicsUnit units = GraphicsUnit.Pixel;
-        int chatHoogte;
+        public int chatHoogte;
 
 
         public Bitmap achterkant;

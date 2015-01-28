@@ -72,6 +72,9 @@ namespace CyberPesten
             laatsteKaartRect = new Rectangle((int)(verhoudingW * 1309), (int)(verhoudingH * 498), bigButtonWidth, bigButtonWidth);
             eindeBeurtRect = new Rectangle((int)(verhoudingW * 1187), (int)(verhoudingH * 498), bigButtonWidth, bigButtonWidth);
 
+
+
+
             klaver = new Button();
             klaver.Click += klaver_Click;
             klaver.Location = new Point(50, 250);
@@ -103,8 +106,50 @@ namespace CyberPesten
             verbergKleurknoppen();
             
             //HIER CHAT
+            chatHoogte = Height / 2;
+            textbox = new TextBox();
+            textbox.Size = new Size(300, 50);
+            textbox.Location = new Point(40, chatHoogte - FontHeight / 2 + 75);
+            textbox.Click += vouwen_Click;
+            textbox.KeyPress += (invoer_KeyPress);
+            Controls.Add(textbox);
 
             this.Show();
+        }
+
+        void invoer_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            TextBox a = (TextBox)sender;
+            if (e.KeyChar == (char)Keys.Return)
+            {
+                stuur_chat(a.Text);
+                a.Text = "";
+            }
+        }
+
+        void vouwen_Click(object sender, EventArgs e)
+        {
+            Rectangle r = new Rectangle(textbox.Location, textbox.Size);
+
+            if (spel.groot)
+            {
+                chatHoogte = Height / 2 + 5;
+                spel.groot = false;
+                textbox.Location = new Point(40, chatHoogte - FontHeight / 2 + 75);
+            }
+            else
+            {
+                chatHoogte = Height / 4;
+                spel.groot = true;
+                textbox.Location = new Point(40, Height - 250);
+            }
+            Invalidate();
+        }
+
+        public bool stuur_chat(string bericht)
+        {
+            string raw = Online.PHPrequest("http://harbingerofme.info/GnF/add_message.php", new string[] { "name", "token", "gameid", "message" }, new string[] { Online.username, Online.token, Online.game.ToString(), bericht });
+            return raw == "ja";
         }
 
         public override void startSpel(Instellingen instellingen)
