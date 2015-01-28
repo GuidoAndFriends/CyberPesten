@@ -739,6 +739,17 @@ class openSpellenScherm : Form
             
         }
 
+        public void laatZien()
+        {
+            if (InvokeRequired)
+            {
+                Invoke(new MethodInvoker(laatZien));
+            }
+            else{
+                this.Show();
+            }
+        }
+
         public void join_Click(object sender, EventArgs e)
         {
             PictureBox but = (PictureBox)sender;

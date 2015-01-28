@@ -33,9 +33,6 @@ namespace CyberPesten
 
         public override void doeZet()
         {
-            bezig = true;
-            System.Windows.Forms.MessageBox.Show("doeZet in OnlineSpeler.cs is nog leeg!");//tja het probleem is dat dit asynchroon gaat.
-            //ik heb wel een idee.
 
         }
     }

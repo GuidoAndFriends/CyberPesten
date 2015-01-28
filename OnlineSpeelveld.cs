@@ -56,7 +56,7 @@ namespace CyberPesten
             MouseMove += hover;
 
             startSpel(instellingen);
-;
+
             buttonsBitmap = ((Bitmap)CyberPesten.Properties.Resources.ResourceManager.GetObject("Speelveld_buttons"));
             verhoudingW = (double)System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width / (double)1920;
             verhoudingH = (double)System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height / (double)1080;
@@ -121,7 +121,8 @@ namespace CyberPesten
             }
             else
             {
-                form.Show();
+                openSpellenScherm a = (openSpellenScherm)form;
+                a.laatZien();
                 this.Close();
             }
         }
@@ -215,7 +216,7 @@ namespace CyberPesten
                     int deltaY = mea.Y - kaart.Y;
                     if (deltaX >= 0 && deltaX <= kaartBreedte && deltaY >= 0 && deltaY <= kaartHoogte)
                     {
-                        stuurActie("bK:" + index);
+                        //stuurActie("bK:" + index);
                         return;
                     }
                     index++;
