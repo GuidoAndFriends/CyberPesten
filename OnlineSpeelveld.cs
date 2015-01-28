@@ -209,7 +209,7 @@ namespace CyberPesten
         new void muisOmHoog(object sender, MouseEventArgs mea)
         {
             base.muisOmhoog(sender, mea);
-            if (spel.stapel.Contains( ka))
+            if (spel.stapel[spel.stapel.Count - 1] == ka)
             {
                 stuurActie("sk:" + kaart_index);
             }
