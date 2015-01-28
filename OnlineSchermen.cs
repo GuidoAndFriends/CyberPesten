@@ -430,7 +430,7 @@ class lobbyScherm : Form
             leave_spel();
             begonnen = false;
             Online.game = -1;
-
+            this.Close();
         }
 
 
