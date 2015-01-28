@@ -132,13 +132,13 @@ namespace CyberPesten
             {
                 stuurActie("lK");
             }
-            else if (eindeBeurtRect.Contains(mea.Location))
-            {
-                stuurActie("eV");
-            }
 
             else if (spel.spelend == 0)
             {
+                if (eindeBeurtRect.Contains(mea.Location))
+                {
+                    stuurActie("eV");
+                }
                 bool success = false;
                 if (mea.X >= potPlek.X && mea.X <= potPlek.X + kaartBreedte && mea.Y >= potPlek.Y && mea.Y <= potPlek.Y + kaartHoogte)
                 //pot
@@ -226,11 +226,24 @@ namespace CyberPesten
 
         new void muisOmHoog(object sender, MouseEventArgs mea)
         {
-            Kaart k = spel.stapel[spel.stapel.Count - 1];
-            base.muisOmhoog(sender, mea);
-            if (k != spel.stapel[spel.stapel.Count - 1])
+            muisLaag = false;
+            if (bewegendeKaart != null)
             {
-                stuurActie("sK:"+spel.spelers[0].hand.Count);//omdat de hand 1 kleiner is geworden, en de kaart van count -1 kwam, klopt dit.
+                spel.spelers[0].hand.Add(bewegendeKaart);
+
+                if (spel.spelend == 0 && spel.speelbaar(bewegendeKaart))
+                {
+                    int i = spel.spelers[0].hand.Count - 1;
+                    spel.speelKaart(i);
+                    stuurActie("sK:" + i);
+                }
+
+                bewegendeKaart = null;
+                if (this.IsHandleCreated)
+                {
+                    Invoke(new Action(() => Invalidate()));
+                    Invoke(new Action(() => Update()));
+                }
             }
         }
 
