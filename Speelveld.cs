@@ -317,9 +317,9 @@ namespace CyberPesten
 
         private void laatsteKaartSound()
         {
-            //Stream s = CyberPesten.Properties.Resources.laatstekaart;
-            //SoundPlayer sound = new SoundPlayer(s);
-            //sound.Play();
+            Stream s = CyberPesten.Properties.Resources.laatstekaart;
+            SoundPlayer sound = new SoundPlayer(s);
+            sound.Play();
         }
 
         protected void muisKlik(object sender, MouseEventArgs mea)

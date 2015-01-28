@@ -11,7 +11,7 @@ using System.Net;
 using System.IO;
 using System.Security.Cryptography;
 using System.Text.RegularExpressions;
-//using System.Windows.m
+using System.Media;
 
 namespace CyberPesten
 {
@@ -116,6 +116,13 @@ class inlogScherm :  Form
 
         }
 
+        private void buttonSound()
+        {
+            Stream s = CyberPesten.Properties.Resources.button;
+            SoundPlayer sound = new SoundPlayer(s);
+            sound.Play();
+        }
+
         private void buildMenu(object sender, PaintEventArgs pea)
         {
             pea.Graphics.DrawImage(maakAccountMenu, 0, 0, (float)(maakAccountMenu.Width * verhoudingW), (float)(maakAccountMenu.Height * verhoudingH));
@@ -157,10 +164,12 @@ class inlogScherm :  Form
         {
             if (maakAccountHover)
             {
+                buttonSound();
                 maakAccountKnop_Click();
             }
             else if (terugHover)
             {
+                buttonSound();
                 menuBack.Show();
                 this.Close();
             }
@@ -444,10 +453,18 @@ class lobbyScherm : Form
             Invalidate();
         }
 
+        private void buttonSound()
+        {
+            Stream s = CyberPesten.Properties.Resources.button;
+            SoundPlayer sound = new SoundPlayer(s);
+            sound.Play();
+        }
+
         public void klik(object o, EventArgs e)
         {
             if ((delHover || leaveHover) && Online.is_host)
             {
+                buttonSound();
                 delete_spel();
                 menuBack.Show();
                 Close();
@@ -455,12 +472,14 @@ class lobbyScherm : Form
             }
             if (leaveHover && !Online.is_host)
             {
+                buttonSound();
                 leave_spel();
                 menuBack.Show();
                 Close();
             }
             if (startHover && Online.is_host && deelnemers.Count() > 1)
             {
+                buttonSound();
                 start_spel();
             }
         }
@@ -768,12 +787,20 @@ class openSpellenScherm : Form
             Invalidate();
         }
 
+        private void buttonSound()
+        {
+            Stream s = CyberPesten.Properties.Resources.button;
+            SoundPlayer sound = new SoundPlayer(s);
+            sound.Play();
+        }
+
         public void klik(object o, MouseEventArgs e)
         {
             if (hostHover)
             {
                 if (!hostOpen)
                 {
+                    buttonSound();
                     hostOpen = true;
                     v = new hostGameOpties(this);
                     v.FormClosed += hostClosed;
@@ -990,10 +1017,18 @@ public class hostGameOpties : Form
             }
         }
 
+        private void buttonSound()
+        {
+            Stream s = CyberPesten.Properties.Resources.button;
+            SoundPlayer sound = new SoundPlayer(s);
+            sound.Play();
+        }
+
         public void klik(object sender, MouseEventArgs mea)
         {
             if (startBool)
             {
+                buttonSound();
                 start(this, mea);
             }
         }
