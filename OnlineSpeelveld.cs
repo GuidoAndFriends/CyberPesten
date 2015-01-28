@@ -121,8 +121,6 @@ namespace CyberPesten
             }
             else
             {
-                openSpellenScherm a = (openSpellenScherm)form;
-                a.laatZien();
                 this.Close();
             }
         }
