@@ -20,8 +20,6 @@ namespace CyberPesten
             afstand = 10;
             maat = System.Windows.Forms.Screen.PrimaryScreen.Bounds;
 
-            int speelIndex;
-
             muisLaag = false;
 
             Size = form.Size;
