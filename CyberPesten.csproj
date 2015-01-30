@@ -68,6 +68,7 @@
     <Compile Include="AI\AI5CheatPlus.cs" />
     <Compile Include="AI\AI6CheatPlusPlus.cs" />
     <Compile Include="Chat.cs" />
+    <Compile Include="geluid.cs" />
     <Compile Include="Help.cs">
       <SubType>Form</SubType>
     </Compile>

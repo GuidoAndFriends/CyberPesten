@@ -144,9 +144,7 @@ namespace CyberPesten
 
         private void buttonSound()
         {
-            Stream s = CyberPesten.Properties.Resources.button;
-            SoundPlayer sound = new SoundPlayer(s);
-            sound.Play();
+geluid.klikSound()
         }
 
         private void klik(object sender, MouseEventArgs mea)

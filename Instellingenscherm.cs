@@ -160,7 +160,7 @@ namespace CyberPesten
                 pea.Graphics.DrawImage(switches, cheaterSwitch, cheaterSwitch, units);
             }
 
-            if (instellingen.mensSpelend == true)
+            if (instellingen.mensSpelend == false)
             {
                 pea.Graphics.DrawImage(switches, aiModus, aiModus, units);
             }
@@ -203,26 +203,21 @@ namespace CyberPesten
             Invalidate();
         }
 
-        private void buttonSound()
-        {
-            Stream s = CyberPesten.Properties.Resources.button;
-            SoundPlayer sound = new SoundPlayer(s);
-            sound.Play();
-        }
+
 
         private void klik(object sender, MouseEventArgs mea)
         {
             if (terugHover)
             {
                 instellingen.schrijven();
-                buttonSound();
+                geluid.klikSound();
                 menu.Show();
                 this.Close();
             }
 
             if (standSetHover)
             {
-                buttonSound();
+                geluid.klikSound();
                 instellingen.standaard();
                 update();
                 instellingen.schrijven();
@@ -231,91 +226,91 @@ namespace CyberPesten
             //Switches
             if (aasDraai.Contains(mea.Location))
             {
-                buttonSound();
+                geluid.klikSound();
                 regelSchakel(0);
             }
             if (tweePakken.Contains(mea.Location))
             {
-                buttonSound();
+                geluid.klikSound();
                 regelSchakel(1);
             }
             if (zevenKleven.Contains(mea.Location))
             {
-                buttonSound();
+                geluid.klikSound();
                 regelSchakel(2);
             }
             if (achtWacht.Contains(mea.Location))
             {
-                buttonSound();
+                geluid.klikSound();
                 regelSchakel(3);
             }
             if (tienWasmachine.Contains(mea.Location))
             {
-                buttonSound();
+                geluid.klikSound();
                 regelSchakel(7);
             }
             if (boerSwitch.Contains(mea.Location))
             {
-                buttonSound();
+                geluid.klikSound();
                 regelSchakel(4);
             }
             if (heerNogEenKeer.Contains(mea.Location))
             {
-                buttonSound();
+                geluid.klikSound();
                 regelSchakel(6);
             }
             if (jokerSwitch.Contains(mea.Location))
             {
-                buttonSound();
+                geluid.klikSound();
                 regelSchakel(5);
             }
 
             if (willekeurigSwitch.Contains(mea.Location))
             {
-                buttonSound();
+                geluid.klikSound();
                 AIschakel(0);
             }
             if (slimSwitch.Contains(mea.Location))
             {
-                buttonSound();
+                geluid.klikSound();
                 AIschakel(1);
             }
             if (slimmerSwitch.Contains(mea.Location))
             {
-                buttonSound();
+                geluid.klikSound();
                 AIschakel(2);
             }
             if (cheaterSwitch.Contains(mea.Location))
             {
-                buttonSound();
+                geluid.klikSound();
                 AIschakel(3);
             }
 
             if (aiModus.Contains(mea.Location))
             {
-                buttonSound();
+                geluid.klikSound();
                 instellingen.mensSpelend = !instellingen.mensSpelend;
             }
             if (geluidSwitch.Contains(mea.Location))
             {
-                buttonSound();
+                geluid.klikSound();
                 instellingen.geluid = !instellingen.geluid;
             }
 
             //Kaart achterkant kleur
             if (rood.Contains(mea.Location))
             {
-                buttonSound();
+                geluid.klikSound();
                 instellingen.achterkant = 0;
             }
             if (blauw.Contains(mea.Location))
             {
-                buttonSound();
+                geluid.klikSound();
                 instellingen.achterkant = 1;
             }
             if (regenboog.Contains(mea.Location))
             {
-                buttonSound();
+                geluid.klikSound();
                 instellingen.achterkant = 2;
             }
         }
@@ -336,12 +331,12 @@ namespace CyberPesten
         {
             if (instellingen.AIIngeschakeld.Contains(index))
             {
-                buttonSound();
+                geluid.klikSound();
                 instellingen.AIIngeschakeld.Remove(index);
             }
             else
             {
-                buttonSound();
+                geluid.klikSound();
                 instellingen.AIIngeschakeld.Add(index);
             }
         }

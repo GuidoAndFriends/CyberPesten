@@ -202,9 +202,7 @@ namespace CyberPesten
 
         private void buttonSound()
         {
-            Stream s = CyberPesten.Properties.Resources.button;
-            SoundPlayer sound = new SoundPlayer(s);
-            sound.Play();
+geluid.klikSound()
         }
 
         void mensSpelend(object sender, EventArgs ea)

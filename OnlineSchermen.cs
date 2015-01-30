@@ -116,12 +116,7 @@ class inlogScherm :  Form
 
         }
 
-        private void buttonSound()
-        {
-            Stream s = CyberPesten.Properties.Resources.button;
-            SoundPlayer sound = new SoundPlayer(s);
-            sound.Play();
-        }
+
 
         private void buildMenu(object sender, PaintEventArgs pea)
         {
@@ -164,12 +159,12 @@ class inlogScherm :  Form
         {
             if (maakAccountHover)
             {
-                buttonSound();
+                geluid.klikSound();
                 maakAccountKnop_Click();
             }
             else if (terugHover)
             {
-                buttonSound();
+                geluid.klikSound();
                 menuBack.Show();
                 this.Close();
             }
@@ -453,18 +448,13 @@ class lobbyScherm : Form
             Invalidate();
         }
 
-        private void buttonSound()
-        {
-            Stream s = CyberPesten.Properties.Resources.button;
-            SoundPlayer sound = new SoundPlayer(s);
-            sound.Play();
-        }
+
 
         public void klik(object o, EventArgs e)
         {
             if ((delHover || leaveHover) && Online.is_host)
             {
-                buttonSound();
+                geluid.klikSound();
                 delete_spel();
                 menuBack.Show();
                 Close();
@@ -472,14 +462,14 @@ class lobbyScherm : Form
             }
             if (leaveHover && !Online.is_host)
             {
-                buttonSound();
+                geluid.klikSound();
                 leave_spel();
                 menuBack.Show();
                 Close();
             }
             if (startHover && Online.is_host && deelnemers.Count() > 1)
             {
-                buttonSound();
+                geluid.klikSound();
                 start_spel();
             }
         }
@@ -787,12 +777,7 @@ class openSpellenScherm : Form
             Invalidate();
         }
 
-        private void buttonSound()
-        {
-            Stream s = CyberPesten.Properties.Resources.button;
-            SoundPlayer sound = new SoundPlayer(s);
-            sound.Play();
-        }
+
 
         public void klik(object o, MouseEventArgs e)
         {
@@ -800,7 +785,7 @@ class openSpellenScherm : Form
             {
                 if (!hostOpen)
                 {
-                    buttonSound();
+                    geluid.klikSound();
                     hostOpen = true;
                     v = new hostGameOpties(this);
                     v.FormClosed += hostClosed;
@@ -1017,18 +1002,13 @@ public class hostGameOpties : Form
             }
         }
 
-        private void buttonSound()
-        {
-            Stream s = CyberPesten.Properties.Resources.button;
-            SoundPlayer sound = new SoundPlayer(s);
-            sound.Play();
-        }
+
 
         public void klik(object sender, MouseEventArgs mea)
         {
             if (startBool)
             {
-                buttonSound();
+                geluid.klikSound();
                 start(this, mea);
             }
         }
@@ -1089,18 +1069,25 @@ class Online//bevat al onze hulp methoden
         //onderstaande methoden moeten waarschijnlijk naar een hoger niveua verplaatst worden
         public static string PHPrequest(string URL, string[] argument_names, string[] argument_values)
         {
-            if (argument_names.Count() != argument_values.Count()) { throw new ArgumentException(); }
-            WebClient wc = new WebClient();
-            NameValueCollection data = new NameValueCollection();
-            for (int a = 0; a < argument_values.Count(); a++)
+            try
             {
-                data[argument_names[a]] = argument_values[a];
+                if (argument_names.Count() != argument_values.Count()) { throw new ArgumentException(); }
+                WebClient wc = new WebClient();
+                NameValueCollection data = new NameValueCollection();
+                for (int a = 0; a < argument_values.Count(); a++)
+                {
+                    data[argument_names[a]] = argument_values[a];
+                }
+                byte[] responseBytes = wc.UploadValues(URL, "POST", data);
+                string responsefromserver = Encoding.UTF8.GetString(responseBytes);
+                System.Diagnostics.Debug.WriteLine("Request to \"" + URL + "\". Response was: \"" + responsefromserver + "\".");
+                wc.Dispose();
+                return responsefromserver;
             }
-            byte[] responseBytes = wc.UploadValues(URL, "POST", data);
-            string responsefromserver = Encoding.UTF8.GetString(responseBytes);
-            System.Diagnostics.Debug.WriteLine("Request to \"" + URL + "\". Response was: \"" + responsefromserver + "\".");
-            wc.Dispose();
-            return responsefromserver;
+            catch
+            {
+                return "Error: Couldn't reach server!";
+            }
         }
 
         public static string FileReadAll(string path)//stuurt het hele bestand terug als tekst, geeft een null terug als er een fout optreed (bestand bestaat niet, geen toegang, etc.) - uiteraard is het makkelijker om dit zelf aan te roepen, maar ja

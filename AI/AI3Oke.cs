@@ -112,9 +112,8 @@ namespace CyberPesten
 
             if (mogelijk.Count > 0)
             {
-                if (pester.Count > 0)
+                if (pester.Count > 0 && volgende.hand.Count < 3)
                 {
-                    if (volgende.hand.Count < 3)
                         spel.speelKaart(pester[0]);
                 }
                 else
