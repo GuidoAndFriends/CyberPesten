@@ -103,39 +103,50 @@ namespace CyberPesten
             if (richting == 1)
             {
                 //spelen met klok mee, draaien tegen klok in
-                List<Kaart> tijdelijk = spelers[1].hand;
+                List<Kaart> tijdelijk = nieuweHand(spelers[1].hand);
                 for (int i = 1; i < aantalSpelers - 2; i++)
                 {
-                    spelers[i].hand = spelers[i + 1].hand;
+                    spelers[i].hand = nieuweHand(spelers[i + 1].hand);
                 }
                 if (mens)
                 {
-                    spelers[aantalSpelers - 1].hand = spelers[0].hand;
-                    spelers[0].hand = tijdelijk;
+                    spelers[aantalSpelers - 1].hand = nieuweHand(spelers[0].hand);
+                    spelers[0].hand = nieuweHand(tijdelijk);
                 }
                 else
                 {
-                    spelers[aantalSpelers - 1].hand = tijdelijk;
+                    spelers[aantalSpelers - 1].hand = nieuweHand(tijdelijk);
                 }
             }
             else
             {
                 //spelen tegen klok in, draaien met klok mee
-                List<Kaart> tijdelijk = spelers[aantalSpelers - 1].hand;
+                List<Kaart> tijdelijk = nieuweHand(spelers[aantalSpelers - 1].hand);
                 for (int i = aantalSpelers - 1; i > 1; i--)
                 {
-                    spelers[i].hand = spelers[i - 1].hand;
+                    spelers[i].hand = nieuweHand(spelers[i - 1].hand);
                 }
                 if (mens)
                 {
-                    spelers[1].hand = spelers[0].hand;
-                    spelers[0].hand = tijdelijk;
+                    spelers[1].hand = nieuweHand(spelers[0].hand);
+                    spelers[0].hand = nieuweHand(tijdelijk);
                 }
                 else
                 {
-                    spelers[1].hand = tijdelijk;
+                    spelers[1].hand = nieuweHand(tijdelijk);
                 }
             }
+        }
+
+
+        public List<Kaart> nieuweHand(List<Kaart> oude)
+        {
+            List<Kaart> hand = new List<Kaart>();
+            foreach (Kaart kaart in oude)
+            {
+                hand.Add(kaart);
+            }
+            return hand;
         }
 
         public void regelPakkenNu()
