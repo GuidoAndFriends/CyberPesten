@@ -8,43 +8,43 @@ using System.IO;
 
 namespace CyberPesten
 {
-    new /*jemoeder*/ public static class geluid
+    public static class geluid
     {
 
 
 
         public static void schudSound()
         {
-            geluid(CyberPesten.Properties.Resources.schudden);
+            play(CyberPesten.Properties.Resources.schudden);
         }
 
         public static void winSound()
         {
-            geluid(CyberPesten.Properties.Resources.win);
+            play(CyberPesten.Properties.Resources.win);
         }
 
         public static void pechSound()
         {
-            geluid(CyberPesten.Properties.Resources.helaas)
+            play(CyberPesten.Properties.Resources.helaas);
         }
 
         public static void errorSound()
         {
-            geluid(CyberPesten.Properties.Resources.fout);
+            play(CyberPesten.Properties.Resources.fout);
         }
 
         public static void klikSound()
         {
-            geluid(CyberPesten.Properties.Resources.button);
+            play(CyberPesten.Properties.Resources.button);
         }
 
         public static void kaartSound()
         {
-            geluid(CyberPesten.Properties.Resources.playcard);
+            play(CyberPesten.Properties.Resources.playcard);
         }
 
 
-        private static void geluid(Stream s)
+        private static void play(Stream s)
         {
             if (new Instellingen().geluid)
             {

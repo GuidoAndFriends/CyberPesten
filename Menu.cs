@@ -142,37 +142,32 @@ namespace CyberPesten
             Invalidate();
         }
 
-        private void buttonSound()
-        {
-geluid.klikSound()
-        }
-
         private void klik(object sender, MouseEventArgs mea)
         {
             if (onlineHover)
             {
-                buttonSound();
+                geluid.klikSound();
                 Form veld = new inlogScherm(this);
                 veld.FormClosed += veld_FormClosed;
                 this.Hide();
             }
             else if (lokaalHover)
             {
-                buttonSound();
+                geluid.klikSound();
                 Form veld = new Speelveld(this);
                 veld.FormClosed += veld_FormClosed;
                 this.Hide();
             }
             else if (helpHover)
             {
-                buttonSound();
+                geluid.klikSound();
                 Help help = new Help(this);
                 help.FormClosed += veld_FormClosed;
                 this.Hide();
             }
             else if (settingsHover)
             {
-                buttonSound();
+                geluid.klikSound();
                 if (mea.Button == MouseButtons.Right)
                 {
                     InstellingenschermOud instellingenschermOud = new InstellingenschermOud(this);

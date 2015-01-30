@@ -308,11 +308,6 @@ namespace CyberPesten
             }
         }
 
-        private void buttonSound()
-        {
-geluid.klikSound()
-        }
-
         private void laatsteKaartSound()
         {
             Stream s = CyberPesten.Properties.Resources.laatstekaart;
@@ -326,7 +321,7 @@ geluid.klikSound()
             {
                 if (mea.Button == MouseButtons.Left)
                 {
-                    buttonSound();
+                    geluid.klikSound();
                     spel.bezig = false;
                     Help help = new Help(this);
                 }
@@ -346,7 +341,7 @@ geluid.klikSound()
             {
                 if (mea.Button == MouseButtons.Left)
                 {
-                    buttonSound();
+                    geluid.klikSound();
                     form.Show();
                     this.Close();
                 }

@@ -108,7 +108,7 @@ namespace CyberPesten
 
             geluidCon = new Button();
             geluidCon.Location = new Point(220, 550);
-            geluidCon.Click += geluid;
+            geluidCon.Click += geilud;
             Controls.Add(geluidCon);
 
             Label achterkantLab = new Label();
@@ -200,14 +200,9 @@ namespace CyberPesten
             instellingen.schrijven();
         }
 
-        private void buttonSound()
-        {
-geluid.klikSound()
-        }
-
         void mensSpelend(object sender, EventArgs ea)
         {
-            buttonSound();
+            geluid.klikSound();
             if (instellingen.mensSpelend)
             {
                 instellingen.mensSpelend = false;
@@ -221,9 +216,9 @@ geluid.klikSound()
             instellingen.schrijven();
         }
 
-        void geluid(object sender, EventArgs ea)
+        void geilud(object sender, EventArgs ea)
         {
-	    buttonSound();
+	    geluid.klikSound();
             if (instellingen.geluid)
             {
                 instellingen.geluid = false;
@@ -253,7 +248,7 @@ geluid.klikSound()
 
         void reset(object sender, EventArgs ea)
         {
-            buttonSound();
+            geluid.klikSound();
             instellingen.standaard();
             update();
         }
@@ -329,7 +324,7 @@ geluid.klikSound()
 
         void terug(object sender, EventArgs ea)
         {
-            buttonSound();
+            geluid.klikSound();
             menu.Show();
             this.Close();
         }
